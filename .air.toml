@@ -1,0 +1,18 @@
+
+[build]
+# It's not necessary to trigger build each time file changes if it's too frequent.
+delay = 1000
+
+# Delay after sending Interrupt signal
+kill_delay = 10
+
+# Ignore these filename extensions or directories.
+exclude_dir = ["postgres","vendor","misc","terraform"]
+
+[log]
+# Show log time
+time = true
+
+[misc]
+# Delete tmp directory on exit
+clean_on_exit = true

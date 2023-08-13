@@ -1,0 +1,12 @@
+version: '3.7'
+services:
+  postgres:
+    image: postgres:13-alpine
+    container_name: gotes-mx-pg
+    restart: always
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    ports:
+      - '5757:5432'
+    volumes:
+      - './postgres/data:/var/lib/postgresql/data'
