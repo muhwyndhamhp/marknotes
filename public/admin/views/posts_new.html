@@ -1,0 +1,35 @@
+{{define "posts_new"}}
+<!DOCTYPE html>
+<html>
+
+<head>
+    {{template "head_tags"}}
+    <title>Blog Admin</title>
+</head>
+<body id="admin-root">
+    <div class="h-full w-full text-center flex-row select-none all:transition-400 ma">
+        {{template "admin_header"}}
+    <br>
+    <div>
+        <form hx-post="/admin/posts/create" hx-target="#admin-content"
+        hx-swap="innerHTML">
+        <div>
+            <label>Title</label>
+          <br>
+            <input class="py-2 border border-2 border-black rounded-2 w-xl" type="text" name="title">
+        </div>
+        <div class="form-group">
+            <label>Content</label>
+          <br>
+            <textarea class="border border-2 border-dotted border-black rounded-2 w-xl h-xs p-3" type="text" name="content"></textarea>
+        </div>
+        <button class="button bg-blue-600 p-3 my-3 rounded-4 drop-shadow-lg text-white px-10" class="btn">Submit</button>
+    </form>
+    <button class="button bg-blue-600 p-3 my-3 rounded-4 drop-shadow-lg text-white px-10" hx-get="/admin/posts/new/cancel"
+        hx-trigger="click">Cancel</button>
+    </div>
+    </div>
+</body>
+
+</html>
+{{end}}

@@ -15,8 +15,7 @@ func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Con
 	return t.Templates.ExecuteTemplate(w, name, data)
 }
 
-func NewTemplateRenderer(e *echo.Echo, paths []string) {
-
+func NewTemplateRenderer(e *echo.Echo, paths ...string) {
 	tmpl := &template.Template{}
 	for i := range paths {
 		template.Must(tmpl.ParseGlob(paths[i]))

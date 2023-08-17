@@ -19,7 +19,7 @@ func SetupRouter(e *echo.Echo) {
 		rate.Limit(20),
 	)))
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{"*.a.run.app", "*.vercel.app", "*://localhost:*"},
+		AllowOrigins: []string{"*.a.run.app", "*.vercel.app", "*://localhost:*", "*.jsdelivr.net*"},
 	}))
 }
 

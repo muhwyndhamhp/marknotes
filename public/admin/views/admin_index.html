@@ -1,0 +1,30 @@
+{{define "admin_index"}}
+<!DOCTYPE html>
+<html>
+
+<head>
+    {{template "head_tags"}}
+    <title>Blog Admin</title>
+</head>
+
+<body id="admin-root">
+    <div class="h-full w-full text-center flex-row select-none all:transition-400 ma">
+        {{template "admin_header"}}
+        <br>
+        <div id="admin-content">
+            {{if .Posts}}
+            <ul id="post-list">
+                {{range .Posts}}
+                {{template "post_item" .}}
+                {{end}}
+            </ul>
+            {{else}}
+            <h1>No Post Found! Create One?</h1>
+            {{template "create_post_button"}}
+            {{end}}
+        </div>
+    </div>
+</body>
+
+</html>
+{{end}}

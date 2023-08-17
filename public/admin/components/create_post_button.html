@@ -1,0 +1,10 @@
+{{define "create_post_button"}}
+<button 
+    hx-get="/admin/posts/new" 
+    hx-push-url="true"
+    hx-trigger="click" 
+    hx-target="#admin-root" 
+    hx-swap="innerHTML">
+    Create Post
+</button>
+{{end}}
