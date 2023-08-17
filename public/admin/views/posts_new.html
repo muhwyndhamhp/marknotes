@@ -9,7 +9,7 @@
 
 <body id="admin-root">
     <div
-        class="h-full w-full text-center flex-row select-none all:transition-400 ma">
+        class="{{template "styles_body"}}">
         {{template "admin_header"}}
         <br>
         <div>
@@ -33,8 +33,12 @@
                     class="btn">Submit</button>
             </form>
             <button class="{{template "button_style"}}"
-                hx-get="/admin/posts/new/cancel"
-                hx-trigger="click">Cancel</button>
+                onclick="backPress()">Cancel</button>
+            <script>
+                function backPress(){
+                    history.back();
+                };
+            </script>
         </div>
     </div>
 </body>
