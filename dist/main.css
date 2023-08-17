@@ -8,3 +8,14 @@ body {
     font-size: 15pt;
     padding: 25pt;
 }
+
+ul {
+    padding-inline-start: 0px;
+}
+
+input,textarea {
+    font-family: "Tahoma";
+    font-style: normal;
+    font-size: 15pt;
+    padding: 25pt;
+}

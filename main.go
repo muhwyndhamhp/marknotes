@@ -24,6 +24,7 @@ func main() {
 		"public/*.html",
 		"public/admin/views/*.html",
 		"public/admin/components/*.html",
+		"public/styles/*.html",
 	)
 
 	e.GET("/", func(c echo.Context) error {

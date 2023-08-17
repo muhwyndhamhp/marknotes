@@ -1,11 +1,11 @@
-{{define "create_post_button"}}
+{{define "logout_button"}}
 <button 
     class="{{template "button_style"}}"
-    hx-get="/admin/posts/new" 
+    hx-get="/admin/logout" 
     hx-push-url="true"
     hx-trigger="click" 
     hx-target="#admin-root" 
     hx-swap="innerHTML">
-    Create Post
+    Logout
 </button>
 {{end}}
