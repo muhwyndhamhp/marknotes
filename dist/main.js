@@ -1,0 +1,3 @@
+function backPress() {
+    history.back();
+};

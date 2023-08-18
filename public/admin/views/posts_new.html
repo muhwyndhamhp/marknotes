@@ -7,38 +7,31 @@
     <title>Blog Admin</title>
 </head>
 
-<body id="admin-root">
-    <div
-        class="{{template "styles_body"}}">
+<body id="admin-root" class="bg-slate-100">
+    <div class="{{template "style_root_div"}}">
         {{template "admin_header"}}
         <br>
         <div>
-            <form hx-post="/admin/posts/create" hx-target="#admin-content"
+            <form hx-post="/admin/posts/create" hx-target="#admin-root"
                 hx-swap="innerHTML">
                 <div>
                     <label>Title</label>
                     <br>
-                    <input
-                        class="{{template "form_input"}}"
-                        type="text" name="title">
+                    <input class="{{template "form_input"}} mt-3" type="text"
+                        name="title">
                 </div>
-                <div class="form-group">
+                <div class="form-group mt-4">
                     <label>Content</label>
                     <br>
-                    <textarea
-                        class="{{template "form_input"}} h-xs"
-                        type="text" name="content"></textarea>
+                    <textarea id="form-content"
+                        class="{{template "form_input"}} h-xs mt-3" type="text"
+                        name="content"></textarea>
                 </div>
                 <button class="{{template "button_style"}}"
                     class="btn">Submit</button>
             </form>
             <button class="{{template "button_style"}}"
                 onclick="backPress()">Cancel</button>
-            <script>
-                function backPress(){
-                    history.back();
-                };
-            </script>
         </div>
     </div>
 </body>
