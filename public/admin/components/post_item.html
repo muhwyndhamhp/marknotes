@@ -1,12 +1,16 @@
 {{define "post_item"}}
 <li>
-    <div>
-        <h3>
+    <div class="lg:w-50% sm:w-85% self-center mx-auto px-auto">
+        <h3 class="text-3xl">
             {{.Title}}
         </h3>
-        <p>Created at: {{.CreatedAt}}</p>
-        <p>Updated at: {{.UpdatedAt}}</p>
-        <p>Status: {{.Status}}</p>
+        <div class="text-sm flex-col inline my-0">
+            <p class="inline-block my-0">Created at: {{.CreatedAt.Format "2006 Jan 02"}}</p>
+            <p class="inline-block my-0">|</p>
+            <p class="inline-block my-0">Updated at: {{.UpdatedAt.Format "2006 Jan 02"}}</p>
+        </div>
+        <p class="text-sm">Status: {{.Status}}</p>
+        <p class="text-md text-justify">{{.Content}}</p>
     </div>
 </li>
 {{end}}
