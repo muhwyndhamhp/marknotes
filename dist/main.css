@@ -81,13 +81,10 @@
         @apply text-rose-700 dark:text-rose-400;
     }
 
-    /* ul {
-        padding-inline-start: 0px;
-    } */
-
     input,
     textarea {
         @apply text-base;
+        @apply dark:text-slate-800;
         @apply p-24;
     }
 
@@ -111,3 +108,8 @@
         display: none;
     }
 }
+
+.inline-code {
+    @apply text-indigo-700 dark:text-indigo-400;
+}
+

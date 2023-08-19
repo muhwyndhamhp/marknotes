@@ -3,11 +3,14 @@ module github.com/muhwyndhamhp/marknotes
 go 1.20
 
 require (
+	github.com/alecthomas/chroma/v2 v2.2.0
 	github.com/apsystole/log v0.3.0
+	github.com/dlclark/regexp2 v1.7.0
 	github.com/go-playground/validator/v10 v10.15.1
 	github.com/joho/godotenv v1.5.1
 	github.com/labstack/echo/v4 v4.11.1
 	github.com/yuin/goldmark v1.5.6
+	github.com/yuin/goldmark-highlighting/v2 v2.0.0-20230729083705-37449abec8cc
 	golang.org/x/time v0.3.0
 	gorm.io/driver/postgres v1.5.2
 	gorm.io/gorm v1.25.3
