@@ -1,10 +1,12 @@
 package admin
 
 import (
+	"html/template"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
 	"github.com/muhwyndhamhp/gotes-mx/pkg/models"
+	"github.com/muhwyndhamhp/gotes-mx/utils/markd"
 )
 
 type PostFrontend struct {
@@ -26,14 +28,20 @@ func (fe *PostFrontend) PostsNew(c echo.Context) error {
 
 func (fe *PostFrontend) PostCreate(c echo.Context) error {
 	ctx := c.Request().Context()
+
+	encoded, err := markd.ParseMD(c.FormValue("content"))
+	if err != nil {
+		return err
+	}
+
 	post := models.Post{
 		Title:          c.FormValue("title"),
-		Content:        c.FormValue("content"),
-		EncodedContent: "",
+		Content:        encoded,
+		EncodedContent: template.HTML(encoded),
 		Status:         models.Draft,
 	}
 
-	err := fe.repo.Upsert(ctx, &post)
+	err = fe.repo.Upsert(ctx, &post)
 	if err != nil {
 		return err
 	}

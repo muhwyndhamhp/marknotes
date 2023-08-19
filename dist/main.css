@@ -3,7 +3,17 @@
 @tailwind components;
 @tailwind utilities;
 
-html,body {
+@layer base {
+
+    ul,
+    ol {
+        list-style: revert;
+    }
+}
+
+
+html,
+body {
     font-family: Helvetica, Arial, Sans-Serif;
     font-family: "Tahoma";
     font-style: normal;
@@ -17,7 +27,8 @@ ul {
     padding-inline-start: 0px;
 }
 
-input,textarea {
+input,
+textarea {
     font-family: "Tahoma";
     font-style: normal;
     font-size: 13pt;
@@ -42,5 +53,4 @@ a:active {
 
 [un-cloak] {
     display: none;
-  }
-
+}

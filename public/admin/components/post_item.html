@@ -15,7 +15,11 @@
             
         </div>
         <p class="text-sm text-slate-600 my-2">Status: {{.Status}}</p>
+        {{if .EncodedContent}}
+        <p class="text-md text-justify">{{.EncodedContent}}</p>
+        {{else}}
         <p class="text-md text-justify">{{.Content}}</p>
+        {{end}}
     </div>
 </li>
 {{end}}
