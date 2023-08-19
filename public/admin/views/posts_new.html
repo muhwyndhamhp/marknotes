@@ -13,24 +13,22 @@
         <br>
         <div>
             <form id="form-post">
-                <label>Title</label>
+                <label>New Blog Post</label>
                 <br>
-                <input class="{{template "form_input"}} mt-3" type="text"
+                <input class="{{template "style_form_input"}} rounded-t-lg mt-3" type="text"
                     name="title">
                 <br>
-                <label>Content</label>
-                <br>
                 <textarea id="form-content"
-                    class="{{template "form_input"}} h-96 mt-3" type="text"
+                    class="{{template "style_form_input"}} rounded-b-lg h-96 mt-1" type="text"
                     name="content"></textarea>
                 <br>
             </form>
             <button hx-post="/admin/posts/create" hx-target="#admin-root"
                     hx-include="#form-post"
-                    hx-swap="innerHTML" class="{{template "button_style"}}">
+                    hx-swap="innerHTML" class="{{template "style_button_rounded"}} mx-2">
                     Submit
                 </button>
-            <button class="{{template "button_style"}}" onclick="backPress()">
+            <button class="{{template "style_button_rounded"}} mx-2" onclick="backPress()">
                 Cancel
             </button>
 
