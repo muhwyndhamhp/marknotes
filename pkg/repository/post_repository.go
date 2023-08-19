@@ -3,9 +3,9 @@ package repository
 import (
 	"context"
 
-	"github.com/muhwyndhamhp/gotes-mx/pkg/models"
-	"github.com/muhwyndhamhp/gotes-mx/utils/errs"
-	"github.com/muhwyndhamhp/gotes-mx/utils/scopes"
+	"github.com/muhwyndhamhp/marknotes/pkg/models"
+	"github.com/muhwyndhamhp/marknotes/utils/errs"
+	"github.com/muhwyndhamhp/marknotes/utils/scopes"
 	"gorm.io/gorm"
 )
 

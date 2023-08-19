@@ -4,7 +4,7 @@ import (
 	"context"
 	"html/template"
 
-	"github.com/muhwyndhamhp/gotes-mx/utils/scopes"
+	"github.com/muhwyndhamhp/marknotes/utils/scopes"
 	"gorm.io/gorm"
 )
 

@@ -5,12 +5,13 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
-	"github.com/muhwyndhamhp/gotes-mx/config"
-	"github.com/muhwyndhamhp/gotes-mx/db"
-	"github.com/muhwyndhamhp/gotes-mx/pkg/admin"
-	"github.com/muhwyndhamhp/gotes-mx/pkg/repository"
-	"github.com/muhwyndhamhp/gotes-mx/template"
-	"github.com/muhwyndhamhp/gotes-mx/utils/routing"
+	"github.com/muhwyndhamhp/marknotes/config"
+	"github.com/muhwyndhamhp/marknotes/db"
+	"github.com/muhwyndhamhp/marknotes/middlewares"
+	"github.com/muhwyndhamhp/marknotes/pkg/admin"
+	"github.com/muhwyndhamhp/marknotes/pkg/repository"
+	"github.com/muhwyndhamhp/marknotes/template"
+	"github.com/muhwyndhamhp/marknotes/utils/routing"
 )
 
 func main() {
@@ -35,7 +36,9 @@ func main() {
 	adminGroup := e.Group("admin")
 
 	postRepo := repository.NewPostRepository(db.GetDB())
+	htmxMid := middlewares.HTMXRequest()
+
 	admin.NewAdminFrontend(adminGroup, postRepo)
-	admin.NewPostFrontend(adminGroup, postRepo)
+	admin.NewPostFrontend(adminGroup, postRepo, htmxMid)
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%s", config.Get(config.APP_PORT))))
 }

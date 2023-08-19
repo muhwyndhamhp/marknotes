@@ -4,9 +4,11 @@ import (
 	"net/http"
 
 	"github.com/apsystole/log"
+	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	"github.com/muhwyndhamhp/gotes-mx/utils/resp"
+	"github.com/muhwyndhamhp/marknotes/utils/resp"
+	"github.com/muhwyndhamhp/marknotes/utils/validate"
 	"golang.org/x/time/rate"
 )
 
@@ -21,6 +23,9 @@ func SetupRouter(e *echo.Echo) {
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowOrigins: []string{"*.a.run.app", "*.vercel.app", "*://localhost:*", "*.jsdelivr.net*"},
 	}))
+	e.Validator = &validate.CustomValidator{
+		Validator: validator.New(),
+	}
 }
 
 func httpErrorHandler(err error, c echo.Context) {

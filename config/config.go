@@ -5,7 +5,7 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
-	"github.com/muhwyndhamhp/gotes-mx/utils/errs"
+	"github.com/muhwyndhamhp/marknotes/utils/errs"
 )
 
 const (

@@ -5,21 +5,24 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
-	"github.com/muhwyndhamhp/gotes-mx/pkg/models"
-	"github.com/muhwyndhamhp/gotes-mx/utils/markd"
+	"github.com/muhwyndhamhp/marknotes/pkg/admin/dto"
+	"github.com/muhwyndhamhp/marknotes/pkg/models"
+	"github.com/muhwyndhamhp/marknotes/utils/markd"
 )
 
 type PostFrontend struct {
-	repo models.PostRepository
+	repo    models.PostRepository
+	htmxMid echo.MiddlewareFunc
 }
 
-func NewPostFrontend(g *echo.Group, repo models.PostRepository) {
+func NewPostFrontend(g *echo.Group, repo models.PostRepository, htmxMid echo.MiddlewareFunc) {
 	fe := &PostFrontend{
-		repo: repo,
+		repo:    repo,
+		htmxMid: htmxMid,
 	}
 
-	g.GET("/posts/new", fe.PostsNew)
-	g.POST("/posts/create", fe.PostCreate)
+	g.GET("/posts/new", fe.PostsNew, htmxMid)
+	g.POST("/posts/create", fe.PostCreate, htmxMid)
 }
 
 func (fe *PostFrontend) PostsNew(c echo.Context) error {
@@ -29,14 +32,24 @@ func (fe *PostFrontend) PostsNew(c echo.Context) error {
 func (fe *PostFrontend) PostCreate(c echo.Context) error {
 	ctx := c.Request().Context()
 
-	encoded, err := markd.ParseMD(c.FormValue("content"))
+	var req dto.PostCreateRequest
+
+	if err := c.Bind(&req); err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	if err := c.Validate(req); err != nil {
+		return err
+	}
+
+	encoded, err := markd.ParseMD(req.Content)
 	if err != nil {
 		return err
 	}
 
 	post := models.Post{
-		Title:          c.FormValue("title"),
-		Content:        encoded,
+		Title:          req.Title,
+		Content:        req.Content,
 		EncodedContent: template.HTML(encoded),
 		Status:         models.Draft,
 	}

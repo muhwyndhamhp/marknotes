@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
-	"github.com/muhwyndhamhp/gotes-mx/pkg/models"
-	"github.com/muhwyndhamhp/gotes-mx/utils/scopes"
+	"github.com/muhwyndhamhp/marknotes/pkg/models"
+	"github.com/muhwyndhamhp/marknotes/utils/scopes"
 )
 
 type AdminFrontend struct {

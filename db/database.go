@@ -3,7 +3,7 @@ package db
 import (
 	"fmt"
 
-	"github.com/muhwyndhamhp/gotes-mx/config"
+	"github.com/muhwyndhamhp/marknotes/config"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )

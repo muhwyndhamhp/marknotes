@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
-	"github.com/muhwyndhamhp/gotes-mx/utils/tern"
+	"github.com/muhwyndhamhp/marknotes/utils/tern"
 )
 
 type Response struct {

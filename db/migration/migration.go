@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/muhwyndhamhp/gotes-mx/db"
-	"github.com/muhwyndhamhp/gotes-mx/pkg/models"
+	"github.com/muhwyndhamhp/marknotes/db"
+	"github.com/muhwyndhamhp/marknotes/pkg/models"
 )
 
 func main() {
