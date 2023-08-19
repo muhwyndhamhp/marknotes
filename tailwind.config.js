@@ -7,6 +7,10 @@ module.exports = {
         'xs': '320px',
       ...defaultTheme.screens,
     },
+    fontFamily: {
+      'sans': ['Nunito Sans', 'sans-serif'],
+      'serif': ['Merriweather', 'serif'],
+    },
     extend: {},
   },
   plugins: [],

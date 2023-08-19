@@ -1,4 +1,5 @@
 @import url('https://themes.googleusercontent.com/fonts/css?kit=fpjTOVmNbO4Lz34iLyptLQ1sPDLn3JuDNay4yiy2_As5BpxnPiOl8iQ3pkkf0_oT96xlbbE5D7Gw2o7jubnkMA');
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,49 +9,75 @@
     ul,
     ol {
         list-style: revert;
+        @apply ps-4;
     }
-}
 
+    html,
+    body {
+        @apply text-base;
+        /* font-family: Tahoma, Arial, Sans-Serif; */
+        padding: 0pt;
+        margin: 0pt;
+        height: 100%;
+    }
+    h1 {
+        @apply text-5xl;
+        @apply text-teal-600;
+        @apply my-2;
+    }
 
-html,
-body {
-    font-family: Helvetica, Arial, Sans-Serif;
-    font-family: "Tahoma";
-    font-style: normal;
-    font-size: 13pt;
-    padding: 0pt;
-    margin: 0pt;
-    height: 100%;
-}
+    h2 {
+        @apply text-3xl;
+        @apply text-teal-600;
+        @apply my-2;
+    }
 
-ul {
-    padding-inline-start: 0px;
-}
+    h3 {
+        @apply text-2xl;
+        @apply text-teal-600;
+        @apply my-2;
+    }
+    
 
-input,
-textarea {
-    font-family: "Tahoma";
-    font-style: normal;
-    font-size: 13pt;
-    padding: 25pt;
-}
+    h4 {
+        @apply text-xl;
+        @apply text-teal-600;
+        @apply my-2;
+    }
 
-a:link {
-    text-decoration: none;
-}
+    h5 {
+        @apply text-lg;
+        @apply text-teal-600;
+        @apply my-2;
+    }
 
-a:visited {
-    text-decoration: none;
-}
+    /* ul {
+        padding-inline-start: 0px;
+    } */
 
-a:hover {
-    text-decoration: none;
-}
+    input,
+    textarea {
+        @apply text-base;
+        @apply p-24;
+    }
 
-a:active {
-    text-decoration: none;
-}
+    a:link {
+        text-decoration: none;
+    }
 
-[un-cloak] {
-    display: none;
+    a:visited {
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: none;
+    }
+
+    a:active {
+        text-decoration: none;
+    }
+
+    [un-cloak] {
+        display: none;
+    }
 }
