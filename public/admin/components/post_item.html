@@ -1,15 +1,20 @@
 {{define "post_item"}}
 <li>
-    <div class="lg:w-3/5 sm:w-4/5 xs:w-4/5 self-center mx-auto px-auto my-6">
+    <div class="lg:w-3/5 sm:w-4/5 xs:w-4/5 self-center mx-auto px-auto my-10">
         <h3 class="text-3xl">
             {{.Title}}
         </h3>
-        <div class="text-sm flex-col inline my-0">
-            <p class="inline-block my-0">Created at: {{.CreatedAt.Format "2006 Jan 02"}}</p>
+        <div class="text-sm text-slate-600 flex-col inline my-2">
+            {{if eq .UpdatedAt .CreatedAt}}
+            <p class="inline-block my-0">Created at: {{.CreatedAt.Format "January, 02 2006"}}</p>
+            {{else}}
+            <p class="inline-block my-0">Created at: {{.CreatedAt.Format "January, 02 2006"}}</p> 
             <p class="inline-block my-0">|</p>
-            <p class="inline-block my-0">Updated at: {{.UpdatedAt.Format "2006 Jan 02"}}</p>
+            <p class="inline-block my-0">Updated at: {{.UpdatedAt.Format "January, 02 2006"}}</p>
+            {{end}}
+            
         </div>
-        <p class="text-sm">Status: {{.Status}}</p>
+        <p class="text-sm text-slate-600 my-2">Status: {{.Status}}</p>
         <p class="text-md text-justify">{{.Content}}</p>
     </div>
 </li>
