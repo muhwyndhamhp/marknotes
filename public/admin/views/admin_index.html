@@ -7,13 +7,13 @@
     <title>Blog Admin</title>
 </head>
 
-<body id="admin-root" class="bg-slate-100 color-zinc-600">
+<body id="admin-root">
     <div class="{{template "style_root_div"}}">
         {{template "admin_header"}}
         <br>
         <div id="admin-content">
             {{if .Posts}}
-            <ul id="post-list" class="flex-row flex-justify-center">
+            <ul id="post-list" class="unmarked flex-row flex-justify-center">
                 {{range .Posts}}
                 {{template "post_item" .}}
                 {{end}}

@@ -9,46 +9,76 @@
     ul,
     ol {
         list-style: revert;
-        @apply ps-4;
+        @apply px-4;
+        @apply dark:px-4;
     }
 
     html,
     body {
         @apply text-base;
+        @apply dark:text-slate-200;
+        @apply bg-slate-100;
+        @apply dark:bg-slate-800;
         /* font-family: Tahoma, Arial, Sans-Serif; */
         padding: 0pt;
         margin: 0pt;
         height: 100%;
     }
+
+    .unmarked {
+        @apply px-0;
+    }
+
+    .minor {
+        @apply text-sm text-slate-600 my-2;
+        @apply dark:text-slate-300;
+    }
+
     h1 {
         @apply text-5xl;
-        @apply text-teal-600;
+        @apply font-extrabold;
+        @apply bg-clip-text text-transparent bg-gradient-to-r from-teal-600 to-indigo-600;
+        @apply dark:from-teal-400 dark:to-indigo-400;
         @apply my-2;
     }
 
     h2 {
         @apply text-3xl;
-        @apply text-teal-600;
+        @apply font-extrabold;
+        @apply bg-clip-text text-transparent bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600;
+        @apply dark:from-pink-400 dark:via-purple-400 dark:to-indigo-400;
         @apply my-2;
     }
 
     h3 {
         @apply text-2xl;
-        @apply text-teal-600;
+        @apply font-extrabold;
+        @apply bg-clip-text text-transparent bg-gradient-to-r from-teal-600 via-rose-600 to-indigo-600;
+        @apply dark:from-teal-400 dark:via-rose-400 dark:to-indigo-400;
         @apply my-2;
     }
     
 
     h4 {
         @apply text-xl;
-        @apply text-teal-600;
+        @apply font-extrabold;
+        @apply text-teal-700 dark:text-teal-400;
         @apply my-2;
     }
 
     h5 {
         @apply text-lg;
-        @apply text-teal-600;
+        @apply font-extrabold;
+        @apply text-teal-700 dark:text-teal-400;
         @apply my-2;
+    }
+
+    strong {
+        @apply text-cyan-700 dark:text-cyan-400;
+    }
+
+    em {
+        @apply text-rose-700 dark:text-rose-400;
     }
 
     /* ul {

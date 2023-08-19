@@ -21,7 +21,7 @@ func NewPostFrontend(g *echo.Group, repo models.PostRepository, htmxMid echo.Mid
 		htmxMid: htmxMid,
 	}
 
-	g.GET("/posts/new", fe.PostsNew, htmxMid)
+	g.GET("/posts/new", fe.PostsNew)
 	g.POST("/posts/create", fe.PostCreate, htmxMid)
 }
 
