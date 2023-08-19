@@ -3,16 +3,16 @@
     <div class="lg:w-3/5 sm:w-4/5 xs:w-10/12 self-center mx-auto px-auto my-10">
         <h2>
             {{.Title}}
-        </h3>
+        </h2>
         <div class="text-sm minor flex-col inline">
             {{if eq .UpdatedAt .CreatedAt}}
             <p class="inline-block my-0">Created at: {{.CreatedAt.Format "January, 02 2006"}}</p>
             {{else}}
-            <p class="inline-block my-0">Created at: {{.CreatedAt.Format "January, 02 2006"}}</p> 
+            <p class="inline-block my-0">Created at: {{.CreatedAt.Format "January, 02 2006"}}</p>
             <p class="inline-block my-0">|</p>
             <p class="inline-block my-0">Updated at: {{.UpdatedAt.Format "January, 02 2006"}}</p>
             {{end}}
-            
+
         </div>
         <p class="minor">Status: {{.Status}}</p>
         {{if .EncodedContent}}
