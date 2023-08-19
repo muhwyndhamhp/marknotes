@@ -1,4 +1,7 @@
 @import url('https://themes.googleusercontent.com/fonts/css?kit=fpjTOVmNbO4Lz34iLyptLQ1sPDLn3JuDNay4yiy2_As5BpxnPiOl8iQ3pkkf0_oT96xlbbE5D7Gw2o7jubnkMA');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 html,body {
     font-family: Helvetica, Arial, Sans-Serif;
