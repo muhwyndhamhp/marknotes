@@ -12,26 +12,28 @@
         {{template "admin_header"}}
         <br>
         <div>
-            <form hx-post="/admin/posts/create" hx-target="#admin-root"
-                hx-swap="innerHTML">
-                <div>
-                    <label>Title</label>
-                    <br>
-                    <input class="{{template "form_input"}} mt-3" type="text"
-                        name="title">
-                </div>
-                <div class="form-group mt-4">
-                    <label>Content</label>
-                    <br>
-                    <textarea id="form-content"
-                        class="{{template "form_input"}} h-96 mt-3" type="text"
-                        name="content"></textarea>
-                </div>
-                <button class="{{template "button_style"}}"
-                    class="btn">Submit</button>
+            <form id="form-post">
+                <label>Title</label>
+                <br>
+                <input class="{{template "form_input"}} mt-3" type="text"
+                    name="title">
+                <br>
+                <label>Content</label>
+                <br>
+                <textarea id="form-content"
+                    class="{{template "form_input"}} h-96 mt-3" type="text"
+                    name="content"></textarea>
+                <br>
             </form>
-            <button class="{{template "button_style"}}"
-                onclick="backPress()">Cancel</button>
+            <button hx-post="/admin/posts/create" hx-target="#admin-root"
+                    hx-include="#form-post"
+                    hx-swap="innerHTML" class="{{template "button_style"}}">
+                    Submit
+                </button>
+            <button class="{{template "button_style"}}" onclick="backPress()">
+                Cancel
+            </button>
+
         </div>
     </div>
 </body>
