@@ -11,27 +11,39 @@
     <div class="{{template "style_root_div"}}">
         {{template "admin_header"}}
         <br>
-        <div>
-            <form id="form-post">
-                <label>New Blog Post</label>
-                <br>
-                <input class="{{template "style_form_input"}} rounded-t-lg mt-3" type="text"
-                    name="title">
-                <br>
-                <textarea id="form-content"
-                    class="{{template "style_form_input"}} rounded-b-lg h-96 mt-1" type="text"
-                    name="content"></textarea>
-                <br>
-            </form>
-            <button hx-post="/admin/posts/create" hx-target="#admin-root"
-                    hx-include="#form-post"
-                    hx-swap="innerHTML" class="{{template "style_button_primary_rounded"}} mx-2">
+        <div class="flex md:flex-row xs:flex-col">
+            <div class="md:basis-5/12">
+                <form id="form-post">
+                    <label>New Blog Post</label>
+                    <br>
+                    <input
+                        class="{{template "style_form_input"}} rounded-t-lg mt-3"
+                        type="text" name="title">
+                    <br>
+                    <textarea id="form-content"
+                        hx-trigger="keyup changed delay:500ms, content"
+                        hx-post="/admin/posts/render" hx-target="#preview"
+                        class="{{template "style_form_input"}} rounded-b-lg h-96 mt-1"
+                        type="text" name="content"></textarea>
+                    <br>
+                </form>
+                <button hx-post="/admin/posts/create" hx-target="#admin-root"
+                    hx-include="#form-post" hx-swap="innerHTML"
+                    class="{{template "style_button_primary_rounded"}} mx-2">
                     Submit
                 </button>
-            <button class="{{template "style_button_secondary_rounded"}} mx-2" onclick="backPress()">
-                Cancel
-            </button>
-
+                <button
+                    class="{{template "style_button_secondary_rounded"}} mx-2"
+                    onclick="backPress()">
+                    Cancel
+                </button>
+            </div>
+            <div id="preview" class="{{template "style_base"}} 
+                rounded-xl
+                md:basis-7/12 md:mr-8 md:ml-0 md:p-3 md:my-8 
+                xs:p-3 xs:m-4 mix-blend-multiply bg-slate-300 
+                dark:bg-slate-100 dark:mix-blend-normal dark:text-slate-800">
+            </div>
         </div>
     </div>
 </body>

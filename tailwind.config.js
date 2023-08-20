@@ -10,6 +10,7 @@ module.exports = {
     fontFamily: {
       'sans': ['Nunito Sans', 'sans-serif'],
       'serif': ['Merriweather', 'serif'],
+      'mono': ['PT Mono', 'mono'],
     },
     extend: {},
   },

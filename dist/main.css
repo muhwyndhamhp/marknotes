@@ -1,5 +1,6 @@
 @import url('https://themes.googleusercontent.com/fonts/css?kit=fpjTOVmNbO4Lz34iLyptLQ1sPDLn3JuDNay4yiy2_As5BpxnPiOl8iQ3pkkf0_oT96xlbbE5D7Gw2o7jubnkMA');
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=PT+Mono&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -83,9 +84,9 @@
 
     input,
     textarea {
-        @apply text-base;
         @apply dark:text-slate-800;
         @apply p-24;
+        @apply font-mono;
     }
 
     a:link {

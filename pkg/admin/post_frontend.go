@@ -23,10 +23,21 @@ func NewPostFrontend(g *echo.Group, repo models.PostRepository, htmxMid echo.Mid
 
 	g.GET("/posts/new", fe.PostsNew)
 	g.POST("/posts/create", fe.PostCreate, htmxMid)
+	g.POST("/posts/render", fe.RenderMarkdown, htmxMid)
 }
 
 func (fe *PostFrontend) PostsNew(c echo.Context) error {
 	return c.Render(http.StatusOK, "posts_new", nil)
+}
+
+func (fe *PostFrontend) RenderMarkdown(c echo.Context) error {
+	encoded, err := markd.ParseMD(c.FormValue("content"))
+	if err != nil {
+		return err
+	}
+	c.Response().Header().Set("HX-Trigger-After-Swap", "checkTheme")
+
+	return c.HTML(http.StatusOK, encoded)
 }
 
 func (fe *PostFrontend) PostCreate(c echo.Context) error {

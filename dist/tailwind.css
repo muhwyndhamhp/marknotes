@@ -2,6 +2,8 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap');
 
+@import url('https://fonts.googleapis.com/css2?family=PT+Mono&display=swap');
+
 /*
 ! tailwindcss v3.3.2 | MIT License | https://tailwindcss.com
 */
@@ -133,7 +135,7 @@ code,
 kbd,
 samp,
 pre {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-family: PT Mono, mono;
   /* 1 */
   font-size: 1em;
   /* 2 */
@@ -652,15 +654,7 @@ em{
     --tw-text-opacity: 1;
     color: rgb(251 113 133 / var(--tw-text-opacity));
   }
-}
 
-input,
-    textarea{
-  font-size: 1rem;
-  line-height: 1.5rem;
-}
-
-@media (prefers-color-scheme: dark){
   input,
     textarea{
     --tw-text-opacity: 1;
@@ -671,6 +665,7 @@ input,
 input,
     textarea{
   padding: 6rem;
+  font-family: PT Mono, mono;
 }
 
 a:link {
@@ -842,12 +837,20 @@ a:active {
   display: inline;
 }
 
+.flex{
+  display: flex;
+}
+
 .h-96{
   height: 24rem;
 }
 
 .h-full{
   height: 100%;
+}
+
+.w-10\/12{
+  width: 83.333333%;
 }
 
 .w-full{
@@ -884,6 +887,10 @@ a:active {
   border-radius: 0.375rem;
 }
 
+.rounded-xl{
+  border-radius: 0.75rem;
+}
+
 .rounded-b-lg{
   border-bottom-right-radius: 0.5rem;
   border-bottom-left-radius: 0.5rem;
@@ -907,6 +914,11 @@ a:active {
   border-color: transparent;
 }
 
+.bg-slate-200{
+  --tw-bg-opacity: 1;
+  background-color: rgb(226 232 240 / var(--tw-bg-opacity));
+}
+
 .bg-teal-800{
   --tw-bg-opacity: 1;
   background-color: rgb(17 94 89 / var(--tw-bg-opacity));
@@ -915,6 +927,21 @@ a:active {
 .bg-white{
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+
+.bg-slate-100{
+  --tw-bg-opacity: 1;
+  background-color: rgb(241 245 249 / var(--tw-bg-opacity));
+}
+
+.bg-slate-400{
+  --tw-bg-opacity: 1;
+  background-color: rgb(148 163 184 / var(--tw-bg-opacity));
+}
+
+.bg-slate-300{
+  --tw-bg-opacity: 1;
+  background-color: rgb(203 213 225 / var(--tw-bg-opacity));
 }
 
 .p-2{
@@ -958,6 +985,14 @@ a:active {
   color: rgb(17 94 89 / var(--tw-text-opacity));
 }
 
+.bg-blend-multiply{
+  background-blend-mode: multiply;
+}
+
+.mix-blend-multiply{
+  mix-blend-mode: multiply;
+}
+
 .drop-shadow-md{
   --tw-drop-shadow: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
@@ -988,13 +1023,63 @@ a:active {
   outline-color: #0d9488;
 }
 
+@media (prefers-color-scheme: dark){
+  .dark\:bg-white{
+    --tw-bg-opacity: 1;
+    background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+  }
+
+  .dark\:bg-slate-100{
+    --tw-bg-opacity: 1;
+    background-color: rgb(241 245 249 / var(--tw-bg-opacity));
+  }
+
+  .dark\:text-slate-600{
+    --tw-text-opacity: 1;
+    color: rgb(71 85 105 / var(--tw-text-opacity));
+  }
+
+  .dark\:text-slate-800{
+    --tw-text-opacity: 1;
+    color: rgb(30 41 59 / var(--tw-text-opacity));
+  }
+
+  .dark\:mix-blend-normal{
+    mix-blend-mode: normal;
+  }
+
+  .dark\:mix-blend-overlay{
+    mix-blend-mode: overlay;
+  }
+
+  .dark\:mix-blend-lighten{
+    mix-blend-mode: lighten;
+  }
+}
+
 @media (min-width: 320px){
+  .xs\:m-8{
+    margin: 2rem;
+  }
+
+  .xs\:m-4{
+    margin: 1rem;
+  }
+
   .xs\:mt-20{
     margin-top: 5rem;
   }
 
   .xs\:w-10\/12{
     width: 83.333333%;
+  }
+
+  .xs\:flex-col{
+    flex-direction: column;
+  }
+
+  .xs\:p-3{
+    padding: 0.75rem;
   }
 }
 
@@ -1005,8 +1090,45 @@ a:active {
 }
 
 @media (min-width: 768px){
+  .md\:my-8{
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .md\:ml-0{
+    margin-left: 0px;
+  }
+
+  .md\:mr-8{
+    margin-right: 2rem;
+  }
+
   .md\:mt-10{
     margin-top: 2.5rem;
+  }
+
+  .md\:basis-2\/5{
+    flex-basis: 40%;
+  }
+
+  .md\:basis-3\/5{
+    flex-basis: 60%;
+  }
+
+  .md\:basis-5\/12{
+    flex-basis: 41.666667%;
+  }
+
+  .md\:basis-7\/12{
+    flex-basis: 58.333333%;
+  }
+
+  .md\:flex-row{
+    flex-direction: row;
+  }
+
+  .md\:p-3{
+    padding: 0.75rem;
   }
 }
 
