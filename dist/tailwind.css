@@ -957,6 +957,11 @@ a:active {
   padding-right: 2rem;
 }
 
+.px-24{
+  padding-left: 6rem;
+  padding-right: 6rem;
+}
+
 .text-center{
   text-align: center;
 }

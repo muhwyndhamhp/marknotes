@@ -16,11 +16,12 @@
                 <form id="form-post">
                     <label>New Blog Post</label>
                     <br>
-                    <input
+                    <input placeholder="Blog title goes here..."
                         class="{{template "style_form_input"}} rounded-t-lg mt-3"
                         type="text" name="title">
                     <br>
                     <textarea id="form-content"
+                        placeholder="And the rest goes here!"
                         hx-trigger="keyup changed delay:500ms, content"
                         hx-post="/admin/posts/render" hx-target="#preview"
                         class="{{template "style_form_input"}} rounded-b-lg h-96 mt-1"
