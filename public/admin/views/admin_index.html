@@ -14,9 +14,7 @@
         <div id="admin-content">
             {{if .Posts}}
             <ul id="post-list" class="unmarked flex-row flex-justify-center">
-                {{range .Posts}}
-                {{template "post_item" .}}
-                {{end}}
+                {{template "post_list" .Posts}}
             </ul>
             {{else}}
             <h1>No Post Found! Create One?</h1>

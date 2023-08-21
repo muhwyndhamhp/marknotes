@@ -1,25 +1,15 @@
 {{define "post_item"}}
-<li>
+<li {{if .FormMeta.IsLastItem}} hx-get="/admin/posts?page={{.FormMeta.Page}}&pageSize=10"
+    hx-trigger="revealed" hx-swap="afterend" {{end}}>
     <div class="lg:w-3/5 sm:w-4/5 xs:w-10/12 self-center mx-auto px-auto my-10">
-        <h2>
+        <h2 class="text-justify">
             {{.Title}}
         </h2>
-        <div class="text-sm minor flex-col inline">
-            {{if eq .UpdatedAt .CreatedAt}}
-            <p class="inline-block my-0">Created at: {{.CreatedAt.Format "January, 02 2006"}}</p>
-            {{else}}
-            <p class="inline-block my-0">Created at: {{.CreatedAt.Format "January, 02 2006"}}</p>
-            <p class="inline-block my-0">|</p>
-            <p class="inline-block my-0">Updated at: {{.UpdatedAt.Format "January, 02 2006"}}</p>
-            {{end}}
-
-        </div>
-        <p class="minor">Status: {{.Status}}</p>
-        {{if .EncodedContent}}
-        <p class="text-md text-justify">{{.EncodedContent}}</p>
-        {{else}}
-        <p class="text-md text-justify">{{.Content}}</p>
-        {{end}}
+        <p class="text-justify my-0">Created at:
+            {{.CreatedAt.Format "January, 02 2006"}} | Updated at:
+            {{.UpdatedAt.Format "January, 02 2006"}}</p>
+        <p class="text-justify minor">Status: {{.Status}}</p>
+        <p class="text-justify text-ellipsis line-clamp-2">{{.Content}}</p>
     </div>
 </li>
 {{end}}

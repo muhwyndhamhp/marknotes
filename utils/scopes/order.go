@@ -15,6 +15,9 @@ const (
 
 func OrderBy(field string, direction Direction) func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
+		if field == "" || direction == "" {
+			return db
+		}
 		return db.Order(fmt.Sprintf("%s %s", field, direction))
 	}
 }

@@ -833,6 +833,20 @@ a:active {
   margin-top: 0px;
 }
 
+.line-clamp-3{
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.line-clamp-2{
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
 .inline-block{
   display: inline-block;
 }
@@ -861,6 +875,14 @@ a:active {
   width: 100%;
 }
 
+.max-w-5xl{
+  max-width: 64rem;
+}
+
+.max-w-3xl{
+  max-width: 48rem;
+}
+
 .flex-auto{
   flex: 1 1 auto;
 }
@@ -885,6 +907,10 @@ a:active {
 
 .self-center{
   align-self: center;
+}
+
+.text-ellipsis{
+  text-overflow: ellipsis;
 }
 
 .rounded-md{
@@ -964,6 +990,10 @@ a:active {
 .px-24{
   padding-left: 6rem;
   padding-right: 6rem;
+}
+
+.text-left{
+  text-align: left;
 }
 
 .text-center{

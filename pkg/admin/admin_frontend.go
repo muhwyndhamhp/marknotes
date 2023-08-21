@@ -37,5 +37,7 @@ func (fe *AdminFrontend) Index(c echo.Context) error {
 		"Posts": posts,
 	}
 
+	posts[len(posts)-1].AppendFormMeta(2)
+
 	return c.Render(http.StatusOK, "admin_index", resp)
 }

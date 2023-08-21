@@ -3,11 +3,14 @@ package admin
 import (
 	"html/template"
 	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 	"github.com/muhwyndhamhp/marknotes/pkg/admin/dto"
 	"github.com/muhwyndhamhp/marknotes/pkg/models"
+	"github.com/muhwyndhamhp/marknotes/utils/constants"
 	"github.com/muhwyndhamhp/marknotes/utils/markd"
+	"github.com/muhwyndhamhp/marknotes/utils/scopes"
 )
 
 type PostFrontend struct {
@@ -21,9 +24,32 @@ func NewPostFrontend(g *echo.Group, repo models.PostRepository, htmxMid echo.Mid
 		htmxMid: htmxMid,
 	}
 
+	g.GET("/posts", fe.PostsGet, htmxMid)
 	g.GET("/posts/new", fe.PostsNew)
 	g.POST("/posts/create", fe.PostCreate, htmxMid)
 	g.POST("/posts/render", fe.RenderMarkdown, htmxMid)
+}
+
+func (fe *PostFrontend) PostsGet(c echo.Context) error {
+	ctx := c.Request().Context()
+	page, _ := strconv.Atoi(c.QueryParam(constants.PAGE))
+	pageSize, _ := strconv.Atoi(c.QueryParam(constants.PAGE_SIZE))
+
+	posts, err := fe.repo.Get(ctx, scopes.QueryOpts{
+		Page:     page,
+		PageSize: pageSize,
+		Order:    "created_at",
+		OrderDir: scopes.Descending,
+	})
+	if err != nil {
+		return err
+	}
+
+	if len(posts) > 0 {
+		posts[len(posts)-1].AppendFormMeta(page + 1)
+	}
+
+	return c.Render(http.StatusOK, "post_list", posts)
 }
 
 func (fe *PostFrontend) PostsNew(c echo.Context) error {
