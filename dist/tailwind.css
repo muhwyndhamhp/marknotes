@@ -829,6 +829,10 @@ a:active {
   margin-top: 1.5rem;
 }
 
+.mt-0{
+  margin-top: 0px;
+}
+
 .inline-block{
   display: inline-block;
 }

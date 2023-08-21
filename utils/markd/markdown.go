@@ -14,8 +14,10 @@ import (
 	"github.com/yuin/goldmark/renderer/html"
 )
 
-func ParseMD(source string) (string, error) {
-	md := goldmark.New(
+var mdParser goldmark.Markdown
+
+func init() {
+	mdParser = goldmark.New(
 		goldmark.WithExtensions(
 			extension.GFM,
 			extension.Typographer,
@@ -34,20 +36,38 @@ func ParseMD(source string) (string, error) {
 			html.WithUnsafe(),
 		),
 	)
+}
+
+func ParseMD(source string) (string, error) {
 	var buf bytes.Buffer
-	if err := md.Convert([]byte(source), &buf); err != nil {
-		panic(err)
+	if err := mdParser.Convert([]byte(source), &buf); err != nil {
+		return "", err
 	}
 
 	result := buf.String()
-
-	styledResult := changeTagWithClasses(result)
+	styledResult := postProcessHTML(result)
 
 	return styledResult, nil
 }
 
-func changeTagWithClasses(str string) string {
-	str = strings.ReplaceAll(str,
+func postProcessHTML(str string) string {
+	str = changeCodeBlockBg(str)
+	str = addCodeBlockStyling(str)
+	str = wrapDiv(str)
+	return str
+}
+
+func wrapDiv(str string) string {
+	return fmt.Sprintf(`<div class="text-justify"> %s </div>`, str)
+}
+
+func addCodeBlockStyling(str string) string {
+	regex := regexp2.MustCompile("<code>(?!<)", regexp2.None)
+	str, _ = regex.Replace(str, `<code class="inline-code">`, 0, -1)
+	return str
+}
+func changeCodeBlockBg(str string) string {
+	return strings.ReplaceAll(str,
 		`style="color:#fff;background-color:#1f1f24;"`,
 		`style="color:#fff;
 		background-color:rgb(15 23 42);
@@ -59,8 +79,4 @@ func changeTagWithClasses(str string) string {
 		overflow-x: scroll;
 		"
 		`)
-	regex := regexp2.MustCompile("<code>(?!<)", regexp2.None)
-	str, _ = regex.Replace(str, `<code class="inline-code">`, 0, -1)
-	str = fmt.Sprintf(`<div class="text-justify"> %s </div>`, str)
-	return str
 }
