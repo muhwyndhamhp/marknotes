@@ -1086,6 +1086,18 @@ a:active {
     margin-top: 2.5rem;
   }
 
+  .md\:max-w-xl{
+    max-width: 36rem;
+  }
+
+  .md\:max-w-lg{
+    max-width: 32rem;
+  }
+
+  .md\:max-w-md{
+    max-width: 28rem;
+  }
+
   .md\:basis-5\/12{
     flex-basis: 41.666667%;
   }
@@ -1106,6 +1118,14 @@ a:active {
 @media (min-width: 1024px){
   .lg\:w-3\/5{
     width: 60%;
+  }
+
+  .lg\:max-w-3xl{
+    max-width: 48rem;
+  }
+
+  .lg\:max-w-2xl{
+    max-width: 42rem;
   }
 }
 
