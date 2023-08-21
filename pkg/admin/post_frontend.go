@@ -24,10 +24,26 @@ func NewPostFrontend(g *echo.Group, repo models.PostRepository, htmxMid echo.Mid
 		htmxMid: htmxMid,
 	}
 
-	g.GET("/posts", fe.PostsGet, htmxMid)
+	g.GET("/posts", fe.PostsGet)
 	g.GET("/posts/new", fe.PostsNew)
 	g.POST("/posts/create", fe.PostCreate, htmxMid)
 	g.POST("/posts/render", fe.RenderMarkdown, htmxMid)
+	g.GET("/posts/:id", fe.GetPostByID)
+}
+
+func (fe *PostFrontend) GetPostByID(c echo.Context) error {
+	ctx := c.Request().Context()
+	id, _ := strconv.Atoi(c.Param("id"))
+	if id <= 0 {
+		return c.JSON(http.StatusBadRequest, nil)
+	}
+
+	post, err := fe.repo.GetByID(ctx, uint(id))
+	if err != nil {
+		return err
+	}
+
+	return c.Render(http.StatusOK, "posts_detail", post)
 }
 
 func (fe *PostFrontend) PostsGet(c echo.Context) error {

@@ -1,9 +1,10 @@
 {{define "post_item"}}
-<li {{if .FormMeta.IsLastItem}} hx-get="/admin/posts?page={{.FormMeta.Page}}&pageSize=10"
+<li {{if .FormMeta.IsLastItem}}
+    hx-get="/admin/posts?page={{.FormMeta.Page}}&pageSize=10"
     hx-trigger="revealed" hx-swap="afterend" {{end}}>
     <div class="lg:w-3/5 sm:w-4/5 xs:w-10/12 self-center mx-auto px-auto my-10">
-        <h2 class="text-justify">
-            {{.Title}}
+        <h2 class="text-justify" >
+            <a href="/admin/posts/{{.ID}}">{{.Title}}</a>
         </h2>
         <p class="text-justify my-0">Created at:
             {{.CreatedAt.Format "January, 02 2006"}} | Updated at:
