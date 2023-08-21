@@ -5,7 +5,6 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/muhwyndhamhp/marknotes/pkg/models"
-	"github.com/muhwyndhamhp/marknotes/utils/scopes"
 )
 
 type AdminFrontend struct {
@@ -21,23 +20,5 @@ func NewAdminFrontend(g *echo.Group, repo models.PostRepository) {
 }
 
 func (fe *AdminFrontend) Index(c echo.Context) error {
-	ctx := c.Request().Context()
-
-	posts, err := fe.repo.Get(ctx, scopes.QueryOpts{
-		Page:     1,
-		PageSize: 10,
-		Order:    "created_at",
-		OrderDir: scopes.Descending,
-	})
-
-	if err != nil {
-		return err
-	}
-	resp := map[string]interface{}{
-		"Posts": posts,
-	}
-
-	posts[len(posts)-1].AppendFormMeta(2)
-
-	return c.Render(http.StatusOK, "admin_index", resp)
+	return c.Redirect(http.StatusMovedPermanently, "/posts_index")
 }

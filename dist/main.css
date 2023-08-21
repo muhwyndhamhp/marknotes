@@ -1,6 +1,5 @@
-@import url('https://themes.googleusercontent.com/fonts/css?kit=fpjTOVmNbO4Lz34iLyptLQ1sPDLn3JuDNay4yiy2_As5BpxnPiOl8iQ3pkkf0_oT96xlbbE5D7Gw2o7jubnkMA');
-@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=PT+Mono&display=swap');
+@import url('https://fonts.cdnfonts.com/css/jetbrains-mono-2');
+@import url('https://fonts.cdnfonts.com/css/spicy-kebab');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -10,8 +9,8 @@
     ul,
     ol {
         list-style: revert;
-        @apply px-4;
-        @apply dark:px-4;
+        @apply pl-8;
+        @apply pr-4;
     }
 
     html,
@@ -20,14 +19,9 @@
         @apply dark:text-slate-200;
         @apply bg-slate-100;
         @apply dark:bg-slate-800;
-        /* font-family: Tahoma, Arial, Sans-Serif; */
         padding: 0pt;
         margin: 0pt;
         height: 100%;
-    }
-
-    .unmarked {
-        @apply px-0;
     }
 
     .minor {

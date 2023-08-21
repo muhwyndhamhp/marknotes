@@ -1,10 +1,10 @@
-{{define "admin_index"}}
+{{define "posts_index"}}
 <!DOCTYPE html>
 <html>
 
 <head>
     {{template "head_tags"}}
-    <title>Blog Admin</title>
+    <title>mwyndham.dev</title>
 </head>
 
 <body id="admin-root">
@@ -13,9 +13,9 @@
         <br>
         <div id="admin-content">
             {{if .Posts}}
-            <ul id="post-list" class="unmarked flex-row flex-justify-center">
+            <div id="post-list" class="flex-row flex-justify-center">
                 {{template "post_list" .Posts}}
-            </ul>
+            </div>
             {{else}}
             <h1>No Post Found! Create One?</h1>
             {{template "create_post_button"}}

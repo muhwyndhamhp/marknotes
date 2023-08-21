@@ -8,9 +8,9 @@ module.exports = {
       ...defaultTheme.screens,
     },
     fontFamily: {
-      'sans': ['Nunito Sans', 'sans-serif'],
-      'serif': ['Merriweather', 'serif'],
-      'mono': ['PT Mono', 'mono'],
+      'sans': ['JetBrains Mono', 'sans-serif'],
+      'serif': ['Spicy Kebab', 'serif'],
+      'mono': ['JetBrains Mono', 'mono'],
     },
     extend: {},
   },

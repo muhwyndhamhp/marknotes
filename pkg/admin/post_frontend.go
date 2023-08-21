@@ -25,10 +25,33 @@ func NewPostFrontend(g *echo.Group, repo models.PostRepository, htmxMid echo.Mid
 	}
 
 	g.GET("/posts", fe.PostsGet)
+	g.GET("/posts_index", fe.PostsIndex)
 	g.GET("/posts/new", fe.PostsNew)
 	g.POST("/posts/create", fe.PostCreate, htmxMid)
 	g.POST("/posts/render", fe.RenderMarkdown, htmxMid)
 	g.GET("/posts/:id", fe.GetPostByID)
+}
+
+func (fe *PostFrontend) PostsIndex(c echo.Context) error {
+	ctx := c.Request().Context()
+
+	posts, err := fe.repo.Get(ctx, scopes.QueryOpts{
+		Page:     1,
+		PageSize: 10,
+		Order:    "created_at",
+		OrderDir: scopes.Descending,
+	})
+
+	if err != nil {
+		return err
+	}
+	resp := map[string]interface{}{
+		"Posts": posts,
+	}
+
+	posts[len(posts)-1].AppendFormMeta(2)
+
+	return c.Render(http.StatusOK, "posts_index", resp)
 }
 
 func (fe *PostFrontend) GetPostByID(c echo.Context) error {
