@@ -818,13 +818,6 @@ a:active {
   margin-top: 1.5rem;
 }
 
-.line-clamp-2{
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-}
-
 .inline-block{
   display: inline-block;
 }
@@ -873,10 +866,6 @@ a:active {
 
 .self-center{
   align-self: center;
-}
-
-.text-ellipsis{
-  text-overflow: ellipsis;
 }
 
 .rounded-md{
@@ -955,9 +944,17 @@ a:active {
   text-align: justify;
 }
 
+.text-start{
+  text-align: start;
+}
+
 .text-lg{
   font-size: 1.125rem;
   line-height: 1.75rem;
+}
+
+.uppercase{
+  text-transform: uppercase;
 }
 
 .text-slate-100{
@@ -991,6 +988,11 @@ a:active {
   }
 }
 
+.relaxed{
+  line-height: 1.625;
+  letter-spacing: 0.05em;
+}
+
 .focus\:border-transparent:focus{
   border-color: transparent;
 }
@@ -1008,6 +1010,11 @@ a:active {
   .dark\:bg-slate-100{
     --tw-bg-opacity: 1;
     background-color: rgb(241 245 249 / var(--tw-bg-opacity));
+  }
+
+  .dark\:bg-slate-900{
+    --tw-bg-opacity: 1;
+    background-color: rgb(15 23 42 / var(--tw-bg-opacity));
   }
 
   .dark\:text-slate-800{
@@ -1096,4 +1103,3 @@ a:active {
     max-width: 48rem;
   }
 }
-

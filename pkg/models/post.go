@@ -28,6 +28,7 @@ type PostRepository interface {
 	Upsert(ctx context.Context, value *Post) error
 	GetByID(ctx context.Context, id uint) (*Post, error)
 	Get(ctx context.Context, queryOpts scopes.QueryOpts) ([]Post, error)
+	Delete(ctx context.Context, id uint) error
 }
 
 func (m *Post) AppendFormMeta(page int) {

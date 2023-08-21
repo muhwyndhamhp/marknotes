@@ -8,18 +8,41 @@
 </head>
 
 <body id="admin-root">
-    <div class="{{template "style_root_div"}} lg:w-3/5 sm:w-4/5 xs:w-10/12 self-center mx-auto px-auto my-10">
+    <div
+        class="{{template "style_root_div"}} lg:w-3/5 sm:w-4/5 xs:w-10/12 self-center mx-auto px-auto my-10">
         {{template "admin_header"}}
         <br>
-        <h1>{{.Title}}</h1>
+        <h1 class="text-center">{{.Title}}</h1>
         <!-- <button hx-get="/posts/{{.ID}}/edit" hx-target="#admin-root" hx-push-url="true">Edit</button> -->
-        <div class="inline flex-auto list-none">
-            <button hx-get="/posts/{{.ID}}/edit" hx-target="#admin-root" hx-push-url="true" class="inline-block mx-2 mt-4"> Edit</button>
-            <div class="inline-block mx-2">Delete</div>
+        <div class="inline ">
+            <button hx-get="/posts/{{.ID}}/edit" hx-target="#admin-root"
+                hx-push-url="true" class="inline-block mx-2 my-4 uppercase">
+                Edit
+            </button>
+            <button hx-get="/posts/{{.ID}}/delete" hx-target="#admin-root"
+                _="on htmx:confirm(issueRequest)
+                    halt the event
+                    call Swal.fire({title: 'Confirm Delete', text:'Do you want to continue?'})
+                    if result.isConfirmed issueRequest()"
+                class=" inline-block mx-2 my-4 uppercase">
+                Delete
+            </button>
+            <button
+                hx-get="{{if eq .Status "draft"}} /posts/{{.ID}}/publish {{else}} /posts/{{.ID}}/draft {{end}}"
+                hx-target="#admin-root" _="on htmx:confirm(issueRequest)
+                    halt the event
+                    call Swal.fire(
+                        {title: 'Confirm {{if eq .Status "draft"}}Publish{{else}}Unpublish{{end}}', text:'Do you want to continue?'}
+                        )
+                    if result.isConfirmed issueRequest()"
+                class=" inline-block mx-2 my-4 uppercase">
+                {{if eq .Status "draft"}}Publish{{else}}Unpublish{{end}}
+            </button>
         </div>
         <br>
         {{.EncodedContent}}
     </div>
 </body>
+
 </html>
 {{end}}

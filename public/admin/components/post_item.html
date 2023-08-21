@@ -2,7 +2,7 @@
 <div {{if .FormMeta.IsLastItem}}
     hx-get="/posts?page={{.FormMeta.Page}}&pageSize=10"
     hx-trigger="revealed" hx-swap="afterend" {{end}}>
-    <div class="bg-slate-200 p-4 lg:w-3/5 sm:w-4/5 xs:w-10/12 self-center mx-auto px-auto my-4">
+    <div class="bg-slate-200 dark:bg-slate-900 p-4 lg:w-3/5 sm:w-4/5 xs:w-10/12 self-center mx-auto px-auto my-4">
         <h2 class="text-justify" >
             <a href="/posts/{{.ID}}">{{.Title}}</a>
         </h2>
@@ -10,7 +10,6 @@
             {{.CreatedAt.Format "January, 02 2006"}} | Updated at:
             {{.UpdatedAt.Format "January, 02 2006"}}</p>
         <p class="text-justify minor">Status: {{.Status}}</p>
-        <p class="text-justify text-ellipsis line-clamp-2">{{.Content}}</p>
     </div>
 </div>
 {{end}}

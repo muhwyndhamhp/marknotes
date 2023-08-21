@@ -12,7 +12,7 @@
         hx-trigger="keyup changed delay:500ms, content" hx-post="/posts/render"
         hx-target="#preview"
         class="{{template "style_form_input"}} rounded-b-lg h-96 mt-1"
-        type="text" name="content">{{.Content}}</textarea>
+        type="text" name="content">{{if .Content}} {{.Content}} {{end}}</textarea>
     <br>
 </form>
 {{end}}

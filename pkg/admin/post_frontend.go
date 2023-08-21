@@ -33,7 +33,67 @@ func NewPostFrontend(g *echo.Group, repo models.PostRepository, htmxMid echo.Mid
 
 	g.GET("/posts/:id", fe.GetPostByID)
 	g.GET("/posts/:id/edit", fe.PostEdit)
-	g.POST("/posts/:id/update", fe.PostUpdate)
+	g.POST("/posts/:id/update", fe.PostUpdate, htmxMid)
+	g.GET("/posts/:id/delete", fe.PostDelete, htmxMid)
+	g.GET("/posts/:id/publish", fe.PostPublish, htmxMid)
+	g.GET("/posts/:id/draft", fe.PostDraft, htmxMid)
+}
+
+func (fe *PostFrontend) PostDraft(c echo.Context) error {
+	ctx := c.Request().Context()
+	id, _ := strconv.Atoi(c.Param("id"))
+	if id <= 0 {
+		return c.JSON(http.StatusBadRequest, nil)
+	}
+
+	post, err := fe.repo.GetByID(ctx, uint(id))
+	if err != nil {
+		return err
+	}
+
+	post.Status = models.Draft
+
+	if err = fe.repo.Upsert(ctx, post); err != nil {
+		return err
+	}
+
+	return c.Render(http.StatusOK, "posts_detail", post)
+}
+
+func (fe *PostFrontend) PostPublish(c echo.Context) error {
+	ctx := c.Request().Context()
+	id, _ := strconv.Atoi(c.Param("id"))
+	if id <= 0 {
+		return c.JSON(http.StatusBadRequest, nil)
+	}
+
+	post, err := fe.repo.GetByID(ctx, uint(id))
+	if err != nil {
+		return err
+	}
+
+	post.Status = models.Published
+
+	if err = fe.repo.Upsert(ctx, post); err != nil {
+		return err
+	}
+
+	return c.Render(http.StatusOK, "posts_detail", post)
+}
+
+func (fe *PostFrontend) PostDelete(c echo.Context) error {
+	ctx := c.Request().Context()
+	id, _ := strconv.Atoi(c.Param("id"))
+	if id <= 0 {
+		return c.JSON(http.StatusBadRequest, nil)
+	}
+
+	if err := fe.repo.Delete(ctx, uint(id)); err != nil {
+		return err
+	}
+
+	c.Response().Header().Set("Hx-Redirect", "/")
+	return c.JSON(http.StatusOK, nil)
 }
 
 func (fe *PostFrontend) PostUpdate(c echo.Context) error {

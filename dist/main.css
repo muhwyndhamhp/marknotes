@@ -108,3 +108,7 @@
     @apply text-indigo-700 dark:text-indigo-400;
 }
 
+.relaxed {
+    @apply leading-relaxed;
+    @apply tracking-wider;
+}

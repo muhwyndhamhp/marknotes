@@ -58,7 +58,7 @@ func postProcessHTML(str string) string {
 }
 
 func wrapDiv(str string) string {
-	return fmt.Sprintf(`<div class="text-justify"> %s </div>`, str)
+	return fmt.Sprintf(`<div class="text-start relaxed"> %s </div>`, str)
 }
 
 func addCodeBlockStyling(str string) string {

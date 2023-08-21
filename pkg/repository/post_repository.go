@@ -13,6 +13,15 @@ type repository struct {
 	db *gorm.DB
 }
 
+// Delete implements models.PostRepository.
+func (r *repository) Delete(ctx context.Context, id uint) error {
+	if err := r.db.Delete(&models.Post{}, id).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (r *repository) Get(ctx context.Context, queryOpts scopes.QueryOpts) ([]models.Post, error) {
 	var res []models.Post
 	err := r.db.WithContext(ctx).
