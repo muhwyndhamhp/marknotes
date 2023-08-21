@@ -112,6 +112,6 @@ func (fe *PostFrontend) PostCreate(c echo.Context) error {
 		return err
 	}
 
-	c.Response().Header().Set("Hx-Redirect", "/admin")
+	c.Response().Header().Set("Hx-Redirect", "/")
 	return c.JSON(http.StatusOK, nil)
 }
