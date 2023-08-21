@@ -1,27 +1,18 @@
 {{define "post_form"}}
 <form id="form-post">
-    <label><h2>Put your toughts here</h2></label>
+    <label>
+        <h2>Put your toughts here</h2>
+    </label>
     <br>
     <input placeholder="Blog title goes here..."
-        class="{{template "style_form_input"}} rounded-t-lg mt-0"
-        type="text" name="title" {{if .Title}}value="{{.Title}}" {{end}}>
+        class="{{template "style_form_input"}} rounded-t-lg mt-0" type="text"
+        name="title" {{if .Title}}value="{{.Title}}" {{end}}>
     <br>
-    <textarea id="form-content"
-        placeholder="And the rest goes here!"
-        hx-trigger="keyup changed delay:500ms, content"
-        hx-post="/posts/render" hx-target="#preview"
+    <textarea id="form-content" placeholder="And the rest goes here!"
+        hx-trigger="keyup changed delay:500ms, content" hx-post="/posts/render"
+        hx-target="#preview"
         class="{{template "style_form_input"}} rounded-b-lg h-96 mt-1"
-        type="text" name="content"></textarea>{{.Content}}
+        type="text" name="content">{{.Content}}</textarea>
     <br>
 </form>
-<button hx-post="/posts/create" hx-target="#admin-root"
-    hx-include="#form-post" hx-swap="innerHTML"
-    class="{{template "style_button_primary_rounded"}} mx-2">
-    Submit
-</button>
-<button
-    hx-get="/posts_index" hx-push-url="true" hx-target="#admin-root"
-    class="{{template "style_button_secondary_rounded"}} mx-2">
-    Cancel
-</button>
 {{end}}

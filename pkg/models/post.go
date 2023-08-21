@@ -13,7 +13,6 @@ type Post struct {
 	Title          string
 	Content        string
 	EncodedContent template.HTML
-	Preview        template.HTML
 	Status         PostStatus
 	FormMeta       map[string]interface{} `gorm:"-"`
 }

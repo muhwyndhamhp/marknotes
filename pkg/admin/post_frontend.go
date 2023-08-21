@@ -26,10 +26,66 @@ func NewPostFrontend(g *echo.Group, repo models.PostRepository, htmxMid echo.Mid
 
 	g.GET("/posts", fe.PostsGet)
 	g.GET("/posts_index", fe.PostsIndex)
+
 	g.GET("/posts/new", fe.PostsNew)
 	g.POST("/posts/create", fe.PostCreate, htmxMid)
 	g.POST("/posts/render", fe.RenderMarkdown, htmxMid)
+
 	g.GET("/posts/:id", fe.GetPostByID)
+	g.GET("/posts/:id/edit", fe.PostEdit)
+	g.POST("/posts/:id/update", fe.PostUpdate)
+}
+
+func (fe *PostFrontend) PostUpdate(c echo.Context) error {
+	ctx := c.Request().Context()
+	id, _ := strconv.Atoi(c.Param("id"))
+	if id <= 0 {
+		return c.JSON(http.StatusBadRequest, nil)
+	}
+
+	var req dto.PostCreateRequest
+
+	if err := c.Bind(&req); err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	if err := c.Validate(req); err != nil {
+		return err
+	}
+
+	encoded, err := markd.ParseMD(req.Content)
+	if err != nil {
+		return err
+	}
+
+	post, err := fe.repo.GetByID(ctx, uint(id))
+	if err != nil {
+		return err
+	}
+
+	post.Title = req.Title
+	post.Content = req.Content
+	post.EncodedContent = template.HTML(encoded)
+
+	if err = fe.repo.Upsert(ctx, post); err != nil {
+		return err
+	}
+
+	return c.Render(http.StatusOK, "posts_detail", post)
+}
+func (fe *PostFrontend) PostEdit(c echo.Context) error {
+	ctx := c.Request().Context()
+	id, _ := strconv.Atoi(c.Param("id"))
+	if id <= 0 {
+		return c.JSON(http.StatusBadRequest, nil)
+	}
+
+	post, err := fe.repo.GetByID(ctx, uint(id))
+	if err != nil {
+		return err
+	}
+
+	return c.Render(http.StatusOK, "posts_edit", post)
 }
 
 func (fe *PostFrontend) PostsIndex(c echo.Context) error {

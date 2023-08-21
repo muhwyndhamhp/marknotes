@@ -1,4 +1,4 @@
-{{define "posts_new"}}
+{{define "posts_edit"}}
 <!DOCTYPE html>
 <html>
 
@@ -14,12 +14,12 @@
         <div class="flex md:flex-row xs:flex-col">
             <div class="md:basis-5/12">
                 {{template "post_form" .}}
-                <button hx-post="/posts/create" hx-target="#admin-root"
+                <button hx-post="/posts/{{.ID}}/update" hx-target="#admin-root"
                     hx-include="#form-post" hx-swap="innerHTML"
                     class="{{template "style_button_primary_rounded"}} mx-2">
                     Submit
                 </button>
-                <button hx-get="/posts_index" hx-push-url="true"
+                <button hx-get="/posts/{{.ID}}" hx-push-url="true"
                     hx-target="#admin-root"
                     class="{{template "style_button_secondary_rounded"}} mx-2">
                     Cancel

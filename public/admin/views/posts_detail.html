@@ -12,6 +12,11 @@
         {{template "admin_header"}}
         <br>
         <h1>{{.Title}}</h1>
+        <!-- <button hx-get="/posts/{{.ID}}/edit" hx-target="#admin-root" hx-push-url="true">Edit</button> -->
+        <div class="inline flex-auto list-none">
+            <button hx-get="/posts/{{.ID}}/edit" hx-target="#admin-root" hx-push-url="true" class="inline-block mx-2 mt-4"> Edit</button>
+            <div class="inline-block mx-2">Delete</div>
+        </div>
         <br>
         {{.EncodedContent}}
     </div>
