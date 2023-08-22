@@ -1,0 +1,28 @@
+{{define "posts_manage"}}
+<!DOCTYPE html>
+<html>
+
+<head>
+    {{template "head_tags"}}
+    <title>mwyndham.dev</title>
+</head>
+
+<body id="admin-root">
+    <div class="{{template "style_root_div"}}">
+        {{template "admin_header"}}
+        <br>
+        <div id="admin-content">
+            {{if .Posts}}
+            <div id="post-list" class="flex-row flex-justify-center">
+                {{template "post_list" .Posts}}
+            </div>
+            {{else}}
+            <h1>No Post Found! Create One?</h1>
+            {{template "create_post_button"}}
+            {{end}}
+        </div>
+    </div>
+</body>
+
+</html>
+{{end}}

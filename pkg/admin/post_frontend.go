@@ -4,6 +4,7 @@ import (
 	"html/template"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/labstack/echo/v4"
 	"github.com/muhwyndhamhp/marknotes/pkg/admin/dto"
@@ -26,6 +27,7 @@ func NewPostFrontend(g *echo.Group, repo models.PostRepository, htmxMid echo.Mid
 
 	g.GET("/posts", fe.PostsGet)
 	g.GET("/posts_index", fe.PostsIndex)
+	g.GET("/posts_manage", fe.PostsManage)
 
 	g.GET("/posts/new", fe.PostsNew)
 	g.POST("/posts/create", fe.PostCreate, htmxMid)
@@ -60,6 +62,24 @@ func (fe *PostFrontend) PostDraft(c echo.Context) error {
 	return c.Render(http.StatusOK, "posts_detail", post)
 }
 
+func (fe *PostFrontend) PostsManage(c echo.Context) error {
+	ctx := c.Request().Context()
+	posts, err := fe.repo.Get(ctx,
+		scopes.Paginate(1, 10),
+		scopes.OrderBy("created_at", scopes.Descending),
+	)
+
+	if err != nil {
+		return err
+	}
+	resp := map[string]interface{}{
+		"Posts": posts,
+	}
+
+	posts[len(posts)-1].AppendFormMeta(2, false)
+
+	return c.Render(http.StatusOK, "posts_index", resp)
+}
 func (fe *PostFrontend) PostPublish(c echo.Context) error {
 	ctx := c.Request().Context()
 	id, _ := strconv.Atoi(c.Param("id"))
@@ -113,7 +133,9 @@ func (fe *PostFrontend) PostUpdate(c echo.Context) error {
 		return err
 	}
 
-	encoded, err := markd.ParseMD(req.Content)
+	content := strings.TrimSpace(req.Content)
+
+	encoded, err := markd.ParseMD(content)
 	if err != nil {
 		return err
 	}
@@ -124,7 +146,7 @@ func (fe *PostFrontend) PostUpdate(c echo.Context) error {
 	}
 
 	post.Title = req.Title
-	post.Content = req.Content
+	post.Content = content
 	post.EncodedContent = template.HTML(encoded)
 
 	if err = fe.repo.Upsert(ctx, post); err != nil {
@@ -150,13 +172,11 @@ func (fe *PostFrontend) PostEdit(c echo.Context) error {
 
 func (fe *PostFrontend) PostsIndex(c echo.Context) error {
 	ctx := c.Request().Context()
-
-	posts, err := fe.repo.Get(ctx, scopes.QueryOpts{
-		Page:     1,
-		PageSize: 10,
-		Order:    "created_at",
-		OrderDir: scopes.Descending,
-	})
+	posts, err := fe.repo.Get(ctx,
+		scopes.Paginate(1, 10),
+		scopes.OrderBy("created_at", scopes.Descending),
+		scopes.WithStatus(models.Published),
+	)
 
 	if err != nil {
 		return err
@@ -165,7 +185,7 @@ func (fe *PostFrontend) PostsIndex(c echo.Context) error {
 		"Posts": posts,
 	}
 
-	posts[len(posts)-1].AppendFormMeta(2)
+	posts[len(posts)-1].AppendFormMeta(2, true)
 
 	return c.Render(http.StatusOK, "posts_index", resp)
 }
@@ -189,19 +209,21 @@ func (fe *PostFrontend) PostsGet(c echo.Context) error {
 	ctx := c.Request().Context()
 	page, _ := strconv.Atoi(c.QueryParam(constants.PAGE))
 	pageSize, _ := strconv.Atoi(c.QueryParam(constants.PAGE_SIZE))
+	statusStr := c.QueryParam(constants.STATUS)
+	status := models.PostStatus(statusStr)
 
-	posts, err := fe.repo.Get(ctx, scopes.QueryOpts{
-		Page:     page,
-		PageSize: pageSize,
-		Order:    "created_at",
-		OrderDir: scopes.Descending,
-	})
+	posts, err := fe.repo.Get(ctx,
+		scopes.Paginate(page, pageSize),
+		scopes.OrderBy("created_at", scopes.Descending),
+		scopes.WithStatus(status),
+	)
 	if err != nil {
 		return err
 	}
 
+	onlyPublised := status == models.Published
 	if len(posts) > 0 {
-		posts[len(posts)-1].AppendFormMeta(page + 1)
+		posts[len(posts)-1].AppendFormMeta(page+1, onlyPublised)
 	}
 
 	return c.Render(http.StatusOK, "post_list", posts)
@@ -234,14 +256,16 @@ func (fe *PostFrontend) PostCreate(c echo.Context) error {
 		return err
 	}
 
-	encoded, err := markd.ParseMD(req.Content)
+	content := strings.TrimSpace(req.Content)
+
+	encoded, err := markd.ParseMD(content)
 	if err != nil {
 		return err
 	}
 
 	post := models.Post{
 		Title:          req.Title,
-		Content:        req.Content,
+		Content:        content,
 		EncodedContent: template.HTML(encoded),
 		Status:         models.Draft,
 	}

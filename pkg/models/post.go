@@ -4,7 +4,6 @@ import (
 	"context"
 	"html/template"
 
-	"github.com/muhwyndhamhp/marknotes/utils/scopes"
 	"gorm.io/gorm"
 )
 
@@ -20,6 +19,7 @@ type Post struct {
 type PostStatus string
 
 const (
+	None      PostStatus = ""
 	Draft     PostStatus = "draft"
 	Published PostStatus = "published"
 )
@@ -27,13 +27,14 @@ const (
 type PostRepository interface {
 	Upsert(ctx context.Context, value *Post) error
 	GetByID(ctx context.Context, id uint) (*Post, error)
-	Get(ctx context.Context, queryOpts scopes.QueryOpts) ([]Post, error)
+	Get(ctx context.Context, funcs ...func(*gorm.DB) *gorm.DB) ([]Post, error)
 	Delete(ctx context.Context, id uint) error
 }
 
-func (m *Post) AppendFormMeta(page int) {
+func (m *Post) AppendFormMeta(page int, onlyPublished bool) {
 	m.FormMeta = map[string]interface{}{
-		"IsLastItem": true,
-		"Page":       page,
+		"IsLastItem":    true,
+		"Page":          page,
+		"PublishedOnly": onlyPublished,
 	}
 }

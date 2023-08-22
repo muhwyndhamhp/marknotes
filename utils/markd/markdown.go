@@ -54,7 +54,12 @@ func postProcessHTML(str string) string {
 	str = changeCodeBlockBg(str)
 	str = addCodeBlockStyling(str)
 	str = wrapDiv(str)
+	str = extraBreak(str)
 	return str
+}
+
+func extraBreak(str string) string {
+	return strings.ReplaceAll(str, "<br>", "<br><br>")
 }
 
 func wrapDiv(str string) string {

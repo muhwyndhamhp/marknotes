@@ -426,6 +426,10 @@ video {
   display: none;
 }
 
+html{
+  font-size: 20px;
+}
+
 ul,
     ol {
   list-style: revert;
@@ -433,36 +437,60 @@ ul,
   padding-right: 1rem;
 }
 
-html,
-    body{
-  font-size: 1rem;
-  line-height: 1.5rem;
+html {
+  font-size: 18px;
 }
 
 @media (prefers-color-scheme: dark){
-  html,
-    body{
+  html{
     --tw-text-opacity: 1;
     color: rgb(226 232 240 / var(--tw-text-opacity));
   }
 }
 
-html,
-    body{
+html{
   --tw-bg-opacity: 1;
   background-color: rgb(241 245 249 / var(--tw-bg-opacity));
 }
 
 @media (prefers-color-scheme: dark){
-  html,
-    body{
+  html{
     --tw-bg-opacity: 1;
     background-color: rgb(30 41 59 / var(--tw-bg-opacity));
   }
 }
 
-html,
-    body {
+html {
+  padding: 0pt;
+  margin: 0pt;
+  height: 100%;
+}
+
+body{
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+@media (prefers-color-scheme: dark){
+  body{
+    --tw-text-opacity: 1;
+    color: rgb(226 232 240 / var(--tw-text-opacity));
+  }
+}
+
+body{
+  --tw-bg-opacity: 1;
+  background-color: rgb(241 245 249 / var(--tw-bg-opacity));
+}
+
+@media (prefers-color-scheme: dark){
+  body{
+    --tw-bg-opacity: 1;
+    background-color: rgb(30 41 59 / var(--tw-bg-opacity));
+  }
+}
+
+body {
   padding: 0pt;
   margin: 0pt;
   height: 100%;
@@ -485,8 +513,8 @@ html,
 }
 
 h1{
-  font-size: 3rem;
-  line-height: 1;
+  font-size: 2.25rem;
+  line-height: 2.5rem;
   font-weight: 800;
   background-image: linear-gradient(to right, var(--tw-gradient-stops));
   --tw-gradient-from: #0d9488 var(--tw-gradient-from-position);
@@ -508,7 +536,7 @@ h1{
 }
 
 h1{
-  margin-top: 0.5rem;
+  margin-top: 1rem;
   margin-bottom: 0.5rem;
 }
 
@@ -540,7 +568,7 @@ h2{
 }
 
 h2{
-  margin-top: 0.5rem;
+  margin-top: 1rem;
   margin-bottom: 0.5rem;
 }
 
@@ -572,7 +600,7 @@ h3{
 }
 
 h3{
-  margin-top: 0.5rem;
+  margin-top: 1rem;
   margin-bottom: 0.5rem;
 }
 
@@ -592,7 +620,7 @@ h4{
 }
 
 h4{
-  margin-top: 0.5rem;
+  margin-top: 1rem;
   margin-bottom: 0.5rem;
 }
 
@@ -612,7 +640,12 @@ h5{
 }
 
 h5{
-  margin-top: 0.5rem;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+p{
+  margin-top: 1rem;
   margin-bottom: 0.5rem;
 }
 

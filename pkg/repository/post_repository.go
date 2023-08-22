@@ -5,7 +5,6 @@ import (
 
 	"github.com/muhwyndhamhp/marknotes/pkg/models"
 	"github.com/muhwyndhamhp/marknotes/utils/errs"
-	"github.com/muhwyndhamhp/marknotes/utils/scopes"
 	"gorm.io/gorm"
 )
 
@@ -22,13 +21,10 @@ func (r *repository) Delete(ctx context.Context, id uint) error {
 	return nil
 }
 
-func (r *repository) Get(ctx context.Context, queryOpts scopes.QueryOpts) ([]models.Post, error) {
+func (r *repository) Get(ctx context.Context, funcs ...func(*gorm.DB) *gorm.DB) ([]models.Post, error) {
 	var res []models.Post
 	err := r.db.WithContext(ctx).
-		Scopes(
-			scopes.Paginate(queryOpts.Page, queryOpts.PageSize),
-			scopes.OrderBy(queryOpts.Order, queryOpts.OrderDir),
-		).
+		Scopes(funcs...).
 		Find(&res).Error
 	if err != nil {
 		return nil, err

@@ -1,4 +1,5 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
+const plugin = require('tailwindcss/plugin');
 
 module.exports = {
   content: ["./public/**/*.{html,js}"],
@@ -14,5 +15,11 @@ module.exports = {
     },
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    plugin(function({ addBase }) {
+      addBase({
+         'html': { fontSize: "20px" },
+       })
+     }),
+  ],
 }
