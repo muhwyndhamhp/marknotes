@@ -9,6 +9,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/muhwyndhamhp/marknotes/pkg/admin/dto"
 	"github.com/muhwyndhamhp/marknotes/pkg/models"
+	"github.com/muhwyndhamhp/marknotes/pkg/values"
 	"github.com/muhwyndhamhp/marknotes/utils/constants"
 	"github.com/muhwyndhamhp/marknotes/utils/markd"
 	"github.com/muhwyndhamhp/marknotes/utils/scopes"
@@ -53,7 +54,7 @@ func (fe *PostFrontend) PostDraft(c echo.Context) error {
 		return err
 	}
 
-	post.Status = models.Draft
+	post.Status = values.Draft
 
 	if err = fe.repo.Upsert(ctx, post); err != nil {
 		return err
@@ -92,7 +93,7 @@ func (fe *PostFrontend) PostPublish(c echo.Context) error {
 		return err
 	}
 
-	post.Status = models.Published
+	post.Status = values.Published
 
 	if err = fe.repo.Upsert(ctx, post); err != nil {
 		return err
@@ -175,7 +176,7 @@ func (fe *PostFrontend) PostsIndex(c echo.Context) error {
 	posts, err := fe.repo.Get(ctx,
 		scopes.Paginate(1, 10),
 		scopes.OrderBy("created_at", scopes.Descending),
-		scopes.WithStatus(models.Published),
+		scopes.WithStatus(values.Published),
 	)
 
 	if err != nil {
@@ -210,7 +211,7 @@ func (fe *PostFrontend) PostsGet(c echo.Context) error {
 	page, _ := strconv.Atoi(c.QueryParam(constants.PAGE))
 	pageSize, _ := strconv.Atoi(c.QueryParam(constants.PAGE_SIZE))
 	statusStr := c.QueryParam(constants.STATUS)
-	status := models.PostStatus(statusStr)
+	status := values.PostStatus(statusStr)
 
 	posts, err := fe.repo.Get(ctx,
 		scopes.Paginate(page, pageSize),
@@ -221,7 +222,7 @@ func (fe *PostFrontend) PostsGet(c echo.Context) error {
 		return err
 	}
 
-	onlyPublised := status == models.Published
+	onlyPublised := status == values.Published
 	if len(posts) > 0 {
 		posts[len(posts)-1].AppendFormMeta(page+1, onlyPublised)
 	}
@@ -267,7 +268,7 @@ func (fe *PostFrontend) PostCreate(c echo.Context) error {
 		Title:          req.Title,
 		Content:        content,
 		EncodedContent: template.HTML(encoded),
-		Status:         models.Draft,
+		Status:         values.Draft,
 	}
 
 	err = fe.repo.Upsert(ctx, &post)

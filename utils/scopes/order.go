@@ -13,7 +13,7 @@ const (
 	Descending Direction = "DESC"
 )
 
-func OrderBy(field string, direction Direction) func(db *gorm.DB) *gorm.DB {
+func OrderBy(field string, direction Direction) QueryScope {
 	return func(db *gorm.DB) *gorm.DB {
 		if field == "" || direction == "" {
 			return db

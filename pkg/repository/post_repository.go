@@ -5,6 +5,7 @@ import (
 
 	"github.com/muhwyndhamhp/marknotes/pkg/models"
 	"github.com/muhwyndhamhp/marknotes/utils/errs"
+	"github.com/muhwyndhamhp/marknotes/utils/scopes"
 	"gorm.io/gorm"
 )
 
@@ -21,10 +22,11 @@ func (r *repository) Delete(ctx context.Context, id uint) error {
 	return nil
 }
 
-func (r *repository) Get(ctx context.Context, funcs ...func(*gorm.DB) *gorm.DB) ([]models.Post, error) {
+func (r *repository) Get(ctx context.Context, funcs ...scopes.QueryScope) ([]models.Post, error) {
 	var res []models.Post
+	scopes := scopes.Unwrap(funcs...)
 	err := r.db.WithContext(ctx).
-		Scopes(funcs...).
+		Scopes(scopes...).
 		Find(&res).Error
 	if err != nil {
 		return nil, err

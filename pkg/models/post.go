@@ -4,6 +4,8 @@ import (
 	"context"
 	"html/template"
 
+	"github.com/muhwyndhamhp/marknotes/pkg/values"
+	"github.com/muhwyndhamhp/marknotes/utils/scopes"
 	"gorm.io/gorm"
 )
 
@@ -12,22 +14,14 @@ type Post struct {
 	Title          string
 	Content        string
 	EncodedContent template.HTML
-	Status         PostStatus
+	Status         values.PostStatus
 	FormMeta       map[string]interface{} `gorm:"-"`
 }
-
-type PostStatus string
-
-const (
-	None      PostStatus = ""
-	Draft     PostStatus = "draft"
-	Published PostStatus = "published"
-)
 
 type PostRepository interface {
 	Upsert(ctx context.Context, value *Post) error
 	GetByID(ctx context.Context, id uint) (*Post, error)
-	Get(ctx context.Context, funcs ...func(*gorm.DB) *gorm.DB) ([]Post, error)
+	Get(ctx context.Context, funcs ...scopes.QueryScope) ([]Post, error)
 	Delete(ctx context.Context, id uint) error
 }
 

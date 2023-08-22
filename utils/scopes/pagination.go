@@ -4,7 +4,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func Paginate(page, pageSize int) func(db *gorm.DB) *gorm.DB {
+func Paginate(page, pageSize int) QueryScope {
 	return func(db *gorm.DB) *gorm.DB {
 		if page <= 0 {
 			page = 1
