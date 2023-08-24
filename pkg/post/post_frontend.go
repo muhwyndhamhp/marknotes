@@ -1,4 +1,4 @@
-package admin
+package post
 
 import (
 	"html/template"
@@ -9,7 +9,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/muhwyndhamhp/marknotes/pkg/admin/dto"
 	"github.com/muhwyndhamhp/marknotes/pkg/models"
-	"github.com/muhwyndhamhp/marknotes/pkg/values"
+	"github.com/muhwyndhamhp/marknotes/pkg/post/values"
 	"github.com/muhwyndhamhp/marknotes/utils/constants"
 	"github.com/muhwyndhamhp/marknotes/utils/markd"
 	"github.com/muhwyndhamhp/marknotes/utils/scopes"
@@ -20,7 +20,7 @@ type PostFrontend struct {
 	htmxMid echo.MiddlewareFunc
 }
 
-func NewPostFrontend(g *echo.Group, repo models.PostRepository, htmxMid echo.MiddlewareFunc) {
+func NewPostFrontend(g *echo.Group, repo models.PostRepository, htmxMid echo.MiddlewareFunc, authMid echo.MiddlewareFunc) {
 	fe := &PostFrontend{
 		repo:    repo,
 		htmxMid: htmxMid,
@@ -30,15 +30,15 @@ func NewPostFrontend(g *echo.Group, repo models.PostRepository, htmxMid echo.Mid
 	g.GET("/posts_index", fe.PostsIndex)
 	g.GET("/posts_manage", fe.PostsManage)
 
-	g.GET("/posts/new", fe.PostsNew)
-	g.POST("/posts/create", fe.PostCreate, htmxMid)
-	g.POST("/posts/render", fe.RenderMarkdown, htmxMid)
+	g.GET("/posts/new", fe.PostsNew, authMid)
+	g.POST("/posts/create", fe.PostCreate, htmxMid, authMid)
+	g.POST("/posts/render", fe.RenderMarkdown, htmxMid, authMid)
 
 	g.GET("/posts/:id", fe.GetPostByID)
-	g.GET("/posts/:id/edit", fe.PostEdit)
-	g.POST("/posts/:id/update", fe.PostUpdate, htmxMid)
-	g.GET("/posts/:id/delete", fe.PostDelete, htmxMid)
-	g.GET("/posts/:id/publish", fe.PostPublish, htmxMid)
+	g.GET("/posts/:id/edit", fe.PostEdit, authMid)
+	g.POST("/posts/:id/update", fe.PostUpdate, htmxMid, authMid)
+	g.GET("/posts/:id/delete", fe.PostDelete, htmxMid, authMid)
+	g.GET("/posts/:id/publish", fe.PostPublish, htmxMid, authMid)
 	g.GET("/posts/:id/draft", fe.PostDraft, htmxMid)
 }
 

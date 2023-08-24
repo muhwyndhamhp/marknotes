@@ -17,6 +17,7 @@ const (
 	DB_USER     = "DB_USER"
 	DB_NAME     = "DB_NAME"
 	DB_PASSWORD = "DB_PASSWORD"
+	JWT_SECRET  = "JWT_SECRET"
 )
 
 func init() {

@@ -7,6 +7,7 @@ require (
 	github.com/apsystole/log v0.3.0
 	github.com/dlclark/regexp2 v1.7.0
 	github.com/go-playground/validator/v10 v10.15.1
+	github.com/golang-jwt/jwt/v5 v5.0.0
 	github.com/joho/godotenv v1.5.1
 	github.com/labstack/echo/v4 v4.11.1
 	github.com/yuin/goldmark v1.5.6

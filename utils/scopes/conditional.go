@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/muhwyndhamhp/marknotes/pkg/values"
+	"github.com/muhwyndhamhp/marknotes/pkg/post/values"
 	"gorm.io/gorm"
 )
 

@@ -9,8 +9,10 @@ import (
 	"github.com/muhwyndhamhp/marknotes/db"
 	"github.com/muhwyndhamhp/marknotes/middlewares"
 	"github.com/muhwyndhamhp/marknotes/pkg/admin"
-	"github.com/muhwyndhamhp/marknotes/pkg/repository"
+	"github.com/muhwyndhamhp/marknotes/pkg/post"
+	"github.com/muhwyndhamhp/marknotes/pkg/post/repository"
 	"github.com/muhwyndhamhp/marknotes/template"
+	"github.com/muhwyndhamhp/marknotes/utils/jwt"
 	"github.com/muhwyndhamhp/marknotes/utils/routing"
 )
 
@@ -38,7 +40,9 @@ func main() {
 	postRepo := repository.NewPostRepository(db.GetDB())
 	htmxMid := middlewares.HTMXRequest()
 
+	service := jwt.NewService([]byte(config.Get(config.JWT_SECRET)))
+
 	admin.NewAdminFrontend(adminGroup, postRepo)
-	admin.NewPostFrontend(adminGroup, postRepo, htmxMid)
+	post.NewPostFrontend(adminGroup, postRepo, htmxMid, service.AuthMiddleware())
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%s", config.Get(config.APP_PORT))))
 }
