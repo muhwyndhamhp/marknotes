@@ -1,7 +1,5 @@
 {{define "logout_button"}}
-<button class="mt-4"
-    hx-get="/logout" hx-push-url="true" hx-trigger="click"
-    hx-target="#admin-root" hx-swap="innerHTML">
-    Logout
+<button class="mt-4">
+    <a href="/logout">Logout</a>
 </button>
 {{end}}

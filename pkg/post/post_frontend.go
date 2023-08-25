@@ -11,6 +11,7 @@ import (
 	"github.com/muhwyndhamhp/marknotes/pkg/models"
 	"github.com/muhwyndhamhp/marknotes/pkg/post/values"
 	"github.com/muhwyndhamhp/marknotes/utils/constants"
+	"github.com/muhwyndhamhp/marknotes/utils/jwt"
 	"github.com/muhwyndhamhp/marknotes/utils/markd"
 	"github.com/muhwyndhamhp/marknotes/utils/scopes"
 )
@@ -20,21 +21,25 @@ type PostFrontend struct {
 	htmxMid echo.MiddlewareFunc
 }
 
-func NewPostFrontend(g *echo.Group, repo models.PostRepository, htmxMid echo.MiddlewareFunc, authMid echo.MiddlewareFunc) {
+func NewPostFrontend(g *echo.Group,
+	repo models.PostRepository,
+	htmxMid echo.MiddlewareFunc,
+	authMid echo.MiddlewareFunc,
+	authDescribeMid echo.MiddlewareFunc) {
 	fe := &PostFrontend{
 		repo:    repo,
 		htmxMid: htmxMid,
 	}
 
-	g.GET("/posts", fe.PostsGet)
-	g.GET("/posts_index", fe.PostsIndex)
-	g.GET("/posts_manage", fe.PostsManage)
+	g.GET("/posts", fe.PostsGet, authDescribeMid)
+	g.GET("/posts_index", fe.PostsIndex, authDescribeMid)
+	g.GET("/posts_manage", fe.PostsManage, authMid)
 
 	g.GET("/posts/new", fe.PostsNew, authMid)
 	g.POST("/posts/create", fe.PostCreate, htmxMid, authMid)
 	g.POST("/posts/render", fe.RenderMarkdown, htmxMid, authMid)
 
-	g.GET("/posts/:id", fe.GetPostByID)
+	g.GET("/posts/:id", fe.GetPostByID, authDescribeMid)
 	g.GET("/posts/:id/edit", fe.PostEdit, authMid)
 	g.POST("/posts/:id/update", fe.PostUpdate, htmxMid, authMid)
 	g.GET("/posts/:id/delete", fe.PostDelete, htmxMid, authMid)
@@ -75,6 +80,12 @@ func (fe *PostFrontend) PostsManage(c echo.Context) error {
 	}
 	resp := map[string]interface{}{
 		"Posts": posts,
+	}
+
+	claims, _ := c.Get(jwt.AuthClaimKey).(*jwt.Claims)
+
+	if claims != nil {
+		resp["UserID"] = claims.UserID
 	}
 
 	posts[len(posts)-1].AppendFormMeta(2, false)
@@ -168,11 +179,20 @@ func (fe *PostFrontend) PostEdit(c echo.Context) error {
 		return err
 	}
 
+	claims, _ := c.Get(jwt.AuthClaimKey).(*jwt.Claims)
+
+	if claims != nil {
+		post.FormMeta = map[string]interface{}{
+			"UserID": claims.UserID,
+		}
+	}
+
 	return c.Render(http.StatusOK, "posts_edit", post)
 }
 
 func (fe *PostFrontend) PostsIndex(c echo.Context) error {
 	ctx := c.Request().Context()
+
 	posts, err := fe.repo.Get(ctx,
 		scopes.Paginate(1, 10),
 		scopes.OrderBy("created_at", scopes.Descending),
@@ -184,6 +204,12 @@ func (fe *PostFrontend) PostsIndex(c echo.Context) error {
 	}
 	resp := map[string]interface{}{
 		"Posts": posts,
+	}
+
+	claims, _ := c.Get(jwt.AuthClaimKey).(*jwt.Claims)
+
+	if claims != nil {
+		resp["UserID"] = claims.UserID
 	}
 
 	posts[len(posts)-1].AppendFormMeta(2, true)
@@ -201,6 +227,13 @@ func (fe *PostFrontend) GetPostByID(c echo.Context) error {
 	post, err := fe.repo.GetByID(ctx, uint(id))
 	if err != nil {
 		return err
+	}
+	claims, _ := c.Get(jwt.AuthClaimKey).(*jwt.Claims)
+
+	if claims != nil {
+		post.FormMeta = map[string]interface{}{
+			"UserID": claims.UserID,
+		}
 	}
 
 	return c.Render(http.StatusOK, "posts_detail", post)
@@ -231,7 +264,16 @@ func (fe *PostFrontend) PostsGet(c echo.Context) error {
 }
 
 func (fe *PostFrontend) PostsNew(c echo.Context) error {
-	return c.Render(http.StatusOK, "posts_new", nil)
+	post := &models.Post{}
+
+	claims, _ := c.Get(jwt.AuthClaimKey).(*jwt.Claims)
+
+	if claims != nil {
+		post.FormMeta = map[string]interface{}{
+			"UserID": claims.UserID,
+		}
+	}
+	return c.Render(http.StatusOK, "posts_new", post)
 }
 
 func (fe *PostFrontend) RenderMarkdown(c echo.Context) error {

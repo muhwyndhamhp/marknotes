@@ -11,4 +11,5 @@ func main() {
 	db.Debug()
 
 	db.AutoMigrate(&models.Post{})
+	db.AutoMigrate(&models.User{})
 }

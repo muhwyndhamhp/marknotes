@@ -26,12 +26,6 @@ type Service struct {
 	SecretKey []byte
 }
 
-func NewService(SecretKey []byte) *Service {
-	return &Service{
-		SecretKey: SecretKey,
-	}
-}
-
 func (s *Service) GenerateToken(userID uint, userName string) (string, error) {
 	claims := &Claims{
 		RegisteredClaims: jwt.RegisteredClaims{
@@ -41,7 +35,7 @@ func (s *Service) GenerateToken(userID uint, userName string) (string, error) {
 		UserName: userName,
 	}
 
-	token := jwt.NewWithClaims(jwt.SigningMethodES256, claims)
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
 	tokenString, err := token.SignedString(s.SecretKey)
 	if err != nil {
@@ -95,7 +89,7 @@ func (s *Service) GenerateTokenAndStore(c echo.Context, userID uint, userName st
 	}
 
 	cookie := &http.Cookie{
-		Name:     userName,
+		Name:     TokenCookieKey,
 		Value:    token,
 		Expires:  time.Now().Add(ExpiresDuration),
 		HttpOnly: true,
@@ -105,17 +99,32 @@ func (s *Service) GenerateTokenAndStore(c echo.Context, userID uint, userName st
 	return nil
 }
 
+func (s *Service) AuthDescribeMiddleware() echo.MiddlewareFunc {
+	return func(next echo.HandlerFunc) echo.HandlerFunc {
+		return func(c echo.Context) error {
+			cookie, err := c.Cookie(TokenCookieKey)
+			if err != nil {
+				return next(c)
+			}
+			claims, _ := s.VerifyToken(cookie.Value)
+
+			c.Set(AuthClaimKey, claims)
+			return next(c)
+		}
+	}
+}
+
 func (s *Service) AuthMiddleware() echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			cookie, err := c.Cookie(TokenCookieKey)
 			if err != nil {
-				return c.JSON(http.StatusBadRequest, err.Error())
+				return c.Redirect(http.StatusFound, "/login")
 			}
 
 			claims, err := s.VerifyToken(cookie.Value)
 			if err != nil {
-				return c.JSON(http.StatusBadRequest, err.Error())
+				return c.Redirect(http.StatusFound, "/login")
 			}
 			c.Set(AuthClaimKey, claims)
 			return next(c)

@@ -21,7 +21,7 @@ func SetupRouter(e *echo.Echo) {
 		rate.Limit(20),
 	)))
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{"*.a.run.app", "*.vercel.app", "*://localhost:*", "*.jsdelivr.net*"},
+		AllowOrigins: []string{"*"},
 	}))
 	e.Validator = &validate.CustomValidator{
 		Validator: validator.New(),

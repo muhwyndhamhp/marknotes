@@ -9,8 +9,10 @@ import (
 	"github.com/muhwyndhamhp/marknotes/db"
 	"github.com/muhwyndhamhp/marknotes/middlewares"
 	"github.com/muhwyndhamhp/marknotes/pkg/admin"
+	"github.com/muhwyndhamhp/marknotes/pkg/auth"
+	_userRepo "github.com/muhwyndhamhp/marknotes/pkg/auth/repository"
 	"github.com/muhwyndhamhp/marknotes/pkg/post"
-	"github.com/muhwyndhamhp/marknotes/pkg/post/repository"
+	_postRepo "github.com/muhwyndhamhp/marknotes/pkg/post/repository"
 	"github.com/muhwyndhamhp/marknotes/template"
 	"github.com/muhwyndhamhp/marknotes/utils/jwt"
 	"github.com/muhwyndhamhp/marknotes/utils/routing"
@@ -37,12 +39,22 @@ func main() {
 
 	adminGroup := e.Group("")
 
-	postRepo := repository.NewPostRepository(db.GetDB())
+	postRepo := _postRepo.NewPostRepository(db.GetDB())
+	userRepo := _userRepo.NewUserRepository(db.GetDB())
 	htmxMid := middlewares.HTMXRequest()
 
-	service := jwt.NewService([]byte(config.Get(config.JWT_SECRET)))
+	service := jwt.Service{SecretKey: []byte(config.Get(config.JWT_SECRET))}
+	authMid := service.AuthMiddleware()
+	authDescMid := service.AuthDescribeMiddleware()
 
 	admin.NewAdminFrontend(adminGroup, postRepo)
-	post.NewPostFrontend(adminGroup, postRepo, htmxMid, service.AuthMiddleware())
+	post.NewPostFrontend(adminGroup, postRepo, htmxMid, authMid, authDescMid)
+	auth.NewAuthService(adminGroup, service, config.Get(config.OAUTH_AUTHORIZE_URL),
+		config.Get(config.OAUTH_ACCESSTOKEN_URL),
+		config.Get(config.OAUTH_CLIENTID),
+		config.Get(config.OAUTH_SECRET),
+		config.Get(config.OAUTH_URL),
+		userRepo)
+
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%s", config.Get(config.APP_PORT))))
 }

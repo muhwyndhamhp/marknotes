@@ -7,9 +7,15 @@
             </h1>
         </a>
         <div class="inline flex-auto list-none">
-            <div class="inline-block mx-2">{{template "create_post_button"}}</div>
-            <div class="inline-block mx-2">{{template "manage_post_button"}}</div>
+            {{if .UserID}}
+            <div class="inline-block mx-2">{{template "create_post_button"}}
+            </div>
+            <div class="inline-block mx-2">{{template "manage_post_button"}}
+            </div>
             <div class="inline-block mx-2">{{template "logout_button"}}</div>
+            {{else}}
+            <div class="inline-block mx-2">{{template "login_button"}}</div>
+            {{end}}
         </div>
     </div>
 </header>

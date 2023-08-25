@@ -10,7 +10,7 @@
 <body id="admin-root">
     <div
         class="{{template "style_root_div"}} lg:w-3/5 sm:w-4/5 xs:w-10/12 self-center mx-auto px-auto my-10">
-        {{template "admin_header"}}
+        {{template "admin_header" .FormMeta}}
         <br>
         <h1 class="text-center">{{.Title}}</h1>
         <!-- <button hx-get="/posts/{{.ID}}/edit" hx-target="#admin-root" hx-push-url="true">Edit</button> -->
