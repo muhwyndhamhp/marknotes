@@ -17,6 +17,7 @@ WORKDIR /app
 
 COPY --from=builder /app/main /app/
 COPY --from=builder /app/public /app/public
+COPY --from=builder /app/dist /app/dist
 
 EXPOSE 4001
 

@@ -1,8 +1,6 @@
 package db
 
 import (
-	"fmt"
-
 	"github.com/muhwyndhamhp/marknotes/config"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -11,13 +9,7 @@ import (
 var database *gorm.DB
 
 func init() {
-	dsn := fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s",
-		config.Get(config.DB_HOST),
-		config.Get(config.DB_PORT),
-		config.Get(config.DB_USER),
-		config.Get(config.DB_NAME),
-		config.Get(config.DB_PASSWORD),
-	)
+	dsn := config.Get("DATABASE_URL")
 
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {

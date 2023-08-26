@@ -91,7 +91,8 @@
     }
 
     strong {
-        @apply text-cyan-700 dark:text-cyan-400;
+        @apply text-indigo-700 dark:text-indigo-300;
+        @apply font-extrabold
     }
 
     em {

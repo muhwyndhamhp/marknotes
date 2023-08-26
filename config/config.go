@@ -1,11 +1,10 @@
 package config
 
 import (
-	"log"
+	"fmt"
 	"os"
 
 	"github.com/joho/godotenv"
-	"github.com/muhwyndhamhp/marknotes/utils/errs"
 )
 
 const (
@@ -27,7 +26,7 @@ const (
 
 func init() {
 	if err := godotenv.Load(ENV_FILE); err != nil {
-		log.Fatal(errs.Wrap(err))
+		fmt.Printf("Failed to load env file: %s\n", err)
 	}
 }
 

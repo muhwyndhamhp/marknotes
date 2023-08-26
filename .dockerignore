@@ -1,0 +1,324 @@
+# flyctl launch added from .gitignore
+**/.vscode
+**/vendor
+**/.env
+**/tmp
+**/postgres
+**/node_modules
+**/.pnpm-store
+**/.idea
+
+# flyctl launch added from .idea/.gitignore
+# Default ignored files
+.idea/shelf
+.idea/workspace.xml
+# Editor-based HTTP Client requests
+.idea/httpRequests
+# Datasource local storage ignored files
+.idea/dataSources
+.idea/dataSources.local.xml
+
+# flyctl launch added from vendor/github.com/alecthomas/chroma/v2/.gitignore
+# Binaries for programs and plugins
+vendor/github.com/alecthomas/chroma/v2/**/*.exe
+vendor/github.com/alecthomas/chroma/v2/**/*.dll
+vendor/github.com/alecthomas/chroma/v2/**/*.so
+vendor/github.com/alecthomas/chroma/v2/**/*.dylib
+vendor/github.com/alecthomas/chroma/v2/cmd/chroma/chroma
+
+# Test binary, build with `go test -c`
+vendor/github.com/alecthomas/chroma/v2/**/*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+vendor/github.com/alecthomas/chroma/v2/**/*.out
+
+# Project-local glide cache, RE: https://github.com/Masterminds/glide/issues/736
+vendor/github.com/alecthomas/chroma/v2/**/.glide
+
+vendor/github.com/alecthomas/chroma/v2/**/_models
+
+vendor/github.com/alecthomas/chroma/v2/**/_examples
+
+# flyctl launch added from vendor/github.com/apsystole/log/.gitignore
+# Binaries for programs and plugins
+vendor/github.com/apsystole/log/**/*.exe
+vendor/github.com/apsystole/log/**/*.exe~
+vendor/github.com/apsystole/log/**/*.dll
+vendor/github.com/apsystole/log/**/*.so
+vendor/github.com/apsystole/log/**/*.dylib
+
+# Test binary, built with `go test -c`
+vendor/github.com/apsystole/log/**/*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+vendor/github.com/apsystole/log/**/*.out
+
+# Dependency directories (remove the comment below to include it)
+# vendor/
+
+# flyctl launch added from vendor/github.com/dlclark/regexp2/.gitignore
+# Compiled Object files, Static and Dynamic libs (Shared Objects)
+vendor/github.com/dlclark/regexp2/**/*.o
+vendor/github.com/dlclark/regexp2/**/*.a
+vendor/github.com/dlclark/regexp2/**/*.so
+
+# Folders
+vendor/github.com/dlclark/regexp2/**/_obj
+vendor/github.com/dlclark/regexp2/**/_test
+
+# Architecture specific extensions/prefixes
+vendor/github.com/dlclark/regexp2/**/*.[568vq]
+vendor/github.com/dlclark/regexp2/**/[568vq].out
+
+vendor/github.com/dlclark/regexp2/**/*.cgo1.go
+vendor/github.com/dlclark/regexp2/**/*.cgo2.c
+vendor/github.com/dlclark/regexp2/**/_cgo_defun.c
+vendor/github.com/dlclark/regexp2/**/_cgo_gotypes.go
+vendor/github.com/dlclark/regexp2/**/_cgo_export.*
+
+vendor/github.com/dlclark/regexp2/**/_testmain.go
+
+vendor/github.com/dlclark/regexp2/**/*.exe
+vendor/github.com/dlclark/regexp2/**/*.test
+vendor/github.com/dlclark/regexp2/**/*.prof
+vendor/github.com/dlclark/regexp2/**/*.out
+
+vendor/github.com/dlclark/regexp2/**/.DS_Store
+
+# flyctl launch added from vendor/github.com/go-playground/locales/.gitignore
+# Compiled Object files, Static and Dynamic libs (Shared Objects)
+vendor/github.com/go-playground/locales/**/*.o
+vendor/github.com/go-playground/locales/**/*.a
+vendor/github.com/go-playground/locales/**/*.so
+
+# Folders
+vendor/github.com/go-playground/locales/**/_obj
+vendor/github.com/go-playground/locales/**/_test
+
+# Architecture specific extensions/prefixes
+vendor/github.com/go-playground/locales/**/*.[568vq]
+vendor/github.com/go-playground/locales/**/[568vq].out
+
+vendor/github.com/go-playground/locales/**/*.cgo1.go
+vendor/github.com/go-playground/locales/**/*.cgo2.c
+vendor/github.com/go-playground/locales/**/_cgo_defun.c
+vendor/github.com/go-playground/locales/**/_cgo_gotypes.go
+vendor/github.com/go-playground/locales/**/_cgo_export.*
+
+vendor/github.com/go-playground/locales/**/_testmain.go
+
+vendor/github.com/go-playground/locales/**/*.exe
+vendor/github.com/go-playground/locales/**/*.test
+vendor/github.com/go-playground/locales/**/*.prof
+
+# flyctl launch added from vendor/github.com/go-playground/universal-translator/.gitignore
+# Compiled Object files, Static and Dynamic libs (Shared Objects)
+vendor/github.com/go-playground/universal-translator/**/*.o
+vendor/github.com/go-playground/universal-translator/**/*.a
+vendor/github.com/go-playground/universal-translator/**/*.so
+
+# Folders
+vendor/github.com/go-playground/universal-translator/**/_obj
+vendor/github.com/go-playground/universal-translator/**/_test
+
+# Architecture specific extensions/prefixes
+vendor/github.com/go-playground/universal-translator/**/*.[568vq]
+vendor/github.com/go-playground/universal-translator/**/[568vq].out
+
+vendor/github.com/go-playground/universal-translator/**/*.cgo1.go
+vendor/github.com/go-playground/universal-translator/**/*.cgo2.c
+vendor/github.com/go-playground/universal-translator/**/_cgo_defun.c
+vendor/github.com/go-playground/universal-translator/**/_cgo_gotypes.go
+vendor/github.com/go-playground/universal-translator/**/_cgo_export.*
+
+vendor/github.com/go-playground/universal-translator/**/_testmain.go
+
+vendor/github.com/go-playground/universal-translator/**/*.exe
+vendor/github.com/go-playground/universal-translator/**/*.test
+vendor/github.com/go-playground/universal-translator/**/*.prof
+vendor/github.com/go-playground/universal-translator/**/*.coverprofile
+
+# flyctl launch added from vendor/github.com/go-playground/validator/v10/.gitignore
+# Compiled Object files, Static and Dynamic libs (Shared Objects)
+vendor/github.com/go-playground/validator/v10/**/*.o
+vendor/github.com/go-playground/validator/v10/**/*.a
+vendor/github.com/go-playground/validator/v10/**/*.so
+
+# Folders
+vendor/github.com/go-playground/validator/v10/**/_obj
+vendor/github.com/go-playground/validator/v10/**/_test
+vendor/github.com/go-playground/validator/v10/**/bin
+
+# Architecture specific extensions/prefixes
+vendor/github.com/go-playground/validator/v10/**/*.[568vq]
+vendor/github.com/go-playground/validator/v10/**/[568vq].out
+
+vendor/github.com/go-playground/validator/v10/**/*.cgo1.go
+vendor/github.com/go-playground/validator/v10/**/*.cgo2.c
+vendor/github.com/go-playground/validator/v10/**/_cgo_defun.c
+vendor/github.com/go-playground/validator/v10/**/_cgo_gotypes.go
+vendor/github.com/go-playground/validator/v10/**/_cgo_export.*
+
+vendor/github.com/go-playground/validator/v10/**/_testmain.go
+
+vendor/github.com/go-playground/validator/v10/**/*.exe
+vendor/github.com/go-playground/validator/v10/**/*.test
+vendor/github.com/go-playground/validator/v10/**/*.prof
+vendor/github.com/go-playground/validator/v10/**/*.test
+vendor/github.com/go-playground/validator/v10/**/*.out
+vendor/github.com/go-playground/validator/v10/**/*.txt
+vendor/github.com/go-playground/validator/v10/**/*.DS_Store
+vendor/github.com/go-playground/validator/v10/**/cover.html
+vendor/github.com/go-playground/validator/v10/**/README.html
+vendor/github.com/go-playground/validator/v10/**/.idea
+
+# flyctl launch added from vendor/github.com/golang-jwt/jwt/.gitignore
+vendor/github.com/golang-jwt/jwt/**/.DS_Store
+vendor/github.com/golang-jwt/jwt/**/bin
+vendor/github.com/golang-jwt/jwt/**/.idea
+
+
+# flyctl launch added from vendor/github.com/golang-jwt/jwt/v5/.gitignore
+vendor/github.com/golang-jwt/jwt/v5/**/.DS_Store
+vendor/github.com/golang-jwt/jwt/v5/**/bin
+vendor/github.com/golang-jwt/jwt/v5/**/.idea
+
+
+# flyctl launch added from vendor/github.com/jackc/pgx/v5/.gitignore
+# Compiled Object files, Static and Dynamic libs (Shared Objects)
+vendor/github.com/jackc/pgx/v5/**/*.o
+vendor/github.com/jackc/pgx/v5/**/*.a
+vendor/github.com/jackc/pgx/v5/**/*.so
+
+# Folders
+vendor/github.com/jackc/pgx/v5/**/_obj
+vendor/github.com/jackc/pgx/v5/**/_test
+
+# Architecture specific extensions/prefixes
+vendor/github.com/jackc/pgx/v5/**/*.[568vq]
+vendor/github.com/jackc/pgx/v5/**/[568vq].out
+
+vendor/github.com/jackc/pgx/v5/**/*.cgo1.go
+vendor/github.com/jackc/pgx/v5/**/*.cgo2.c
+vendor/github.com/jackc/pgx/v5/**/_cgo_defun.c
+vendor/github.com/jackc/pgx/v5/**/_cgo_gotypes.go
+vendor/github.com/jackc/pgx/v5/**/_cgo_export.*
+
+vendor/github.com/jackc/pgx/v5/**/_testmain.go
+
+vendor/github.com/jackc/pgx/v5/**/*.exe
+
+vendor/github.com/jackc/pgx/v5/**/.envrc
+vendor/github.com/jackc/pgx/v5/.testdb
+
+vendor/github.com/jackc/pgx/v5/**/.DS_Store
+
+# flyctl launch added from vendor/github.com/joho/godotenv/.gitignore
+vendor/github.com/joho/godotenv/**/.DS_Store
+
+# flyctl launch added from vendor/github.com/labstack/echo/v4/.gitignore
+vendor/github.com/labstack/echo/v4/**/.DS_Store
+vendor/github.com/labstack/echo/v4/**/coverage.txt
+vendor/github.com/labstack/echo/v4/**/_test
+vendor/github.com/labstack/echo/v4/**/vendor
+vendor/github.com/labstack/echo/v4/**/.idea
+vendor/github.com/labstack/echo/v4/**/*.iml
+vendor/github.com/labstack/echo/v4/**/*.out
+vendor/github.com/labstack/echo/v4/**/.vscode
+
+# flyctl launch added from vendor/github.com/leodido/go-urn/.gitignore
+vendor/github.com/leodido/go-urn/**/*.exe
+vendor/github.com/leodido/go-urn/**/*.dll
+vendor/github.com/leodido/go-urn/**/*.so
+vendor/github.com/leodido/go-urn/**/*.dylib
+
+vendor/github.com/leodido/go-urn/**/*.test
+
+vendor/github.com/leodido/go-urn/**/*.out
+vendor/github.com/leodido/go-urn/**/*.txt
+
+vendor/github.com/leodido/go-urn/**/vendor
+vendor/github.com/leodido/go-urn/removecomments
+
+# flyctl launch added from vendor/github.com/pkg/errors/.gitignore
+# Compiled Object files, Static and Dynamic libs (Shared Objects)
+vendor/github.com/pkg/errors/**/*.o
+vendor/github.com/pkg/errors/**/*.a
+vendor/github.com/pkg/errors/**/*.so
+
+# Folders
+vendor/github.com/pkg/errors/**/_obj
+vendor/github.com/pkg/errors/**/_test
+
+# Architecture specific extensions/prefixes
+vendor/github.com/pkg/errors/**/*.[568vq]
+vendor/github.com/pkg/errors/**/[568vq].out
+
+vendor/github.com/pkg/errors/**/*.cgo1.go
+vendor/github.com/pkg/errors/**/*.cgo2.c
+vendor/github.com/pkg/errors/**/_cgo_defun.c
+vendor/github.com/pkg/errors/**/_cgo_gotypes.go
+vendor/github.com/pkg/errors/**/_cgo_export.*
+
+vendor/github.com/pkg/errors/**/_testmain.go
+
+vendor/github.com/pkg/errors/**/*.exe
+vendor/github.com/pkg/errors/**/*.test
+vendor/github.com/pkg/errors/**/*.prof
+
+# flyctl launch added from vendor/github.com/yuin/goldmark/.gitignore
+# Binaries for programs and plugins
+vendor/github.com/yuin/goldmark/**/*.exe
+vendor/github.com/yuin/goldmark/**/*.exe~
+vendor/github.com/yuin/goldmark/**/*.dll
+vendor/github.com/yuin/goldmark/**/*.so
+vendor/github.com/yuin/goldmark/**/*.dylib
+
+# Test binary, build with `go test -c`
+vendor/github.com/yuin/goldmark/**/*.test
+vendor/github.com/yuin/goldmark/**/*.pprof
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+vendor/github.com/yuin/goldmark/**/*.out
+
+vendor/github.com/yuin/goldmark/**/.DS_Store
+vendor/github.com/yuin/goldmark/**/fuzz/corpus
+vendor/github.com/yuin/goldmark/**/fuzz/crashers
+vendor/github.com/yuin/goldmark/**/fuzz/suppressions
+vendor/github.com/yuin/goldmark/**/fuzz/fuzz-fuzz.zip
+
+# flyctl launch added from vendor/github.com/yuin/goldmark-highlighting/v2/.gitignore
+# Binaries for programs and plugins
+vendor/github.com/yuin/goldmark-highlighting/v2/**/*.exe
+vendor/github.com/yuin/goldmark-highlighting/v2/**/*.exe~
+vendor/github.com/yuin/goldmark-highlighting/v2/**/*.dll
+vendor/github.com/yuin/goldmark-highlighting/v2/**/*.so
+vendor/github.com/yuin/goldmark-highlighting/v2/**/*.dylib
+
+# Test binary, build with `go test -c`
+vendor/github.com/yuin/goldmark-highlighting/v2/**/*.test
+vendor/github.com/yuin/goldmark-highlighting/v2/**/*.pprof
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+vendor/github.com/yuin/goldmark-highlighting/v2/**/*.out
+
+# flyctl launch added from vendor/golang.org/x/net/http2/.gitignore
+vendor/golang.org/x/net/http2/**/*~
+vendor/golang.org/x/net/http2/**/h2i/h2i
+
+# flyctl launch added from vendor/golang.org/x/sys/unix/.gitignore
+vendor/golang.org/x/sys/unix/**/_obj
+vendor/golang.org/x/sys/unix/**/unix.test
+
+# flyctl launch added from vendor/gorm.io/driver/postgres/.gitignore
+vendor/gorm.io/driver/postgres/**/.idea
+
+# flyctl launch added from vendor/gorm.io/gorm/.gitignore
+vendor/gorm.io/gorm/**/TODO*
+vendor/gorm.io/gorm/**/documents
+vendor/gorm.io/gorm/**/coverage.txt
+vendor/gorm.io/gorm/**/_book
+vendor/gorm.io/gorm/**/.idea
+vendor/gorm.io/gorm/**/vendor
+vendor/gorm.io/gorm/**/.vscode
+fly.toml

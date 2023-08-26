@@ -90,7 +90,9 @@ func (fe *PostFrontend) PostsManage(c echo.Context) error {
 		resp["UserID"] = claims.UserID
 	}
 
-	posts[len(posts)-1].AppendFormMeta(2, false, "")
+	if len(posts) > 0 {
+		posts[len(posts)-1].AppendFormMeta(2, false, "")
+	}
 
 	return c.Render(http.StatusOK, "posts_index", resp)
 }
@@ -216,7 +218,9 @@ func (fe *PostFrontend) PostsIndex(c echo.Context) error {
 		resp["UserID"] = claims.UserID
 	}
 
-	posts[len(posts)-1].AppendFormMeta(2, true, "published_at")
+	if len(posts) > 0 {
+		posts[len(posts)-1].AppendFormMeta(2, true, "published_at")
+	}
 
 	return c.Render(http.StatusOK, "posts_index", resp)
 }
@@ -238,6 +242,11 @@ func (fe *PostFrontend) GetPostByID(c echo.Context) error {
 		post.FormMeta = map[string]interface{}{
 			"UserID": claims.UserID,
 		}
+	}
+
+	if post.Status == values.Draft &&
+		(claims == nil || claims.UserID == 0) {
+		return c.Redirect(http.StatusFound, "/")
 	}
 
 	return c.Render(http.StatusOK, "posts_detail", post)

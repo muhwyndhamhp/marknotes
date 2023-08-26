@@ -19,7 +19,6 @@ import (
 )
 
 func main() {
-
 	e := echo.New()
 	routing.SetupRouter(e)
 
