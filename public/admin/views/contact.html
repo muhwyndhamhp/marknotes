@@ -1,0 +1,30 @@
+{{define "contact"}}
+<!DOCTYPE html>
+<html>
+
+<head>
+    {{template "head_tags"}}
+    <title>mwyndham.dev</title>
+</head>
+
+<body id="admin-root">
+    <div class="{{template "style_root_div"}} text-center px-8">
+        {{template "admin_header" .}}
+        <br>
+        <div id="admin-content" class="text-justify lg:px-32 xs:px-8 md:px-24">
+            <h2>Contact Me!</h1>
+            <p class="text-start">You can find me on the followings socials</p>
+            <ul>
+                <li><a href="https://www.linkedin.com/in/muhammad-wyndham-haryata-permana-b43ab2134/">LinkedIn</a></li>
+                <li><a href="https://www.github.com/muhwyndhamhp">GitHub</a></li>
+                <li><a href="https://mwyndham.medium.com">Medium</a></li>
+            </ul>
+            <p class="text-start">Or via good old email via <a href="mailto:wyndham.haryata.p@outlook.com">wyndham.haryata.p@outlook.com</a></p>
+        </div>
+        <br>
+        {{template "admin_footer" .}}
+    </div>
+</body>
+
+</html>
+{{end}}

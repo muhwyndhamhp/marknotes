@@ -9,9 +9,9 @@ module.exports = {
       ...defaultTheme.screens,
     },
     fontFamily: {
-      'sans': ['JetBrains Mono', 'sans-serif'],
+      'sans': ['Overpass Mono', 'sans-serif'],
       'serif': ['Spicy Kebab', 'serif'],
-      'mono': ['JetBrains Mono', 'mono'],
+      'mono': ['Overpass Mono', 'mono'],
     },
     extend: {},
   },

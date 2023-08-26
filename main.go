@@ -47,7 +47,7 @@ func main() {
 	authMid := service.AuthMiddleware()
 	authDescMid := service.AuthDescribeMiddleware()
 
-	admin.NewAdminFrontend(adminGroup, postRepo)
+	admin.NewAdminFrontend(adminGroup, postRepo, authDescMid)
 	post.NewPostFrontend(adminGroup, postRepo, htmxMid, authMid, authDescMid)
 	auth.NewAuthService(adminGroup, service, config.Get(config.OAUTH_AUTHORIZE_URL),
 		config.Get(config.OAUTH_ACCESSTOKEN_URL),

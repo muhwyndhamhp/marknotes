@@ -330,6 +330,6 @@ func (fe *PostFrontend) PostCreate(c echo.Context) error {
 		return err
 	}
 
-	c.Response().Header().Set("Hx-Redirect", "/")
+	c.Response().Header().Set("Hx-Redirect", fmt.Sprintf("/posts/%d", post.ID))
 	return c.JSON(http.StatusOK, nil)
 }

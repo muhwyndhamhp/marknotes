@@ -1,4 +1,4 @@
-@import url('https://fonts.cdnfonts.com/css/jetbrains-mono-2');
+@import url('https://fonts.cdnfonts.com/css/overpass-mono');
 @import url('https://fonts.cdnfonts.com/css/spicy-kebab');
 @tailwind base;
 @tailwind components;
@@ -11,6 +11,7 @@
         list-style: revert;
         @apply pl-8;
         @apply pr-4;
+        @apply select-text;
     }
 
     html {
@@ -21,6 +22,7 @@
         padding: 0pt;
         margin: 0pt;
         height: 100%;
+        @apply select-text;
     }
     body {
         @apply text-base;
@@ -30,6 +32,7 @@
         padding: 0pt;
         margin: 0pt;
         height: 100%;
+        @apply select-text;
     }
 
     .minor {
@@ -84,6 +87,7 @@
     p {
         @apply mt-4;
         @apply mb-2;
+        @apply select-text;
     }
 
     strong {
@@ -113,7 +117,7 @@
 
     a:hover {
         text-decoration: none;
-        @apply bg-clip-text text-transparent bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400;
+        @apply bg-clip-text text-transparent bg-gradient-to-r from-pink-800 via-purple-800 to-indigo-800;
         @apply dark:from-pink-200 dark:via-purple-200 dark:to-indigo-200;
     }
 
