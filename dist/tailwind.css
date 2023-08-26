@@ -427,7 +427,7 @@ video {
 }
 
 html{
-  font-size: 20px;
+  font-size: 16px;
 }
 
 ul,
@@ -438,7 +438,7 @@ ul,
 }
 
 html {
-  font-size: 18px;
+  font-size: 16px;
 }
 
 @media (prefers-color-scheme: dark){
@@ -1000,6 +1000,16 @@ a:active {
 .bg-white{
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+
+.bg-slate-400{
+  --tw-bg-opacity: 1;
+  background-color: rgb(148 163 184 / var(--tw-bg-opacity));
+}
+
+.bg-slate-700{
+  --tw-bg-opacity: 1;
+  background-color: rgb(51 65 85 / var(--tw-bg-opacity));
 }
 
 .p-2{

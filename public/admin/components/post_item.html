@@ -1,6 +1,6 @@
 {{define "post_item"}}
 <div {{if .FormMeta.IsLastItem}}
-    hx-get="/posts?page={{.FormMeta.Page}}&pageSize=10{{if .FormMeta.PublishedOnly}}&status=published{{end}}"
+    hx-get="/posts?page={{.FormMeta.Page}}&pageSize=10{{if .FormMeta.PublishedOnly}}&status=published{{end}}{{if .FormMeta.SortQuery}}&sortBy={{.FormMeta.SortQuery}}{{end}}"
     hx-trigger="revealed" hx-swap="afterend" {{end}}>
     <div
         class="bg-slate-200 dark:bg-slate-900 rounded-md p-4 xl:w-3/5 lg:w-4/5 sm:w-4/5 xs:w-10/12 self-center mx-auto px-auto my-4">

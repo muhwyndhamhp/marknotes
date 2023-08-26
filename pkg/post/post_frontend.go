@@ -74,7 +74,7 @@ func (fe *PostFrontend) PostsManage(c echo.Context) error {
 	ctx := c.Request().Context()
 	posts, err := fe.repo.Get(ctx,
 		scopes.Paginate(1, 10),
-		scopes.OrderBy("published_at", scopes.Descending),
+		scopes.OrderBy("created_at", scopes.Descending),
 	)
 
 	if err != nil {
@@ -90,7 +90,7 @@ func (fe *PostFrontend) PostsManage(c echo.Context) error {
 		resp["UserID"] = claims.UserID
 	}
 
-	posts[len(posts)-1].AppendFormMeta(2, false)
+	posts[len(posts)-1].AppendFormMeta(2, false, "")
 
 	return c.Render(http.StatusOK, "posts_index", resp)
 }
@@ -216,7 +216,7 @@ func (fe *PostFrontend) PostsIndex(c echo.Context) error {
 		resp["UserID"] = claims.UserID
 	}
 
-	posts[len(posts)-1].AppendFormMeta(2, true)
+	posts[len(posts)-1].AppendFormMeta(2, true, "published_at")
 
 	return c.Render(http.StatusOK, "posts_index", resp)
 }
@@ -247,21 +247,29 @@ func (fe *PostFrontend) PostsGet(c echo.Context) error {
 	ctx := c.Request().Context()
 	page, _ := strconv.Atoi(c.QueryParam(constants.PAGE))
 	pageSize, _ := strconv.Atoi(c.QueryParam(constants.PAGE_SIZE))
+	sortBy := c.QueryParam(constants.SORT_BY)
 	statusStr := c.QueryParam(constants.STATUS)
 	status := values.PostStatus(statusStr)
 
-	posts, err := fe.repo.Get(ctx,
+	query := []scopes.QueryScope{
 		scopes.Paginate(page, pageSize),
-		scopes.OrderBy("published_at", scopes.Descending),
 		scopes.WithStatus(status),
-	)
+	}
+
+	if sortBy != "" {
+		query = append(query, scopes.OrderBy(sortBy, scopes.Descending))
+	} else {
+		query = append(query, scopes.OrderBy("created_at", scopes.Descending))
+	}
+
+	posts, err := fe.repo.Get(ctx, query...)
 	if err != nil {
 		return err
 	}
 
 	onlyPublised := status == values.Published
 	if len(posts) > 0 {
-		posts[len(posts)-1].AppendFormMeta(page+1, onlyPublised)
+		posts[len(posts)-1].AppendFormMeta(page+1, onlyPublised, sortBy)
 	}
 
 	return c.Render(http.StatusOK, "post_list", posts)

@@ -27,10 +27,11 @@ type PostRepository interface {
 	Delete(ctx context.Context, id uint) error
 }
 
-func (m *Post) AppendFormMeta(page int, onlyPublished bool) {
+func (m *Post) AppendFormMeta(page int, onlyPublished bool, sortQuery string) {
 	m.FormMeta = map[string]interface{}{
 		"IsLastItem":    true,
 		"Page":          page,
 		"PublishedOnly": onlyPublished,
+		"SortQuery":     sortQuery,
 	}
 }

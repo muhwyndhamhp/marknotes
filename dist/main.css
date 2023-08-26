@@ -14,7 +14,7 @@
     }
 
     html {
-        font-size: 18px;
+        font-size: 16px;
         @apply dark:text-slate-200;
         @apply bg-slate-100;
         @apply dark:bg-slate-800;
