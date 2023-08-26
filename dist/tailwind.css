@@ -851,6 +851,18 @@ a:active {
   margin-top: 1.5rem;
 }
 
+.mt-32{
+  margin-top: 8rem;
+}
+
+.mt-24{
+  margin-top: 6rem;
+}
+
+.mt-20{
+  margin-top: 5rem;
+}
+
 .inline-block{
   display: inline-block;
 }
@@ -863,12 +875,28 @@ a:active {
   display: flex;
 }
 
+.h-32{
+  height: 8rem;
+}
+
 .h-96{
   height: 24rem;
 }
 
 .h-full{
   height: 100%;
+}
+
+.h-24{
+  height: 6rem;
+}
+
+.h-12{
+  height: 3rem;
+}
+
+.h-16{
+  height: 4rem;
 }
 
 .w-10\/12{
@@ -932,6 +960,11 @@ a:active {
   border-color: transparent;
 }
 
+.bg-black{
+  --tw-bg-opacity: 1;
+  background-color: rgb(0 0 0 / var(--tw-bg-opacity));
+}
+
 .bg-slate-200{
   --tw-bg-opacity: 1;
   background-color: rgb(226 232 240 / var(--tw-bg-opacity));
@@ -952,6 +985,21 @@ a:active {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
+.bg-slate-700{
+  --tw-bg-opacity: 1;
+  background-color: rgb(51 65 85 / var(--tw-bg-opacity));
+}
+
+.bg-slate-900{
+  --tw-bg-opacity: 1;
+  background-color: rgb(15 23 42 / var(--tw-bg-opacity));
+}
+
+.bg-slate-100{
+  --tw-bg-opacity: 1;
+  background-color: rgb(241 245 249 / var(--tw-bg-opacity));
+}
+
 .p-2{
   padding: 0.5rem;
 }
@@ -967,6 +1015,18 @@ a:active {
 .px-8{
   padding-left: 2rem;
   padding-right: 2rem;
+}
+
+.pt-8{
+  padding-top: 2rem;
+}
+
+.pt-4{
+  padding-top: 1rem;
+}
+
+.pt-2{
+  padding-top: 0.5rem;
 }
 
 .text-center{
