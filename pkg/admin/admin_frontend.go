@@ -17,8 +17,13 @@ func NewAdminFrontend(g *echo.Group, repo models.PostRepository) {
 	}
 
 	g.GET("", fe.Index)
+	g.GET("/unauthorized", fe.Unauthorized)
 }
 
 func (fe *AdminFrontend) Index(c echo.Context) error {
 	return c.Redirect(http.StatusMovedPermanently, "/posts_index")
+}
+
+func (fe *AdminFrontend) Unauthorized(c echo.Context) error {
+	return c.Render(http.StatusOK, "unauthorized", nil)
 }

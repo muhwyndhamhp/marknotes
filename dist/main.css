@@ -103,6 +103,8 @@
 
     a:link {
         text-decoration: none;
+        @apply bg-clip-text text-transparent bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600;
+        @apply dark:from-pink-400 dark:via-purple-400 dark:to-indigo-400;
     }
 
     a:visited {
@@ -111,6 +113,8 @@
 
     a:hover {
         text-decoration: none;
+        @apply bg-clip-text text-transparent bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400;
+        @apply dark:from-pink-200 dark:via-purple-200 dark:to-indigo-200;
     }
 
     a:active {

@@ -90,9 +90,9 @@ func (h *AuthService) Callback(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusUnauthorized, err)
 	}
-	user, err := h.Repo.GetByOauthID(ctx, fmt.Sprintf("%d", oauthUser.ID))
-	if err != nil {
-		return err
+	user, _ := h.Repo.GetByOauthID(ctx, fmt.Sprintf("%d", oauthUser.ID))
+	if user == nil {
+		return c.Redirect(http.StatusFound, "/unauthorized")
 	}
 
 	if err := h.JWT.GenerateTokenAndStore(c, user.ID, user.Name); err != nil {

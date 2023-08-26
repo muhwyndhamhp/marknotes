@@ -3,6 +3,7 @@ package models
 import (
 	"context"
 	"html/template"
+	"time"
 
 	"github.com/muhwyndhamhp/marknotes/pkg/post/values"
 	"github.com/muhwyndhamhp/marknotes/utils/scopes"
@@ -15,6 +16,7 @@ type Post struct {
 	Content        string
 	EncodedContent template.HTML
 	Status         values.PostStatus
+	PublishedAt    time.Time
 	FormMeta       map[string]interface{} `gorm:"-"`
 }
 

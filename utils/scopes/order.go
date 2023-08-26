@@ -9,8 +9,8 @@ import (
 type Direction string
 
 const (
-	Ascending  Direction = "ASC"
-	Descending Direction = "DESC"
+	Ascending  Direction = "asc"
+	Descending Direction = "desc"
 )
 
 func OrderBy(field string, direction Direction) QueryScope {

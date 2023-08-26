@@ -1,10 +1,12 @@
 package post
 
 import (
+	"fmt"
 	"html/template"
 	"net/http"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/labstack/echo/v4"
 	"github.com/muhwyndhamhp/marknotes/pkg/admin/dto"
@@ -65,14 +67,14 @@ func (fe *PostFrontend) PostDraft(c echo.Context) error {
 		return err
 	}
 
-	return c.Render(http.StatusOK, "posts_detail", post)
+	return c.Redirect(http.StatusFound, fmt.Sprintf("/posts/%d", post.ID))
 }
 
 func (fe *PostFrontend) PostsManage(c echo.Context) error {
 	ctx := c.Request().Context()
 	posts, err := fe.repo.Get(ctx,
 		scopes.Paginate(1, 10),
-		scopes.OrderBy("created_at", scopes.Descending),
+		scopes.OrderBy("published_at", scopes.Descending),
 	)
 
 	if err != nil {
@@ -105,12 +107,13 @@ func (fe *PostFrontend) PostPublish(c echo.Context) error {
 	}
 
 	post.Status = values.Published
+	post.PublishedAt = time.Now()
 
 	if err = fe.repo.Upsert(ctx, post); err != nil {
 		return err
 	}
 
-	return c.Render(http.StatusOK, "posts_detail", post)
+	return c.Redirect(http.StatusFound, fmt.Sprintf("/posts/%d", post.ID))
 }
 
 func (fe *PostFrontend) PostDelete(c echo.Context) error {
@@ -165,8 +168,9 @@ func (fe *PostFrontend) PostUpdate(c echo.Context) error {
 		return err
 	}
 
-	return c.Render(http.StatusOK, "posts_detail", post)
+	return c.Redirect(http.StatusFound, fmt.Sprintf("/posts/%d", post.ID))
 }
+
 func (fe *PostFrontend) PostEdit(c echo.Context) error {
 	ctx := c.Request().Context()
 	id, _ := strconv.Atoi(c.Param("id"))
@@ -195,7 +199,7 @@ func (fe *PostFrontend) PostsIndex(c echo.Context) error {
 
 	posts, err := fe.repo.Get(ctx,
 		scopes.Paginate(1, 10),
-		scopes.OrderBy("created_at", scopes.Descending),
+		scopes.OrderBy("published_at", scopes.Descending),
 		scopes.WithStatus(values.Published),
 	)
 
@@ -248,7 +252,7 @@ func (fe *PostFrontend) PostsGet(c echo.Context) error {
 
 	posts, err := fe.repo.Get(ctx,
 		scopes.Paginate(page, pageSize),
-		scopes.OrderBy("created_at", scopes.Descending),
+		scopes.OrderBy("published_at", scopes.Descending),
 		scopes.WithStatus(status),
 	)
 	if err != nil {

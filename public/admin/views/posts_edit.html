@@ -16,6 +16,7 @@
                 {{template "post_form" .}}
                 <button hx-post="/posts/{{.ID}}/update" hx-target="#admin-root"
                     hx-include="#form-post" hx-swap="innerHTML"
+                    hx-push-url="true"
                     class="{{template "style_button_primary_rounded"}} mx-2">
                     Submit
                 </button>

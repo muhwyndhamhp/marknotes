@@ -687,6 +687,27 @@ input,
 
 a:link {
   text-decoration: none;
+  background-image: linear-gradient(to right, var(--tw-gradient-stops));
+  --tw-gradient-from: #db2777 var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(219 39 119 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+  --tw-gradient-to: rgb(147 51 234 / 0)  var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), #9333ea var(--tw-gradient-via-position), var(--tw-gradient-to);
+  --tw-gradient-to: #4f46e5 var(--tw-gradient-to-position);
+  -webkit-background-clip: text;
+          background-clip: text;
+  color: transparent;
+}
+
+@media (prefers-color-scheme: dark){
+  a:link{
+    --tw-gradient-from: #f472b6 var(--tw-gradient-from-position);
+    --tw-gradient-to: rgb(244 114 182 / 0) var(--tw-gradient-to-position);
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+    --tw-gradient-to: rgb(192 132 252 / 0)  var(--tw-gradient-to-position);
+    --tw-gradient-stops: var(--tw-gradient-from), #c084fc var(--tw-gradient-via-position), var(--tw-gradient-to);
+    --tw-gradient-to: #818cf8 var(--tw-gradient-to-position);
+  }
 }
 
 a:visited {
@@ -695,6 +716,27 @@ a:visited {
 
 a:hover {
   text-decoration: none;
+  background-image: linear-gradient(to right, var(--tw-gradient-stops));
+  --tw-gradient-from: #f472b6 var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(244 114 182 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+  --tw-gradient-to: rgb(192 132 252 / 0)  var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), #c084fc var(--tw-gradient-via-position), var(--tw-gradient-to);
+  --tw-gradient-to: #818cf8 var(--tw-gradient-to-position);
+  -webkit-background-clip: text;
+          background-clip: text;
+  color: transparent;
+}
+
+@media (prefers-color-scheme: dark){
+  a:hover{
+    --tw-gradient-from: #fbcfe8 var(--tw-gradient-from-position);
+    --tw-gradient-to: rgb(251 207 232 / 0) var(--tw-gradient-to-position);
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+    --tw-gradient-to: rgb(233 213 255 / 0)  var(--tw-gradient-to-position);
+    --tw-gradient-stops: var(--tw-gradient-from), #e9d5ff var(--tw-gradient-via-position), var(--tw-gradient-to);
+    --tw-gradient-to: #c7d2fe var(--tw-gradient-to-position);
+  }
 }
 
 a:active {
@@ -843,24 +885,16 @@ a:active {
   margin-top: 0.25rem;
 }
 
+.mt-20{
+  margin-top: 5rem;
+}
+
 .mt-4{
   margin-top: 1rem;
 }
 
 .mt-6{
   margin-top: 1.5rem;
-}
-
-.mt-32{
-  margin-top: 8rem;
-}
-
-.mt-24{
-  margin-top: 6rem;
-}
-
-.mt-20{
-  margin-top: 5rem;
 }
 
 .inline-block{
@@ -875,8 +909,8 @@ a:active {
   display: flex;
 }
 
-.h-32{
-  height: 8rem;
+.h-16{
+  height: 4rem;
 }
 
 .h-96{
@@ -885,18 +919,6 @@ a:active {
 
 .h-full{
   height: 100%;
-}
-
-.h-24{
-  height: 6rem;
-}
-
-.h-12{
-  height: 3rem;
-}
-
-.h-16{
-  height: 4rem;
 }
 
 .w-10\/12{
@@ -960,11 +982,6 @@ a:active {
   border-color: transparent;
 }
 
-.bg-black{
-  --tw-bg-opacity: 1;
-  background-color: rgb(0 0 0 / var(--tw-bg-opacity));
-}
-
 .bg-slate-200{
   --tw-bg-opacity: 1;
   background-color: rgb(226 232 240 / var(--tw-bg-opacity));
@@ -985,21 +1002,6 @@ a:active {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
-.bg-slate-700{
-  --tw-bg-opacity: 1;
-  background-color: rgb(51 65 85 / var(--tw-bg-opacity));
-}
-
-.bg-slate-900{
-  --tw-bg-opacity: 1;
-  background-color: rgb(15 23 42 / var(--tw-bg-opacity));
-}
-
-.bg-slate-100{
-  --tw-bg-opacity: 1;
-  background-color: rgb(241 245 249 / var(--tw-bg-opacity));
-}
-
 .p-2{
   padding: 0.5rem;
 }
@@ -1015,14 +1017,6 @@ a:active {
 .px-8{
   padding-left: 2rem;
   padding-right: 2rem;
-}
-
-.pt-8{
-  padding-top: 2rem;
-}
-
-.pt-4{
-  padding-top: 1rem;
 }
 
 .pt-2{
@@ -1192,7 +1186,17 @@ a:active {
     width: 60%;
   }
 
+  .lg\:w-4\/5{
+    width: 80%;
+  }
+
   .lg\:max-w-3xl{
     max-width: 48rem;
+  }
+}
+
+@media (min-width: 1280px){
+  .xl\:w-3\/5{
+    width: 60%;
   }
 }
