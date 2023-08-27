@@ -4,17 +4,17 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
-	"strconv"
 	"strings"
 	"time"
 
 	"github.com/labstack/echo/v4"
+	"github.com/muhwyndhamhp/marknotes/middlewares"
 	"github.com/muhwyndhamhp/marknotes/pkg/admin/dto"
 	"github.com/muhwyndhamhp/marknotes/pkg/models"
 	"github.com/muhwyndhamhp/marknotes/pkg/post/values"
-	"github.com/muhwyndhamhp/marknotes/utils/constants"
 	"github.com/muhwyndhamhp/marknotes/utils/jwt"
 	"github.com/muhwyndhamhp/marknotes/utils/markd"
+	"github.com/muhwyndhamhp/marknotes/utils/params"
 	"github.com/muhwyndhamhp/marknotes/utils/scopes"
 )
 
@@ -27,7 +27,8 @@ func NewPostFrontend(g *echo.Group,
 	repo models.PostRepository,
 	htmxMid echo.MiddlewareFunc,
 	authMid echo.MiddlewareFunc,
-	authDescribeMid echo.MiddlewareFunc) {
+	authDescribeMid echo.MiddlewareFunc,
+	byIDMiddleware echo.MiddlewareFunc) {
 	fe := &PostFrontend{
 		repo:    repo,
 		htmxMid: htmxMid,
@@ -41,20 +42,17 @@ func NewPostFrontend(g *echo.Group,
 	g.POST("/posts/create", fe.PostCreate, htmxMid, authMid)
 	g.POST("/posts/render", fe.RenderMarkdown, htmxMid, authMid)
 
-	g.GET("/posts/:id", fe.GetPostByID, authDescribeMid)
-	g.GET("/posts/:id/edit", fe.PostEdit, authMid)
-	g.POST("/posts/:id/update", fe.PostUpdate, htmxMid, authMid)
-	g.GET("/posts/:id/delete", fe.PostDelete, htmxMid, authMid)
-	g.GET("/posts/:id/publish", fe.PostPublish, htmxMid, authMid)
-	g.GET("/posts/:id/draft", fe.PostDraft, htmxMid)
+	g.GET("/posts/:id", fe.GetPostByID, authDescribeMid, byIDMiddleware)
+	g.GET("/posts/:id/edit", fe.PostEdit, authMid, byIDMiddleware)
+	g.POST("/posts/:id/update", fe.PostUpdate, htmxMid, authMid, byIDMiddleware)
+	g.GET("/posts/:id/delete", fe.PostDelete, htmxMid, authMid, byIDMiddleware)
+	g.GET("/posts/:id/publish", fe.PostPublish, htmxMid, authMid, byIDMiddleware)
+	g.GET("/posts/:id/draft", fe.PostDraft, htmxMid, byIDMiddleware)
 }
 
 func (fe *PostFrontend) PostDraft(c echo.Context) error {
 	ctx := c.Request().Context()
-	id, _ := strconv.Atoi(c.Param("id"))
-	if id <= 0 {
-		return c.JSON(http.StatusBadRequest, nil)
-	}
+	id, _ := c.Get(middlewares.ByIDKey).(int)
 
 	post, err := fe.repo.GetByID(ctx, uint(id))
 	if err != nil {
@@ -84,11 +82,7 @@ func (fe *PostFrontend) PostsManage(c echo.Context) error {
 		"Posts": posts,
 	}
 
-	claims, _ := c.Get(jwt.AuthClaimKey).(*jwt.Claims)
-
-	if claims != nil {
-		resp["UserID"] = claims.UserID
-	}
+	jwt.AppendUserID(c, resp)
 
 	if len(posts) > 0 {
 		posts[len(posts)-1].AppendFormMeta(2, false, "")
@@ -98,10 +92,7 @@ func (fe *PostFrontend) PostsManage(c echo.Context) error {
 }
 func (fe *PostFrontend) PostPublish(c echo.Context) error {
 	ctx := c.Request().Context()
-	id, _ := strconv.Atoi(c.Param("id"))
-	if id <= 0 {
-		return c.JSON(http.StatusBadRequest, nil)
-	}
+	id, _ := c.Get(middlewares.ByIDKey).(int)
 
 	post, err := fe.repo.GetByID(ctx, uint(id))
 	if err != nil {
@@ -120,10 +111,7 @@ func (fe *PostFrontend) PostPublish(c echo.Context) error {
 
 func (fe *PostFrontend) PostDelete(c echo.Context) error {
 	ctx := c.Request().Context()
-	id, _ := strconv.Atoi(c.Param("id"))
-	if id <= 0 {
-		return c.JSON(http.StatusBadRequest, nil)
-	}
+	id, _ := c.Get(middlewares.ByIDKey).(int)
 
 	if err := fe.repo.Delete(ctx, uint(id)); err != nil {
 		return err
@@ -135,10 +123,7 @@ func (fe *PostFrontend) PostDelete(c echo.Context) error {
 
 func (fe *PostFrontend) PostUpdate(c echo.Context) error {
 	ctx := c.Request().Context()
-	id, _ := strconv.Atoi(c.Param("id"))
-	if id <= 0 {
-		return c.JSON(http.StatusBadRequest, nil)
-	}
+	id, _ := c.Get(middlewares.ByIDKey).(int)
 
 	var req dto.PostCreateRequest
 
@@ -175,23 +160,15 @@ func (fe *PostFrontend) PostUpdate(c echo.Context) error {
 
 func (fe *PostFrontend) PostEdit(c echo.Context) error {
 	ctx := c.Request().Context()
-	id, _ := strconv.Atoi(c.Param("id"))
-	if id <= 0 {
-		return c.JSON(http.StatusBadRequest, nil)
-	}
+	id, _ := c.Get(middlewares.ByIDKey).(int)
 
 	post, err := fe.repo.GetByID(ctx, uint(id))
 	if err != nil {
 		return err
 	}
 
-	claims, _ := c.Get(jwt.AuthClaimKey).(*jwt.Claims)
-
-	if claims != nil {
-		post.FormMeta = map[string]interface{}{
-			"UserID": claims.UserID,
-		}
-	}
+	post.FormMeta = map[string]interface{}{}
+	jwt.AppendUserID(c, post.FormMeta)
 
 	return c.Render(http.StatusOK, "posts_edit", post)
 }
@@ -212,11 +189,7 @@ func (fe *PostFrontend) PostsIndex(c echo.Context) error {
 		"Posts": posts,
 	}
 
-	claims, _ := c.Get(jwt.AuthClaimKey).(*jwt.Claims)
-
-	if claims != nil {
-		resp["UserID"] = claims.UserID
-	}
+	jwt.AppendUserID(c, resp)
 
 	if len(posts) > 0 {
 		posts[len(posts)-1].AppendFormMeta(2, true, "published_at")
@@ -227,10 +200,7 @@ func (fe *PostFrontend) PostsIndex(c echo.Context) error {
 
 func (fe *PostFrontend) GetPostByID(c echo.Context) error {
 	ctx := c.Request().Context()
-	id, _ := strconv.Atoi(c.Param("id"))
-	if id <= 0 {
-		return c.JSON(http.StatusBadRequest, nil)
-	}
+	id, _ := c.Get(middlewares.ByIDKey).(int)
 
 	post, err := fe.repo.GetByID(ctx, uint(id))
 	if err != nil {
@@ -254,10 +224,7 @@ func (fe *PostFrontend) GetPostByID(c echo.Context) error {
 
 func (fe *PostFrontend) PostsGet(c echo.Context) error {
 	ctx := c.Request().Context()
-	page, _ := strconv.Atoi(c.QueryParam(constants.PAGE))
-	pageSize, _ := strconv.Atoi(c.QueryParam(constants.PAGE_SIZE))
-	sortBy := c.QueryParam(constants.SORT_BY)
-	statusStr := c.QueryParam(constants.STATUS)
+	page, pageSize, sortBy, statusStr := params.GetCommonParams(c)
 	status := values.PostStatus(statusStr)
 
 	query := []scopes.QueryScope{
@@ -287,13 +254,9 @@ func (fe *PostFrontend) PostsGet(c echo.Context) error {
 func (fe *PostFrontend) PostsNew(c echo.Context) error {
 	post := &models.Post{}
 
-	claims, _ := c.Get(jwt.AuthClaimKey).(*jwt.Claims)
+	post.FormMeta = map[string]interface{}{}
+	jwt.AppendUserID(c, post.FormMeta)
 
-	if claims != nil {
-		post.FormMeta = map[string]interface{}{
-			"UserID": claims.UserID,
-		}
-	}
 	return c.Render(http.StatusOK, "posts_new", post)
 }
 

@@ -45,9 +45,10 @@ func main() {
 	service := jwt.Service{SecretKey: []byte(config.Get(config.JWT_SECRET))}
 	authMid := service.AuthMiddleware()
 	authDescMid := service.AuthDescribeMiddleware()
+	byIDMid := middlewares.ByIDMiddleware()
 
 	admin.NewAdminFrontend(adminGroup, postRepo, authDescMid)
-	post.NewPostFrontend(adminGroup, postRepo, htmxMid, authMid, authDescMid)
+	post.NewPostFrontend(adminGroup, postRepo, htmxMid, authMid, authDescMid, byIDMid)
 	auth.NewAuthService(adminGroup, service, config.Get(config.OAUTH_AUTHORIZE_URL),
 		config.Get(config.OAUTH_ACCESSTOKEN_URL),
 		config.Get(config.OAUTH_CLIENTID),

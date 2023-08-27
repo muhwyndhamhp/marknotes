@@ -1,9 +1,11 @@
 package admin
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
+	"github.com/muhwyndhamhp/marknotes/config"
 	"github.com/muhwyndhamhp/marknotes/pkg/models"
 	"github.com/muhwyndhamhp/marknotes/pkg/post/values"
 	"github.com/muhwyndhamhp/marknotes/utils/jwt"
@@ -25,16 +27,14 @@ func NewAdminFrontend(g *echo.Group, repo models.PostRepository, authDescMid ech
 	g.GET("/contact", fe.Contact, authDescMid)
 }
 func (fe *AdminFrontend) Contact(c echo.Context) error {
-	claims, _ := c.Get(jwt.AuthClaimKey).(*jwt.Claims)
-
 	resp := map[string]interface{}{}
-	if claims != nil {
-		resp["UserID"] = claims.UserID
-	}
+
+	jwt.AppendUserID(c, resp)
+
 	return c.Render(http.StatusOK, "contact", resp)
 }
 func (fe *AdminFrontend) Resume(c echo.Context) error {
-	return c.Redirect(http.StatusFound, "/posts/118")
+	return c.Redirect(http.StatusFound, fmt.Sprintf("/posts/%s", config.Get("RESUME_POST_ID")))
 }
 
 func (fe *AdminFrontend) Index(c echo.Context) error {
@@ -55,11 +55,7 @@ func (fe *AdminFrontend) Index(c echo.Context) error {
 		"Posts": posts,
 	}
 
-	claims, _ := c.Get(jwt.AuthClaimKey).(*jwt.Claims)
-
-	if claims != nil {
-		resp["UserID"] = claims.UserID
-	}
+	jwt.AppendUserID(c, resp)
 
 	return c.Render(http.StatusOK, "index", resp)
 }
