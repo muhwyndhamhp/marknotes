@@ -478,9 +478,21 @@ html {
   }
 }
 
+@media(min-width: 640px) {
+  html {
+    font-size: 14px;
+  }
+}
+
 @media(min-width: 768px) {
   html {
     font-size: 16px;
+  }
+}
+
+@media(min-width: 1024px) {
+  html {
+    font-size: 18px;
   }
 }
 
