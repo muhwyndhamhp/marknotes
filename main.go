@@ -27,8 +27,8 @@ func main() {
 
 	template.NewTemplateRenderer(e,
 		"public/*.html",
-		"public/admin/views/*.html",
-		"public/admin/components/*.html",
+		"public/views/*.html",
+		"public/components/*.html",
 		"public/styles/*.html",
 	)
 
