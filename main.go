@@ -26,7 +26,6 @@ func main() {
 	e.Static("/assets", "public/assets")
 
 	template.NewTemplateRenderer(e,
-		"public/*.html",
 		"public/views/*.html",
 		"public/components/*.html",
 		"public/styles/*.html",
