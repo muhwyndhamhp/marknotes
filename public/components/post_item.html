@@ -5,7 +5,7 @@
      hx-swap="afterend"
      {{end}}>
     <div class="bg-slate-200 dark:bg-slate-900 rounded-md p-4 
-         xl:w-3/5 lg:w-4/5 sm:w-4/5 xs:w-10/12 
+         {{template "style_common_width"}} 
          self-center mx-auto px-auto my-4">
         <h2 class="text-start">
             <a href="/posts/{{.ID}}">{{.Title}}</a>

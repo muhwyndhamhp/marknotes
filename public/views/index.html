@@ -11,38 +11,10 @@
     <div class="{{template "style_root_div"}}">
         {{template "admin_header" .}}
         <br>
-        <div class="xl:w-3/5 lg:w-4/5 sm:w-4/5 xs:w-10/12 
+        <div class="
+        {{template "style_common_width"}}
         self-center mx-auto px-auto my-4">
-            <h2>Hi There!</h2>
-            <div class="bg-rose-200 dark:bg-pink-700 shadow-2xl shadow-rose-500/50 dark:bg-opacity-30 p-4 rounded-xl">
-                <p class="text-justify"><strong>Welcome to my personal blog!!</strong>
-                    <br>
-                    <br>
-                    My name is Wyndham,
-                    and I'm a seasoned Software Engineer with a
-                    delightful mix of Android and Backend wizardry!🪄🧙🏻‍♀️
-                    <br>
-                    <br>
-                    My tech toolbox is like a treasure chest:
-                    from <strong>Kotlin to Golang</strong>, with a dash of 
-                    <strong>Python, Ruby-on-Rails, and Javascript</strong> I've
-                    wielded these languages like a pro.
-                    <br>
-                    <br>
-                    So, if you're on the hunt for an Android virtuoso
-                    who's also got some backend boogie, look no
-                    further. <a href="/contact">Hit me up via anything you like!</a> 
-                    <br>
-                    <br>
-                    Oh, BTW, I made this blog by my own using 
-                    <strong>HTMX, Golang and Tailwind CSS</strong>, that's it 😄. 
-                    You can find the source code for this blog 
-                    <a href="https://github.com/muhwyndhamhp/marknotes">here.</a>
-                    <br>
-                    <br>
-                    Feel free to check it out!
-                </p>
-            </div>
+            {{template "intro"}}
             <br>
             <h2>Latest Articles</h2>
         </div>
