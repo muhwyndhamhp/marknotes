@@ -179,6 +179,8 @@ func (fe *PostFrontend) PostEdit(c echo.Context) error {
 	post.FormMeta = map[string]interface{}{}
 	jwt.AppendUserID(c, post.FormMeta)
 
+	models.SetTagEditable(post.Tags...)
+
 	return c.Render(http.StatusOK, "posts_edit", post)
 }
 
@@ -256,6 +258,8 @@ func (fe *PostFrontend) PostsNew(c echo.Context) error {
 
 	post.FormMeta = map[string]interface{}{}
 	jwt.AppendUserID(c, post.FormMeta)
+
+	models.SetTagEditable(post.Tags...)
 
 	return c.Render(http.StatusOK, "posts_new", post)
 }

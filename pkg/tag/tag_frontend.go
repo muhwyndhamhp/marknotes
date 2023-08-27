@@ -64,6 +64,8 @@ func (fe *TagFrontend) TagsFindOrCreate(c echo.Context) error {
 		tag = tags[0]
 	}
 
+	models.SetTagEditable(&tag)
+
 	for i := range req.Tags {
 		id, _ := strconv.Atoi(req.Tags[i])
 		if tag.ID == uint(id) {
