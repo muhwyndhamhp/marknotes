@@ -16,7 +16,11 @@ type AdminFrontend struct {
 	repo models.PostRepository
 }
 
-func NewAdminFrontend(g *echo.Group, repo models.PostRepository, authDescMid echo.MiddlewareFunc) {
+func NewAdminFrontend(
+	g *echo.Group,
+	repo models.PostRepository,
+	authDescMid echo.MiddlewareFunc,
+) {
 	fe := &AdminFrontend{
 		repo: repo,
 	}
@@ -26,6 +30,7 @@ func NewAdminFrontend(g *echo.Group, repo models.PostRepository, authDescMid ech
 	g.GET("/resume", fe.Resume)
 	g.GET("/contact", fe.Contact, authDescMid)
 }
+
 func (fe *AdminFrontend) Contact(c echo.Context) error {
 	resp := map[string]interface{}{}
 
@@ -33,13 +38,13 @@ func (fe *AdminFrontend) Contact(c echo.Context) error {
 
 	return c.Render(http.StatusOK, "contact", resp)
 }
+
 func (fe *AdminFrontend) Resume(c echo.Context) error {
-	return c.Redirect(http.StatusFound, fmt.Sprintf("/posts/%s", config.Get("RESUME_POST_ID")))
+	return c.Redirect(http.StatusFound,
+		fmt.Sprintf("/posts/%s", config.Get(config.RESUME_POST_ID)))
 }
 
 func (fe *AdminFrontend) Index(c echo.Context) error {
-	// return c.Redirect(http.StatusMovedPermanently, "/posts_index")
-
 	ctx := c.Request().Context()
 
 	posts, err := fe.repo.Get(ctx,

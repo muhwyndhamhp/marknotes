@@ -472,6 +472,18 @@ html {
           user-select: text;
 }
 
+@media(min-width: 320px) {
+  html {
+    font-size: 12px;
+  }
+}
+
+@media(min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
 body{
   font-size: 1rem;
   line-height: 1.5rem;

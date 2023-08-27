@@ -28,7 +28,8 @@ func NewPostFrontend(g *echo.Group,
 	htmxMid echo.MiddlewareFunc,
 	authMid echo.MiddlewareFunc,
 	authDescribeMid echo.MiddlewareFunc,
-	byIDMiddleware echo.MiddlewareFunc) {
+	byIDMiddleware echo.MiddlewareFunc,
+) {
 	fe := &PostFrontend{
 		repo:    repo,
 		htmxMid: htmxMid,
@@ -74,19 +75,15 @@ func (fe *PostFrontend) PostsManage(c echo.Context) error {
 		scopes.Paginate(1, 10),
 		scopes.OrderBy("created_at", scopes.Descending),
 	)
-
 	if err != nil {
 		return err
 	}
-	resp := map[string]interface{}{
-		"Posts": posts,
-	}
-
-	jwt.AppendUserID(c, resp)
-
 	if len(posts) > 0 {
 		posts[len(posts)-1].AppendFormMeta(2, false, "")
 	}
+
+	resp := map[string]interface{}{"Posts": posts}
+	jwt.AppendUserID(c, resp)
 
 	return c.Render(http.StatusOK, "posts_index", resp)
 }
@@ -181,19 +178,15 @@ func (fe *PostFrontend) PostsIndex(c echo.Context) error {
 		scopes.OrderBy("published_at", scopes.Descending),
 		scopes.WithStatus(values.Published),
 	)
-
 	if err != nil {
 		return err
 	}
-	resp := map[string]interface{}{
-		"Posts": posts,
-	}
-
-	jwt.AppendUserID(c, resp)
-
 	if len(posts) > 0 {
 		posts[len(posts)-1].AppendFormMeta(2, true, "published_at")
 	}
+
+	resp := map[string]interface{}{"Posts": posts}
+	jwt.AppendUserID(c, resp)
 
 	return c.Render(http.StatusOK, "posts_index", resp)
 }
@@ -206,8 +199,8 @@ func (fe *PostFrontend) GetPostByID(c echo.Context) error {
 	if err != nil {
 		return err
 	}
-	claims, _ := c.Get(jwt.AuthClaimKey).(*jwt.Claims)
 
+	claims, _ := c.Get(jwt.AuthClaimKey).(*jwt.Claims)
 	if claims != nil {
 		post.FormMeta = map[string]interface{}{
 			"UserID": claims.UserID,
@@ -226,19 +219,14 @@ func (fe *PostFrontend) PostsGet(c echo.Context) error {
 	ctx := c.Request().Context()
 	page, pageSize, sortBy, statusStr := params.GetCommonParams(c)
 	status := values.PostStatus(statusStr)
+	if sortBy == "" {
+		sortBy = "created_at"
+	}
 
-	query := []scopes.QueryScope{
+	posts, err := fe.repo.Get(ctx,
 		scopes.Paginate(page, pageSize),
 		scopes.WithStatus(status),
-	}
-
-	if sortBy != "" {
-		query = append(query, scopes.OrderBy(sortBy, scopes.Descending))
-	} else {
-		query = append(query, scopes.OrderBy("created_at", scopes.Descending))
-	}
-
-	posts, err := fe.repo.Get(ctx, query...)
+		scopes.OrderBy(sortBy, scopes.Descending))
 	if err != nil {
 		return err
 	}
@@ -265,8 +253,8 @@ func (fe *PostFrontend) RenderMarkdown(c echo.Context) error {
 	if err != nil {
 		return err
 	}
-	c.Response().Header().Set("HX-Trigger-After-Swap", "checkTheme")
 
+	c.Response().Header().Set("HX-Trigger-After-Swap", "checkTheme")
 	return c.HTML(http.StatusOK, encoded)
 }
 
@@ -278,13 +266,11 @@ func (fe *PostFrontend) PostCreate(c echo.Context) error {
 	if err := c.Bind(&req); err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
-
 	if err := c.Validate(req); err != nil {
 		return err
 	}
 
 	content := strings.TrimSpace(req.Content)
-
 	encoded, err := markd.ParseMD(content)
 	if err != nil {
 		return err
@@ -296,7 +282,6 @@ func (fe *PostFrontend) PostCreate(c echo.Context) error {
 		EncodedContent: template.HTML(encoded),
 		Status:         values.Draft,
 	}
-
 	err = fe.repo.Upsert(ctx, &post)
 	if err != nil {
 		return err
