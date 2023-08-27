@@ -970,6 +970,10 @@ a:active {
   flex: 1 1 auto;
 }
 
+.basis-1\/2{
+  flex-basis: 50%;
+}
+
 .select-none{
   -webkit-user-select: none;
      -moz-user-select: none;
@@ -982,6 +986,10 @@ a:active {
 
 .flex-row{
   flex-direction: row;
+}
+
+.flex-col{
+  flex-direction: column;
 }
 
 .self-center{
@@ -1017,6 +1025,11 @@ a:active {
 
 .border-transparent{
   border-color: transparent;
+}
+
+.bg-blue-200{
+  --tw-bg-opacity: 1;
+  background-color: rgb(191 219 254 / var(--tw-bg-opacity));
 }
 
 .bg-rose-200{
@@ -1092,6 +1105,11 @@ a:active {
   line-height: 1.75rem;
 }
 
+.text-sm{
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
 .uppercase{
   text-transform: uppercase;
 }
@@ -1116,25 +1134,13 @@ a:active {
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
-.shadow-lg{
-  --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-}
-
-.shadow-xl{
-  --tw-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-  --tw-shadow-colored: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-}
-
-.shadow-rose-500\/50{
-  --tw-shadow-color: rgb(244 63 94 / 0.5);
+.shadow-rose-800\/20{
+  --tw-shadow-color: rgb(159 18 57 / 0.2);
   --tw-shadow: var(--tw-shadow-colored);
 }
 
-.shadow-rose-500\/30{
-  --tw-shadow-color: rgb(244 63 94 / 0.3);
+.shadow-sky-800\/20{
+  --tw-shadow-color: rgb(7 89 133 / 0.2);
   --tw-shadow: var(--tw-shadow-colored);
 }
 
@@ -1179,6 +1185,11 @@ a:active {
     background-color: rgb(190 24 93 / var(--tw-bg-opacity));
   }
 
+  .dark\:bg-sky-700{
+    --tw-bg-opacity: 1;
+    background-color: rgb(3 105 161 / var(--tw-bg-opacity));
+  }
+
   .dark\:bg-slate-100{
     --tw-bg-opacity: 1;
     background-color: rgb(241 245 249 / var(--tw-bg-opacity));
@@ -1212,10 +1223,6 @@ a:active {
     margin-top: 5rem;
   }
 
-  .xs\:w-10\/12{
-    width: 83.333333%;
-  }
-
   .xs\:w-11\/12{
     width: 91.666667%;
   }
@@ -1235,10 +1242,6 @@ a:active {
 }
 
 @media (min-width: 640px){
-  .sm\:w-4\/5{
-    width: 80%;
-  }
-
   .sm\:w-10\/12{
     width: 83.333333%;
   }
@@ -1289,10 +1292,6 @@ a:active {
 }
 
 @media (min-width: 1024px){
-  .lg\:w-3\/5{
-    width: 60%;
-  }
-
   .lg\:w-4\/5{
     width: 80%;
   }
@@ -1310,5 +1309,9 @@ a:active {
 @media (min-width: 1280px){
   .xl\:w-3\/5{
     width: 60%;
+  }
+
+  .xl\:w-4\/5{
+    width: 80%;
   }
 }

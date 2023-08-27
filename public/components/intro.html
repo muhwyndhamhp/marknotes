@@ -1,40 +1,57 @@
 {{define "intro"}}
-<h2>Hi There!</h2>
-<div
-     class="
-     bg-rose-200 
-     dark:bg-pink-700 
-     shadow-2xl 
-     shadow-rose-500/30 
-     dark:bg-opacity-30 p-4 rounded-xl">
-    <p class="text-justify"><strong>Welcome to my personal
-            blog!!</strong>
+<div class="flex flex-col text-sm">
+    <div class="
+    basis-1/2
+        bg-rose-200 
+        dark:bg-pink-700 
+        shadow-2xl 
+        my-4
+        shadow-rose-800/20 
+        dark:bg-opacity-30 px-4 rounded-xl">
+        <p class="text-justify">
+        <h4><strong>Welcome to my personal
+                blog!!</strong></h4>
+        Originally, this blog started as an example project
+        to create web apps using only
+        <strong>HTMX, Golang and Tailwind CSS</strong>. But I love the
+        result soo much
+        that I decided to just reuse the project as the basis of
+        my
+        (already planned) blog.
         <br>
         <br>
+        I open sourced the code of this very blog in my
+        <a
+           href="https://github.com/muhwyndhamhp/marknotes">GitHub.</a>
+        Feel free to use it as it suits you, if you like what
+        you've
+        seen here!
+        </p>
+    </div>
+
+    <div class="
+    basis-1/2
+        bg-blue-200 
+        dark:bg-sky-700 
+        shadow-2xl 
+        my-4
+        shadow-sky-800/20 
+        dark:bg-opacity-30 px-4 rounded-xl">
+        <p class="text-justify">
+        <h4><strong>Who am I?!</strong></h4>
         My name is Wyndham,
         and I'm a seasoned Software Engineer with a
         delightful mix of Android and Backend wizardry!🪄🧙🏻‍♀️
         <br>
         <br>
-        My tech toolbox is like a treasure chest:
-        from <strong>Kotlin to Golang</strong>, with a dash of
-        <strong>Python, Ruby-on-Rails, and Javascript</strong> I've
-        wielded these languages like a pro.
-        <br>
-        <br>
-        So, if you're on the hunt for an Android virtuoso
+        My tech toolbox consist of <strong>Kotlin, Golang</strong>,
+        with a dash of
+        <strong>Python, Ruby-on-Rails, and Javascript</strong>.
+        If you're on the hunt for an Android virtuoso
         who's also got some backend boogie, look no
         further. <a href="/contact">Hit me up via anything you
             like!</a>
-        <br>
-        <br>
-        Oh, BTW, I made this blog by my own using
-        <strong>HTMX, Golang and Tailwind CSS</strong>, that's it 😄.
-        You can find the source code for this blog
-        <a href="https://github.com/muhwyndhamhp/marknotes">here.</a>
-        <br>
-        <br>
-        Feel free to check it out!
-    </p>
+        </p>
+    </div>
 </div>
 {{end}}
