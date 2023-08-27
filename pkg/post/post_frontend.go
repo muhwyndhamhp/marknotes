@@ -1,26 +1,28 @@
 package post
 
 import (
+	"errors"
 	"fmt"
 	"html/template"
 	"net/http"
+	"strconv"
 	"strings"
 	"time"
 
 	"github.com/labstack/echo/v4"
 	"github.com/muhwyndhamhp/marknotes/middlewares"
-	"github.com/muhwyndhamhp/marknotes/pkg/admin/dto"
 	"github.com/muhwyndhamhp/marknotes/pkg/models"
+	"github.com/muhwyndhamhp/marknotes/pkg/post/dto"
 	"github.com/muhwyndhamhp/marknotes/pkg/post/values"
 	"github.com/muhwyndhamhp/marknotes/utils/jwt"
 	"github.com/muhwyndhamhp/marknotes/utils/markd"
 	"github.com/muhwyndhamhp/marknotes/utils/params"
 	"github.com/muhwyndhamhp/marknotes/utils/scopes"
+	"gorm.io/gorm"
 )
 
 type PostFrontend struct {
-	repo    models.PostRepository
-	htmxMid echo.MiddlewareFunc
+	repo models.PostRepository
 }
 
 func NewPostFrontend(g *echo.Group,
@@ -31,8 +33,7 @@ func NewPostFrontend(g *echo.Group,
 	byIDMiddleware echo.MiddlewareFunc,
 ) {
 	fe := &PostFrontend{
-		repo:    repo,
-		htmxMid: htmxMid,
+		repo: repo,
 	}
 
 	g.GET("/posts", fe.PostsGet, authDescribeMid)
@@ -87,6 +88,7 @@ func (fe *PostFrontend) PostsManage(c echo.Context) error {
 
 	return c.Render(http.StatusOK, "posts_index", resp)
 }
+
 func (fe *PostFrontend) PostPublish(c echo.Context) error {
 	ctx := c.Request().Context()
 	id, _ := c.Get(middlewares.ByIDKey).(int)
@@ -147,6 +149,16 @@ func (fe *PostFrontend) PostUpdate(c echo.Context) error {
 	post.Title = req.Title
 	post.Content = content
 	post.EncodedContent = template.HTML(encoded)
+	post.Tags = []*models.Tag{}
+
+	for i := range req.Tags {
+		id, _ := strconv.Atoi(req.Tags[i])
+		post.Tags = append(post.Tags, &models.Tag{
+			Model: gorm.Model{
+				ID: uint(id),
+			},
+		})
+	}
 
 	if err = fe.repo.Upsert(ctx, post); err != nil {
 		return err
@@ -276,12 +288,28 @@ func (fe *PostFrontend) PostCreate(c echo.Context) error {
 		return err
 	}
 
+	claims, _ := c.Get(jwt.AuthClaimKey).(*jwt.Claims)
+	if claims == nil {
+		return c.JSON(http.StatusBadRequest, errors.New("claim is empty"))
+	}
+
 	post := models.Post{
 		Title:          req.Title,
 		Content:        content,
 		EncodedContent: template.HTML(encoded),
 		Status:         values.Draft,
+		UserID:         claims.UserID,
 	}
+
+	for i := range req.Tags {
+		id, _ := strconv.Atoi(req.Tags[i])
+		post.Tags = append(post.Tags, &models.Tag{
+			Model: gorm.Model{
+				ID: uint(id),
+			},
+		})
+	}
+
 	err = fe.repo.Upsert(ctx, &post)
 	if err != nil {
 		return err

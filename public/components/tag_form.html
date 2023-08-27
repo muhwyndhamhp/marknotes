@@ -1,0 +1,16 @@
+{{define "tag_form"}}
+<br>
+<input placeholder="Tags goes here..."
+       hx-post="/tags/find-or-create"
+       hx-trigger="keydown[metaKey&&key=='Enter'], tag"
+       hx-target="#tag-flex"
+       hx-include="#tag-flex"
+       hx-swap="beforeend"
+       hx-on::after-request="this.value = ''"
+       class="{{template "style_form_input"}} rounded-lg mt-0"
+       type="text"
+       name="tag">
+<br>
+{{template "tag_list" .}}
+<br>
+{{end}}

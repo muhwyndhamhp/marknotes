@@ -12,4 +12,5 @@ func main() {
 
 	db.AutoMigrate(&models.Post{})
 	db.AutoMigrate(&models.User{})
+	db.AutoMigrate(&models.Tag{})
 }

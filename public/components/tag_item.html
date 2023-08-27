@@ -1,0 +1,12 @@
+{{define "tag_item"}}
+<div
+hx-get="/tags/remove"
+hx-swap="outerHTML"
+     class="basis-auto mx-1 bg-slate-700 rounded-xl ps-1 pe-2 pt-1 pb-0.5 mt-4 text-slate-100 text-xs">
+    <input type='checkbox'
+           name='tags'
+           value="{{.ID}}"
+           class="invisible w-0"
+           checked="true"><span>{{.Title}}</span>
+</div>
+{{end}}

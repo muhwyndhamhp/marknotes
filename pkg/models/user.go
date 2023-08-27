@@ -12,6 +12,7 @@ type User struct {
 	Email       string
 	Name        string
 	OauthUserID string
+	Posts       []Post
 }
 
 type UserRepository interface {

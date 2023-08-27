@@ -1,0 +1,7 @@
+{{define "tag_list"}}
+<div id="tag-flex" class="flex flex-row flex-wrap w-10/12 ps-8">
+    {{range .}}
+        {{template "tag_item" .}}
+    {{end}}
+</div>
+{{end}}

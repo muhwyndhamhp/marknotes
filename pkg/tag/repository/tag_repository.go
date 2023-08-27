@@ -13,8 +13,7 @@ type repository struct {
 	db *gorm.DB
 }
 
-// GetByOauthID implements models.UserRepository.
-
+// Delete implements models.TagRepository.
 func (r *repository) Delete(ctx context.Context, id uint) error {
 	if err := r.db.Delete(&models.User{}, id).Error; err != nil {
 		return err
@@ -22,8 +21,9 @@ func (r *repository) Delete(ctx context.Context, id uint) error {
 	return nil
 }
 
-func (r *repository) Get(ctx context.Context, funcs ...scopes.QueryScope) ([]models.User, error) {
-	var res []models.User
+// Get implements models.TagRepository.
+func (r *repository) Get(ctx context.Context, funcs ...scopes.QueryScope) ([]models.Tag, error) {
+	var res []models.Tag
 	scopes := scopes.Unwrap(funcs...)
 	err := r.db.WithContext(ctx).
 		Session(&gorm.Session{SkipDefaultTransaction: true}).
@@ -36,8 +36,9 @@ func (r *repository) Get(ctx context.Context, funcs ...scopes.QueryScope) ([]mod
 	return res, nil
 }
 
-func (r *repository) GetByID(ctx context.Context, id uint) (*models.User, error) {
-	var res models.User
+// GetByID implements models.TagRepository.
+func (r *repository) GetByID(ctx context.Context, id uint) (*models.Tag, error) {
+	var res models.Tag
 	if err := r.db.WithContext(ctx).
 		Session(&gorm.Session{SkipDefaultTransaction: true}).
 		First(&res, id).
@@ -47,27 +48,15 @@ func (r *repository) GetByID(ctx context.Context, id uint) (*models.User, error)
 	return &res, nil
 }
 
-func (r *repository) GetByOauthID(ctx context.Context, id string) (*models.User, error) {
-	var res models.User
-	if err := r.db.WithContext(ctx).
-		Session(&gorm.Session{SkipDefaultTransaction: true}).
-		Where("oauth_user_id = ?", id).
-		First(&res).
-		Error; err != nil {
-		return nil, errs.Wrap(err)
-	}
-
-	return &res, nil
-}
-
-func (r *repository) Upsert(ctx context.Context, value *models.User) error {
+// Upsert implements models.TagRepository.
+func (r *repository) Upsert(ctx context.Context, value *models.Tag) error {
 	if err := r.db.WithContext(ctx).Save(value).Error; err != nil {
 		return err
 	}
 	return nil
 }
 
-func NewUserRepository(db *gorm.DB) models.UserRepository {
+func NewTagRepository(db *gorm.DB) models.TagRepository {
 	return &repository{
 		db: db,
 	}

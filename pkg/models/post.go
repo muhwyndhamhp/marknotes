@@ -18,6 +18,9 @@ type Post struct {
 	Status         values.PostStatus
 	PublishedAt    time.Time
 	FormMeta       map[string]interface{} `gorm:"-"`
+	UserID         uint
+	User           User
+	Tags           []*Tag `gorm:"many2many:post_tags;"`
 }
 
 type PostRepository interface {

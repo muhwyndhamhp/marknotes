@@ -13,6 +13,8 @@ import (
 	_userRepo "github.com/muhwyndhamhp/marknotes/pkg/auth/repository"
 	"github.com/muhwyndhamhp/marknotes/pkg/post"
 	_postRepo "github.com/muhwyndhamhp/marknotes/pkg/post/repository"
+	"github.com/muhwyndhamhp/marknotes/pkg/tag"
+	_tagRepo "github.com/muhwyndhamhp/marknotes/pkg/tag/repository"
 	"github.com/muhwyndhamhp/marknotes/template"
 	"github.com/muhwyndhamhp/marknotes/utils/jwt"
 	"github.com/muhwyndhamhp/marknotes/utils/routing"
@@ -39,6 +41,7 @@ func main() {
 
 	postRepo := _postRepo.NewPostRepository(db.GetDB())
 	userRepo := _userRepo.NewUserRepository(db.GetDB())
+	tagRepo := _tagRepo.NewTagRepository(db.GetDB())
 	htmxMid := middlewares.HTMXRequest()
 
 	service := jwt.Service{SecretKey: []byte(config.Get(config.JWT_SECRET))}
@@ -48,6 +51,7 @@ func main() {
 
 	admin.NewAdminFrontend(adminGroup, postRepo, authDescMid)
 	post.NewPostFrontend(adminGroup, postRepo, htmxMid, authMid, authDescMid, byIDMid)
+	tag.NewTagFrontend(adminGroup, tagRepo, authMid)
 	auth.NewAuthService(adminGroup, service, config.Get(config.OAUTH_AUTHORIZE_URL),
 		config.Get(config.OAUTH_ACCESSTOKEN_URL),
 		config.Get(config.OAUTH_CLIENTID),
