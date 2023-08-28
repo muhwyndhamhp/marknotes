@@ -18,6 +18,7 @@ import (
 	"github.com/muhwyndhamhp/marknotes/utils/markd"
 	"github.com/muhwyndhamhp/marknotes/utils/params"
 	"github.com/muhwyndhamhp/marknotes/utils/scopes"
+	"github.com/muhwyndhamhp/marknotes/utils/tern"
 	"gorm.io/gorm"
 )
 
@@ -75,18 +76,19 @@ func (fe *PostFrontend) PostsManage(c echo.Context) error {
 	posts, err := fe.repo.Get(ctx,
 		scopes.Paginate(1, 10),
 		scopes.OrderBy("created_at", scopes.Descending),
+		scopes.PostIndexedOnly(),
 	)
 	if err != nil {
 		return err
 	}
 	if len(posts) > 0 {
-		posts[len(posts)-1].AppendFormMeta(2, false, "")
+		posts[len(posts)-1].AppendFormMeta(2, false, "", "")
 	}
 
 	resp := map[string]interface{}{"Posts": posts}
 	jwt.AppendUserID(c, resp)
 
-	return c.Render(http.StatusOK, "posts_index", resp)
+	return c.Render(http.StatusOK, "posts_manage", resp)
 }
 
 func (fe *PostFrontend) PostPublish(c echo.Context) error {
@@ -191,12 +193,13 @@ func (fe *PostFrontend) PostsIndex(c echo.Context) error {
 		scopes.Paginate(1, 10),
 		scopes.OrderBy("published_at", scopes.Descending),
 		scopes.WithStatus(values.Published),
+		scopes.PostIndexedOnly(),
 	)
 	if err != nil {
 		return err
 	}
 	if len(posts) > 0 {
-		posts[len(posts)-1].AppendFormMeta(2, true, "published_at")
+		posts[len(posts)-1].AppendFormMeta(2, true, "published_at", "")
 	}
 
 	resp := map[string]interface{}{"Posts": posts}
@@ -231,23 +234,28 @@ func (fe *PostFrontend) GetPostByID(c echo.Context) error {
 
 func (fe *PostFrontend) PostsGet(c echo.Context) error {
 	ctx := c.Request().Context()
-	page, pageSize, sortBy, statusStr := params.GetCommonParams(c)
+	page, pageSize, sortBy, statusStr, keyword := params.GetCommonParams(c)
 	status := values.PostStatus(statusStr)
-	if sortBy == "" {
-		sortBy = "created_at"
+
+	scp := []scopes.QueryScope{
+		scopes.OrderBy(tern.String(sortBy, "created_at"), scopes.Descending),
+		scopes.Paginate(page, pageSize),
 	}
 
-	posts, err := fe.repo.Get(ctx,
-		scopes.Paginate(page, pageSize),
-		scopes.WithStatus(status),
-		scopes.OrderBy(sortBy, scopes.Descending))
+	if keyword != "" {
+		scp = append(scp, scopes.PostDeepMatch(keyword, status))
+	} else {
+		scp = append(scp, scopes.WithStatus(status))
+	}
+
+	posts, err := fe.repo.Get(ctx, scp...)
 	if err != nil {
 		return err
 	}
 
 	onlyPublised := status == values.Published
 	if len(posts) > 0 {
-		posts[len(posts)-1].AppendFormMeta(page+1, onlyPublised, sortBy)
+		posts[len(posts)-1].AppendFormMeta(page+1, onlyPublised, sortBy, keyword)
 	}
 
 	return c.Render(http.StatusOK, "post_list", posts)

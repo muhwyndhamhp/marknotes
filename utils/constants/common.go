@@ -5,4 +5,6 @@ const (
 	PAGE_SIZE = "pageSize"
 	STATUS    = "status"
 	SORT_BY   = "sortBy"
+	KEYWORD   = "keyword"
+	SEARCH    = "search"
 )

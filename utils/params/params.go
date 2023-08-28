@@ -12,11 +12,13 @@ func GetCommonParams(c echo.Context) (
 	pageSize int,
 	sortBy string,
 	status string,
+	keyword string,
 ) {
 	page, _ = strconv.Atoi(c.QueryParam(constants.PAGE))
 	pageSize, _ = strconv.Atoi(c.QueryParam(constants.PAGE_SIZE))
 	sortBy = c.QueryParam(constants.SORT_BY)
 	status = c.QueryParam(constants.STATUS)
+	keyword = c.QueryParam(constants.SEARCH)
 
-	return page, pageSize, sortBy, status
+	return page, pageSize, sortBy, status, keyword
 }

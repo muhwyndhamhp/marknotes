@@ -1,6 +1,6 @@
 {{define "post_item"}}
 <div {{if .FormMeta.IsLastItem}}
-     hx-get="/posts?page={{.FormMeta.Page}}&pageSize=10{{if .FormMeta.PublishedOnly}}&status=published{{end}}{{if .FormMeta.SortQuery}}&sortBy={{.FormMeta.SortQuery}}{{end}}"
+     hx-get="/posts?page={{.FormMeta.Page}}&pageSize=10{{if .FormMeta.PublishedOnly}}&status=published{{end}}{{if .FormMeta.SortQuery}}&sortBy={{.FormMeta.SortQuery}}{{end}} {{if .FormMeta.Keyword}}&search={{.FormMeta.Keyword}}{{end}}"
      hx-trigger="revealed"
      hx-swap="afterend"
      {{end}}>
@@ -12,7 +12,8 @@
         </h2>
         <p class="text-justify minor my-0">Published at:
             {{.PublishedAt.Format "January, 02 2006"}} | Updated at:
-            {{.UpdatedAt.Format "January, 02 2006"}}</p>
+            {{.UpdatedAt.Format "January, 02 2006"}} | Created at: 
+            {{.CreatedAt.Format "January, 02 2006"}}</p>
         <p class="text-justify minor">Status: {{.Status}}</p>
         {{template "tag_list" .Tags}}
     </div>
