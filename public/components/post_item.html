@@ -4,17 +4,17 @@
      hx-trigger="revealed"
      hx-swap="afterend"
      {{end}}>
-    <div class="bg-slate-200 dark:bg-slate-900 rounded-md p-4 
+    <div class="bg-stone-100 dark:bg-slate-900 md:rounded-md p-4 
          {{template "style_common_width"}} 
-         self-center mx-auto px-auto my-4">
-        <h2 class="text-start">
+         self-center mx-auto px-auto md:my-4">
+        <h2 class="mx-4">
             <a href="/posts/{{.ID}}">{{.Title}}</a>
         </h2>
-        <p class="text-justify minor my-0">Published at:
+        <p class="mx-4 minor my-0">Published at:
             {{.PublishedAt.Format "January, 02 2006"}} | Updated at:
             {{.UpdatedAt.Format "January, 02 2006"}} | Created at: 
             {{.CreatedAt.Format "January, 02 2006"}}</p>
-        <p class="text-justify minor">Status: {{.Status}}</p>
+        <p class="mx-4 text-justify minor">Status: {{.Status}}</p>
         {{template "tag_list" .Tags}}
     </div>
 </div>

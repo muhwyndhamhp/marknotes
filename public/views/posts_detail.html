@@ -8,46 +8,60 @@
 </head>
 
 <body id="admin-root">
-    {{template "static_background"}}   
-    <div
-        class="{{template "style_root_div"}} ">
-        <div class="{{template "style_common_width"}} self-center mx-auto px-auto my-10">
+    {{template "static_background"}}
+    <div class="{{template "style_root_div"}}">
+        <div class="{{template "style_common_width"}}">
             {{template "admin_header" .FormMeta}}
             <br>
-            <h1 class="text-start">{{.Title}}</h1>
-            <p class="text-justify minor my-0">Published at:
-                {{.PublishedAt.Format "January, 02 2006"}} | Updated at:
+            <h1 class="text-center">{{.Title}}</h1>
+            <p class="text-center minor my-0">Published at:
+                {{.PublishedAt.Format "January, 02 2006"}} | Updated
+                at:
                 {{.UpdatedAt.Format "January, 02 2006"}}</p>
             {{if .FormMeta.UserID}}
             <div class="inline">
-                <button hx-get="/posts/{{.ID}}/edit" hx-target="#admin-root"
-                    hx-push-url="true" class="inline-block mx-2 my-4 uppercase">
+                <button hx-get="/posts/{{.ID}}/edit"
+                        hx-target="#admin-root"
+                        hx-push-url="true"
+                        class="inline-block mx-2 my-4 uppercase">
                     Edit
                 </button>
-                <button hx-get="/posts/{{.ID}}/delete" hx-target="#admin-root"
-                    _="on htmx:confirm(issueRequest)
+                <button hx-get="/posts/{{.ID}}/delete"
+                        hx-target="#admin-root"
+                        _="on htmx:confirm(issueRequest)
                     halt the event
                     call Swal.fire({title: 'Confirm Delete', text:'Do you want to continue?'})
                     if result.isConfirmed issueRequest()"
-                    class=" inline-block mx-2 my-4 uppercase">
+                        class=" inline-block mx-2 my-4 uppercase">
                     Delete
                 </button>
-                <button
-                    hx-get="{{if eq .Status "draft"}} /posts/{{.ID}}/publish {{else}} /posts/{{.ID}}/draft {{end}}"
-                    hx-target="#admin-root" _="on htmx:confirm(issueRequest)
+                <button hx-get="{{if eq .Status "draft"}} /posts/{{.ID}}/publish {{else}} /posts/{{.ID}}/draft {{end}}"
+                        hx-target="#admin-root"
+                        _="on htmx:confirm(issueRequest)
                     halt the event
                     call Swal.fire(
                         {title: 'Confirm {{if eq .Status "draft"}}Publish{{else}}Unpublish{{end}}', text:'Do you want to continue?'}
                         )
                     if result.isConfirmed issueRequest()"
-                    class=" inline-block mx-2 my-4 uppercase">
+                        class=" inline-block mx-2 my-4 uppercase">
                     {{if eq .Status "draft"}}Publish{{else}}Unpublish{{end}}
                 </button>
             </div>
-            {{end}}
-            <br>
-            {{.EncodedContent}}
+            {{end}}            
         </div>
+        <div class="
+            relative w-full 
+            md:rounded-xl
+            bg-stone-100 px-6 dark:bg-slate-950 
+            py-8 shadow-xl shadow-slate-700/10 
+            ring-1 ring-gray-900/5 md:mx-auto 
+            md:max-w-3xl lg:max-w-4xl 
+            md:pt-4
+            lg:pb-28 lg:pt-6 mt-4">
+                <article class="{{template "style_article_body"}}">
+                    {{.EncodedContent}}
+                </article>
+            </div>
         <br>
         {{template "admin_footer" .FormMeta}}
     </div>

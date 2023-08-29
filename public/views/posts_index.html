@@ -8,7 +8,7 @@
 </head>
 
 <body id="admin-root">
-    {{template "static_background"}}    
+    {{template "static_background"}}
     </div>
     <div class="{{template "style_root_div"}}">
         {{template "admin_header" .}}
@@ -20,7 +20,8 @@
                    hx-trigger="keyup changed delay:500ms, search"
                    hx-target="#post-list"
                    hx-swap="innerHTML"
-                   class="{{template "style_form_input"}} {{template "style_common_width"}} 
+                   class="{{template "style_form_input"}} mt-8 mb-4
+                   md:mx-auto md:max-w-3xl lg:max-w-4xl
                    self-center rounded-xl"
                    type="text"
                    name="search">
@@ -28,9 +29,6 @@
             <div id="post-list">
                 {{template "post_list" .Posts}}
             </div>
-            {{else}}
-            <h1>No Post Found! Create One?</h1>
-            {{template "create_post_button"}}
             {{end}}
         </div>
         <br>

@@ -2,7 +2,6 @@ package markd
 
 import (
 	"bytes"
-	"fmt"
 	"strings"
 
 	chromahtml "github.com/alecthomas/chroma/v2/formatters/html"
@@ -53,17 +52,7 @@ func ParseMD(source string) (string, error) {
 func postProcessHTML(str string) string {
 	str = changeCodeBlockBg(str)
 	str = addCodeBlockStyling(str)
-	str = wrapDiv(str)
-	str = extraBreak(str)
 	return str
-}
-
-func extraBreak(str string) string {
-	return strings.ReplaceAll(str, "<br>", "<br><br>")
-}
-
-func wrapDiv(str string) string {
-	return fmt.Sprintf(`<div class="text-start relaxed"> %s </div>`, str)
 }
 
 func addCodeBlockStyling(str string) string {
