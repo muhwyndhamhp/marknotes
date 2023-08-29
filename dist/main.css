@@ -1,5 +1,6 @@
 @import url('https://fonts.cdnfonts.com/css/overpass-mono');
 @import url('https://fonts.cdnfonts.com/css/spicy-kebab');
+@import url('https://fonts.cdnfonts.com/css/open-sauce-one');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -17,7 +18,7 @@
     html {
         font-size: 16px;
         @apply dark:text-slate-200;
-        @apply bg-slate-100;
+        @apply bg-gradient-to-bl from-slate-200 to-stone-300;
         @apply dark:bg-slate-800;
         padding: 0pt;
         margin: 0pt;
@@ -26,13 +27,13 @@
     }
     @media(min-width: 320px) {
         html {
-            font-size: 12px;
+            font-size: 14px;
         }
     }
     
     @media(min-width: 640px) {
         html {
-            font-size: 14px;
+            font-size: 16px;
         }
     }
 
@@ -50,9 +51,6 @@
 
     body {
         @apply text-base;
-        @apply dark:text-slate-200;
-        @apply bg-slate-100;
-        @apply dark:bg-slate-800;
         padding: 0pt;
         margin: 0pt;
         height: 100%;
@@ -86,8 +84,8 @@
     h3 {
         @apply text-2xl;
         @apply font-extrabold;
-        @apply bg-clip-text text-transparent bg-gradient-to-r from-teal-600 via-rose-600 to-indigo-600;
-        @apply dark:from-teal-400 dark:via-rose-400 dark:to-indigo-400;
+        @apply bg-clip-text text-transparent bg-gradient-to-r from-teal-600 via-sky-600 to-indigo-600;
+        @apply dark:from-teal-400 dark:via-sky-400 dark:to-indigo-400;
         @apply mt-4;
         @apply mb-2;
     }

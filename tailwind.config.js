@@ -9,7 +9,7 @@ module.exports = {
       ...defaultTheme.screens,
     },
     fontFamily: {
-      'sans': ['Overpass Mono', 'sans-serif'],
+      'sans': ['Open Sauce Sans', 'sans-serif'],
       'serif': ['Spicy Kebab', 'serif'],
       'mono': ['Overpass Mono', 'mono'],
     },
