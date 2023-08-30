@@ -5,21 +5,15 @@
     </label>
     <br>
     <input placeholder="Blog title goes here..."
-           class="{{template "style_form_input"}} rounded-t-lg mt-0"
-           type="text"
-           name="title"
-           {{if .Title}}value="{{.Title}}"
-           {{end}}>
+        class="focus:border-transparent focus:outline-none focus:outline-sky-600 border-transparent shadow-2xl shadow-rose-800/30 w-10/12 p-3 rounded-t-lg mt-0"
+        type="text" name="title" {{if .Title}}value="{{.Title}}" {{end}}>
     <br>
-    <textarea id="form-content"
-              ondrop="upload(event)"
-              ondragover="allowDrop(event)"
-              placeholder="And the rest goes here!"
-              hx-trigger="keyup changed delay:500ms, content"
-              hx-post="/posts/render"
-              hx-target="#preview"
-              class="{{template "style_form_input"}} rounded-b-lg h-96 mt-1"
-              type="text"
-              name="content">{{if .Content}} {{.Content}} {{end}}</textarea>
+    <textarea id="form-content" ondrop="upload(event)"
+        ondragover="allowDrop(event)" placeholder="And the rest goes here!"
+        hx-trigger="keyup changed delay:500ms, content" hx-post="/posts/render"
+        hx-target="#preview"
+        class="focus:border-transparent focus:outline-none focus:outline-sky-600 border-transparent shadow-2xl shadow-rose-800/30 w-10/12 p-3 rounded-b-lg h-96 mt-1"
+        type="text"
+        name="content">{{if .Content}} {{.Content}} {{end}}</textarea>
 </form>
 {{end}}

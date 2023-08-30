@@ -9,8 +9,9 @@
 
 <body id="admin-root">
     {{template "static_background"}}
-    <div class="{{template "style_root_div"}}">
-        <div class="{{template "style_common_width"}}">
+    <div class="relative flex min-h-screen flex-col justify-center overflow-hidden pt-8 lg:pt-12">
+        <div
+            class="relative w-full md:mx-auto md:max-w-3xl lg:max-w-4xl px-4 md:px-0">
             {{template "admin_header" .FormMeta}}
             <br>
             <h1 class="text-center">{{.Title}}</h1>
@@ -20,48 +21,38 @@
                 {{.UpdatedAt.Format "January, 02 2006"}}</p>
             {{if .FormMeta.UserID}}
             <div class="inline">
-                <button hx-get="/posts/{{.ID}}/edit"
-                        hx-target="#admin-root"
-                        hx-push-url="true"
-                        class="inline-block mx-2 my-4 uppercase">
+                <button hx-get="/posts/{{.ID}}/edit" hx-target="#admin-root"
+                    hx-push-url="true" class="inline-block mx-2 my-4 uppercase">
                     Edit
                 </button>
-                <button hx-get="/posts/{{.ID}}/delete"
-                        hx-target="#admin-root"
-                        _="on htmx:confirm(issueRequest)
+                <button hx-get="/posts/{{.ID}}/delete" hx-target="#admin-root"
+                    _="on htmx:confirm(issueRequest)
                     halt the event
                     call Swal.fire({title: 'Confirm Delete', text:'Do you want to continue?'})
                     if result.isConfirmed issueRequest()"
-                        class=" inline-block mx-2 my-4 uppercase">
+                    class=" inline-block mx-2 my-4 uppercase">
                     Delete
                 </button>
-                <button hx-get="{{if eq .Status "draft"}} /posts/{{.ID}}/publish {{else}} /posts/{{.ID}}/draft {{end}}"
-                        hx-target="#admin-root"
-                        _="on htmx:confirm(issueRequest)
+                <button
+                    hx-get="{{if eq .Status "draft"}} /posts/{{.ID}}/publish {{else}} /posts/{{.ID}}/draft {{end}}"
+                    hx-target="#admin-root" _="on htmx:confirm(issueRequest)
                     halt the event
                     call Swal.fire(
                         {title: 'Confirm {{if eq .Status "draft"}}Publish{{else}}Unpublish{{end}}', text:'Do you want to continue?'}
                         )
                     if result.isConfirmed issueRequest()"
-                        class=" inline-block mx-2 my-4 uppercase">
+                    class=" inline-block mx-2 my-4 uppercase">
                     {{if eq .Status "draft"}}Publish{{else}}Unpublish{{end}}
                 </button>
             </div>
-            {{end}}            
+            {{end}}
         </div>
-        <div class="
-            relative w-full 
-            md:rounded-xl
-            bg-stone-100 px-6 dark:bg-slate-950 
-            py-8 shadow-xl shadow-slate-700/10 
-            ring-1 ring-gray-900/5 md:mx-auto 
-            md:max-w-3xl lg:max-w-4xl 
-            md:pt-4
-            lg:pb-28 lg:pt-6 mt-4">
-                <article class="{{template "style_article_body"}}">
-                    {{.EncodedContent}}
-                </article>
-            </div>
+        <div
+            class="relative w-full md:rounded-xl bg-stone-100 px-6 dark:bg-slate-950 md:max-w-3xl lg:max-w-4xl md:pt-4lg:pb-28 lg:pt-6 mt-4py-8 md:mx-auto shadow-xl shadow-slate-700/10 ring-1 ring-gray-900/5">
+            <article class="prose prose-slate lg:prose-xl md:prose-lg dark:prose-invert prose-h2:bg-clip-text prose-h2:text-transparent prose-h2:bg-gradient-to-r prose-h2:from-pink-600 prose-h2:via-purple-600 prose-h2:to-indigo-600 prose-h3:bg-clip-text  prose-h3:text-transparent  prose-h3:bg-gradient-to-r  prose-h3:from-teal-600  prose-h3:via-sky-600  prose-h3:to-indigo-600">
+                {{.EncodedContent}}
+            </article>
+        </div>
         <br>
         {{template "admin_footer" .FormMeta}}
     </div>

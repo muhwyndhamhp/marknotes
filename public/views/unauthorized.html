@@ -8,13 +8,13 @@
 </head>
 
 <body id="admin-root">
-    {{template "static_background"}}   
-    <div class="{{template "style_root_div"}} text-center px-8">
+    {{template "static_background"}}
+    <div class="relative flex min-h-screen flex-col justify-center overflow-hidden pt-8 lg:pt-12 text-center px-8">
         {{template "admin_header" .}}
         <br>
         <div id="admin-content">
             <h2>Your Account is Unauthorized!</h1>
-            <p>Do you looking for <a href="/posts_index">homepage?</a></p>
+                <p>Do you looking for <a href="/posts_index">homepage?</a></p>
         </div>
         <br>
         {{template "admin_footer" .}}

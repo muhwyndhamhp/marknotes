@@ -10,21 +10,14 @@
 <body id="admin-root">
     {{template "static_background"}}
     </div>
-    <div class="{{template "style_root_div"}}">
+    <div class="relative flex min-h-screen flex-col justify-center overflow-hidden pt-8 lg:pt-12">
         {{template "admin_header" .}}
         <br>
-        <div id="admin-content"
-             class="flex flex-col">
+        <div id="admin-content" class="flex flex-col">
             <input placeholder="Search Articles..."
-                   hx-get="/posts?page=1&pageSize=10&sortBy=published_at&status=published"
-                   hx-trigger="keyup changed delay:500ms, search"
-                   hx-target="#post-list"
-                   hx-swap="innerHTML"
-                   class="{{template "style_form_input"}} mt-8 mb-4
-                   md:mx-auto md:max-w-3xl lg:max-w-4xl
-                   self-center rounded-xl"
-                   type="text"
-                   name="search">
+                hx-get="/posts?page=1&pageSize=10&sortBy=published_at&status=published"
+                hx-trigger="keyup changed delay:500ms, search"
+                hx-target="#post-list" hx-swap="innerHTML" class="focus:border-transparent focus:outline-none focus:outline-sky-600 border-transparent shadow-2xl shadow-rose-800/30 w-10/12 p-3 mt-8 mb-4 md:mx-auto md:max-w-3xl lg:max-w-4xl self-center rounded-xl" type="text" name="search">
             {{if .Posts}}
             <div id="post-list">
                 {{template "post_list" .Posts}}
