@@ -45,24 +45,26 @@ function upload(ev) {
             body: formData
         }).then((response) => {
             return response.text()
-        }).then((rawData) => {
-            data = JSON.parse(rawData)
-            elm = document.getElementById("form-content")
-            imgMark = `![img](${data.url})`
-            if (elm.selectionStart || elm.selectionStart == '0') {
-                var startPos = elm.selectionStart;
-                var endPos = elm.selectionEnd;
-
-                elm.value = elm.value.substring(0, startPos)
-                    + imgMark
-                    + elm.value.substring(endPos, elm.value.length);
-            }
-            else {
-                elm.value += imgMark
-            }
-
-            Swal.close()
-        });
+        }).then(afterUpload);
     }
     reader.readAsDataURL(file)
+}
+
+function afterUpload(rawData) {
+    data = JSON.parse(rawData)
+    elm = document.getElementById("form-content")
+    imgMark = `![img](${data.url})`
+    if (elm.selectionStart || elm.selectionStart == '0') {
+        var startPos = elm.selectionStart;
+        var endPos = elm.selectionEnd;
+
+        elm.value = elm.value.substring(0, startPos)
+            + imgMark
+            + elm.value.substring(endPos, elm.value.length);
+    }
+    else {
+        elm.value += imgMark
+    }
+
+    Swal.close()
 }
