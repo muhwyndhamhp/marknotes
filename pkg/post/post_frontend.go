@@ -87,7 +87,9 @@ func (fe *PostFrontend) PostsManage(c echo.Context) error {
 	}
 
 	resp := map[string]interface{}{"Posts": posts}
-	resp["AdminHeader"] = components.GetAdminHeader(jwt.AppendUserID(c, resp))
+	userID := jwt.AppendUserID(c, resp)
+	resp["AdminHeader"] = components.GetAdminHeader(userID)
+	resp["AdminFooter"] = components.GetAdminFooter(userID)
 
 	return c.Render(http.StatusOK, "posts_manage", resp)
 }
@@ -180,7 +182,9 @@ func (fe *PostFrontend) PostEdit(c echo.Context) error {
 	}
 
 	post.FormMeta = map[string]interface{}{}
-	post.FormMeta["AdminHeader"] = components.GetAdminHeader(jwt.AppendUserID(c, post.FormMeta))
+	userID := jwt.AppendUserID(c, post.FormMeta)
+	post.FormMeta["AdminHeader"] = components.GetAdminHeader(userID)
+	post.FormMeta["AdminFooter"] = components.GetAdminFooter(userID)
 
 	models.SetTagEditable(post.Tags...)
 
@@ -204,7 +208,9 @@ func (fe *PostFrontend) PostsIndex(c echo.Context) error {
 	}
 
 	resp := map[string]interface{}{"Posts": posts}
-	resp["AdminHeader"] = components.GetAdminHeader(jwt.AppendUserID(c, resp))
+	userID := jwt.AppendUserID(c, resp)
+	resp["AdminHeader"] = components.GetAdminHeader(userID)
+	resp["AdminFooter"] = components.GetAdminFooter(userID)
 
 	return c.Render(http.StatusOK, "posts_index", resp)
 }
@@ -223,10 +229,12 @@ func (fe *PostFrontend) GetPostByID(c echo.Context) error {
 		post.FormMeta = map[string]interface{}{
 			"UserID":      claims.UserID,
 			"AdminHeader": components.GetAdminHeader(claims.UserID),
+			"AdminFooter": components.GetAdminFooter(claims.UserID),
 		}
 	} else {
 		post.FormMeta = map[string]interface{}{
 			"AdminHeader": components.GetAdminHeader(0),
+			"AdminFooter": components.GetAdminFooter(0),
 		}
 	}
 
@@ -271,7 +279,9 @@ func (fe *PostFrontend) PostsNew(c echo.Context) error {
 	post := &models.Post{}
 
 	post.FormMeta = map[string]interface{}{}
-	post.FormMeta["AdminHeader"] = components.GetAdminHeader(jwt.AppendUserID(c, post.FormMeta))
+	userID := jwt.AppendUserID(c, post.FormMeta)
+	post.FormMeta["AdminHeader"] = components.GetAdminHeader(userID)
+	post.FormMeta["AdminFooter"] = components.GetAdminFooter(userID)
 
 	models.SetTagEditable(post.Tags...)
 

@@ -1,0 +1,15 @@
+{{define "admin_footer"}}
+<div
+     class="flex-row w-full h-16 dark:bg-slate-900 bg-slate-200 px-8 text-center pt-2 mt-20">
+    <div class="inline flex-auto list-none">
+        {{range .Buttons}}
+            {{template "inline_anchor_button" .}}
+        {{end}}
+        {{if not .UserID}}
+            {{range .AdminButtons}}
+                {{template "inline_anchor_button" .}}
+            {{end}}
+        {{end}}
+    </div>
+</div>
+{{end}}

@@ -35,9 +35,9 @@ func NewAdminFrontend(
 func (fe *AdminFrontend) Contact(c echo.Context) error {
 	resp := map[string]interface{}{}
 
-	resp["AdminHeader"] = components.GetAdminHeader(
-		jwt.AppendUserID(c, resp),
-	)
+	userID := jwt.AppendUserID(c, resp)
+	resp["AdminHeader"] = components.GetAdminHeader(userID)
+	resp["AdminFooter"] = components.GetAdminFooter(userID)
 
 	return c.Render(http.StatusOK, "contact", resp)
 }
@@ -63,9 +63,10 @@ func (fe *AdminFrontend) Index(c echo.Context) error {
 		"Posts": posts,
 	}
 
-	jwt.AppendUserID(c, resp)
+	userID := jwt.AppendUserID(c, resp)
 
-	resp["AdminHeader"] = components.GetAdminHeader(jwt.AppendUserID(c, resp))
+	resp["AdminHeader"] = components.GetAdminHeader(userID)
+	resp["AdminFooter"] = components.GetAdminFooter(userID)
 
 	return c.Render(http.StatusOK, "index", resp)
 }
@@ -73,6 +74,7 @@ func (fe *AdminFrontend) Index(c echo.Context) error {
 func (fe *AdminFrontend) Unauthorized(c echo.Context) error {
 	resp := map[string]interface{}{
 		"AdminHeader": components.GetAdminHeader(0),
+		"AdminFooter": components.GetAdminFooter(0),
 	}
 	return c.Render(http.StatusOK, "unauthorized", resp)
 }
