@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/labstack/echo/v4"
+	"github.com/muhwyndhamhp/marknotes/components"
 	"github.com/muhwyndhamhp/marknotes/middlewares"
 	"github.com/muhwyndhamhp/marknotes/pkg/models"
 	"github.com/muhwyndhamhp/marknotes/pkg/post/dto"
@@ -86,7 +87,7 @@ func (fe *PostFrontend) PostsManage(c echo.Context) error {
 	}
 
 	resp := map[string]interface{}{"Posts": posts}
-	jwt.AppendUserID(c, resp)
+	resp["AdminHeader"] = components.GetAdminHeader(jwt.AppendUserID(c, resp))
 
 	return c.Render(http.StatusOK, "posts_manage", resp)
 }
@@ -179,7 +180,7 @@ func (fe *PostFrontend) PostEdit(c echo.Context) error {
 	}
 
 	post.FormMeta = map[string]interface{}{}
-	jwt.AppendUserID(c, post.FormMeta)
+	post.FormMeta["AdminHeader"] = components.GetAdminHeader(jwt.AppendUserID(c, post.FormMeta))
 
 	models.SetTagEditable(post.Tags...)
 
@@ -203,7 +204,7 @@ func (fe *PostFrontend) PostsIndex(c echo.Context) error {
 	}
 
 	resp := map[string]interface{}{"Posts": posts}
-	jwt.AppendUserID(c, resp)
+	resp["AdminHeader"] = components.GetAdminHeader(jwt.AppendUserID(c, resp))
 
 	return c.Render(http.StatusOK, "posts_index", resp)
 }
@@ -220,7 +221,8 @@ func (fe *PostFrontend) GetPostByID(c echo.Context) error {
 	claims, _ := c.Get(jwt.AuthClaimKey).(*jwt.Claims)
 	if claims != nil {
 		post.FormMeta = map[string]interface{}{
-			"UserID": claims.UserID,
+			"UserID":      claims.UserID,
+			"AdminHeader": components.GetAdminHeader(claims.UserID),
 		}
 	}
 
@@ -265,7 +267,7 @@ func (fe *PostFrontend) PostsNew(c echo.Context) error {
 	post := &models.Post{}
 
 	post.FormMeta = map[string]interface{}{}
-	jwt.AppendUserID(c, post.FormMeta)
+	post.FormMeta["AdminHeader"] = components.GetAdminHeader(jwt.AppendUserID(c, post.FormMeta))
 
 	models.SetTagEditable(post.Tags...)
 

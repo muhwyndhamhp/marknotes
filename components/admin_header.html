@@ -1,0 +1,23 @@
+{{define "admin_header"}}
+<header class="header xs:mt-20 md:mt-10 text-center">
+    <div class="w-full flex-row">
+        <a href="/">
+            <h1 class="flex-auto mb-10">
+                mwyndham.dev
+            </h1>
+        </a>
+        <div class="inline flex-auto 
+        list-none bg-slate-200 
+        dark:bg-slate-900 rounded-md px-4 py-4 w-full">
+            {{range .Buttons}}
+                {{template "inline_anchor_button" .}}
+            {{end}}
+            {{if .UserID}}
+                {{range .AdminButtons}}
+                    {{template "inline_anchor_button" .}}
+                {{end}}
+            {{end}}
+        </div>
+    </div>
+</header>
+{{end}}

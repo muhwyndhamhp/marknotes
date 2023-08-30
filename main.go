@@ -31,6 +31,8 @@ func main() {
 		"public/views/*.html",
 		"public/components/*.html",
 		"public/styles/*.html",
+		"components/*.html",
+		"components/elements/*.html",
 	)
 
 	e.GET("/", func(c echo.Context) error {

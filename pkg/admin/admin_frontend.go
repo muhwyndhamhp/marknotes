@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
+	"github.com/muhwyndhamhp/marknotes/components"
 	"github.com/muhwyndhamhp/marknotes/config"
 	"github.com/muhwyndhamhp/marknotes/pkg/models"
 	"github.com/muhwyndhamhp/marknotes/pkg/post/values"
@@ -34,7 +35,9 @@ func NewAdminFrontend(
 func (fe *AdminFrontend) Contact(c echo.Context) error {
 	resp := map[string]interface{}{}
 
-	jwt.AppendUserID(c, resp)
+	resp["AdminHeader"] = components.GetAdminHeader(
+		jwt.AppendUserID(c, resp),
+	)
 
 	return c.Render(http.StatusOK, "contact", resp)
 }
@@ -62,9 +65,14 @@ func (fe *AdminFrontend) Index(c echo.Context) error {
 
 	jwt.AppendUserID(c, resp)
 
+	resp["AdminHeader"] = components.GetAdminHeader(jwt.AppendUserID(c, resp))
+
 	return c.Render(http.StatusOK, "index", resp)
 }
 
 func (fe *AdminFrontend) Unauthorized(c echo.Context) error {
-	return c.Render(http.StatusOK, "unauthorized", nil)
+	resp := map[string]interface{}{
+		"AdminHeader": components.GetAdminHeader(0),
+	}
+	return c.Render(http.StatusOK, "unauthorized", resp)
 }
