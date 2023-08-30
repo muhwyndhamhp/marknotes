@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"strings"
 
+	embed "github.com/13rac1/goldmark-embed"
 	chromahtml "github.com/alecthomas/chroma/v2/formatters/html"
 	"github.com/dlclark/regexp2"
 	"github.com/yuin/goldmark"
@@ -26,6 +27,7 @@ func init() {
 					chromahtml.WithLineNumbers(true),
 				),
 			),
+			embed.New(),
 		),
 		goldmark.WithParserOptions(
 			parser.WithAutoHeadingID(),

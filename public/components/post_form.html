@@ -12,6 +12,8 @@
            {{end}}>
     <br>
     <textarea id="form-content"
+              ondrop="upload(event)"
+              ondragover="allowDrop(event)"
               placeholder="And the rest goes here!"
               hx-trigger="keyup changed delay:500ms, content"
               hx-post="/posts/render"
