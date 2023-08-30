@@ -47,7 +47,20 @@ function upload(ev) {
             return response.text()
         }).then((rawData) => {
             data = JSON.parse(rawData)
-            document.getElementById("form-content").value += `![img](${data.url})`
+            elm = document.getElementById("form-content")
+            imgMark = `![img](${data.url})`
+            if (elm.selectionStart || elm.selectionStart == '0') {
+                var startPos = elm.selectionStart;
+                var endPos = elm.selectionEnd;
+
+                elm.value = elm.value.substring(0, startPos)
+                    + imgMark
+                    + elm.value.substring(endPos, elm.value.length);
+            }
+            else {
+                elm.value += imgMark
+            }
+
             Swal.close()
         });
     }
