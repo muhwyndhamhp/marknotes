@@ -224,6 +224,10 @@ func (fe *PostFrontend) GetPostByID(c echo.Context) error {
 			"UserID":      claims.UserID,
 			"AdminHeader": components.GetAdminHeader(claims.UserID),
 		}
+	} else {
+		post.FormMeta = map[string]interface{}{
+			"AdminHeader": components.GetAdminHeader(0),
+		}
 	}
 
 	if post.Status == values.Draft &&
