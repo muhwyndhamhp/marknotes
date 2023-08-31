@@ -1,4 +1,5 @@
 {{define "auth_rule"}}
+<!-- Requires admin.AuthRule type -->
     {{if or 
         (eq .AuthRule "always-mode") 
         (and (eq .AuthRule "user-mode") .UserID) 

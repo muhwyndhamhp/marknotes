@@ -1,7 +1,8 @@
 {{define "tag_item"}}
+<!-- Requires models.Tag struct -->
 <div {{if .FormMeta.IsEditable}} hx-get="/tags/remove" hx-swap="outerHTML"
      {{end}}
-     class="basis-auto mx-1 bg-slate-700 rounded-xl ps-1 pe-2 pt-1 pb-0.5 mt-2 text-slate-100 text-xs">
+     class="basis-auto mx-1 bg-rose-50 dark:bg-slate-700 rounded-xl ps-1 pe-2 pt-1 pb-1 mt-2 dark:text-slate-100 text-xs ring-1 ring-rose-900/10 shadow-sm shadow-rose-950/30">
      <input type='checkbox' name='tags' value="{{.ID}}" class="invisible w-0"
           checked="true"><span>{{.Title}}</span>
 </div>

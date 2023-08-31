@@ -236,6 +236,8 @@ func (fe *PostFrontend) GetPostByID(c echo.Context) error {
 		}
 	}
 
+	post.FormMeta["CenterAlign"] = true
+
 	if post.Status == values.Draft &&
 		(claims == nil || claims.UserID == 0) {
 		return c.Redirect(http.StatusFound, "/")

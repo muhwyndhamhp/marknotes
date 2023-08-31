@@ -1,21 +1,15 @@
 {{define "post_item"}}
+<!-- Requires models.Post struct -->
 <div {{if .FormMeta.IsLastItem}}
     hx-get="/posts?page={{.FormMeta.Page}}&pageSize=10{{if .FormMeta.PublishedOnly}}&status=published{{end}}{{if .FormMeta.SortQuery}}&sortBy={{.FormMeta.SortQuery}}{{end}} {{if .FormMeta.Keyword}}&search={{.FormMeta.Keyword}}{{end}}"
     hx-trigger="revealed" hx-swap="afterend" {{end}}>
     <div
         class="bg-stone-100 dark:bg-slate-900 md:rounded-md p-4 relative w-full md:mx-auto md:max-w-3xl lg:max-w-4xl px-4 md:px-0 self-center mx-auto px-auto md:my-4">
-        <h2 class="mx-4">
-            <a href="/posts/{{.ID}}">{{.Title}}</a>
-        </h2>
-        <p class="mx-4 minor my-0">Published at:
-            {{.PublishedAt.Format "January, 02 2006"}} | Updated at:
-            {{.UpdatedAt.Format "January, 02 2006"}} | Created at:
-            {{.CreatedAt.Format "January, 02 2006"}}</p>
-        <p class="mx-4 text-justify minor">Status: {{.Status}}</p>
-        <div id="tag-flex" class="mx-4 flex flex-row flex-wrap w-12/12">
-            {{range .Tags}}
-            {{template "tag_item" .}}
-        {{end}}
+        <div class="mx-4">
+            <h2>
+                <a href="/posts/{{.ID}}">{{.Title}}</a>
+            </h2>
+            {{template "post_metadata" .}}
         </div>
     </div>
 </div>
