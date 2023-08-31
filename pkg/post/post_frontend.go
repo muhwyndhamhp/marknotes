@@ -89,6 +89,7 @@ func (fe *PostFrontend) PostsManage(c echo.Context) error {
 	resp := map[string]interface{}{"Posts": posts}
 	userID := jwt.AppendAndReturnUserID(c, resp)
 	resp[admin.HeaderButtonsKey] = admin.AppendHeaderButtons(userID)
+	resp[admin.FooterButtonsKey] = admin.AppendFooterButtons(userID)
 
 	return c.Render(http.StatusOK, "posts_manage", resp)
 }
@@ -186,6 +187,7 @@ func (fe *PostFrontend) PostEdit(c echo.Context) error {
 	}
 	userID := jwt.AppendAndReturnUserID(c, post.FormMeta)
 	post.FormMeta[admin.HeaderButtonsKey] = admin.AppendHeaderButtons(userID)
+	post.FormMeta[admin.FooterButtonsKey] = admin.AppendFooterButtons(userID)
 
 	models.SetTagEditable(post.Tags...)
 
@@ -211,6 +213,7 @@ func (fe *PostFrontend) PostsIndex(c echo.Context) error {
 	resp := map[string]interface{}{"Posts": posts}
 	userID := jwt.AppendAndReturnUserID(c, resp)
 	resp[admin.HeaderButtonsKey] = admin.AppendHeaderButtons(userID)
+	resp[admin.FooterButtonsKey] = admin.AppendFooterButtons(userID)
 
 	return c.Render(http.StatusOK, "posts_index", resp)
 }
@@ -229,10 +232,12 @@ func (fe *PostFrontend) GetPostByID(c echo.Context) error {
 		post.FormMeta = map[string]interface{}{
 			"UserID":               claims.UserID,
 			admin.HeaderButtonsKey: admin.AppendHeaderButtons(claims.UserID),
+			admin.FooterButtonsKey: admin.AppendFooterButtons(claims.UserID),
 		}
 	} else {
 		post.FormMeta = map[string]interface{}{
 			admin.HeaderButtonsKey: admin.AppendHeaderButtons(0),
+			admin.FooterButtonsKey: admin.AppendFooterButtons(0),
 		}
 	}
 
@@ -284,6 +289,7 @@ func (fe *PostFrontend) PostsNew(c echo.Context) error {
 	}
 	userID := jwt.AppendAndReturnUserID(c, post.FormMeta)
 	post.FormMeta[admin.HeaderButtonsKey] = admin.AppendHeaderButtons(userID)
+	post.FormMeta[admin.FooterButtonsKey] = admin.AppendFooterButtons(userID)
 
 	models.SetTagEditable(post.Tags...)
 

@@ -36,6 +36,7 @@ func (fe *AdminFrontend) Contact(c echo.Context) error {
 
 	userID := jwt.AppendAndReturnUserID(c, resp)
 	resp[HeaderButtonsKey] = AppendHeaderButtons(userID)
+	resp[FooterButtonsKey] = AppendFooterButtons(userID)
 
 	return c.Render(http.StatusOK, "contact", resp)
 }
@@ -63,6 +64,7 @@ func (fe *AdminFrontend) Index(c echo.Context) error {
 
 	userID := jwt.AppendAndReturnUserID(c, resp)
 	resp[HeaderButtonsKey] = AppendHeaderButtons(userID)
+	resp[FooterButtonsKey] = AppendFooterButtons(userID)
 
 	return c.Render(http.StatusOK, "index", resp)
 }

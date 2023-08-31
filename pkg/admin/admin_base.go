@@ -15,9 +15,33 @@ const (
 	AlwaysMode AuthRule = "always-mode"
 
 	HeaderButtonsKey = "HeaderButtons"
+	FooterButtonsKey = "FooterButtons"
 )
 
 type AuthNeed string
+
+func AppendFooterButtons(userID uint) []InlineButton {
+	return []InlineButton{
+		{
+			AnchorUrl: "/contact",
+			Label:     "Contact Me",
+			AuthRule:  AlwaysMode,
+			UserID:    userID,
+		},
+		{
+			AnchorUrl: "/resume",
+			Label:     "Resume",
+			AuthRule:  AlwaysMode,
+			UserID:    userID,
+		},
+		{
+			AnchorUrl: "/login",
+			Label:     "Login",
+			AuthRule:  GuestMode,
+			UserID:    userID,
+		},
+	}
+}
 
 func AppendHeaderButtons(userID uint) []InlineButton {
 	return []InlineButton{
