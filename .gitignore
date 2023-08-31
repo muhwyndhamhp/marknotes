@@ -6,3 +6,7 @@ postgres
 node_modules
 .pnpm-store
 .idea
+
+.DS_Store
+
+*.xml.gz
