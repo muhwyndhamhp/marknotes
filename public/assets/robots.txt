@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: 
+Disallow: /dist
+Sitemap: https://mwyndham.dev/sitemap/index.xml.gz

@@ -1,0 +1,37 @@
+<urlset xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+    <url>
+        <loc>https://mwyndham.dev/</loc>
+        <lastmod>2023-08-31T15:12:16+00:00</lastmod>
+        <priority>1.00</priority>
+    </url>
+    <url>
+        <loc>https://mwyndham.dev/posts_index</loc>
+        <lastmod>2023-08-31T15:12:16+00:00</lastmod>
+        <priority>0.80</priority>
+    </url>
+    <url>
+        <loc>https://mwyndham.dev/contact</loc>
+        <lastmod>2023-08-31T15:12:16+00:00</lastmod>
+        <priority>0.80</priority>
+    </url>
+    <url>
+        <loc>https://mwyndham.dev/posts/2</loc>
+        <lastmod>2023-08-31T15:12:16+00:00</lastmod>
+        <priority>0.80</priority>
+    </url>
+    <url>
+        <loc>https://mwyndham.dev/posts/4</loc>
+        <lastmod>2023-08-31T15:12:16+00:00</lastmod>
+        <priority>0.80</priority>
+    </url>
+    <url>
+        <loc>https://mwyndham.dev/posts/3</loc>
+        <lastmod>2023-08-31T15:12:16+00:00</lastmod>
+        <priority>0.80</priority>
+    </url>
+    <url>
+        <loc>https://mwyndham.dev/posts/1</loc>
+        <lastmod>2023-08-31T15:12:16+00:00</lastmod>
+        <priority>0.80</priority>
+    </url>
+</urlset>

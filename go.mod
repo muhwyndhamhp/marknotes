@@ -4,6 +4,7 @@ go 1.20
 
 require (
 	github.com/13rac1/goldmark-embed v0.0.0-20201220231550-e6806f2de66a
+	github.com/StudioSol/sitemap v0.0.0-20230104165527-bf245c07e1c2
 	github.com/alecthomas/chroma/v2 v2.2.0
 	github.com/apsystole/log v0.3.0
 	github.com/dlclark/regexp2 v1.7.0

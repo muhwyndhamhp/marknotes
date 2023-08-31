@@ -1,5 +1,7 @@
 github.com/13rac1/goldmark-embed v0.0.0-20201220231550-e6806f2de66a h1:97tpPJ82VuexbkbPLIzF4BrPy/4XalKF1CKyMFc1fs0=
 github.com/13rac1/goldmark-embed v0.0.0-20201220231550-e6806f2de66a/go.mod h1:dxt3ggQZ3euHiXGfETfZPfA5OUpKgJn1s4vS+YT1MEU=
+github.com/StudioSol/sitemap v0.0.0-20230104165527-bf245c07e1c2 h1:jRna43JSH7pYN9dOaT1uvpTJEgyBKPuuFJ09j6045t4=
+github.com/StudioSol/sitemap v0.0.0-20230104165527-bf245c07e1c2/go.mod h1:e5iySjYmltkcmpQnl0ZGjLC2rkAVFfNzYmjJ2iXA+Ww=
 github.com/alecthomas/chroma/v2 v2.2.0 h1:Aten8jfQwUqEdadVFFjNyjx7HTexhKP0XuqBG67mRDY=
 github.com/alecthomas/chroma/v2 v2.2.0/go.mod h1:vf4zrexSH54oEjJ7EdB65tGNHmH3pGZmVkgTP5RHvAs=
 github.com/alecthomas/repr v0.0.0-20220113201626-b1b626ac65ae h1:zzGwJfFlFGD94CyyYwCJeSuD32Gj9GTaSi5y9hoVzdY=
