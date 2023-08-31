@@ -1,0 +1,12 @@
+{{define "auth_rule"}}
+<!-- Requires admin.AuthRule type -->
+    {{if or 
+        (eq .AuthRule "always-mode") 
+        (and (eq .AuthRule "user-mode") .UserID) 
+        (and (eq .AuthRule "guest-mode") (not .UserID))
+    }}
+        visible
+    {{else}}
+        hidden
+    {{end}}
+{{end}}

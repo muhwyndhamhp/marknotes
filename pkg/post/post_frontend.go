@@ -11,6 +11,7 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/muhwyndhamhp/marknotes/middlewares"
+	"github.com/muhwyndhamhp/marknotes/pkg/admin"
 	"github.com/muhwyndhamhp/marknotes/pkg/models"
 	"github.com/muhwyndhamhp/marknotes/pkg/post/dto"
 	"github.com/muhwyndhamhp/marknotes/pkg/post/values"
@@ -86,7 +87,13 @@ func (fe *PostFrontend) PostsManage(c echo.Context) error {
 	}
 
 	resp := map[string]interface{}{"Posts": posts}
-	jwt.AppendUserID(c, resp)
+	userID := jwt.AppendAndReturnUserID(c, resp)
+	resp[admin.HeaderButtonsKey] = admin.AppendHeaderButtons(userID)
+	resp[admin.FooterButtonsKey] = admin.AppendFooterButtons(userID)
+	resp[SearchBarKey] = SearchBar{
+		SearchPlaceholder: "Manage Articles...",
+		SearchPath:        "/posts?page=1&pageSize=10",
+	}
 
 	return c.Render(http.StatusOK, "posts_manage", resp)
 }
@@ -178,8 +185,13 @@ func (fe *PostFrontend) PostEdit(c echo.Context) error {
 		return err
 	}
 
-	post.FormMeta = map[string]interface{}{}
-	jwt.AppendUserID(c, post.FormMeta)
+	post.FormMeta = map[string]interface{}{
+		"SubmitPath": fmt.Sprintf("/posts/%d/update", id),
+		"CancelPath": fmt.Sprintf("/posts/%d", id),
+	}
+	userID := jwt.AppendAndReturnUserID(c, post.FormMeta)
+	post.FormMeta[admin.HeaderButtonsKey] = admin.AppendHeaderButtons(userID)
+	post.FormMeta[admin.FooterButtonsKey] = admin.AppendFooterButtons(userID)
 
 	models.SetTagEditable(post.Tags...)
 
@@ -203,7 +215,13 @@ func (fe *PostFrontend) PostsIndex(c echo.Context) error {
 	}
 
 	resp := map[string]interface{}{"Posts": posts}
-	jwt.AppendUserID(c, resp)
+	userID := jwt.AppendAndReturnUserID(c, resp)
+	resp[admin.HeaderButtonsKey] = admin.AppendHeaderButtons(userID)
+	resp[admin.FooterButtonsKey] = admin.AppendFooterButtons(userID)
+	resp[SearchBarKey] = SearchBar{
+		SearchPlaceholder: "Search Articles...",
+		SearchPath:        "/posts?page=1&pageSize=10&sortBy=published_at&status=published",
+	}
 
 	return c.Render(http.StatusOK, "posts_index", resp)
 }
@@ -220,9 +238,18 @@ func (fe *PostFrontend) GetPostByID(c echo.Context) error {
 	claims, _ := c.Get(jwt.AuthClaimKey).(*jwt.Claims)
 	if claims != nil {
 		post.FormMeta = map[string]interface{}{
-			"UserID": claims.UserID,
+			"UserID":               claims.UserID,
+			admin.HeaderButtonsKey: admin.AppendHeaderButtons(claims.UserID),
+			admin.FooterButtonsKey: admin.AppendFooterButtons(claims.UserID),
+		}
+	} else {
+		post.FormMeta = map[string]interface{}{
+			admin.HeaderButtonsKey: admin.AppendHeaderButtons(0),
+			admin.FooterButtonsKey: admin.AppendFooterButtons(0),
 		}
 	}
+
+	post.FormMeta["CenterAlign"] = true
 
 	if post.Status == values.Draft &&
 		(claims == nil || claims.UserID == 0) {
@@ -264,8 +291,13 @@ func (fe *PostFrontend) PostsGet(c echo.Context) error {
 func (fe *PostFrontend) PostsNew(c echo.Context) error {
 	post := &models.Post{}
 
-	post.FormMeta = map[string]interface{}{}
-	jwt.AppendUserID(c, post.FormMeta)
+	post.FormMeta = map[string]interface{}{
+		"SubmitPath": "/posts/create",
+		"CancelPath": "/posts_manage",
+	}
+	userID := jwt.AppendAndReturnUserID(c, post.FormMeta)
+	post.FormMeta[admin.HeaderButtonsKey] = admin.AppendHeaderButtons(userID)
+	post.FormMeta[admin.FooterButtonsKey] = admin.AppendFooterButtons(userID)
 
 	models.SetTagEditable(post.Tags...)
 

@@ -1,10 +1,6 @@
 {{define "post_preview"}}
-<div class="text-start
-            rounded-xl
-            lg:max-w-3xl
-            md:max-w-md md:basis-7/12 md:mr-8 md:ml-0 md:p-3 md:my-8 
-            xs:p-3 xs:m-4 bg-stone-100 px-6 dark:bg-slate-950 ">
-    <article class="{{template "style_article_body"}}"
-             id="preview"></article>
+<div
+        class="text-start rounded-xl lg:max-w-3xl md:max-w-md md:basis-7/12 md:mr-8 md:ml-0 md:p-3 md:my-8 xs:p-3 xs:m-4 bg-stone-100 px-6 dark:bg-slate-950 ">
+        {{template "markdown_body"}}
 </div>
 {{end}}

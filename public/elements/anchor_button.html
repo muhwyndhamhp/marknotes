@@ -1,0 +1,8 @@
+{{define "anchor_button"}}
+<!-- Requires admin.InlineButton struct -->
+<button class="inline-block mx-4 mt-4 {{template "auth_rule" .}}">
+    <a href="{{.AnchorUrl}}">
+        <strong>{{.Label}}</strong>
+    </a>
+</button>
+{{end}}

@@ -30,7 +30,7 @@ func main() {
 	template.NewTemplateRenderer(e,
 		"public/views/*.html",
 		"public/components/*.html",
-		"public/styles/*.html",
+		"public/elements/*.html",
 	)
 
 	e.GET("/", func(c echo.Context) error {

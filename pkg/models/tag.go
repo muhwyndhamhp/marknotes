@@ -23,7 +23,6 @@ type TagRepository interface {
 }
 
 func SetTagEditable(tags ...*Tag) {
-
 	for i := range tags {
 		tags[i].FormMeta = map[string]interface{}{
 			"IsEditable": true,

@@ -1,25 +1,8 @@
 {{define "unauthorized"}}
-<!DOCTYPE html>
-<html>
-
-<head>
-    {{template "head_tags"}}
-    <title>mwyndham.dev</title>
-</head>
-
-<body id="admin-root">
-    {{template "static_background"}}   
-    <div class="{{template "style_root_div"}} text-center px-8">
-        {{template "admin_header" .}}
-        <br>
-        <div id="admin-content">
-            <h2>Your Account is Unauthorized!</h1>
-            <p>Do you looking for <a href="/posts_index">homepage?</a></p>
-        </div>
-        <br>
-        {{template "admin_footer" .}}
-    </div>
-</body>
-
-</html>
+{{template "upper_body" .}}
+<div id="admin-content">
+    <h2>Your Account is Unauthorized!</h1>
+        <p>Do you looking for <a href="/posts_index">homepage?</a></p>
+</div>
+{{template "lower_body"}}
 {{end}}

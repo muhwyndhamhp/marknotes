@@ -1,42 +1,16 @@
 {{define "posts_manage"}}
-<!DOCTYPE html>
-<html>
-
-<head>
-    {{template "head_tags"}}
-    <title>mwyndham.dev</title>
-</head>
-
-<body id="admin-root">
-    {{template "static_background"}}
-    <div class="{{template "style_root_div"}}">
-        {{template "admin_header" .}}
-        <br>
-        <div id="admin-content"
-             class="flex flex-col">
-            <input placeholder="Manage Articles..."
-                   hx-get="/posts?page=1&pageSize=10"
-                   hx-trigger="keyup changed delay:500ms, search"
-                   hx-target="#post-list"
-                   hx-swap="innerHTML"
-                   class="{{template "style_form_input"}} mt-8 mb-4
-                   md:mx-auto md:max-w-3xl lg:max-w-4xl
-                   self-center rounded-xl"
-                   type="text"
-                   name="search">
-            {{if .Posts}}
-            <div id="post-list">
-                {{template "post_list" .Posts}}
-            </div>
-            {{else}}
-            <h1>No Post Found! Create One?</h1>
-            {{template "create_post_button"}}
-            {{end}}
-        </div>
-        <br>
-        {{template "admin_footer" .}}
+{{template "upper_body" .}}
+<br>
+<div id="admin-content" class="flex flex-col">
+    {{template "search_bar" .SearchBar}}
+    {{if .Posts}}
+    <div id="post-list">
+        {{template "post_list" .Posts}}
     </div>
-</body>
-
-</html>
+    {{else}}
+    <h1>No Post Found! Create One?</h1>
+    {{template "create_post_button"}}
+    {{end}}
+</div>
+{{template "lower_body" .}}
 {{end}}

@@ -1,41 +1,10 @@
 {{define "posts_new"}}
-<!DOCTYPE html>
-<html>
-
-<head>
-    {{template "head_tags"}}
-    <title>mwyndham.dev</title>
-</head>
-
-<body id="admin-root">
-    {{template "static_background"}}   
-    <div class="{{template "style_root_div"}} text-center">
-        {{template "admin_header" .FormMeta}}
-        <br>
-        <div class="flex md:flex-row xs:flex-col">
-            <div class="md:basis-5/12">
+{{template "upper_body" .FormMeta}}
+        <div class="flex md:flex-row xs:flex-col mt-8">
+            <div class="md:basis-5/12 text-center">
                 {{template "post_form" .}}
-                {{template "tag_form" .Tags}}
-                <button hx-post="/posts/create"
-                        hx-target="#admin-root"
-                        hx-include="#form-post, #tag-flex"
-                        hx-swap="innerHTML"
-                        class="{{template "style_button_primary_rounded"}} mx-2">
-                    Submit
-                </button>
-                <button hx-get="/posts_index"
-                        hx-push-url="true"
-                        hx-target="#admin-root"
-                        class="{{template "style_button_secondary_rounded"}} mx-2">
-                    Cancel
-                </button>
             </div>
             {{template "post_preview" .}}
         </div>
-        <br>
-        {{template "admin_footer" .FormMeta}}
-    </div>
-</body>
-
-</html>
+{{template "lower_body" .FormMeta}}
 {{end}}
