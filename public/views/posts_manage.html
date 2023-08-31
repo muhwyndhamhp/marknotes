@@ -2,11 +2,7 @@
 {{template "upper_body" .}}
 <br>
 <div id="admin-content" class="flex flex-col">
-    <input placeholder="Manage Articles..." hx-get="/posts?page=1&pageSize=10"
-        hx-trigger="keyup changed delay:500ms, search" hx-target="#post-list"
-        hx-swap="innerHTML"
-        class="focus:border-transparent focus:outline-none focus:outline-sky-600 border-transparent shadow-2xl shadow-rose-800/30 w-10/12 p-3 mt-8 mb-4 md:mx-auto md:max-w-3xl lg:max-w-4xl self-center rounded-xl"
-        type="text" name="search">
+    {{template "search_bar" .SearchBar}}
     {{if .Posts}}
     <div id="post-list">
         {{template "post_list" .Posts}}

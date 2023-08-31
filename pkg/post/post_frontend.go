@@ -90,6 +90,10 @@ func (fe *PostFrontend) PostsManage(c echo.Context) error {
 	userID := jwt.AppendAndReturnUserID(c, resp)
 	resp[admin.HeaderButtonsKey] = admin.AppendHeaderButtons(userID)
 	resp[admin.FooterButtonsKey] = admin.AppendFooterButtons(userID)
+	resp[SearchBarKey] = SearchBar{
+		SearchPlaceholder: "Manage Articles...",
+		SearchPath:        "/posts?page=1&pageSize=10",
+	}
 
 	return c.Render(http.StatusOK, "posts_manage", resp)
 }
@@ -214,6 +218,10 @@ func (fe *PostFrontend) PostsIndex(c echo.Context) error {
 	userID := jwt.AppendAndReturnUserID(c, resp)
 	resp[admin.HeaderButtonsKey] = admin.AppendHeaderButtons(userID)
 	resp[admin.FooterButtonsKey] = admin.AppendFooterButtons(userID)
+	resp[SearchBarKey] = SearchBar{
+		SearchPlaceholder: "Search Articles...",
+		SearchPath:        "/posts?page=1&pageSize=10&sortBy=published_at&status=published",
+	}
 
 	return c.Render(http.StatusOK, "posts_index", resp)
 }
