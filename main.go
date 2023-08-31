@@ -28,6 +28,7 @@ func main() {
 	e.Static("/dist", "dist")
 	e.Static("/assets", "public/assets")
 	e.Static("/sitemap", "public/sitemap")
+	e.Static("/robots.txt", "public/assets/robots.txt")
 
 	template.NewTemplateRenderer(e,
 		"public/views/*.html",
