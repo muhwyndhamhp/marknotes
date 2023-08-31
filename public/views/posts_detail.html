@@ -1,19 +1,6 @@
 {{define "posts_detail"}}
-<!DOCTYPE html>
-<html>
-
-<head>
-    {{template "head_tags"}}
-    <title>mwyndham.dev</title>
-</head>
-
-<body id="admin-root">
-    {{template "static_background"}}
-    <div class="relative flex min-h-screen flex-col justify-center overflow-hidden pt-8 lg:pt-12">
-        <div
-            class="relative w-full md:mx-auto md:max-w-3xl lg:max-w-4xl">
-            {{template "admin_header" .FormMeta}}
-            <br>
+{{template "upper_body" .FormMeta}}
+        <div class="relative w-full md:mx-auto md:max-w-3xl lg:max-w-4xl pt-8">
             <h1 class="text-center">{{.Title}}</h1>
             <div class="mt-6 mb-4 px-4 md:px-0">
                 {{template "post_metadata" .}}
@@ -50,10 +37,5 @@
             class="relative w-full md:rounded-xl bg-stone-100 px-6 dark:bg-slate-950 md:max-w-3xl lg:max-w-4xl md:pt-4 lg:pb-28 lg:pt-6 mt-4 py-8 md:mx-auto shadow-xl shadow-slate-700/10 ring-1 ring-gray-900/5">
             {{template "markdown_body" .EncodedContent}}
         </div>
-        <br>
-        {{template "admin_footer" .FormMeta}}
-    </div>
-</body>
-
-</html>
+{{template "lower_body" .FormMeta}}
 {{end}}

@@ -1,37 +1,21 @@
 {{define "index"}}
-<!DOCTYPE html>
-<html>
-
-<head>
-    {{template "head_tags"}}
-    <title>mwyndham.dev</title>
-</head>
-
-<body id="admin-root">
-    {{template "static_background"}}
-    <div class="relative flex min-h-screen flex-col justify-center overflow-hidden pt-8 lg:pt-12">
-        {{template "admin_header" .}}
-        <br>
-        <div
-            class="relative w-full md:mx-auto md:max-w-3xl lg:max-w-4xl px-4 md:px-0 self-center mx-auto px-auto my-4">
-            {{template "intro"}}
-            <br>
-            <h2>Latest Articles</h2>
-        </div>
-        <div id="admin-content">
-            {{if .Posts}}
-            <div id="post-list" class="flex-row flex-justify-center">
-                {{template "post_list" .Posts}}
-            </div>
-            {{else}}
-            <h1>No Post Found! Create One?</h1>
-            {{template "create_post_button"}}
-            {{end}}
-        </div>
-        <br>
-        {{template "admin_footer" .}}
+{{template "upper_body" .}}
+<br>
+<div
+    class="relative w-full md:mx-auto md:max-w-3xl lg:max-w-4xl px-4 md:px-0 self-center mx-auto px-auto my-4">
+    {{template "intro"}}
+    <br>
+    <h2>Latest Articles</h2>
+</div>
+<div id="admin-content">
+    {{if .Posts}}
+    <div id="post-list" class="flex-row flex-justify-center">
+        {{template "post_list" .Posts}}
     </div>
-</body>
-
-</html>
+    {{else}}
+    <h1>No Post Found! Create One?</h1>
+    {{template "create_post_button"}}
+    {{end}}
+</div>
+{{template "lower_body" .}}
 {{end}}

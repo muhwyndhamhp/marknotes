@@ -25,8 +25,8 @@
        class="focus:border-transparent focus:outline-none focus:outline-sky-600 border-transparent shadow-2xl shadow-rose-800/30 w-10/12 p-3 rounded-lg mt-0"
        type="text" name="tag">
 <br>
-<div class="ps-8 mt-4">
-    <div id="tag-flex" class="mx-4 flex flex-row flex-wrap w-12/12">
+<div class="md:ps-4 mt-4">
+    <div id="tag-flex" class="mx-6 flex flex-row flex-wrap w-12/12">
         {{range .Tags}}
         {{template "tag_item" .}}
         {{end}}
@@ -35,11 +35,11 @@
 <br>
 <button hx-post="{{.FormMeta.SubmitPath}}" hx-target="#admin-root"
     hx-include="#form-post, #tag-flex" hx-swap="innerHTML"
-    class="focus:border-transparent focus:outline-nonefocus:outline-sky-600 border-transparent bg-teal-800 p-2 my-3 drop-shadow-md text-slate-100 px-8 text-lg border-none rounded-md mx-2">
+    class="focus:border-transparent focus:outline-nonefocus:outline-sky-600 w-3/5 border-transparent bg-gradient-to-r dark:from-teal-700 dark:via-blue-950 dark:to-indigo-700 from-rose-200 via-stone-200 to-slate-200 py-4 my-3 shadow-2xl shadow-blue-800/60 ring-1 dark:ring-2 ring-rose-800/30 dark:ring-slate-900 dark:text-slate-100 border-none rounded-xl mx-2">
     Submit
 </button>
 <button hx-get="{{.FormMeta.CancelPath}}" hx-push-url="true" hx-target="#admin-root"
-    class="focus:border-transparent focus:outline-nonefocus:outline-sky-600 border-transparent bg-white p-2 my-3 drop-shadow-md text-teal-800 px-8 text-lg border-none rounded-md mx-2">
+    class="focus:border-transparent focus:outline-nonefocus:outline-sky-600 w-1/5 border-transparent bg-white py-4 my-3 drop-shadow-md text-indigo-800 border-none rounded-xl mx-2">
     Cancel
 </button>
 {{end}}
