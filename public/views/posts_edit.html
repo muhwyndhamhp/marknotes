@@ -15,18 +15,6 @@
         <div class="flex md:flex-row xs:flex-col">
             <div class="md:basis-5/12">
                 {{template "post_form" .}}
-                {{template "tag_form" .Tags}}
-                <button hx-post="/posts/{{.ID}}/update" hx-target="#admin-root"
-                    hx-include="#form-post, #tag-flex" hx-swap="innerHTML"
-                    hx-push-url="true"
-                    class="focus:border-transparent focus:outline-nonefocus:outline-sky-600 border-transparent bg-teal-800 p-2 my-3 drop-shadow-md text-slate-100 px-8 text-lg border-none rounded-md mx-2">
-                    Submit
-                </button>
-                <button hx-get="/posts/{{.ID}}" hx-push-url="true"
-                    hx-target="#admin-root"
-                    class="focus:border-transparent focus:outline-nonefocus:outline-sky-600 border-transparent bg-white p-2 my-3 drop-shadow-md text-teal-800 px-8 text-lg border-none rounded-md mx-2">
-                    Cancel
-                </button>
             </div>
             {{template "post_preview" .}}
         </div>

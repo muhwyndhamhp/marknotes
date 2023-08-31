@@ -132,10 +132,13 @@ func (s *Service) AuthMiddleware() echo.MiddlewareFunc {
 	}
 }
 
-func AppendUserID(c echo.Context, target map[string]interface{}) {
+func AppendAndReturnUserID(c echo.Context, target map[string]interface{}) uint {
 	claims, _ := c.Get(AuthClaimKey).(*Claims)
 
 	if claims != nil {
 		target["UserID"] = claims.UserID
+		return claims.UserID
 	}
+
+	return 0
 }

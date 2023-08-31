@@ -15,7 +15,7 @@
             {{template "admin_header" .FormMeta}}
             <br>
             <h1 class="text-center">{{.Title}}</h1>
-            <p class="text-center minor my-0">Published at:
+            <p class="text-center minor my-4">Published at:
                 {{.PublishedAt.Format "January, 02 2006"}} | Updated
                 at:
                 {{.UpdatedAt.Format "January, 02 2006"}}</p>
@@ -48,10 +48,8 @@
             {{end}}
         </div>
         <div
-            class="relative w-full md:rounded-xl bg-stone-100 px-6 dark:bg-slate-950 md:max-w-3xl lg:max-w-4xl md:pt-4lg:pb-28 lg:pt-6 mt-4py-8 md:mx-auto shadow-xl shadow-slate-700/10 ring-1 ring-gray-900/5">
-            <article class="prose prose-slate lg:prose-xl md:prose-lg dark:prose-invert prose-h2:bg-clip-text prose-h2:text-transparent prose-h2:bg-gradient-to-r prose-h2:from-pink-600 prose-h2:via-purple-600 prose-h2:to-indigo-600 prose-h3:bg-clip-text  prose-h3:text-transparent  prose-h3:bg-gradient-to-r  prose-h3:from-teal-600  prose-h3:via-sky-600  prose-h3:to-indigo-600">
-                {{.EncodedContent}}
-            </article>
+            class="relative w-full md:rounded-xl bg-stone-100 px-6 dark:bg-slate-950 md:max-w-3xl lg:max-w-4xl md:pt-4 lg:pb-28 lg:pt-6 mt-4py-8 md:mx-auto shadow-xl shadow-slate-700/10 ring-1 ring-gray-900/5">
+            {{template "post_body" .EncodedContent}}
         </div>
         <br>
         {{template "admin_footer" .FormMeta}}

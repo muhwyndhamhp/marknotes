@@ -1484,6 +1484,10 @@ a:active {
   --tw-prose-invert-td-borders: #334155;
 }
 
+.visible{
+  visibility: visible;
+}
+
 .invisible{
   visibility: hidden;
 }
@@ -1543,6 +1547,11 @@ a:active {
   margin-bottom: 1rem;
 }
 
+.my-8{
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
 .mb-10{
   margin-bottom: 2.5rem;
 }
@@ -1587,6 +1596,10 @@ a:active {
   display: flex;
 }
 
+.hidden{
+  display: none;
+}
+
 .h-16{
   height: 4rem;
 }
@@ -1607,12 +1620,12 @@ a:active {
   width: 0px;
 }
 
-.w-full{
-  width: 100%;
-}
-
 .w-10\/12{
   width: 83.333333%;
+}
+
+.w-full{
+  width: 100%;
 }
 
 .flex-auto{
@@ -1743,12 +1756,12 @@ a:active {
   padding: 0.5rem;
 }
 
-.p-4{
-  padding: 1rem;
-}
-
 .p-3{
   padding: 0.75rem;
+}
+
+.p-4{
+  padding: 1rem;
 }
 
 .px-4{
@@ -1864,6 +1877,11 @@ a:active {
   --tw-shadow: var(--tw-shadow-colored);
 }
 
+.shadow-rose-800\/30{
+  --tw-shadow-color: rgb(159 18 57 / 0.3);
+  --tw-shadow: var(--tw-shadow-colored);
+}
+
 .shadow-sky-800\/20{
   --tw-shadow-color: rgb(7 89 133 / 0.2);
   --tw-shadow: var(--tw-shadow-colored);
@@ -1871,11 +1889,6 @@ a:active {
 
 .shadow-slate-700\/10{
   --tw-shadow-color: rgb(51 65 85 / 0.1);
-  --tw-shadow: var(--tw-shadow-colored);
-}
-
-.shadow-rose-800\/30{
-  --tw-shadow-color: rgb(159 18 57 / 0.3);
   --tw-shadow: var(--tw-shadow-colored);
 }
 
@@ -2570,6 +2583,15 @@ a:active {
     padding-left: 6rem;
     padding-right: 6rem;
   }
+
+  .md\:px-4{
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .md\:pt-4{
+    padding-top: 1rem;
+  }
 }
 
 @media (min-width: 1024px){
@@ -2584,6 +2606,10 @@ a:active {
   .lg\:px-32{
     padding-left: 8rem;
     padding-right: 8rem;
+  }
+
+  .lg\:pb-28{
+    padding-bottom: 7rem;
   }
 
   .lg\:pt-12{

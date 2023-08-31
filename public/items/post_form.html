@@ -1,0 +1,44 @@
+{{define "post_form"}}
+<form id="form-post">
+    <label>
+        <h2>Put your toughts here</h2>
+    </label>
+    <br>
+    <input placeholder="Blog title goes here..."
+        class="focus:border-transparent focus:outline-none focus:outline-sky-600 border-transparent shadow-2xl shadow-rose-800/30 w-10/12 p-3 rounded-t-lg mt-0"
+        type="text" name="title" {{if .Title}}value="{{.Title}}" {{end}}>
+    <br>
+    <textarea id="form-content" ondrop="upload(event)"
+        ondragover="allowDrop(event)" placeholder="And the rest goes here!"
+        hx-trigger="keyup changed delay:500ms, content" hx-post="/posts/render"
+        hx-target="#preview"
+        class="focus:border-transparent focus:outline-none focus:outline-sky-600 border-transparent shadow-2xl shadow-rose-800/30 w-10/12 p-3 rounded-b-lg h-96 mt-1"
+        type="text"
+        name="content">{{if .Content}} {{.Content}} {{end}}</textarea>
+</form>
+<br>
+<input placeholder="Tags goes here..." hx-post="/tags/find-or-create"
+       hx-trigger="keydown[key=='Enter'], tag" hx-target="#tag-flex"
+       hx-include="#tag-flex" hx-swap="beforeend"
+       hx-on::after-request="this.value = ''"
+       class="focus:border-transparent focus:outline-none focus:outline-sky-600 border-transparent shadow-2xl shadow-rose-800/30 w-10/12 p-3 rounded-lg mt-0"
+       type="text" name="tag">
+<br>
+<div class="ps-8 mt-4">
+    <div id="tag-flex" class="mx-4 flex flex-row flex-wrap w-12/12">
+        {{range .Tags}}
+        {{template "tag_item" .}}
+        {{end}}
+    </div>
+</div>
+<br>
+<button hx-post="{{.FormMeta.SubmitPath}}" hx-target="#admin-root"
+    hx-include="#form-post, #tag-flex" hx-swap="innerHTML"
+    class="focus:border-transparent focus:outline-nonefocus:outline-sky-600 border-transparent bg-teal-800 p-2 my-3 drop-shadow-md text-slate-100 px-8 text-lg border-none rounded-md mx-2">
+    Submit
+</button>
+<button hx-get="{{.FormMeta.CancelPath}}" hx-push-url="true" hx-target="#admin-root"
+    class="focus:border-transparent focus:outline-nonefocus:outline-sky-600 border-transparent bg-white p-2 my-3 drop-shadow-md text-teal-800 px-8 text-lg border-none rounded-md mx-2">
+    Cancel
+</button>
+{{end}}

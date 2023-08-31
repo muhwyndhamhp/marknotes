@@ -34,7 +34,8 @@ func NewAdminFrontend(
 func (fe *AdminFrontend) Contact(c echo.Context) error {
 	resp := map[string]interface{}{}
 
-	jwt.AppendUserID(c, resp)
+	userID := jwt.AppendAndReturnUserID(c, resp)
+	resp[HeaderButtonsKey] = AppendHeaderButtons(userID)
 
 	return c.Render(http.StatusOK, "contact", resp)
 }
@@ -60,7 +61,8 @@ func (fe *AdminFrontend) Index(c echo.Context) error {
 		"Posts": posts,
 	}
 
-	jwt.AppendUserID(c, resp)
+	userID := jwt.AppendAndReturnUserID(c, resp)
+	resp[HeaderButtonsKey] = AppendHeaderButtons(userID)
 
 	return c.Render(http.StatusOK, "index", resp)
 }
