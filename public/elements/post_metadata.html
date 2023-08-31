@@ -1,9 +1,9 @@
 {{define "post_metadata"}}
 <!-- Requires models.Post struct -->
-<p class="minor my-0 {{template "center_align_rule" .}}">Published at:
-    {{.PublishedAt.Format "January, 02 2006"}} | Updated at:
-    {{.UpdatedAt.Format "January, 02 2006"}} | Created at:
-    {{.CreatedAt.Format "January, 02 2006"}}</p>
+<p class="minor my-0 {{template "center_align_rule" .}}">Created:
+    {{.CreatedAt.Format "Jan, 02 2006"}} | Updated:
+    {{.UpdatedAt.Format "Jan, 02 2006"}} | Published:
+    {{.PublishedAt.Format "Jan, 02 2006"}}</p>
 <p class="minor {{template "center_align_rule" .}}">Status: {{.Status}}</p>
 <div id="tag-flex" class="-ms-1 flex flex-row flex-wrap w-12/12">
     {{range .Tags}}
