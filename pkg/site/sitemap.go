@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	BaseUrl = "https://mwyndham.dev"
+	BaseUrl = "https://mwyndham.dev/"
 )
 
 func PingSitemap(postRepo models.PostRepository) {
@@ -71,7 +71,7 @@ func PingSitemap(postRepo models.PostRepository) {
 	}
 
 	URLs := append(pg.URLs(), ag.URLs()...)
-	index := sitemap.CreateIndexBySlice(URLs, "https://mwyndham.dev/")
+	index := sitemap.CreateIndexBySlice(URLs, BaseUrl)
 
 	log.Println("creating index...")
 	err = sitemap.CreateSitemapIndex("public/sitemap/index.xml.gz", index)
@@ -79,9 +79,9 @@ func PingSitemap(postRepo models.PostRepository) {
 		log.Fatal(err)
 	}
 
-	sitemap.PingSearchEngines("https://mwyndham.dev/sitemap/index.xml.gz")
+	sitemap.PingSearchEngines(appendPath("public/sitemap/index.xml.gz"))
 }
 
 func appendPath(path string) string {
-	return fmt.Sprintf("%s/%s", BaseUrl, path)
+	return fmt.Sprintf("%s%s", BaseUrl, path)
 }
