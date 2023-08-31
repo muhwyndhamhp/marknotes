@@ -2,7 +2,10 @@ package models
 
 import (
 	"context"
+	"fmt"
 	"html/template"
+	"net/url"
+	"strconv"
 	"time"
 
 	"github.com/muhwyndhamhp/marknotes/pkg/post/values"
@@ -30,12 +33,30 @@ type PostRepository interface {
 	Delete(ctx context.Context, id uint) error
 }
 
-func (m *Post) AppendFormMeta(page int, onlyPublished bool, sortQuery string, keyword string) {
+func (m *Post) AppendFormMeta(
+	page int,
+	status values.PostStatus,
+	sortQuery string,
+	keyword string,
+) {
+	qs := url.Values{}
+	qs.Add("page", strconv.Itoa(page))
+
+	if sortQuery != "" {
+		qs.Add("sortBy", sortQuery)
+	}
+
+	if status != values.None {
+		qs.Add("status", string(values.Published))
+	}
+
+	if keyword != "" {
+		qs.Add("search", keyword)
+	}
+
 	m.FormMeta = map[string]interface{}{
-		"IsLastItem":    true,
-		"Page":          page,
-		"PublishedOnly": onlyPublished,
-		"SortQuery":     sortQuery,
+		"IsLastItem": true,
+		"NextPath":   fmt.Sprintf("/posts?%s", qs.Encode()),
 	}
 
 	if keyword != "" {

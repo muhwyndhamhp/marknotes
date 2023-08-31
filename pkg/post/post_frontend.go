@@ -83,7 +83,7 @@ func (fe *PostFrontend) PostsManage(c echo.Context) error {
 		return err
 	}
 	if len(posts) > 0 {
-		posts[len(posts)-1].AppendFormMeta(2, false, "", "")
+		posts[len(posts)-1].AppendFormMeta(2, values.None, "", "")
 	}
 
 	resp := map[string]interface{}{"Posts": posts}
@@ -211,7 +211,7 @@ func (fe *PostFrontend) PostsIndex(c echo.Context) error {
 		return err
 	}
 	if len(posts) > 0 {
-		posts[len(posts)-1].AppendFormMeta(2, true, "published_at", "")
+		posts[len(posts)-1].AppendFormMeta(2, values.Published, "published_at", "")
 	}
 
 	resp := map[string]interface{}{"Posts": posts}
@@ -280,9 +280,8 @@ func (fe *PostFrontend) PostsGet(c echo.Context) error {
 		return err
 	}
 
-	onlyPublised := status == values.Published
 	if len(posts) > 0 {
-		posts[len(posts)-1].AppendFormMeta(page+1, onlyPublised, sortBy, keyword)
+		posts[len(posts)-1].AppendFormMeta(page+1, status, sortBy, keyword)
 	}
 
 	return c.Render(http.StatusOK, "post_list", posts)
