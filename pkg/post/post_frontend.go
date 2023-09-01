@@ -295,7 +295,7 @@ func (fe *PostFrontend) renderPost(c echo.Context, post *models.Post) error {
 
 func (fe *PostFrontend) PostsGet(c echo.Context) error {
 	ctx := c.Request().Context()
-	page, pageSize, sortBy, statusStr, keyword := params.GetCommonParams(c)
+	page, pageSize, sortBy, statusStr, keyword, loadNext := params.GetCommonParams(c)
 	status := values.PostStatus(statusStr)
 
 	scp := []scopes.QueryScope{
@@ -314,7 +314,7 @@ func (fe *PostFrontend) PostsGet(c echo.Context) error {
 		return err
 	}
 
-	if len(posts) > 0 {
+	if len(posts) > 0 && loadNext {
 		posts[len(posts)-1].AppendFormMeta(page+1, status, sortBy, keyword)
 	}
 
