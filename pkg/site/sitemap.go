@@ -27,9 +27,11 @@ func PingSitemap(postRepo models.PostRepository) {
 	}
 	for i := range posts {
 		pg.Add(sitemap.URL{Loc: appendPath(fmt.Sprintf("posts/%d", posts[i].ID)), LastMod: &lastMod})
+		pg.Add(sitemap.URL{Loc: appendPath(fmt.Sprintf("articles/%s", posts[i].Slug)), LastMod: &lastMod})
 	}
 
 	pg.Add(sitemap.URL{Loc: appendPath("posts_index"), LastMod: &lastMod})
+	pg.Add(sitemap.URL{Loc: appendPath("articles"), LastMod: &lastMod})
 	pg.Add(sitemap.URL{Loc: appendPath("posts_manage"), LastMod: &lastMod})
 
 	ag := sitemap.NewSitemapGroup("admin", false)
@@ -43,31 +45,11 @@ func PingSitemap(postRepo models.PostRepository) {
 	adminFiles := ag.Files()
 
 	for file := range postFiles {
-		log.Println(file.Name)
-
-		f, err := os.Create(file.Name)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		err = file.Write(f)
-		if err != nil {
-			log.Fatal(err)
-		}
+		saveFile(file)
 	}
 
 	for file := range adminFiles {
-		log.Println(file.Name)
-
-		f, err := os.Create(file.Name)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		err = file.Write(f)
-		if err != nil {
-			log.Fatal(err)
-		}
+		saveFile(file)
 	}
 
 	URLs := append(pg.URLs(), ag.URLs()...)
@@ -80,6 +62,19 @@ func PingSitemap(postRepo models.PostRepository) {
 	}
 
 	sitemap.PingSearchEngines(appendPath("public/sitemap/index.xml.gz"))
+}
+func saveFile(file sitemap.File) {
+	log.Println(file.Name)
+
+	f, err := os.Create(file.Name)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = file.Write(f)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func appendPath(path string) string {

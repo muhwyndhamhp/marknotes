@@ -7,6 +7,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/muhwyndhamhp/marknotes/config"
 	"github.com/muhwyndhamhp/marknotes/db"
+	"github.com/muhwyndhamhp/marknotes/db/migration"
 	"github.com/muhwyndhamhp/marknotes/middlewares"
 	"github.com/muhwyndhamhp/marknotes/pkg/admin"
 	"github.com/muhwyndhamhp/marknotes/pkg/auth"
@@ -65,6 +66,10 @@ func main() {
 
 	go func() {
 		site.PingSitemap(postRepo)
+	}()
+
+	go func() {
+		migration.Migrate(db.GetDB())
 	}()
 
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%s", config.Get(config.APP_PORT))))

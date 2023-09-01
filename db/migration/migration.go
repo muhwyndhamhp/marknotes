@@ -1,16 +1,12 @@
-package main
+package migration
 
 import (
-	"github.com/muhwyndhamhp/marknotes/db"
 	"github.com/muhwyndhamhp/marknotes/pkg/models"
+	"gorm.io/gorm"
 )
 
-func main() {
-	db := db.GetDB()
-
-	db.Debug()
-
-	db.AutoMigrate(&models.Post{})
-	db.AutoMigrate(&models.User{})
-	db.AutoMigrate(&models.Tag{})
+func Migrate(db *gorm.DB) {
+	db.Debug().AutoMigrate(&models.Post{})
+	db.Debug().AutoMigrate(&models.User{})
+	db.Debug().AutoMigrate(&models.Tag{})
 }
