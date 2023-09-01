@@ -39,10 +39,25 @@ func main() {
 		"public/views/*.html",
 		"public/components/*.html",
 		"public/elements/*.html",
+		"public/*.html",
 	)
 
-	e.GET("/", func(c echo.Context) error {
-		return c.Render(http.StatusOK, "index", "This is example how templating works!")
+	e.GET("/hello", func(c echo.Context) error {
+		res := map[string]interface{}{
+			"Name":  "Wyndham",
+			"Phone": "8888888",
+			"Email": "skyscraper@gmail.com",
+		}
+		return c.Render(http.StatusOK, "hello", res)
+	})
+
+	e.GET("/get-info", func(c echo.Context) error {
+		res := map[string]interface{}{
+			"Name":  "Wyndham",
+			"Phone": "8888888",
+			"Email": "skyscraper@gmail.com",
+		}
+		return c.Render(http.StatusOK, "name_card", res)
 	})
 
 	adminGroup := e.Group("")
