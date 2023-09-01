@@ -26,8 +26,11 @@ func main() {
 	e := echo.New()
 	routing.SetupRouter(e)
 
-	e.Static("/dist", "dist")
-	e.Static("/assets", "public/assets")
+	rg := e.Group("")
+	rg.Use(middlewares.SetCachePolicy())
+	rg.Static("/dist", "dist")
+	rg.Static("/assets", "public/assets")
+
 	e.Static("/public/sitemap", "public/sitemap")
 	e.File("/robots.txt", "public/assets/robots.txt")
 	e.File("/sitemap.xml", "public/sitemap/sitemap.xml")

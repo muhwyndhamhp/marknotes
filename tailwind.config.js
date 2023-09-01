@@ -9,9 +9,9 @@ module.exports = {
       ...defaultTheme.screens,
     },
     fontFamily: {
-      'sans': ['Open Sauce Sans', 'sans-serif'],
-      'serif': ['Spicy Kebab', 'serif'],
-      'mono': ['Overpass Mono', 'mono'],
+      'sans': ['Open Sauce Sans', 'system-ui', 'sans-serif'],
+      'serif': ['Spicy Kebab', 'system-ui', 'serif'],
+      'mono': ['Overpass Mono', 'system-ui', 'mono'],
     },
     extend: {},
   },
