@@ -46,7 +46,7 @@ func AppendFooterButtons(userID uint) []InlineButton {
 func AppendHeaderButtons(userID uint) []InlineButton {
 	return []InlineButton{
 		{
-			AnchorUrl: "/posts_index",
+			AnchorUrl: "/articles",
 			Label:     "Articles",
 			AuthRule:  AlwaysMode,
 			UserID:    userID,

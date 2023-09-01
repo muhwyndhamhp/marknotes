@@ -19,6 +19,7 @@ import (
 	"github.com/muhwyndhamhp/marknotes/utils/markd"
 	"github.com/muhwyndhamhp/marknotes/utils/params"
 	"github.com/muhwyndhamhp/marknotes/utils/scopes"
+	"github.com/muhwyndhamhp/marknotes/utils/strman"
 	"github.com/muhwyndhamhp/marknotes/utils/tern"
 	"gorm.io/gorm"
 )
@@ -52,6 +53,10 @@ func NewPostFrontend(g *echo.Group,
 	g.GET("/posts/:id/delete", fe.PostDelete, htmxMid, authMid, byIDMiddleware)
 	g.GET("/posts/:id/publish", fe.PostPublish, htmxMid, authMid, byIDMiddleware)
 	g.GET("/posts/:id/draft", fe.PostDraft, htmxMid, byIDMiddleware)
+
+	// Alias `articles` for `posts`
+	g.GET("/articles", fe.PostsIndex, authDescribeMid)
+	g.GET("/articles/:slug", fe.GetPostBySlug, authDescribeMid)
 }
 
 func (fe *PostFrontend) PostDraft(c echo.Context) error {
@@ -160,6 +165,14 @@ func (fe *PostFrontend) PostUpdate(c echo.Context) error {
 	post.EncodedContent = template.HTML(encoded)
 	post.Tags = []*models.Tag{}
 
+	if post.Slug == "" {
+		slug, err := strman.GenerateSlug(post.Title)
+		if err != nil {
+			return err
+		}
+		post.Slug = slug
+	}
+
 	for i := range req.Tags {
 		id, _ := strconv.Atoi(req.Tags[i])
 		post.Tags = append(post.Tags, &models.Tag{
@@ -226,6 +239,19 @@ func (fe *PostFrontend) PostsIndex(c echo.Context) error {
 	return c.Render(http.StatusOK, "posts_index", resp)
 }
 
+func (fe *PostFrontend) GetPostBySlug(c echo.Context) error {
+	ctx := c.Request().Context()
+
+	slug := strings.TrimSpace(c.Param("slug"))
+
+	post, err := fe.repo.Get(ctx, scopes.Where("slug = ?", slug))
+	if err != nil {
+		return err
+	}
+
+	return fe.renderPost(c, &post[0])
+}
+
 func (fe *PostFrontend) GetPostByID(c echo.Context) error {
 	ctx := c.Request().Context()
 	id, _ := c.Get(middlewares.ByIDKey).(int)
@@ -235,6 +261,14 @@ func (fe *PostFrontend) GetPostByID(c echo.Context) error {
 		return err
 	}
 
+	if post.Slug == "" {
+		return fe.renderPost(c, post)
+	} else {
+		return c.Redirect(http.StatusFound, fmt.Sprintf("/articles/%s", post.Slug))
+	}
+}
+
+func (fe *PostFrontend) renderPost(c echo.Context, post *models.Post) error {
 	claims, _ := c.Get(jwt.AuthClaimKey).(*jwt.Claims)
 	if claims != nil {
 		post.FormMeta = map[string]interface{}{
@@ -261,7 +295,7 @@ func (fe *PostFrontend) GetPostByID(c echo.Context) error {
 
 func (fe *PostFrontend) PostsGet(c echo.Context) error {
 	ctx := c.Request().Context()
-	page, pageSize, sortBy, statusStr, keyword := params.GetCommonParams(c)
+	page, pageSize, sortBy, statusStr, keyword, loadNext := params.GetCommonParams(c)
 	status := values.PostStatus(statusStr)
 
 	scp := []scopes.QueryScope{
@@ -280,7 +314,7 @@ func (fe *PostFrontend) PostsGet(c echo.Context) error {
 		return err
 	}
 
-	if len(posts) > 0 {
+	if len(posts) > 0 && loadNext {
 		posts[len(posts)-1].AppendFormMeta(page+1, status, sortBy, keyword)
 	}
 
@@ -331,6 +365,11 @@ func (fe *PostFrontend) PostCreate(c echo.Context) error {
 		return err
 	}
 
+	slug, err := strman.GenerateSlug(req.Title)
+	if err != nil {
+		return err
+	}
+
 	claims, _ := c.Get(jwt.AuthClaimKey).(*jwt.Claims)
 	if claims == nil {
 		return c.JSON(http.StatusBadRequest, errors.New("claim is empty"))
@@ -342,6 +381,7 @@ func (fe *PostFrontend) PostCreate(c echo.Context) error {
 		EncodedContent: template.HTML(encoded),
 		Status:         values.Draft,
 		UserID:         claims.UserID,
+		Slug:           slug,
 	}
 
 	for i := range req.Tags {

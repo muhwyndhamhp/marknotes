@@ -61,7 +61,7 @@ func (h *AuthService) Logout(c echo.Context) error {
 		return err
 	}
 
-	return c.Redirect(http.StatusFound, "/posts_index")
+	return c.Redirect(http.StatusFound, "/articles")
 }
 
 func (h *AuthService) Callback(c echo.Context) error {
@@ -99,7 +99,7 @@ func (h *AuthService) Callback(c echo.Context) error {
 		return err
 	}
 
-	return c.Redirect(http.StatusFound, "/posts_index")
+	return c.Redirect(http.StatusFound, "/articles")
 }
 
 func (h *AuthService) Login(c echo.Context) error {

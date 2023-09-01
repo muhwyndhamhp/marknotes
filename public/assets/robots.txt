@@ -1,4 +1,9 @@
 User-agent: *
 Disallow: 
 Disallow: /dist
+Disallow: /posts/*/edit
+Disallow: /posts/*/update
+Disallow: /posts/*/delete
+Disallow: /posts/*/publish
+Disallow: /posts/*/draft
 Sitemap: https://mwyndham.dev/sitemap/index.xml.gz

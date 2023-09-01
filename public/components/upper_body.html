@@ -1,7 +1,7 @@
 {{define "upper_body"}}
 <!-- Always pair it with lower_body! -->
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     {{template "head_tags"}}
@@ -11,7 +11,7 @@
 <body id="admin-root">
     {{template "static_background"}}
     <div
-        class="relative flex min-h-screen flex-col justify-center overflow-hidden pt-8 lg:pt-12">
+        class="relative flex flex-col justify-center overflow-hidden pt-8">
         {{template "admin_header" .}}
         <br>
 {{end}}

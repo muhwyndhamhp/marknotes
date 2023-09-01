@@ -7,6 +7,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/muhwyndhamhp/marknotes/config"
 	"github.com/muhwyndhamhp/marknotes/db"
+	"github.com/muhwyndhamhp/marknotes/db/migration"
 	"github.com/muhwyndhamhp/marknotes/middlewares"
 	"github.com/muhwyndhamhp/marknotes/pkg/admin"
 	"github.com/muhwyndhamhp/marknotes/pkg/auth"
@@ -25,8 +26,11 @@ func main() {
 	e := echo.New()
 	routing.SetupRouter(e)
 
-	e.Static("/dist", "dist")
-	e.Static("/assets", "public/assets")
+	rg := e.Group("")
+	rg.Use(middlewares.SetCachePolicy())
+	rg.Static("/dist", "dist")
+	rg.Static("/assets", "public/assets")
+
 	e.Static("/public/sitemap", "public/sitemap")
 	e.File("/robots.txt", "public/assets/robots.txt")
 	e.File("/sitemap.xml", "public/sitemap/sitemap.xml")
@@ -65,6 +69,10 @@ func main() {
 
 	go func() {
 		site.PingSitemap(postRepo)
+	}()
+
+	go func() {
+		migration.Migrate(db.GetDB())
 	}()
 
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%s", config.Get(config.APP_PORT))))

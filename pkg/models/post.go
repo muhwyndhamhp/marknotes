@@ -20,6 +20,7 @@ type Post struct {
 	EncodedContent template.HTML
 	Status         values.PostStatus
 	PublishedAt    time.Time
+	Slug           string
 	FormMeta       map[string]interface{} `gorm:"-"`
 	UserID         uint
 	User           User
