@@ -63,6 +63,7 @@ func PingSitemap(postRepo models.PostRepository) {
 
 	sitemap.PingSearchEngines(appendPath("public/sitemap/index.xml.gz"))
 }
+
 func saveFile(file sitemap.File) {
 	log.Println(file.Name)
 
