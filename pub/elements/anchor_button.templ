@@ -7,9 +7,9 @@ templ AnchorButton(btn pub_variables.InlineButton) {
 	<!-- prettier-ignore-attribute -->
 	<button
 		if pub_base.IsVisible(btn.AuthRule, btn.UserID) {
-			class="inline-block mx-4 mt-4 visible"
+			class="visible mx-4 mt-4 inline-block"
 		} else {
-			class="inline-block mx-4 mt-4 hidden"
+			class="mx-4 mt-4 inline-block hidden"
 		}
 	>
 		<a href={ templ.URL(btn.AnchorUrl) }><strong>{ btn.Label }</strong></a>

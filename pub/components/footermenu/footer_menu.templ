@@ -4,8 +4,8 @@ import "github.com/muhwyndhamhp/marknotes/pub/elements"
 import "github.com/muhwyndhamhp/marknotes/pub/variables"
 
 templ FooterMenu(buttons []pub_variables.InlineButton) {
-	<div class="flex-row w-full h-16 dark:bg-slate-900 bg-slate-200 px-8 text-center pt-2 mt-20">
-		<div class="inline flex-auto bg-slate-200 dark:bg-slate-900 rounded-md md:px-4 py-4 w-full">
+	<div class="mt-20 h-16 w-full flex-row bg-slate-200 px-8 pt-2 text-center dark:bg-slate-900">
+		<div class="inline w-full flex-auto rounded-md bg-slate-200 py-4 dark:bg-slate-900 md:px-4">
 			for _, btn := range buttons {
 				@pub_elements.AnchorButton(btn)
 			}
