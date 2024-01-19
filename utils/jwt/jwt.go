@@ -59,7 +59,6 @@ func (s *Service) VerifyToken(tokenString string) (*Claims, error) {
 			return []byte(s.SecretKey), nil
 		},
 	)
-
 	if err != nil {
 		return nil, err
 	}

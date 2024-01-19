@@ -1,0 +1,24 @@
+package pub_index
+
+import "github.com/muhwyndhamhp/marknotes/pub/components/intro"
+import "github.com/muhwyndhamhp/marknotes/pub/variables"
+import "github.com/muhwyndhamhp/marknotes/pub"
+
+templ Index(body pub_variables.BodyOpts) {
+	@pub.Body(pub_variables.BodyOpts{
+       HeaderButtons: body.HeaderButtons,
+       FooterButtons: body.FooterButtons,
+       Component: index(),
+       })
+}
+
+templ index() {
+	<div class="relative w-full md:mx-auto md:max-w-3xl lg:max-w-4xl md:px-0 self-center mx-auto px-auto">
+		@pub_intro.Intro()
+		<br/>
+		<h2 class="py-4">Latest Articles</h2>
+	</div>
+	<div id="admin-content">
+		<div hx-get="/posts?page=1&pageSize=5&status=published&sortBy=published_at&loadNext=false" hx-trigger="load"></div>
+	</div>
+}

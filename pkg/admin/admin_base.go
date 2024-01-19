@@ -1,84 +1,68 @@
 package admin
 
-type InlineButton struct {
-	AnchorUrl string
-	Label     string
-	AuthRule  AuthRule
-	UserID    uint
-}
-
-type AuthRule string
-
-const (
-	UserMode   AuthRule = "user-mode"
-	GuestMode  AuthRule = "guest-mode"
-	AlwaysMode AuthRule = "always-mode"
-
-	HeaderButtonsKey = "HeaderButtons"
-	FooterButtonsKey = "FooterButtons"
-)
+import pub_variables "github.com/muhwyndhamhp/marknotes/pub/variables"
 
 type AuthNeed string
 
-func AppendFooterButtons(userID uint) []InlineButton {
-	return []InlineButton{
+func AppendFooterButtons(userID uint) []pub_variables.InlineButton {
+	return []pub_variables.InlineButton{
 		{
 			AnchorUrl: "/contact",
 			Label:     "Contact Me",
-			AuthRule:  AlwaysMode,
+			AuthRule:  pub_variables.AlwaysMode,
 			UserID:    userID,
 		},
 		{
 			AnchorUrl: "/resume",
 			Label:     "Resume",
-			AuthRule:  AlwaysMode,
+			AuthRule:  pub_variables.AlwaysMode,
 			UserID:    userID,
 		},
 		{
 			AnchorUrl: "/login",
 			Label:     "Login",
-			AuthRule:  GuestMode,
+			AuthRule:  pub_variables.GuestMode,
 			UserID:    userID,
 		},
 	}
 }
 
-func AppendHeaderButtons(userID uint) []InlineButton {
-	return []InlineButton{
+func AppendHeaderButtons(userID uint) []pub_variables.InlineButton {
+	return []pub_variables.InlineButton{
 		{
 			AnchorUrl: "/articles",
 			Label:     "Articles",
-			AuthRule:  AlwaysMode,
+			AuthRule:  pub_variables.AlwaysMode,
 			UserID:    userID,
 		},
 		{
 			AnchorUrl: "/contact",
 			Label:     "Contact Me",
-			AuthRule:  AlwaysMode,
+			AuthRule:  pub_variables.AlwaysMode,
 			UserID:    userID,
 		},
 		{
 			AnchorUrl: "/resume",
 			Label:     "Resume",
-			AuthRule:  AlwaysMode,
+			AuthRule:  pub_variables.AlwaysMode,
 			UserID:    userID,
 		},
 		{
 			AnchorUrl: "/posts/new",
 			Label:     "Create Post",
-			AuthRule:  UserMode,
+			AuthRule:  pub_variables.UserMode,
 			UserID:    userID,
 		},
 		{
 			AnchorUrl: "/posts_manage",
 			Label:     "Manage Post",
-			AuthRule:  UserMode,
+			AuthRule:  pub_variables.UserMode,
 			UserID:    userID,
 		},
 		{
 			AnchorUrl: "/logout",
 			Label:     "Logout",
-			AuthRule:  UserMode,
+			AuthRule:  pub_variables.UserMode,
 			UserID:    userID,
 		},
 	}

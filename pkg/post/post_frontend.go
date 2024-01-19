@@ -15,6 +15,7 @@ import (
 	"github.com/muhwyndhamhp/marknotes/pkg/models"
 	"github.com/muhwyndhamhp/marknotes/pkg/post/dto"
 	"github.com/muhwyndhamhp/marknotes/pkg/post/values"
+	pub_variables "github.com/muhwyndhamhp/marknotes/pub/variables"
 	"github.com/muhwyndhamhp/marknotes/utils/jwt"
 	"github.com/muhwyndhamhp/marknotes/utils/markd"
 	"github.com/muhwyndhamhp/marknotes/utils/params"
@@ -93,8 +94,8 @@ func (fe *PostFrontend) PostsManage(c echo.Context) error {
 
 	resp := map[string]interface{}{"Posts": posts}
 	userID := jwt.AppendAndReturnUserID(c, resp)
-	resp[admin.HeaderButtonsKey] = admin.AppendHeaderButtons(userID)
-	resp[admin.FooterButtonsKey] = admin.AppendFooterButtons(userID)
+	resp[pub_variables.HeaderButtonsKey] = admin.AppendHeaderButtons(userID)
+	resp[pub_variables.FooterButtonsKey] = admin.AppendFooterButtons(userID)
 	resp[SearchBarKey] = SearchBar{
 		SearchPlaceholder: "Manage Articles...",
 		SearchPath:        "/posts?page=1&pageSize=10",
@@ -203,8 +204,8 @@ func (fe *PostFrontend) PostEdit(c echo.Context) error {
 		"CancelPath": fmt.Sprintf("/posts/%d", id),
 	}
 	userID := jwt.AppendAndReturnUserID(c, post.FormMeta)
-	post.FormMeta[admin.HeaderButtonsKey] = admin.AppendHeaderButtons(userID)
-	post.FormMeta[admin.FooterButtonsKey] = admin.AppendFooterButtons(userID)
+	post.FormMeta[pub_variables.HeaderButtonsKey] = admin.AppendHeaderButtons(userID)
+	post.FormMeta[pub_variables.FooterButtonsKey] = admin.AppendFooterButtons(userID)
 
 	models.SetTagEditable(post.Tags...)
 
@@ -229,8 +230,8 @@ func (fe *PostFrontend) PostsIndex(c echo.Context) error {
 
 	resp := map[string]interface{}{"Posts": posts}
 	userID := jwt.AppendAndReturnUserID(c, resp)
-	resp[admin.HeaderButtonsKey] = admin.AppendHeaderButtons(userID)
-	resp[admin.FooterButtonsKey] = admin.AppendFooterButtons(userID)
+	resp[pub_variables.HeaderButtonsKey] = admin.AppendHeaderButtons(userID)
+	resp[pub_variables.FooterButtonsKey] = admin.AppendFooterButtons(userID)
 	resp[SearchBarKey] = SearchBar{
 		SearchPlaceholder: "Search Articles...",
 		SearchPath:        "/posts?page=1&pageSize=10&sortBy=published_at&status=published",
@@ -272,14 +273,14 @@ func (fe *PostFrontend) renderPost(c echo.Context, post *models.Post) error {
 	claims, _ := c.Get(jwt.AuthClaimKey).(*jwt.Claims)
 	if claims != nil {
 		post.FormMeta = map[string]interface{}{
-			"UserID":               claims.UserID,
-			admin.HeaderButtonsKey: admin.AppendHeaderButtons(claims.UserID),
-			admin.FooterButtonsKey: admin.AppendFooterButtons(claims.UserID),
+			"UserID":                       claims.UserID,
+			pub_variables.HeaderButtonsKey: admin.AppendHeaderButtons(claims.UserID),
+			pub_variables.FooterButtonsKey: admin.AppendFooterButtons(claims.UserID),
 		}
 	} else {
 		post.FormMeta = map[string]interface{}{
-			admin.HeaderButtonsKey: admin.AppendHeaderButtons(0),
-			admin.FooterButtonsKey: admin.AppendFooterButtons(0),
+			pub_variables.HeaderButtonsKey: admin.AppendHeaderButtons(0),
+			pub_variables.FooterButtonsKey: admin.AppendFooterButtons(0),
 		}
 	}
 
@@ -329,8 +330,8 @@ func (fe *PostFrontend) PostsNew(c echo.Context) error {
 		"CancelPath": "/posts_manage",
 	}
 	userID := jwt.AppendAndReturnUserID(c, post.FormMeta)
-	post.FormMeta[admin.HeaderButtonsKey] = admin.AppendHeaderButtons(userID)
-	post.FormMeta[admin.FooterButtonsKey] = admin.AppendFooterButtons(userID)
+	post.FormMeta[pub_variables.HeaderButtonsKey] = admin.AppendHeaderButtons(userID)
+	post.FormMeta[pub_variables.FooterButtonsKey] = admin.AppendFooterButtons(userID)
 
 	models.SetTagEditable(post.Tags...)
 

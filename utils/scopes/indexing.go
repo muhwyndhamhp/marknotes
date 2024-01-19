@@ -23,10 +23,14 @@ func PostDeepMatch(keyword string, status values.PostStatus) QueryScope {
 	return func(db *gorm.DB) *gorm.DB {
 		wrappedKeyword := fmt.Sprintf("%%%s%%", strings.ToLower(keyword))
 		dbs := db.Table("posts").
-			Select("distinct posts.id",
-				"posts.title", "posts.created_at",
-				"posts.status", "posts.updated_at",
-				"posts.published_at").
+			Select(
+				"distinct posts.id",
+				"posts.title",
+				"posts.created_at",
+				"posts.status",
+				"posts.updated_at",
+				"posts.published_at",
+			).
 			Joins("full join post_tags on posts.id = post_tags.post_id").
 			Joins("left join tags on post_tags.tag_id = tags.id")
 

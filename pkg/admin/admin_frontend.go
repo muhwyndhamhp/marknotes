@@ -7,9 +7,12 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/muhwyndhamhp/marknotes/config"
 	"github.com/muhwyndhamhp/marknotes/pkg/models"
-	"github.com/muhwyndhamhp/marknotes/pkg/post/values"
+	pub_contact "github.com/muhwyndhamhp/marknotes/pub/pages/contact"
+	pub_index "github.com/muhwyndhamhp/marknotes/pub/pages/index"
+	pub_unauthorized "github.com/muhwyndhamhp/marknotes/pub/pages/unauthorized"
+	pub_variables "github.com/muhwyndhamhp/marknotes/pub/variables"
+	"github.com/muhwyndhamhp/marknotes/template"
 	"github.com/muhwyndhamhp/marknotes/utils/jwt"
-	"github.com/muhwyndhamhp/marknotes/utils/scopes"
 )
 
 type AdminFrontend struct {
@@ -32,13 +35,15 @@ func NewAdminFrontend(
 }
 
 func (fe *AdminFrontend) Contact(c echo.Context) error {
-	resp := map[string]interface{}{}
+	userID := jwt.AppendAndReturnUserID(c, map[string]interface{}{})
 
-	userID := jwt.AppendAndReturnUserID(c, resp)
-	resp[HeaderButtonsKey] = AppendHeaderButtons(userID)
-	resp[FooterButtonsKey] = AppendFooterButtons(userID)
+	bodyOpts := pub_variables.BodyOpts{
+		HeaderButtons: AppendHeaderButtons(userID),
+		FooterButtons: AppendFooterButtons(userID),
+		Component:     nil,
+	}
 
-	return c.Render(http.StatusOK, "contact", resp)
+	return template.AssertRender(c, http.StatusOK, pub_contact.Contact(bodyOpts))
 }
 
 func (fe *AdminFrontend) Resume(c echo.Context) error {
@@ -47,28 +52,29 @@ func (fe *AdminFrontend) Resume(c echo.Context) error {
 }
 
 func (fe *AdminFrontend) Index(c echo.Context) error {
-	ctx := c.Request().Context()
+	userID := jwt.AppendAndReturnUserID(c, map[string]interface{}{})
 
-	posts, err := fe.repo.Get(ctx,
-		scopes.Paginate(1, 5),
-		scopes.OrderBy("published_at", scopes.Descending),
-		scopes.WithStatus(values.Published),
-	)
-
-	if err != nil {
-		return err
-	}
-	resp := map[string]interface{}{
-		"Posts": posts,
+	bodyOpts := pub_variables.BodyOpts{
+		HeaderButtons: AppendHeaderButtons(userID),
+		FooterButtons: AppendFooterButtons(userID),
+		Component:     nil,
 	}
 
-	userID := jwt.AppendAndReturnUserID(c, resp)
-	resp[HeaderButtonsKey] = AppendHeaderButtons(userID)
-	resp[FooterButtonsKey] = AppendFooterButtons(userID)
+	index := pub_index.Index(bodyOpts)
 
-	return c.Render(http.StatusOK, "index", resp)
+	return template.AssertRender(c, http.StatusOK, index)
 }
 
 func (fe *AdminFrontend) Unauthorized(c echo.Context) error {
-	return c.Render(http.StatusOK, "unauthorized", nil)
+	bodyOpts := pub_variables.BodyOpts{
+		HeaderButtons: AppendHeaderButtons(0),
+		FooterButtons: AppendFooterButtons(0),
+		Component:     nil,
+	}
+
+	return template.AssertRender(
+		c,
+		http.StatusOK,
+		pub_unauthorized.Unauthorized(bodyOpts),
+	)
 }

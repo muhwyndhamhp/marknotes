@@ -1,0 +1,29 @@
+package pub_mainmenu
+
+import "github.com/muhwyndhamhp/marknotes/pub/elements"
+import "github.com/muhwyndhamhp/marknotes/pub/variables"
+
+templ MainMenu(buttons []pub_variables.InlineButton) {
+	<header class="xs:mt-20 md:mt-10 text-center">
+		<div class="w-full flex-row">
+			@title()
+			@buttonRows(buttons)
+		</div>
+	</header>
+}
+
+templ title() {
+	<a href="/">
+		<h1 class="flex-auto mb-10">
+			mwyndham.dev
+		</h1>
+	</a>
+}
+
+templ buttonRows(buttons []pub_variables.InlineButton) {
+	<div class="inline flex-auto bg-slate-200 dark:bg-slate-900 rounded-md md:px-4 py-4 w-full">
+		for _, btn := range buttons {
+			@pub_elements.AnchorButton(btn)
+		}
+	</div>
+}

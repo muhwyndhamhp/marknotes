@@ -1,5 +1,6 @@
 
 [build]
+pre_cmd = ["templ generate","tailwindcss -i ./dist/main.css -o ./dist/tailwind.css"]
 # It's not necessary to trigger build each time file changes if it's too frequent.
 delay = 1000
 
@@ -8,6 +9,8 @@ kill_delay = 10
 
 # Ignore these filename extensions or directories.
 exclude_dir = ["postgres","vendor","misc","terraform"]
+exclude_regex =["_templ\\.go"]
+include_ext = ["templ", "go"]
 
 [log]
 # Show log time
