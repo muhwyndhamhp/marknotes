@@ -4,12 +4,17 @@ import (
 	"errors"
 	"fmt"
 	"html/template"
+	"io"
+	"mime/multipart"
 	"net/http"
+	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
 	"time"
 
 	"github.com/labstack/echo/v4"
+	"github.com/muhwyndhamhp/marknotes/config"
 	"github.com/muhwyndhamhp/marknotes/middlewares"
 	"github.com/muhwyndhamhp/marknotes/pkg/admin"
 	"github.com/muhwyndhamhp/marknotes/pkg/models"
@@ -25,6 +30,7 @@ import (
 	"github.com/muhwyndhamhp/marknotes/utils/jwt"
 	"github.com/muhwyndhamhp/marknotes/utils/markd"
 	"github.com/muhwyndhamhp/marknotes/utils/params"
+	"github.com/muhwyndhamhp/marknotes/utils/resp"
 	"github.com/muhwyndhamhp/marknotes/utils/scopes"
 	"github.com/muhwyndhamhp/marknotes/utils/strman"
 	"github.com/muhwyndhamhp/marknotes/utils/tern"
@@ -55,20 +61,127 @@ func NewPostFrontend(g *echo.Group,
 	g.POST("/posts/render", fe.RenderMarkdown, htmxMid, authMid)
 
 	g.GET("/posts/:id", fe.GetPostByID, authDescribeMid, byIDMiddleware)
+
 	g.GET("/posts/:id/edit", fe.PostEdit, authMid, byIDMiddleware)
 	g.POST("/posts/:id/update", fe.PostUpdate, htmxMid, authMid, byIDMiddleware)
 	g.GET("/posts/:id/delete", fe.PostDelete, htmxMid, authMid, byIDMiddleware)
 	g.GET("/posts/:id/publish", fe.PostPublish, htmxMid, authMid, byIDMiddleware)
-	g.GET("/posts/:id/draft", fe.PostDraft, htmxMid, byIDMiddleware)
+	g.GET("/posts/:id/draft", fe.PostDraft, htmxMid, authMid, byIDMiddleware)
+
+	g.POST("/posts/:id/media/upload", fe.PostMediaUpload, authDescribeMid)
+	g.GET("/posts/media/:filename", fe.PostMediaGet)
 
 	// Alias `articles` for `posts`
 	g.GET("/articles", fe.PostsIndex, authDescribeMid)
 	g.GET("/articles/:slug", fe.GetPostBySlug, authDescribeMid)
 }
 
+func (fe *PostFrontend) PostMediaGet(c echo.Context) error {
+	filename := c.Param("filename")
+	filePath := fmt.Sprintf("%s/%s", config.Get(config.STORE_VOL_PATH), filename)
+
+	if _, err := os.Stat(filePath); os.IsNotExist(err) {
+		return c.String(http.StatusNotFound, "File not found")
+	}
+
+	return c.File(filePath)
+}
+
+func (fe *PostFrontend) PostMediaUpload(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+
+	multi, err := c.MultipartForm()
+	if err != nil {
+		return err
+	}
+
+	files := multi.File["file"]
+	f := files[0]
+
+	if !isValidFileType(f) {
+		return resp.HTTPBadRequest(c, "NOT_SUPPORTED", "file type not supported")
+	}
+
+	file, err := f.Open()
+	if err != nil {
+		return err
+	}
+
+	name := fmt.Sprintf("%d-%s", id, appendTimestamp(f.Filename))
+
+	if _, err := os.Stat(config.STORE_VOL_PATH); os.IsNotExist(err) {
+		err := os.Mkdir(config.STORE_VOL_PATH, os.ModePerm)
+		if err != nil {
+			return err
+		}
+	}
+
+	dst, err := os.Create(fmt.Sprintf("%s/%s", config.Get(config.STORE_VOL_PATH), name))
+	if err != nil {
+		return err
+	}
+
+	_, err = io.Copy(dst, file)
+	if err != nil {
+		return err
+	}
+
+	file.Close()
+	dst.Close()
+
+	baseURL := strings.Split(config.Get(config.OAUTH_URL), "/callback")[0]
+
+	return resp.HTTPOk(c, struct {
+		URL string `json:"url"`
+	}{
+		URL: fmt.Sprintf("%s/posts/media/%s", baseURL, name),
+	})
+}
+
+func appendTimestamp(fileName string) string {
+	extension := filepath.Ext(fileName)
+	name := fileName[0 : len(fileName)-len(extension)]
+	fileName = fmt.Sprintf("%s-%s%s", name, time.Now().Format("20060102150405"), extension)
+	return fileName
+}
+
+func isValidFileType(fileHeader *multipart.FileHeader) bool {
+	allowedImageTypes := map[string]bool{
+		"image/jpeg": true,
+		"image/png":  true,
+		"image/gif":  true,
+		// Add more image types as needed
+	}
+
+	allowedVideoTypes := map[string]bool{
+		"video/mp4":  true,
+		"video/avi":  true,
+		"video/mpeg": true,
+		"video/mov":  true,
+		// Add more video types as needed
+	}
+
+	file, err := fileHeader.Open()
+	if err != nil {
+		return false
+	}
+	defer file.Close()
+
+	buffer := make([]byte, 512) // Read the first 512 bytes to detect file type
+	_, err = file.Read(buffer)
+	if err != nil {
+		return false
+	}
+
+	contentType := http.DetectContentType(buffer)
+
+	// Check if the content type is allowed for either images or videos
+	return allowedImageTypes[contentType] || allowedVideoTypes[contentType]
+}
+
 func (fe *PostFrontend) PostDraft(c echo.Context) error {
 	ctx := c.Request().Context()
-	id, _ := c.Get(middlewares.ByIDKey).(int)
+	id := c.Get(middlewares.ByIDKey).(int)
 
 	post, err := fe.repo.GetByID(ctx, uint(id))
 	if err != nil {
@@ -214,9 +327,12 @@ func (fe *PostFrontend) PostEdit(c echo.Context) error {
 	if post == nil {
 		post = &models.Post{}
 	}
+
+	baseURL := strings.Split(config.Get(config.OAUTH_URL), "/callback")[0]
 	post.FormMeta = map[string]interface{}{
 		"SubmitPath": fmt.Sprintf("/posts/%d/update", id),
 		"CancelPath": fmt.Sprintf("/posts/%d", id),
+		"UploadURL":  fmt.Sprintf("%s/posts/%d/media/upload", baseURL, post.ID),
 	}
 	userID := jwt.AppendAndReturnUserID(c, post.FormMeta)
 	bodyOpts := pub_variables.BodyOpts{
@@ -378,9 +494,11 @@ func (fe *PostFrontend) PostsGet(c echo.Context) error {
 func (fe *PostFrontend) PostsNew(c echo.Context) error {
 	post := &models.Post{}
 
+	baseURL := strings.Split(config.Get(config.OAUTH_URL), "/callback")[0]
 	post.FormMeta = map[string]interface{}{
 		"SubmitPath": "/posts/create",
 		"CancelPath": "/posts_manage",
+		"UploadURL":  fmt.Sprintf("%s/posts/%d/media/upload", baseURL, 0),
 	}
 
 	userID := jwt.AppendAndReturnUserID(c, post.FormMeta)

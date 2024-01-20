@@ -2,6 +2,7 @@ package pub_postform
 
 import "github.com/muhwyndhamhp/marknotes/pkg/models"
 import "github.com/muhwyndhamhp/marknotes/pub/components/postlist"
+import "fmt"
 
 templ PostForm(post models.Post) {
 	<form id="form-post">
@@ -20,9 +21,12 @@ templ PostForm(post models.Post) {
 		/>
 		<br/>
 		<textarea
+			_={ fmt.Sprintf(`
+            on drop call upload(event, "%s")
+            on dragover call allowDrop(event)
+            `, 
+            post.FormMeta["UploadURL"]) }
 			id="form-content"
-			ondrop="upload(event)"
-			ondragover="allowDrop(event)"
 			placeholder="And the rest goes here!"
 			hx-trigger="keyup changed delay:500ms, content"
 			hx-post="/posts/render"

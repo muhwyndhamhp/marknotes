@@ -12,6 +12,7 @@ import "bytes"
 
 import "github.com/muhwyndhamhp/marknotes/pkg/models"
 import "github.com/muhwyndhamhp/marknotes/pub/components/postlist"
+import "fmt"
 
 func PostForm(post models.Post) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
@@ -53,7 +54,19 @@ func PostForm(post models.Post) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("><br><textarea id=\"form-content\" ondrop=\"upload(event)\" ondragover=\"allowDrop(event)\" placeholder=\"And the rest goes here!\" hx-trigger=\"keyup changed delay:500ms, content\" hx-post=\"/posts/render\" hx-target=\"#preview\" class=\"focus:border-transparent focus:outline-none focus:outline-sky-600 border-transparent shadow-2xl shadow-rose-800/30 w-10/12 p-3 rounded-b-lg h-96 mt-1\" type=\"text\" name=\"content\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("><br><textarea _=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(fmt.Sprintf(`
+            on drop call upload(event, "%s")
+            on dragover call allowDrop(event)
+            `,
+			post.FormMeta["UploadURL"])))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" id=\"form-content\" placeholder=\"And the rest goes here!\" hx-trigger=\"keyup changed delay:500ms, content\" hx-post=\"/posts/render\" hx-target=\"#preview\" class=\"focus:border-transparent focus:outline-none focus:outline-sky-600 border-transparent shadow-2xl shadow-rose-800/30 w-10/12 p-3 rounded-b-lg h-96 mt-1\" type=\"text\" name=\"content\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -61,7 +74,7 @@ func PostForm(post models.Post) templ.Component {
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(post.Content)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/components/postform/postform.templ`, Line: 34, Col: 18}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/components/postform/postform.templ`, Line: 38, Col: 18}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {

@@ -19,6 +19,7 @@ const (
 	OAUTH_URL             = "OAUTH_URL"
 	RESUME_POST_ID        = "RESUME_POST_ID"
 	DATABASE_URL          = "DATABASE_URL"
+	STORE_VOL_PATH        = "STORE_VOL_PATH"
 )
 
 func init() {

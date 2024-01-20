@@ -16,3 +16,6 @@ primary_region = "sin"
   min_machines_running = 0
   processes = ["app"]
 
+[mount]
+  source = "marknotes_data"
+  destination = "/store"

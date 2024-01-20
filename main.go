@@ -6,14 +6,12 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/muhwyndhamhp/marknotes/config"
 	"github.com/muhwyndhamhp/marknotes/db"
-	"github.com/muhwyndhamhp/marknotes/db/migration"
 	"github.com/muhwyndhamhp/marknotes/middlewares"
 	"github.com/muhwyndhamhp/marknotes/pkg/admin"
 	"github.com/muhwyndhamhp/marknotes/pkg/auth"
 	_userRepo "github.com/muhwyndhamhp/marknotes/pkg/auth/repository"
 	"github.com/muhwyndhamhp/marknotes/pkg/post"
 	_postRepo "github.com/muhwyndhamhp/marknotes/pkg/post/repository"
-	"github.com/muhwyndhamhp/marknotes/pkg/site"
 	"github.com/muhwyndhamhp/marknotes/pkg/tag"
 	_tagRepo "github.com/muhwyndhamhp/marknotes/pkg/tag/repository"
 	"github.com/muhwyndhamhp/marknotes/template"
@@ -58,13 +56,13 @@ func main() {
 		config.Get(config.OAUTH_URL),
 		userRepo)
 
-	go func() {
-		site.PingSitemap(postRepo)
-	}()
-
-	go func() {
-		migration.Migrate(db.GetDB())
-	}()
+	// go func() {
+	// 	site.PingSitemap(postRepo)
+	// }()
+	//
+	// go func() {
+	// 	migration.Migrate(db.GetDB())
+	// }()
 
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%s", config.Get(config.APP_PORT))))
 }
