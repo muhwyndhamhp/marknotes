@@ -26,7 +26,7 @@ func MainMenu(buttons []pub_variables.InlineButton) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<header class=\"xs:mt-20 md:mt-10 text-center\"><div class=\"w-full flex-row\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<header class=\"text-center xs:mt-20 md:mt-10\"><div class=\"w-full flex-row\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -62,7 +62,7 @@ func title() templ.Component {
 			templ_7745c5c3_Var2 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"/\"><h1 class=\"flex-auto mb-10\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a hx-boost=\"true\" href=\"/\"><h1 class=\"mb-10 flex-auto\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -95,7 +95,7 @@ func buttonRows(buttons []pub_variables.InlineButton) templ.Component {
 			templ_7745c5c3_Var4 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"inline flex-auto bg-slate-200 dark:bg-slate-900 rounded-md md:px-4 py-4 w-full\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"inline w-full flex-auto rounded-md bg-slate-200 py-4 dark:bg-slate-900 md:px-4\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

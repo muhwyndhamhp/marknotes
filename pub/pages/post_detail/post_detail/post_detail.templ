@@ -1,0 +1,92 @@
+package pub_post_detail
+
+import "github.com/muhwyndhamhp/marknotes/pkg/models"
+import "fmt"
+import "github.com/muhwyndhamhp/marknotes/pub/components/postlist"
+import "html/template"
+import "github.com/muhwyndhamhp/marknotes/pub/variables"
+import "github.com/muhwyndhamhp/marknotes/pub"
+
+templ PostDetail(body pub_variables.BodyOpts, post models.Post) {
+	@pub.Body(pub_variables.BodyOpts{
+       HeaderButtons: body.HeaderButtons,
+       FooterButtons: body.FooterButtons,
+       Component: postDetail(post),
+       })
+}
+
+templ postDetail(post models.Post) {
+	<div class="relative w-full md:mx-auto md:max-w-3xl lg:max-w-4xl pt-8">
+		<h1 class="text-center">{ post.Title }</h1>
+		<div class="mt-6 mb-4 px-4 md:px-0">
+			@pub_postlist.PostMetadata(post)
+		</div>
+		if post.FormMeta["UserID"].(uint) != uint(0) {
+			<div class="inline">
+				<button
+					hx-get={ fmt.Sprintf("/posts/%d/edit", post.ID) }
+					hx-target="#admin-root"
+					hx-push-url="true"
+					class="inline-block mx-2 my-4 uppercase"
+				>
+					Edit
+				</button>
+				<button
+					hx-get="/posts/{{.ID}}/delete"
+					hx-target="#admin-root"
+					_={ showSwal("Delete") }
+					class=" inline-block mx-2 my-4 uppercase"
+				>
+					Delete
+				</button>
+				<button
+					hx-target="#admin-root"
+					class=" inline-block mx-2 my-4 uppercase"
+					if post.Status == "draft" {
+						hx-get={ fmt.Sprintf("/posts/%d/publish", post.ID) }
+						_={ showSwal("Publish") }
+					} else {
+						hx-get={ fmt.Sprintf("/posts/%d/draft", post.ID) }
+						_={ showSwal("Unpublish") }
+					}
+				>
+					if post.Status == "draft" {
+						Publish
+					} else {
+						Unpublish
+					}
+				</button>
+			</div>
+		}
+	</div>
+	<div
+		class="relative w-full md:rounded-xl bg-stone-100 px-6 dark:bg-slate-950 md:max-w-3xl lg:max-w-4xl md:pt-4 lg:pb-28 lg:pt-6 mt-4 py-8 md:mx-auto shadow-xl shadow-slate-700/10 ring-1 ring-gray-900/5"
+	>
+		@MarkdownBody(post.EncodedContent)
+	</div>
+}
+
+func showSwal(text string) string {
+	return fmt.Sprintf(`
+    on htmx:confirm(issueRequest) 
+    halt the event 
+    call Swal.fire({
+       title: 'Confirm %s', 
+       text:'Do you want to continue?'
+       }) 
+    if result.isConfirmed issueRequest()
+   `, text)
+}
+
+templ MarkdownBody(content template.HTML) {
+	<article
+		class="prose prose-slate lg:prose-xl md:prose-lg dark:prose-invert prose-h2:bg-clip-text prose-h2:text-transparent prose-h2:bg-gradient-to-r prose-h2:from-pink-600 prose-h2:via-purple-600 prose-h2:to-indigo-600 prose-h3:bg-clip-text  prose-h3:text-transparent  prose-h3:bg-gradient-to-r  prose-h3:from-teal-600  prose-h3:via-sky-600  prose-h3:to-indigo-600"
+		id="preview"
+	>
+		@RenderRaw(content)
+	</article>
+}
+
+func RenderRaw(content template.HTML) templ.Component {
+	return templ.Raw[template.HTML](content)
+}

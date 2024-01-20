@@ -55,7 +55,7 @@ func index() templ.Component {
 			templ_7745c5c3_Var2 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"relative w-full md:mx-auto md:max-w-3xl lg:max-w-4xl md:px-0 self-center mx-auto px-auto\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"px-auto relative mx-auto w-full self-center md:mx-auto md:max-w-3xl md:px-0 lg:max-w-4xl\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

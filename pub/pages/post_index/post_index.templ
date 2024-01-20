@@ -1,0 +1,26 @@
+package pub_post_index
+
+import "github.com/muhwyndhamhp/marknotes/pub/variables"
+import "github.com/muhwyndhamhp/marknotes/pkg/models"
+import "github.com/muhwyndhamhp/marknotes/pub/components/searchbar"
+import "github.com/muhwyndhamhp/marknotes/pub/components/postlist"
+import "github.com/muhwyndhamhp/marknotes/pub"
+
+templ PostIndex(body pub_variables.BodyOpts, posts []models.Post, search pub_variables.SearchBar) {
+	@pub.Body(pub_variables.BodyOpts{
+       HeaderButtons: body.HeaderButtons,
+       FooterButtons: body.FooterButtons,
+       Component: postIndex(posts, search),
+       })
+}
+
+templ postIndex(posts []models.Post, search pub_variables.SearchBar) {
+	<div id="admin-content" class="flex flex-col">
+		@pub_searchbar.SearchBar(search)
+		if len(posts) > 0 {
+			<div id="post-list">
+				@pub_postlist.PostList(posts)
+			</div>
+		}
+	</div>
+}

@@ -6,6 +6,7 @@ import "github.com/muhwyndhamhp/marknotes/pub/base"
 templ AnchorButton(btn pub_variables.InlineButton) {
 	<!-- prettier-ignore-attribute -->
 	<button
+		hx-boost="true"
 		if pub_base.IsVisible(btn.AuthRule, btn.UserID) {
 			class="visible mx-4 mt-4 inline-block"
 		} else {

@@ -26,7 +26,7 @@ func FooterMenu(buttons []pub_variables.InlineButton) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex-row w-full h-16 dark:bg-slate-900 bg-slate-200 px-8 text-center pt-2 mt-20\"><div class=\"inline flex-auto bg-slate-200 dark:bg-slate-900 rounded-md md:px-4 py-4 w-full\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"mt-20 h-16 w-full flex-row bg-slate-200 px-8 pt-2 text-center dark:bg-slate-900\"><div class=\"inline w-full flex-auto rounded-md bg-slate-200 py-4 dark:bg-slate-900 md:px-4\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

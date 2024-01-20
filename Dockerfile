@@ -1,4 +1,4 @@
-FROM golang:1.19.4-alpine3.17 as builder
+FROM golang:1.21.6-alpine3.19 as builder
 
 RUN apk update && apk add git make bash
 
@@ -18,6 +18,7 @@ WORKDIR /app
 COPY --from=builder /app/main /app/
 COPY --from=builder /app/public /app/public
 COPY --from=builder /app/dist /app/dist
+COPY --from=builder /app/pub /app/pub
 
 EXPOSE 4001
 

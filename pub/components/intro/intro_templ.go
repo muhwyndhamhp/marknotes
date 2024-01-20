@@ -23,7 +23,7 @@ func Intro() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-col text-sm\"><div class=\"basis-1/2 bg-rose-200 dark:bg-pink-700 shadow-2xl mt-8 mb-4 shadow-rose-800/20  dark:bg-opacity-30 p-4 rounded-xl\"><p class=\"text-justify\"><strong class=\"text-xl\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-col text-sm\"><div class=\"mb-4 mt-8 basis-1/2 rounded-xl bg-rose-200 p-4 shadow-2xl  shadow-rose-800/20 dark:bg-pink-700 dark:bg-opacity-30\"><p class=\"text-justify\"><strong class=\"text-xl\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -149,7 +149,7 @@ func Intro() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p></div><div class=\"basis-1/2 bg-blue-200 dark:bg-sky-700 shadow-2xl my- shadow-sky-800/20 dark:bg-opacity-30 p-4 rounded-xl mt-4\"><p class=\"text-justify\"><strong class=\"text-xl\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p></div><div class=\"my- mt-4 basis-1/2 rounded-xl bg-blue-200 p-4 shadow-2xl shadow-sky-800/20 dark:bg-sky-700 dark:bg-opacity-30\"><p class=\"text-justify\"><strong class=\"text-xl\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

@@ -1,0 +1,20 @@
+package pub_elements
+
+import "html/template"
+
+templ PostPreview(content template.HTML) {
+	<div
+		class="text-start rounded-xl lg:max-w-3xl md:max-w-md md:basis-7/12 md:mr-8 md:ml-0 md:p-3 md:my-8 xs:p-3 xs:m-4 bg-stone-100 px-6 dark:bg-slate-950 "
+	>
+		<article
+			class="prose prose-slate lg:prose-xl md:prose-lg dark:prose-invert prose-h2:bg-clip-text prose-h2:text-transparent prose-h2:bg-gradient-to-r prose-h2:from-pink-600 prose-h2:via-purple-600 prose-h2:to-indigo-600 prose-h3:bg-clip-text  prose-h3:text-transparent  prose-h3:bg-gradient-to-r  prose-h3:from-teal-600  prose-h3:via-sky-600  prose-h3:to-indigo-600"
+			id="preview"
+		>
+			@RenderRaw(content)
+		</article>
+	</div>
+}
+
+func RenderRaw(content template.HTML) templ.Component {
+	return templ.Raw[template.HTML](content)
+}

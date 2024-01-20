@@ -1,0 +1,25 @@
+package pub_post_edit
+
+import "github.com/muhwyndhamhp/marknotes/pkg/models"
+import "github.com/muhwyndhamhp/marknotes/pub/components/postform"
+import "github.com/muhwyndhamhp/marknotes/pub/elements"
+import "github.com/muhwyndhamhp/marknotes/pub"
+import "github.com/muhwyndhamhp/marknotes/pub/variables"
+
+templ PostEdit(body pub_variables.BodyOpts, post models.Post) {
+	@pub.Body(pub_variables.BodyOpts{
+       HeaderButtons: body.HeaderButtons,
+       FooterButtons: body.FooterButtons,
+       Component: postEdit(post),
+       })
+}
+
+templ postEdit(post models.Post) {
+	<div class="flex md:flex-row xs:flex-col mt-8">
+		<div class="md:basis-5/12 text-center">
+			@pub_postform.PostForm(post)
+		</div>
+		@pub_elements.PostPreview(post.EncodedContent)
+	</div>
+	<br/>
+}

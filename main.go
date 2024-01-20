@@ -6,12 +6,14 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/muhwyndhamhp/marknotes/config"
 	"github.com/muhwyndhamhp/marknotes/db"
+	"github.com/muhwyndhamhp/marknotes/db/migration"
 	"github.com/muhwyndhamhp/marknotes/middlewares"
 	"github.com/muhwyndhamhp/marknotes/pkg/admin"
 	"github.com/muhwyndhamhp/marknotes/pkg/auth"
 	_userRepo "github.com/muhwyndhamhp/marknotes/pkg/auth/repository"
 	"github.com/muhwyndhamhp/marknotes/pkg/post"
 	_postRepo "github.com/muhwyndhamhp/marknotes/pkg/post/repository"
+	"github.com/muhwyndhamhp/marknotes/pkg/site"
 	"github.com/muhwyndhamhp/marknotes/pkg/tag"
 	_tagRepo "github.com/muhwyndhamhp/marknotes/pkg/tag/repository"
 	"github.com/muhwyndhamhp/marknotes/template"
@@ -32,27 +34,7 @@ func main() {
 	e.File("/robots.txt", "public/assets/robots.txt")
 	e.File("/sitemap.xml", "public/sitemap/sitemap.xml")
 
-	template.NewTemplateRenderer(e,
-		"public/views/*.html",
-		"public/components/*.html",
-		"public/elements/*.html",
-	)
-
-	// e.GET("/", func(c echo.Context) error {
-	// 	// return c.Render(http.StatusOK, "index", "This is example how templating works!")
-	//
-	// 	body := pub.Index(pub.BodyOpts{
-	// 		HeaderButtons: []admin.InlineButton{},
-	// 		FooterButtons: []admin.InlineButton{},
-	// 		Component:     nil,
-	// 	})
-	//
-	// 	return template.AssertRender(c, http.StatusOK, body)
-	// })
-
-	// e.GET("/templ/index", func(c echo.Context) error {
-	// 	return template.AssertRender(c, http.StatusOK, pub.Hello())
-	// })
+	template.NewTemplateRenderer(e)
 
 	adminGroup := e.Group("")
 
@@ -76,13 +58,13 @@ func main() {
 		config.Get(config.OAUTH_URL),
 		userRepo)
 
-	// go func() {
-	// 	site.PingSitemap(postRepo)
-	// }()
+	go func() {
+		site.PingSitemap(postRepo)
+	}()
 
-	// go func() {
-	// 	migration.Migrate(db.GetDB())
-	// }()
+	go func() {
+		migration.Migrate(db.GetDB())
+	}()
 
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%s", config.Get(config.APP_PORT))))
 }

@@ -15,7 +15,13 @@ import (
 	"github.com/muhwyndhamhp/marknotes/pkg/models"
 	"github.com/muhwyndhamhp/marknotes/pkg/post/dto"
 	"github.com/muhwyndhamhp/marknotes/pkg/post/values"
+	pub_postlist "github.com/muhwyndhamhp/marknotes/pub/components/postlist"
+	pub_post_detail "github.com/muhwyndhamhp/marknotes/pub/pages/post_detail/post_detail"
+	pub_post_edit "github.com/muhwyndhamhp/marknotes/pub/pages/post_edit"
+	pub_post_index "github.com/muhwyndhamhp/marknotes/pub/pages/post_index"
+	pub_post_manage "github.com/muhwyndhamhp/marknotes/pub/pages/post_manage"
 	pub_variables "github.com/muhwyndhamhp/marknotes/pub/variables"
+	templateRenderer "github.com/muhwyndhamhp/marknotes/template"
 	"github.com/muhwyndhamhp/marknotes/utils/jwt"
 	"github.com/muhwyndhamhp/marknotes/utils/markd"
 	"github.com/muhwyndhamhp/marknotes/utils/params"
@@ -92,16 +98,22 @@ func (fe *PostFrontend) PostsManage(c echo.Context) error {
 		posts[len(posts)-1].AppendFormMeta(2, values.None, "", "")
 	}
 
-	resp := map[string]interface{}{"Posts": posts}
-	userID := jwt.AppendAndReturnUserID(c, resp)
-	resp[pub_variables.HeaderButtonsKey] = admin.AppendHeaderButtons(userID)
-	resp[pub_variables.FooterButtonsKey] = admin.AppendFooterButtons(userID)
-	resp[SearchBarKey] = SearchBar{
+	search := pub_variables.SearchBar{
 		SearchPlaceholder: "Manage Articles...",
 		SearchPath:        "/posts?page=1&pageSize=10",
 	}
 
-	return c.Render(http.StatusOK, "posts_manage", resp)
+	userID := jwt.AppendAndReturnUserID(c, map[string]interface{}{})
+
+	bodyOpts := pub_variables.BodyOpts{
+		HeaderButtons: admin.AppendHeaderButtons(userID),
+		FooterButtons: admin.AppendFooterButtons(userID),
+		Component:     nil,
+	}
+
+	postIndex := pub_post_manage.PostManage(bodyOpts, posts, search)
+
+	return templateRenderer.AssertRender(c, http.StatusOK, postIndex)
 }
 
 func (fe *PostFrontend) PostPublish(c echo.Context) error {
@@ -199,17 +211,24 @@ func (fe *PostFrontend) PostEdit(c echo.Context) error {
 		return err
 	}
 
+	if post == nil {
+		post = &models.Post{}
+	}
 	post.FormMeta = map[string]interface{}{
 		"SubmitPath": fmt.Sprintf("/posts/%d/update", id),
 		"CancelPath": fmt.Sprintf("/posts/%d", id),
 	}
 	userID := jwt.AppendAndReturnUserID(c, post.FormMeta)
-	post.FormMeta[pub_variables.HeaderButtonsKey] = admin.AppendHeaderButtons(userID)
-	post.FormMeta[pub_variables.FooterButtonsKey] = admin.AppendFooterButtons(userID)
+	bodyOpts := pub_variables.BodyOpts{
+		HeaderButtons: admin.AppendHeaderButtons(userID),
+		FooterButtons: admin.AppendFooterButtons(userID),
+		Component:     nil,
+	}
 
 	models.SetTagEditable(post.Tags...)
 
-	return c.Render(http.StatusOK, "posts_edit", post)
+	postEdit := pub_post_edit.PostEdit(bodyOpts, *post)
+	return templateRenderer.AssertRender(c, http.StatusOK, postEdit)
 }
 
 func (fe *PostFrontend) PostsIndex(c echo.Context) error {
@@ -228,16 +247,22 @@ func (fe *PostFrontend) PostsIndex(c echo.Context) error {
 		posts[len(posts)-1].AppendFormMeta(2, values.Published, "published_at", "")
 	}
 
-	resp := map[string]interface{}{"Posts": posts}
-	userID := jwt.AppendAndReturnUserID(c, resp)
-	resp[pub_variables.HeaderButtonsKey] = admin.AppendHeaderButtons(userID)
-	resp[pub_variables.FooterButtonsKey] = admin.AppendFooterButtons(userID)
-	resp[SearchBarKey] = SearchBar{
+	search := pub_variables.SearchBar{
 		SearchPlaceholder: "Search Articles...",
 		SearchPath:        "/posts?page=1&pageSize=10&sortBy=published_at&status=published",
 	}
 
-	return c.Render(http.StatusOK, "posts_index", resp)
+	userID := jwt.AppendAndReturnUserID(c, map[string]interface{}{})
+
+	bodyOpts := pub_variables.BodyOpts{
+		HeaderButtons: admin.AppendHeaderButtons(userID),
+		FooterButtons: admin.AppendFooterButtons(userID),
+		Component:     nil,
+	}
+
+	postIndex := pub_post_index.PostIndex(bodyOpts, posts, search)
+
+	return templateRenderer.AssertRender(c, http.StatusOK, postIndex)
 }
 
 func (fe *PostFrontend) GetPostBySlug(c echo.Context) error {
@@ -245,12 +270,27 @@ func (fe *PostFrontend) GetPostBySlug(c echo.Context) error {
 
 	slug := strings.TrimSpace(c.Param("slug"))
 
-	post, err := fe.repo.Get(ctx, scopes.Where("slug = ?", slug))
+	posts, err := fe.repo.Get(ctx, scopes.Where("slug = ?", slug))
 	if err != nil {
 		return err
 	}
 
-	return fe.renderPost(c, &post[0])
+	post := posts[0]
+
+	userID := jwt.AppendAndReturnUserID(c, map[string]interface{}{})
+
+	post.FormMeta = map[string]interface{}{
+		"UserID": userID,
+	}
+	bodyOpts := pub_variables.BodyOpts{
+		HeaderButtons: admin.AppendHeaderButtons(userID),
+		FooterButtons: admin.AppendFooterButtons(userID),
+		Component:     nil,
+	}
+
+	postDetail := pub_post_detail.PostDetail(bodyOpts, post)
+
+	return templateRenderer.AssertRender(c, http.StatusOK, postDetail)
 }
 
 func (fe *PostFrontend) GetPostByID(c echo.Context) error {
@@ -271,16 +311,25 @@ func (fe *PostFrontend) GetPostByID(c echo.Context) error {
 
 func (fe *PostFrontend) renderPost(c echo.Context, post *models.Post) error {
 	claims, _ := c.Get(jwt.AuthClaimKey).(*jwt.Claims)
+	var bodyOpts pub_variables.BodyOpts
+
+	if post.FormMeta == nil {
+		post.FormMeta = map[string]interface{}{}
+	}
+
 	if claims != nil {
-		post.FormMeta = map[string]interface{}{
-			"UserID":                       claims.UserID,
-			pub_variables.HeaderButtonsKey: admin.AppendHeaderButtons(claims.UserID),
-			pub_variables.FooterButtonsKey: admin.AppendFooterButtons(claims.UserID),
+		post.FormMeta["UserID"] = claims.UserID
+		bodyOpts = pub_variables.BodyOpts{
+			HeaderButtons: admin.AppendHeaderButtons(claims.UserID),
+			FooterButtons: admin.AppendFooterButtons(claims.UserID),
+			Component:     nil,
 		}
 	} else {
-		post.FormMeta = map[string]interface{}{
-			pub_variables.HeaderButtonsKey: admin.AppendHeaderButtons(0),
-			pub_variables.FooterButtonsKey: admin.AppendFooterButtons(0),
+		post.FormMeta["UserID"] = claims.UserID
+		bodyOpts = pub_variables.BodyOpts{
+			HeaderButtons: admin.AppendHeaderButtons(claims.UserID),
+			FooterButtons: admin.AppendFooterButtons(claims.UserID),
+			Component:     nil,
 		}
 	}
 
@@ -291,7 +340,9 @@ func (fe *PostFrontend) renderPost(c echo.Context, post *models.Post) error {
 		return c.Redirect(http.StatusFound, "/")
 	}
 
-	return c.Render(http.StatusOK, "posts_detail", post)
+	postDetail := pub_post_detail.PostDetail(bodyOpts, *post)
+
+	return templateRenderer.AssertRender(c, http.StatusOK, postDetail)
 }
 
 func (fe *PostFrontend) PostsGet(c echo.Context) error {
@@ -319,7 +370,9 @@ func (fe *PostFrontend) PostsGet(c echo.Context) error {
 		posts[len(posts)-1].AppendFormMeta(page+1, status, sortBy, keyword)
 	}
 
-	return c.Render(http.StatusOK, "post_list", posts)
+	postList := pub_postlist.PostList(posts)
+
+	return templateRenderer.AssertRender(c, http.StatusOK, postList)
 }
 
 func (fe *PostFrontend) PostsNew(c echo.Context) error {
@@ -329,13 +382,18 @@ func (fe *PostFrontend) PostsNew(c echo.Context) error {
 		"SubmitPath": "/posts/create",
 		"CancelPath": "/posts_manage",
 	}
+
 	userID := jwt.AppendAndReturnUserID(c, post.FormMeta)
-	post.FormMeta[pub_variables.HeaderButtonsKey] = admin.AppendHeaderButtons(userID)
-	post.FormMeta[pub_variables.FooterButtonsKey] = admin.AppendFooterButtons(userID)
+	bodyOpts := pub_variables.BodyOpts{
+		HeaderButtons: admin.AppendHeaderButtons(userID),
+		FooterButtons: admin.AppendFooterButtons(userID),
+		Component:     nil,
+	}
 
 	models.SetTagEditable(post.Tags...)
 
-	return c.Render(http.StatusOK, "posts_new", post)
+	postEdit := pub_post_edit.PostEdit(bodyOpts, *post)
+	return templateRenderer.AssertRender(c, http.StatusOK, postEdit)
 }
 
 func (fe *PostFrontend) RenderMarkdown(c echo.Context) error {

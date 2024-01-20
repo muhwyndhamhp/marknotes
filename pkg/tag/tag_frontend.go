@@ -8,6 +8,8 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/muhwyndhamhp/marknotes/pkg/models"
 	"github.com/muhwyndhamhp/marknotes/pkg/tag/dto"
+	pub_postlist "github.com/muhwyndhamhp/marknotes/pub/components/postlist"
+	"github.com/muhwyndhamhp/marknotes/template"
 	"github.com/muhwyndhamhp/marknotes/utils/errs"
 	"github.com/muhwyndhamhp/marknotes/utils/scopes"
 )
@@ -72,6 +74,7 @@ func (fe *TagFrontend) TagsFindOrCreate(c echo.Context) error {
 			return c.HTML(http.StatusOK, "")
 		}
 	}
+	tagItem := pub_postlist.TagItem(&tag)
 
-	return c.Render(http.StatusOK, "tag_item", tag)
+	return template.AssertRender(c, http.StatusOK, tagItem)
 }

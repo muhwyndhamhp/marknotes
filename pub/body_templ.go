@@ -100,7 +100,7 @@ func background() templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"fixed top-0 start-0 w-full h-full -z-50 bg-gradient-to-bl from-rose-50 via-stone-200 to-slate-300 dark:bg-gradient-to-bl dark:from-sky-800 dark:via-slate-900 dark:to-stone-900 \"></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"fixed start-0 top-0 -z-50 h-full w-full bg-gradient-to-bl from-rose-50 via-stone-200 to-slate-300 dark:bg-gradient-to-bl dark:from-sky-800 dark:via-slate-900 dark:to-stone-900\"></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
