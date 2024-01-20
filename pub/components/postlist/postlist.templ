@@ -21,7 +21,15 @@ templ PostItem(post models.Post) {
 		<div class="px-auto relative mx-auto w-full self-center bg-stone-100 p-6 dark:bg-slate-900 md:mx-auto md:my-4 md:max-w-3xl md:rounded-md md:px-0 lg:max-w-4xl">
 			<div class="mx-4">
 				<h2 class="pt">
-					<a hx-boost="true" hx-swap="innerHTML" href={ templ.SafeURL(fmt.Sprintf("/posts/%d", post.ID)) }>{ post.Title }</a>
+					<a
+						hx-boost="true"
+						hx-swap="innerHTML"
+						if post.Slug == "" {
+							href={ templ.SafeURL(fmt.Sprintf("/posts/%d", post.ID)) }
+						} else {
+							href={ templ.SafeURL(fmt.Sprintf("/articles/%s", post.Slug)) }
+						}
+					>{ post.Title }</a>
 				</h2>
 				@PostMetadata(post)
 			</div>
