@@ -10,7 +10,8 @@ kill_delay = 10
 # Ignore these filename extensions or directories.
 exclude_dir = ["postgres","vendor","misc","terraform"]
 exclude_regex =["_templ\\.go"]
-include_ext = ["templ", "go"]
+include_ext = ["templ", "go", "js", "css"]
+include_file = ["tailwind.config.js", "dist/main.css", "dist/main.js"]
 
 [log]
 # Show log time

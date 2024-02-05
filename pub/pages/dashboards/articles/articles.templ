@@ -1,0 +1,117 @@
+package pub_dashboards_articles
+
+import "github.com/muhwyndhamhp/marknotes/pub/variables"
+import "github.com/muhwyndhamhp/marknotes/pkg/models"
+import "github.com/muhwyndhamhp/marknotes/pub/pages/dashboards"
+import "fmt"
+
+type ArticlesVM struct {
+	Opts      pub_variables.DashboardOpts
+	Posts     []models.Post
+	PageSizes pub_variables.DropdownVM
+	Pages     pub_variables.DropdownVM
+}
+
+templ Articles(vm ArticlesVM) {
+	@pub_dashboard.Dashboard(pub_variables.DashboardOpts{
+          Nav: vm.Opts.Nav,
+          Comp: articles(vm.Posts, vm.PageSizes, vm.Pages),
+       })
+}
+
+templ ArticleOOB(posts []models.Post, pageSizes, pages pub_variables.DropdownVM) {
+	@articleTable(posts)
+	@pageSize(pageSizes)
+	@pagination(pages)
+}
+
+templ articles(posts []models.Post, pageSizes, pages pub_variables.DropdownVM) {
+	<div class="w-full h-full">
+		<div class="mx-10 mt-5">
+			<h1>List of Articles</h1>
+			<br/>
+			@articleTable(posts)
+			<div class="w-full flex flex-row mt-5 justify-end">
+				@pageSize(pageSizes)
+				@pagination(pages)
+			</div>
+		</div>
+		<br/>
+		<div class="h-20"></div>
+	</div>
+}
+
+templ pagination(vm pub_variables.DropdownVM) {
+	<div id="pages" hx-swap-oob="true" class="join flex-initial">
+		for i := range vm.Items {
+			<button
+				class={ "join-item btn btn-md", templ.KV("btn-active", i == vm.Selected) }
+				hx-get={ vm.Items[i].Path }
+				hx-push-url="true"
+			>
+				{ vm.Items[i].Label }
+			</button>
+		}
+	</div>
+}
+
+templ pageSize(vm pub_variables.DropdownVM) {
+	<div id="page-sizes" hx-swap-oob="true" class="flex flex-row flex-auto">
+		<div class="dropdown dropdown-hover my-auto">
+			<div tabindex="0" role="button" class="btn btn-ghost m-1">{ vm.Items[vm.Selected].Label }</div>
+			<ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+				for i := range vm.Items {
+					<li
+						_={ fmt.Sprintf("on click put %s into previous <div/>", vm.Items[i].Label) }
+						hx-get={ vm.Items[i].Path }
+						hx-push-url="true"
+					>
+						<a>{ vm.Items[i].Label }</a>
+					</li>
+				}
+			</ul>
+		</div>
+		<p class="my-auto mx-3">Entries per Page</p>
+	</div>
+}
+
+templ articleTable(posts []models.Post) {
+	<div id="article-table" hx-swap-oob="true" class="card overflow-x-auto bg-neutral-50">
+		<table class="table">
+			<!-- head -->
+			<thead>
+				<tr class="h-16">
+					<th></th>
+					<th>ID</th>
+					<th>Title</th>
+					<th>Created At</th>
+					<th>Status</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				for i := range posts {
+					@articleRow(posts[i])
+				}
+			</tbody>
+		</table>
+	</div>
+}
+
+templ articleRow(post models.Post) {
+	<tr class="h-16">
+		<th></th>
+		<th class="font-normal">{ fmt.Sprintf("%d", post.ID) }</th>
+		<th>{ post.Title }</th>
+		<th class="font-normal">{ post.CreatedAt.Format("Jan, 02 2006 15:04:05") }</th>
+		<th>
+			<div
+				class={
+					"badge badge-sm font-normal",
+					templ.KV("badge-success", post.Status == "published"),
+					templ.KV("badge-warning", post.Status == "draft"),
+				}
+			>{ string(post.Status) }</div>
+		</th>
+	</tr>
+}

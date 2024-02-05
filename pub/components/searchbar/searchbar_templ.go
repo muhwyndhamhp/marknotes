@@ -41,7 +41,7 @@ func SearchBar(search pub_variables.SearchBar) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-trigger=\"keyup changed delay:500ms, search\" hx-target=\"#post-list\" hx-swap=\"innerHTML\" class=\"focus:border-transparent focus:outline-none focus:outline-sky-600 border-transparent shadow-2xl shadow-rose-800/30 w-10/12 p-3 mt-8 mb-4 md:mx-auto md:max-w-3xl lg:max-w-4xl self-center rounded-xl\" type=\"text\" name=\"search\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-trigger=\"keyup changed delay:500ms, search\" hx-target=\"#post-list\" hx-swap=\"innerHTML\" class=\"bg-stone-50 dark:text-slate-800 p-24 font-mono focus:border-transparent focus:outline-none focus:outline-sky-600 border-transparent shadow-2xl shadow-rose-800/30 w-10/12 p-3 mt-8 mb-4 md:mx-auto md:max-w-3xl lg:max-w-4xl self-center rounded-xl\" type=\"text\" name=\"search\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

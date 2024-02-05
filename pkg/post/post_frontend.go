@@ -4,11 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"html/template"
-	"io"
-	"mime/multipart"
 	"net/http"
-	"os"
-	"path/filepath"
 	"strconv"
 	"strings"
 	"time"
@@ -32,6 +28,7 @@ import (
 	"github.com/muhwyndhamhp/marknotes/utils/params"
 	"github.com/muhwyndhamhp/marknotes/utils/resp"
 	"github.com/muhwyndhamhp/marknotes/utils/scopes"
+	"github.com/muhwyndhamhp/marknotes/utils/storage"
 	"github.com/muhwyndhamhp/marknotes/utils/strman"
 	"github.com/muhwyndhamhp/marknotes/utils/tern"
 	"gorm.io/gorm"
@@ -68,6 +65,7 @@ func NewPostFrontend(g *echo.Group,
 	g.GET("/posts/:id/publish", fe.PostPublish, htmxMid, authMid, byIDMiddleware)
 	g.GET("/posts/:id/draft", fe.PostDraft, htmxMid, authMid, byIDMiddleware)
 
+	// Upload and Download Media
 	g.POST("/posts/:id/media/upload", fe.PostMediaUpload, authDescribeMid)
 	g.GET("/posts/media/:filename", fe.PostMediaGet)
 
@@ -78,105 +76,36 @@ func NewPostFrontend(g *echo.Group,
 
 func (fe *PostFrontend) PostMediaGet(c echo.Context) error {
 	filename := c.Param("filename")
-	filePath := fmt.Sprintf("%s/%s", config.Get(config.STORE_VOL_PATH), filename)
-
-	if _, err := os.Stat(filePath); os.IsNotExist(err) {
+	path, err := storage.ServeFile(filename)
+	if err != nil {
 		return c.String(http.StatusNotFound, "File not found")
 	}
 
-	return c.File(filePath)
+	return c.File(path)
 }
 
 func (fe *PostFrontend) PostMediaUpload(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 
-	multi, err := c.MultipartForm()
+	f, err := c.FormFile("file")
 	if err != nil {
 		return err
 	}
 
-	files := multi.File["file"]
-	f := files[0]
-
-	if !isValidFileType(f) {
+	if !storage.IsValidFileType(f) {
 		return resp.HTTPBadRequest(c, "NOT_SUPPORTED", "file type not supported")
 	}
 
-	file, err := f.Open()
+	url, err := storage.WriteFile(f, fmt.Sprintf("%d", id))
 	if err != nil {
 		return err
 	}
-
-	name := fmt.Sprintf("%d-%s", id, appendTimestamp(f.Filename))
-
-	if _, err := os.Stat(config.STORE_VOL_PATH); os.IsNotExist(err) {
-		err := os.Mkdir(config.STORE_VOL_PATH, os.ModePerm)
-		if err != nil {
-			return err
-		}
-	}
-
-	dst, err := os.Create(fmt.Sprintf("%s/%s", config.Get(config.STORE_VOL_PATH), name))
-	if err != nil {
-		return err
-	}
-
-	_, err = io.Copy(dst, file)
-	if err != nil {
-		return err
-	}
-
-	file.Close()
-	dst.Close()
-
-	baseURL := strings.Split(config.Get(config.OAUTH_URL), "/callback")[0]
 
 	return resp.HTTPOk(c, struct {
 		URL string `json:"url"`
 	}{
-		URL: fmt.Sprintf("%s/posts/media/%s", baseURL, name),
+		URL: url,
 	})
-}
-
-func appendTimestamp(fileName string) string {
-	extension := filepath.Ext(fileName)
-	name := fileName[0 : len(fileName)-len(extension)]
-	fileName = fmt.Sprintf("%s-%s%s", name, time.Now().Format("20060102150405"), extension)
-	return fileName
-}
-
-func isValidFileType(fileHeader *multipart.FileHeader) bool {
-	allowedImageTypes := map[string]bool{
-		"image/jpeg": true,
-		"image/png":  true,
-		"image/gif":  true,
-		// Add more image types as needed
-	}
-
-	allowedVideoTypes := map[string]bool{
-		"video/mp4":  true,
-		"video/avi":  true,
-		"video/mpeg": true,
-		"video/mov":  true,
-		// Add more video types as needed
-	}
-
-	file, err := fileHeader.Open()
-	if err != nil {
-		return false
-	}
-	defer file.Close()
-
-	buffer := make([]byte, 512) // Read the first 512 bytes to detect file type
-	_, err = file.Read(buffer)
-	if err != nil {
-		return false
-	}
-
-	contentType := http.DetectContentType(buffer)
-
-	// Check if the content type is allowed for either images or videos
-	return allowedImageTypes[contentType] || allowedVideoTypes[contentType]
 }
 
 func (fe *PostFrontend) PostDraft(c echo.Context) error {

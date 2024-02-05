@@ -36,7 +36,7 @@ func PostForm(post models.Post) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h2></label><br><input placeholder=\"Blog title goes here...\" class=\"focus:border-transparent focus:outline-none focus:outline-sky-600 border-transparent shadow-2xl shadow-rose-800/30 w-10/12 p-3 rounded-t-lg mt-0\" type=\"text\" name=\"title\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h2></label><br><input placeholder=\"Blog title goes here...\" class=\"bg-stone-50 dark:text-slate-800 p-24 font-mono focus:border-transparent focus:outline-none focus:outline-sky-600 border-transparent shadow-2xl shadow-rose-800/30 w-10/12 p-3 rounded-t-lg mt-0\" type=\"text\" name=\"title\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -66,7 +66,7 @@ func PostForm(post models.Post) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" id=\"form-content\" placeholder=\"And the rest goes here!\" hx-trigger=\"keyup changed delay:500ms, content\" hx-post=\"/posts/render\" hx-target=\"#preview\" class=\"focus:border-transparent focus:outline-none focus:outline-sky-600 border-transparent shadow-2xl shadow-rose-800/30 w-10/12 p-3 rounded-b-lg h-96 mt-1\" type=\"text\" name=\"content\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" id=\"form-content\" placeholder=\"And the rest goes here!\" hx-trigger=\"keyup changed delay:500ms, content\" hx-post=\"/posts/render\" hx-target=\"#preview\" class=\"bg-stone-50 dark:text-slate-800 font-mono focus:border-transparent focus:outline-none focus:outline-sky-600 border-transparent shadow-2xl shadow-rose-800/30 w-10/12 p-3 rounded-b-lg h-96 mt-1\" type=\"text\" name=\"content\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -81,7 +81,7 @@ func PostForm(post models.Post) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</textarea></form><br><input placeholder=\"Tags goes here...\" hx-post=\"/tags/find-or-create\" hx-trigger=\"keydown[key==&#39;Enter&#39;], tag\" hx-target=\"#tag-flex\" hx-include=\"#tag-flex\" hx-swap=\"beforeend\" hx-on::after-request=\"this.value = &#39;&#39;\" class=\"focus:border-transparent focus:outline-none focus:outline-sky-600 border-transparent shadow-2xl shadow-rose-800/30 w-10/12 p-3 rounded-lg mt-0\" type=\"text\" name=\"tag\"><br><div class=\"md:ps-4 mt-4\"><div id=\"tag-flex\" class=\"mx-6 flex flex-row flex-wrap w-12/12\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</textarea></form><br><input placeholder=\"Tags goes here...\" hx-post=\"/tags/find-or-create\" hx-trigger=\"keydown[key==&#39;Enter&#39;], tag\" hx-target=\"#tag-flex\" hx-include=\"#tag-flex\" hx-swap=\"beforeend\" hx-on::after-request=\"this.value = &#39;&#39;\" class=\"bg-stone-50 dark:text-slate-800 font-mono  focus:border-transparent focus:outline-none focus:outline-sky-600 border-transparent shadow-2xl shadow-rose-800/30 w-10/12 p-3 rounded-lg mt-0\" type=\"text\" name=\"tag\"><br><div class=\"md:ps-4 mt-4\"><div id=\"tag-flex\" class=\"mx-6 flex flex-row flex-wrap w-12/12\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

@@ -12,7 +12,7 @@ templ PostForm(post models.Post) {
 		<br/>
 		<input
 			placeholder="Blog title goes here..."
-			class="focus:border-transparent focus:outline-none focus:outline-sky-600 border-transparent shadow-2xl shadow-rose-800/30 w-10/12 p-3 rounded-t-lg mt-0"
+			class="bg-stone-50 dark:text-slate-800 p-24 font-mono focus:border-transparent focus:outline-none focus:outline-sky-600 border-transparent shadow-2xl shadow-rose-800/30 w-10/12 p-3 rounded-t-lg mt-0"
 			type="text"
 			name="title"
 			if post.Title != "" {
@@ -31,7 +31,7 @@ templ PostForm(post models.Post) {
 			hx-trigger="keyup changed delay:500ms, content"
 			hx-post="/posts/render"
 			hx-target="#preview"
-			class="focus:border-transparent focus:outline-none focus:outline-sky-600 border-transparent shadow-2xl shadow-rose-800/30 w-10/12 p-3 rounded-b-lg h-96 mt-1"
+			class="bg-stone-50 dark:text-slate-800 font-mono focus:border-transparent focus:outline-none focus:outline-sky-600 border-transparent shadow-2xl shadow-rose-800/30 w-10/12 p-3 rounded-b-lg h-96 mt-1"
 			type="text"
 			name="content"
 		>
@@ -49,7 +49,7 @@ templ PostForm(post models.Post) {
 		hx-include="#tag-flex"
 		hx-swap="beforeend"
 		hx-on::after-request="this.value = ''"
-		class="focus:border-transparent focus:outline-none focus:outline-sky-600 border-transparent shadow-2xl shadow-rose-800/30 w-10/12 p-3 rounded-lg mt-0"
+		class="bg-stone-50 dark:text-slate-800 font-mono  focus:border-transparent focus:outline-none focus:outline-sky-600 border-transparent shadow-2xl shadow-rose-800/30 w-10/12 p-3 rounded-lg mt-0"
 		type="text"
 		name="tag"
 	/>

@@ -148,7 +148,7 @@ func PostMetadata(post models.Post) templ.Component {
 			templ_7745c5c3_Var6 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		var templ_7745c5c3_Var7 = []any{"minor", templ.KV("text-center", post.FormMeta["CenterAlign"] == true)}
+		var templ_7745c5c3_Var7 = []any{"text-sm text-slate-600 my-2 dark:text-slate-300", templ.KV("text-center", post.FormMeta["CenterAlign"] == true)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var7...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -237,7 +237,7 @@ func PostMetadata(post models.Post) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var16 = []any{"minor", templ.KV("text-center", post.FormMeta["CenterAlign"] == true)}
+		var templ_7745c5c3_Var16 = []any{"text-sm text-slate-600 my-2 dark:text-slate-300", templ.KV("text-center", post.FormMeta["CenterAlign"] == true)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var16...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err

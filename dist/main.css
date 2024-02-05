@@ -7,42 +7,10 @@
 
 @layer base {
 
-    ul,
-    ol {
-        list-style: revert;
-        @apply pl-8;
-        @apply pr-4;
-        @apply select-text;
-    }
-
-    html {
-        font-size: 16px;
-        @apply dark:text-slate-200;
-        @apply bg-gradient-to-bl from-slate-200 to-stone-300;
-        @apply dark:bg-slate-800;
-        padding: 0pt;
-        margin: 0pt;
-        height: 100%;
-        @apply select-text;
-    }
-
-    body {
-        @apply text-base;
-        padding: 0pt;
-        margin: 0pt;
-        height: 100%;
-        @apply select-text;
-    }
-
-    .minor {
-        @apply text-sm text-slate-600 my-2;
-        @apply dark:text-slate-300;
-    }
-
     h1 {
         @apply text-4xl;
         @apply font-extrabold;
-        @apply bg-clip-text text-transparent bg-gradient-to-r from-teal-600 to-indigo-600;
+        @apply bg-clip-text text-transparent bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600;
         @apply dark:from-teal-400 dark:to-indigo-400;
         
     }
@@ -86,43 +54,23 @@
         @apply text-rose-700 dark:text-rose-400;
     }
 
-    input,
-    textarea {
-        @apply dark:text-slate-800;
-        @apply p-24;
-        @apply font-mono;
-    }
-
-    a:link {
-        text-decoration: none;
-        @apply bg-clip-text text-transparent bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600;
-        @apply dark:from-pink-400 dark:via-purple-400 dark:to-indigo-400;
-    }
-
-    a:visited {
-        text-decoration: none;
-    }
-
-    a:hover {
-        text-decoration: none;
-        @apply bg-clip-text text-transparent bg-gradient-to-r from-pink-800 via-purple-800 to-indigo-800;
-        @apply dark:from-pink-200 dark:via-purple-200 dark:to-indigo-200;
-    }
-
-    a:active {
-        text-decoration: none;
-    }
+    /* a:link { */
+    /*     text-decoration: none; */
+    /*     @apply bg-clip-text text-transparent bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600; */
+    /*     @apply dark:from-pink-400 dark:via-purple-400 dark:to-indigo-400; */
+    /* } */
+    /*  */
+    /* a:visited { */
+    /*     text-decoration: none; */
+    /* } */
+    /*  */
+    /* a:active { */
+    /*     text-decoration: none; */
+    /* } */
 
     [un-cloak] {
         display: none;
     }
 }
 
-.inline-code {
-    @apply text-indigo-700 dark:text-indigo-400;
-}
 
-.relaxed {
-    @apply leading-relaxed;
-    @apply tracking-wider;
-}

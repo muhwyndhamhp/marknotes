@@ -10,6 +10,7 @@ import (
 	"github.com/muhwyndhamhp/marknotes/pkg/admin"
 	"github.com/muhwyndhamhp/marknotes/pkg/auth"
 	_userRepo "github.com/muhwyndhamhp/marknotes/pkg/auth/repository"
+	"github.com/muhwyndhamhp/marknotes/pkg/dashboard"
 	"github.com/muhwyndhamhp/marknotes/pkg/post"
 	_postRepo "github.com/muhwyndhamhp/marknotes/pkg/post/repository"
 	"github.com/muhwyndhamhp/marknotes/pkg/tag"
@@ -48,6 +49,7 @@ func main() {
 
 	admin.NewAdminFrontend(adminGroup, postRepo, authDescMid)
 	post.NewPostFrontend(adminGroup, postRepo, htmxMid, authMid, authDescMid, byIDMid)
+	dashboard.NewDashboardFrontend(adminGroup, postRepo, htmxMid, authMid, authDescMid, byIDMid)
 	tag.NewTagFrontend(adminGroup, tagRepo, authMid)
 	auth.NewAuthService(adminGroup, service, config.Get(config.OAUTH_AUTHORIZE_URL),
 		config.Get(config.OAUTH_ACCESSTOKEN_URL),

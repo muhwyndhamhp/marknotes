@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/muhwyndhamhp/marknotes/pkg/models"
 	"github.com/muhwyndhamhp/marknotes/utils/errs"
@@ -11,6 +12,22 @@ import (
 
 type repository struct {
 	db *gorm.DB
+}
+
+// Count implements models.PostRepository.
+func (r *repository) Count(ctx context.Context, funcs ...scopes.QueryScope) int {
+	scopes := scopes.Unwrap(funcs...)
+	count := int64(0)
+	if err := r.db.WithContext(ctx).
+		Model(&models.Post{}).
+		Session(&gorm.Session{SkipDefaultTransaction: true}).
+		Scopes(scopes...).
+		Count(&count).
+		Error; err != nil {
+		fmt.Println(err)
+		return 0
+	}
+	return int(count)
 }
 
 // Delete implements models.PostRepository.
