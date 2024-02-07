@@ -20,6 +20,7 @@ import (
 	"github.com/muhwyndhamhp/marknotes/utils/routing"
 )
 
+// nolint: typecheck
 func main() {
 	e := echo.New()
 	routing.SetupRouter(e)
@@ -59,11 +60,11 @@ func main() {
 		userRepo)
 
 	// go func() {
-	// 	site.PingSitemap(postRepo)
+	// 	migration.Migrate(db.GetDB())
 	// }()
 	//
 	// go func() {
-	// 	migration.Migrate(db.GetDB())
+	// 	site.PingSitemap(postRepo)
 	// }()
 
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%s", config.Get(config.APP_PORT))))
