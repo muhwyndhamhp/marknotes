@@ -302,7 +302,6 @@ func articleTable(posts []models.Post, attrs templ.Attributes) templ.Component {
 			templ_7745c5c3_Var10 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-<<<<<<< HEAD
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"article-table\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -311,55 +310,7 @@ func articleTable(posts []models.Post, attrs templ.Attributes) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" class=\"card overflow-x-auto bg-neutral-50\"><table class=\"table\"><!--")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Var13 := ` head `
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var13)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("--><thead><tr class=\"h-16\"><th></th><th>")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Var14 := `ID`
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var14)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</th><th>")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Var15 := `Title`
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var15)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</th><th>")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Var16 := `Created At`
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var16)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</th><th>")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Var17 := `Status`
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var17)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</th><th></th></tr></thead> <tbody>")
-=======
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"article-table\" hx-swap-oob=\"true\" class=\"card overflow-x-auto bg-neutral-50\"><table class=\"table\"><!-- head --><thead><tr class=\"h-16\"><th></th><th>ID</th><th>Title</th><th>Created At</th><th>Status</th><th></th></tr></thead> <tbody>")
->>>>>>> 419849f (local versioning)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" class=\"card overflow-x-auto bg-neutral-50\"><table class=\"table\"><!-- head --><thead><tr class=\"h-16\"><th></th><th>ID</th><th>Title</th><th>Created At</th><th>Status</th><th></th></tr></thead> <tbody>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
