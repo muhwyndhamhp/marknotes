@@ -20,9 +20,13 @@ templ Articles(vm ArticlesVM) {
 }
 
 templ ArticleOOB(posts []models.Post, pageSizes, pages pub_variables.DropdownVM) {
-	@articleTable(posts)
-	@pageSize(pageSizes)
-	@pagination(pages)
+	@articleTable(posts, getOOBAttr())
+	@pageSize(pageSizes, getOOBAttr())
+	@pagination(pages, getOOBAttr())
+}
+
+func getOOBAttr() templ.Attributes {
+	return templ.Attributes{"hx-swap-oob": "true"}
 }
 
 templ articles(posts []models.Post, pageSizes, pages pub_variables.DropdownVM) {
@@ -30,10 +34,10 @@ templ articles(posts []models.Post, pageSizes, pages pub_variables.DropdownVM) {
 		<div class="mx-10 mt-5">
 			<h1>List of Articles</h1>
 			<br/>
-			@articleTable(posts)
+			@articleTable(posts, templ.Attributes{})
 			<div class="w-full flex flex-row mt-5 justify-end">
-				@pageSize(pageSizes)
-				@pagination(pages)
+				@pageSize(pageSizes, templ.Attributes{})
+				@pagination(pages, templ.Attributes{})
 			</div>
 		</div>
 		<br/>
@@ -41,8 +45,12 @@ templ articles(posts []models.Post, pageSizes, pages pub_variables.DropdownVM) {
 	</div>
 }
 
-templ pagination(vm pub_variables.DropdownVM) {
-	<div id="pages" hx-swap-oob="true" class="join flex-initial">
+templ pagination(vm pub_variables.DropdownVM, attrs templ.Attributes) {
+	<div
+		id="pages"
+		{ attrs... }
+		class="join flex-initial"
+	>
 		for i := range vm.Items {
 			<button
 				class={ "join-item btn btn-md", templ.KV("btn-active", i == vm.Selected) }
@@ -55,8 +63,12 @@ templ pagination(vm pub_variables.DropdownVM) {
 	</div>
 }
 
-templ pageSize(vm pub_variables.DropdownVM) {
-	<div id="page-sizes" hx-swap-oob="true" class="flex flex-row flex-auto">
+templ pageSize(vm pub_variables.DropdownVM, attrs templ.Attributes) {
+	<div
+		id="page-sizes"
+		{ attrs... }
+		class="flex flex-row flex-auto"
+	>
 		<div class="dropdown dropdown-hover my-auto">
 			<div tabindex="0" role="button" class="btn btn-ghost m-1">{ vm.Items[vm.Selected].Label }</div>
 			<ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
@@ -75,8 +87,12 @@ templ pageSize(vm pub_variables.DropdownVM) {
 	</div>
 }
 
-templ articleTable(posts []models.Post) {
-	<div id="article-table" hx-swap-oob="true" class="card overflow-x-auto bg-neutral-50">
+templ articleTable(posts []models.Post, attrs templ.Attributes) {
+	<div
+		id="article-table"
+		{ attrs... }
+		class="card overflow-x-auto bg-neutral-50"
+	>
 		<table class="table">
 			<!-- head -->
 			<thead>

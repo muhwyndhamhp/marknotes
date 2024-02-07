@@ -27,7 +27,7 @@ templ drawer(items []pub_variables.DrawerMenu, comp templ.Component) {
 					</button>
 				</div>
 				<div class="flex-1">
-					<a class="btn btn-ghost text-xl">daisyUI</a>
+					<a class="btn btn-ghost text-xl">Marknotes CMS</a>
 				</div>
 			</div>
 			<div class=" flex flex-col items-center justify-center">
@@ -49,6 +49,7 @@ templ drawerItem(item pub_variables.DrawerMenu) {
 	<li class="p-1 h-30">
 		<a
 			hx-boost="true"
+			hx-swap="innerHTML"
 			class={ "group", templ.KV("active", item.IsActive) }
 			href={ item.URL }
 		>{ item.Label }</a>

@@ -123,6 +123,7 @@ func (fe *DashboardFrontend) Articles(c echo.Context) error {
 	dashboard := pub_dashboards_articles.Articles(articleVM)
 
 	if !partial {
+		fmt.Println("not partial")
 		return template.AssertRender(c, http.StatusOK, dashboard)
 	} else {
 		articles := pub_dashboards_articles.ArticleOOB(posts, pageSizes, pages)
