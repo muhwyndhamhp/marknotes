@@ -1,0 +1,15 @@
+package pub_dashboard_editor
+
+import "github.com/muhwyndhamhp/marknotes/pub/variables"
+import "github.com/muhwyndhamhp/marknotes/pub/pages/dashboards"
+
+templ Editor(opts pub_variables.DashboardOpts) {
+	@pub_dashboard.Dashboard(pub_variables.DashboardOpts{
+		Nav:  opts.Nav,
+		Comp: editor(),
+	})
+}
+
+templ editor() {
+	<div id="code-editor" class="w-full h-full tiptap"></div>
+}

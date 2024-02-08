@@ -9,6 +9,7 @@ import (
 	"github.com/muhwyndhamhp/marknotes/pkg/models"
 	"github.com/muhwyndhamhp/marknotes/pkg/post/values"
 	pub_dashboards_articles "github.com/muhwyndhamhp/marknotes/pub/pages/dashboards/articles"
+	pub_dashboard_editor "github.com/muhwyndhamhp/marknotes/pub/pages/dashboards/editor"
 	pub_dashboards_profile "github.com/muhwyndhamhp/marknotes/pub/pages/dashboards/profile"
 	pub_variables "github.com/muhwyndhamhp/marknotes/pub/variables"
 	"github.com/muhwyndhamhp/marknotes/template"
@@ -33,6 +34,16 @@ func NewDashboardFrontend(
 
 	g.GET("/dashboard/articles", fe.Articles, authMid)
 	g.GET("/dashboard/profile", fe.Profile, authMid)
+	g.GET("/dashboard/editor", fe.Editor, authMid)
+}
+
+func (fe *DashboardFrontend) Editor(c echo.Context) error {
+
+	opts := pub_variables.DashboardOpts{Nav: nav(1)}
+
+	dashboard := pub_dashboard_editor.Editor(opts)
+
+	return template.AssertRender(c, http.StatusOK, dashboard)
 }
 
 func (fe *DashboardFrontend) Profile(c echo.Context) error {
@@ -123,7 +134,6 @@ func (fe *DashboardFrontend) Articles(c echo.Context) error {
 	dashboard := pub_dashboards_articles.Articles(articleVM)
 
 	if !partial {
-		fmt.Println("not partial")
 		return template.AssertRender(c, http.StatusOK, dashboard)
 	} else {
 		articles := pub_dashboards_articles.ArticleOOB(posts, pageSizes, pages)
@@ -141,6 +151,11 @@ func nav(indexSelected int) []pub_variables.DrawerMenu {
 		{
 			Label:    "Profile",
 			URL:      "/dashboard/profile",
+			IsActive: false,
+		},
+		{
+			Label:    "Create Post",
+			URL:      "/dashboard/editor",
 			IsActive: false,
 		},
 	}

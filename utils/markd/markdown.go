@@ -58,6 +58,7 @@ func postProcessHTML(str string) string {
 func changeCodeBlockBg(str string) string {
 	return strings.ReplaceAll(str,
 		`style="color:#fff;background-color:#1f1f24;"`,
+
 		`style="color:#fff;
 		background-color:rgb(15 23 42);
 		width:100%;

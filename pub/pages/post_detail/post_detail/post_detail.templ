@@ -9,10 +9,10 @@ import "github.com/muhwyndhamhp/marknotes/pub"
 
 templ PostDetail(body pub_variables.BodyOpts, post models.Post) {
 	@pub.Body(pub_variables.BodyOpts{
-       HeaderButtons: body.HeaderButtons,
-       FooterButtons: body.FooterButtons,
-       Component: postDetail(post),
-       })
+		HeaderButtons: body.HeaderButtons,
+		FooterButtons: body.FooterButtons,
+		Component:     postDetail(post),
+	})
 }
 
 templ postDetail(post models.Post) {
@@ -80,7 +80,7 @@ func showSwal(text string) string {
 
 templ MarkdownBody(content template.HTML) {
 	<article
-		class="prose prose-slate lg:prose-xl md:prose-lg dark:prose-invert prose-h2:bg-clip-text prose-h2:text-transparent prose-h2:bg-gradient-to-r prose-h2:from-pink-600 prose-h2:via-purple-600 prose-h2:to-indigo-600 prose-h3:bg-clip-text  prose-h3:text-transparent  prose-h3:bg-gradient-to-r  prose-h3:from-teal-600  prose-h3:via-sky-600  prose-h3:to-indigo-600"
+		class="prose prose-slate lg:prose-xl md:prose-lg dark:prose-invert prose-h2:bg-clip-text prose-h2:text-transparent prose-h2:bg-gradient-to-r prose-h2:from-pink-600 prose-h2:via-purple-600 prose-h2:to-indigo-600 prose-h3:bg-clip-text  prose-h3:text-transparent  prose-h3:bg-gradient-to-r  prose-h3:from-teal-600  prose-h3:via-sky-600  prose-h3:to-indigo-600 prose-pre:bg-slate-900 prose-pre:w-full prose-pre:text-white"
 		id="preview"
 	>
 		@RenderRaw(content)

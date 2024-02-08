@@ -2,7 +2,7 @@ const defaultTheme = require('tailwindcss/defaultTheme')
 const plugin = require('tailwindcss/plugin');
 
 module.exports = {
-  content: ["./pub/**/*.templ"],
+  content: ["./pub/**/*.templ", "./dist/*.js"],
   theme: {
     screens: {
         'xs': '320px',
