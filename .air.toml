@@ -1,7 +1,7 @@
 
 [build]
 pre_cmd = [
-  "./node_modules/.bin/esbuild ./dist/main.js --bundle --outfile=./dist/main-out.js --target=chrome58,firefox57,safari11",
+  "./node_modules/.bin/esbuild ./src/*.js --bundle --outdir=dist --target=chrome58,firefox57,safari11",
   "templ generate",
   "npx tailwindcss -i ./dist/main.css -o ./dist/tailwind.css"
 ]
@@ -15,7 +15,8 @@ kill_delay = 10
 exclude_dir = ["postgres","vendor","misc","terraform"]
 exclude_regex =["_templ\\.go","-out\\.js"]
 include_ext = ["templ", "go", "js", "css"]
-include_file = ["tailwind.config.js", "dist/main.css", "dist/main.js"]
+include_dir = ["src"]
+include_file = ["tailwind.config.js"]
 
 [log]
 # Show log time

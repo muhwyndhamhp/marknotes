@@ -4,8 +4,10 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/labstack/echo/v4"
+	"github.com/muhwyndhamhp/marknotes/config"
 	"github.com/muhwyndhamhp/marknotes/pkg/models"
 	"github.com/muhwyndhamhp/marknotes/pkg/post/values"
 	pub_dashboards_articles "github.com/muhwyndhamhp/marknotes/pub/pages/dashboards/articles"
@@ -38,10 +40,12 @@ func NewDashboardFrontend(
 }
 
 func (fe *DashboardFrontend) Editor(c echo.Context) error {
-
 	opts := pub_variables.DashboardOpts{Nav: nav(1)}
 
-	dashboard := pub_dashboard_editor.Editor(opts)
+	baseURL := strings.Split(config.Get(config.OAUTH_URL), "/callback")[0]
+	uploadURL := fmt.Sprintf("%s/posts/%d/media/upload", baseURL, 0)
+
+	dashboard := pub_dashboard_editor.Editor(opts, uploadURL)
 
 	return template.AssertRender(c, http.StatusOK, dashboard)
 }

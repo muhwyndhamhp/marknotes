@@ -50,8 +50,8 @@ func PostForm(post models.Post) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(fmt.Sprintf(`
-            on drop call upload(event, "%s")
-            on dragover call allowDrop(event)
+            on drop call window.upload(event, "%s")
+            on dragover call window.allowDrop(event)
             `,
 			post.FormMeta["UploadURL"])))
 		if templ_7745c5c3_Err != nil {

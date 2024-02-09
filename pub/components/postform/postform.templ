@@ -22,8 +22,8 @@ templ PostForm(post models.Post) {
 		<br/>
 		<textarea
 			_={ fmt.Sprintf(`
-            on drop call upload(event, "%s")
-            on dragover call allowDrop(event)
+            on drop call window.upload(event, "%s")
+            on dragover call window.allowDrop(event)
             `, 
             post.FormMeta["UploadURL"]) }
 			id="form-content"
