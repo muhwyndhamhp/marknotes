@@ -11,11 +11,6 @@ delay = 1000
 # Delay after sending Interrupt signal
 kill_delay = 10
 
-# Ignore these filename extensions or directories.
-# exclude_dir = ["postgres","vendor","misc","terraform"]
-# exclude_regex =["_templ\\.go","-out\\.js", "tailwind.css", "editor.js"]
-# include_ext = ["templ", "go", "js", "css"]
-# include_file = ["tailwind.config.js"]
 include_ext = ["templ", "go", "js", "css"]
 exclude_dir = ["postgres", "vendor", "misc", "terraform", "dist"]
 exclude_regex = ["_templ\\.go"]
