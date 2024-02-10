@@ -6,17 +6,18 @@ import "github.com/muhwyndhamhp/marknotes/pub/pages/dashboards"
 import "fmt"
 
 type ArticlesVM struct {
-	Opts      pub_variables.DashboardOpts
-	Posts     []models.Post
-	PageSizes pub_variables.DropdownVM
-	Pages     pub_variables.DropdownVM
+	Opts       pub_variables.DashboardOpts
+	Posts      []models.Post
+	PageSizes  pub_variables.DropdownVM
+	Pages      pub_variables.DropdownVM
+	CreatePath string
 }
 
 templ Articles(vm ArticlesVM) {
 	@pub_dashboard.Dashboard(pub_variables.DashboardOpts{
-          Nav: vm.Opts.Nav,
-          Comp: articles(vm.Posts, vm.PageSizes, vm.Pages),
-       })
+		Nav:  vm.Opts.Nav,
+		Comp: articles(vm.Posts, vm.PageSizes, vm.Pages, vm.CreatePath),
+	})
 }
 
 templ ArticleOOB(posts []models.Post, pageSizes, pages pub_variables.DropdownVM) {
@@ -29,10 +30,13 @@ func getOOBAttr() templ.Attributes {
 	return templ.Attributes{"hx-swap-oob": "true"}
 }
 
-templ articles(posts []models.Post, pageSizes, pages pub_variables.DropdownVM) {
-	<div class="w-full h-full">
+templ articles(posts []models.Post, pageSizes, pages pub_variables.DropdownVM, createPath string) {
+	<div class="w-full h-full" id="articles">
 		<div class="mx-10 mt-5">
-			<h1>List of Articles</h1>
+			<div class="w-full flex mt-5 flex-row justify-end">
+				<h1 class="grow text-4xl text-secondary font-bold my-auto">List of Articles</h1>
+				@createArticleButton(createPath)
+			</div>
 			<br/>
 			@articleTable(posts, templ.Attributes{})
 			<div class="w-full flex flex-row mt-5 justify-end">
@@ -43,6 +47,18 @@ templ articles(posts []models.Post, pageSizes, pages pub_variables.DropdownVM) {
 		<br/>
 		<div class="h-20"></div>
 	</div>
+}
+
+templ createArticleButton(path string) {
+	<button
+		hx-get={ path }
+		hx-target="#admin-root"
+		hx-push-url="true"
+		class="btn btn-primary flex-initial"
+	>
+		Create
+		<svg class="h-8 w-8 text-primary-content" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"></path> <rect x="4" y="4" width="16" height="16" rx="2"></rect> <line x1="9" y1="12" x2="15" y2="12"></line> <line x1="12" y1="9" x2="12" y2="15"></line></svg>
+	</button>
 }
 
 templ pagination(vm pub_variables.DropdownVM, attrs templ.Attributes) {
@@ -123,9 +139,9 @@ templ articleRow(post models.Post) {
 		<th>
 			<div
 				class={
-					"badge badge-sm font-normal",
-					templ.KV("badge-success", post.Status == "published"),
-					templ.KV("badge-warning", post.Status == "draft"),
+					"badge badge-outline badge-sm font-normal px-3 py-2",
+					templ.KV("badge-primary text-primary-content", post.Status == "published"),
+					templ.KV("badge-accent text-accent-content", post.Status == "draft"),
 				}
 			>{ string(post.Status) }</div>
 		</th>

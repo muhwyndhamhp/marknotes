@@ -5,6 +5,7 @@ import StarterKit from '@tiptap/starter-kit'
 import TextStyle from '@tiptap/extension-text-style'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import Image from '@tiptap/extension-image'
+import Link from '@tiptap/extension-link'
 
 const content = require('./unexported/content_placeholder.js').content;
 const lowlight = require('./unexported/lowlight.js').lowlight;
@@ -28,13 +29,18 @@ const editor = new Editor({
       Image.configure({
          inline: true,
          HTMLAttributes: {
-            class: 'max-w-96 mx-auto'
+            class: 'max-h-96 mx-auto'
          }
-      })
+      }), 
+      Link.configure({
+        openOnClick: true,
+        autolink: true,
+        linkOnPaste: true,
+      }),
    ],
    editorProps: {
       attributes: {
-         class: 'prose prose-slate lg:prose-xl md:prose-lg dark:prose-invert prose-h2:bg-clip-text prose-h2:text-transparent prose-h2:bg-gradient-to-r prose-h2:from-pink-600 prose-h2:via-purple-600 prose-h2:to-indigo-600 prose-h3:bg-clip-text  prose-h3:text-transparent  prose-h3:bg-gradient-to-r  prose-h3:from-teal-600  prose-h3:via-sky-600  prose-h3:to-indigo-600 prose-pre:bg-slate-900 prose-pre:w-full prose-pre:text-white',
+         class: 'prose prose-slate lg:prose-xl md:prose-lg dark:prose-invert prose-pre:bg-slate-900 prose-pre:w-full prose-pre:text-white focus:outline-none prose-h2:text-primary prose-h3:text-secondary prose-h4:text-accent prose-em:text-secondary prose-strong:text-primary prose-strong:font-extrabold prose-a:font-extrabold prose-a:text-accent',
       },
    },
    content: content,

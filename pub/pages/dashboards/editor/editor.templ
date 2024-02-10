@@ -6,8 +6,9 @@ import "fmt"
 
 templ Editor(opts pub_variables.DashboardOpts, uploadURL string) {
 	@pub_dashboard.Dashboard(pub_variables.DashboardOpts{
-		Nav:  opts.Nav,
-		Comp: editor(uploadURL),
+		Nav:               opts.Nav,
+		AdditionalHeaders: opts.AdditionalHeaders,
+		Comp:              editor(uploadURL),
 	})
 }
 

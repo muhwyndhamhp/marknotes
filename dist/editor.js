@@ -70,7 +70,7 @@
   var content;
   var init_content_placeholder = __esm({
     "src/unexported/content_placeholder.js"() {
-      content = '\n<h2>\n  Hi there,\n</h2>\n<p>\n  this is a <em>basic</em> example of <strong>tiptap</strong>. Sure, there are all kind of basic text styles you\u2019d probably expect from a text editor. But wait until you see the lists:\n</p>\n<ul>\n  <li>\n    That\u2019s a bullet list with one \u2026\n  </li>\n  <li>\n    \u2026 or two list items.\n  </li>\n</ul>\n<p>\n  Isn\u2019t that great? And all of that is editable. But wait, there\u2019s more. Let\u2019s try a code block:\n</p>\n<pre><code class="language-javascript">\nfor (var i=1; i <= 20; i++)\n{\n  if (i % 15 == 0)\n    console.log("FizzBuzz");\n  else if (i % 3 == 0)\n    console.log("Fizz");\n  else if (i % 5 == 0)\n    console.log("Buzz");\n  else\n    console.log(i);\n}\n</code></pre>\n<p>\n  I know, I know, this is impressive. It\u2019s only the tip of the iceberg though. Give it a try and click a little bit around. Don\u2019t forget to check the other examples too.\n</p>\n<blockquote>\n  Wow, that\u2019s amazing. Good work, boy! \u{1F44F}\n  <br />\n  \u2014 Mom\n</blockquote>\n';
+      content = '\n<h2>\n  Hi there,\n</h2>\n<p>\n  this is a <em>basic</em> example of <strong>tiptap</strong>. Sure, there are all kind of basic text styles you\u2019d probably expect from a text editor. But wait until you see the lists:\n</p>\n<ul>\n  <li>\n    That\u2019s a bullet list with one \u2026\n  </li>\n  <li>\n    \u2026 or two list items.\n  </li>\n</ul>\n<p>\n  Isn\u2019t that great? And all of that is editable. But wait, there\u2019s more. Let\u2019s try a code block:\n</p>\n<pre><code class="language-javascript">\nfor (var i=1; i <= 20; i++)\n{\n  if (i % 15 == 0)\n    // comment\n    console.log("FizzBuzz");\n  else if (i % 3 == 0)\n    console.log("Fizz");\n  else if (i % 5 == 0)\n    console.log("Buzz");\n  else\n    console.log(i);\n}\n</code></pre>\n<p>\n  I know, I know, this is impressive. It\u2019s only the tip of the iceberg though. Give it a try and click a little bit around. Don\u2019t forget to check the other examples too.\n</p>\n<blockquote>\n  Wow, that\u2019s amazing. Good work, boy! \u{1F44F}\n  <br />\n  \u2014 Mom\n</blockquote>\n';
     }
   });
 
@@ -13583,7 +13583,7 @@
       var error2 = (message) => {
         console.error(message);
       };
-      var warn2 = (message, ...args) => {
+      var warn3 = (message, ...args) => {
         console.log("WARN: ".concat(message), ...args);
       };
       var deprecated2 = (version3, message) => {
@@ -13905,8 +13905,8 @@
           if (match) {
             const language = getLanguage(match[1]);
             if (!language) {
-              warn2(LANGUAGE_NOT_FOUND.replace("{}", match[1]));
-              warn2("Falling back to no-highlight mode for this block.", block);
+              warn3(LANGUAGE_NOT_FOUND.replace("{}", match[1]));
+              warn3("Falling back to no-highlight mode for this block.", block);
             }
             return language ? match[1] : "no-highlight";
           }
@@ -14525,11 +14525,11 @@
   });
 
   // node_modules/highlight.js/es/core.js
-  var import_core24, core_default;
+  var import_core25, core_default;
   var init_core = __esm({
     "node_modules/highlight.js/es/core.js"() {
-      import_core24 = __toESM(require_core(), 1);
-      core_default = import_core24.default;
+      import_core25 = __toESM(require_core(), 1);
+      core_default = import_core25.default;
     }
   });
 
@@ -16817,14 +16817,14 @@
     }
   }
   function defaultAttrs(attrs) {
-    let defaults = /* @__PURE__ */ Object.create(null);
+    let defaults2 = /* @__PURE__ */ Object.create(null);
     for (let attrName in attrs) {
       let attr = attrs[attrName];
       if (!attr.hasDefault)
         return null;
-      defaults[attrName] = attr.default;
+      defaults2[attrName] = attr.default;
     }
-    return defaults;
+    return defaults2;
   }
   function computeAttrs(attrs, value) {
     let built = /* @__PURE__ */ Object.create(null);
@@ -17060,8 +17060,8 @@
       this.spec = spec;
       this.attrs = initAttrs(spec.attrs);
       this.excluded = null;
-      let defaults = defaultAttrs(this.attrs);
-      this.instance = defaults ? new Mark(this, defaults) : null;
+      let defaults2 = defaultAttrs(this.attrs);
+      this.instance = defaults2 ? new Mark(this, defaults2) : null;
     }
     /**
     Create a mark of this type. `attrs` may be `null` or an object
@@ -17211,7 +17211,7 @@
     }
     return found2;
   }
-  var DOMParser = class _DOMParser {
+  var DOMParser2 = class _DOMParser {
     /**
     Create a parser that targets the given schema, using the given
     parsing rules.
@@ -18798,10 +18798,10 @@
     }
     return false;
   }
-  function addMark(tr, from2, to, mark) {
+  function addMark(tr2, from2, to, mark) {
     let removed = [], added = [];
     let removing, adding;
-    tr.doc.nodesBetween(from2, to, (node, pos, parent) => {
+    tr2.doc.nodesBetween(from2, to, (node, pos, parent) => {
       if (!node.isInline)
         return;
       let marks = node.marks;
@@ -18822,12 +18822,12 @@
           added.push(adding = new AddMarkStep(start, end, mark));
       }
     });
-    removed.forEach((s) => tr.step(s));
-    added.forEach((s) => tr.step(s));
+    removed.forEach((s) => tr2.step(s));
+    added.forEach((s) => tr2.step(s));
   }
-  function removeMark(tr, from2, to, mark) {
+  function removeMark(tr2, from2, to, mark) {
     let matched = [], step = 0;
-    tr.doc.nodesBetween(from2, to, (node, pos) => {
+    tr2.doc.nodesBetween(from2, to, (node, pos) => {
       if (!node.isInline)
         return;
       step++;
@@ -18862,10 +18862,10 @@
         }
       }
     });
-    matched.forEach((m) => tr.step(new RemoveMarkStep(m.from, m.to, m.style)));
+    matched.forEach((m) => tr2.step(new RemoveMarkStep(m.from, m.to, m.style)));
   }
-  function clearIncompatible(tr, pos, parentType, match = parentType.contentMatch) {
-    let node = tr.doc.nodeAt(pos);
+  function clearIncompatible(tr2, pos, parentType, match = parentType.contentMatch) {
+    let node = tr2.doc.nodeAt(pos);
     let replSteps = [], cur = pos + 1;
     for (let i = 0; i < node.childCount; i++) {
       let child = node.child(i), end = cur + child.nodeSize;
@@ -18876,7 +18876,7 @@
         match = allowed;
         for (let j = 0; j < child.marks.length; j++)
           if (!parentType.allowsMarkType(child.marks[j].type))
-            tr.step(new RemoveMarkStep(cur, end, child.marks[j]));
+            tr2.step(new RemoveMarkStep(cur, end, child.marks[j]));
         if (child.isText && !parentType.spec.code) {
           let m, newline = /\r?\n|\r/g, slice2;
           while (m = newline.exec(child.text)) {
@@ -18890,10 +18890,10 @@
     }
     if (!match.validEnd) {
       let fill = match.fillBefore(Fragment.empty, true);
-      tr.replace(cur, cur, new Slice(fill, 0, 0));
+      tr2.replace(cur, cur, new Slice(fill, 0, 0));
     }
     for (let i = replSteps.length - 1; i >= 0; i--)
-      tr.step(replSteps[i]);
+      tr2.step(replSteps[i]);
   }
   function canCut(node, start, end) {
     return (start == 0 || node.canReplace(start, node.childCount)) && (end == node.childCount || node.canReplace(0, end));
@@ -18911,7 +18911,7 @@
     }
     return null;
   }
-  function lift(tr, range, target) {
+  function lift(tr2, range, target) {
     let { $from, $to, depth } = range;
     let gapStart = $from.before(depth + 1), gapEnd = $to.after(depth + 1);
     let start = gapStart, end = gapEnd;
@@ -18933,7 +18933,7 @@
       } else {
         end++;
       }
-    tr.step(new ReplaceAroundStep(start, end, gapStart, gapEnd, new Slice(before.append(after), openStart, openEnd), before.size - openStart, true));
+    tr2.step(new ReplaceAroundStep(start, end, gapStart, gapEnd, new Slice(before.append(after), openStart, openEnd), before.size - openStart, true));
   }
   function findWrapping(range, nodeType, attrs = null, innerRange = range) {
     let around = findWrappingOutside(range, nodeType);
@@ -18967,7 +18967,7 @@
       return null;
     return inside;
   }
-  function wrap(tr, range, wrappers) {
+  function wrap(tr2, range, wrappers) {
     let content3 = Fragment.empty;
     for (let i = wrappers.length - 1; i >= 0; i--) {
       if (content3.size) {
@@ -18978,18 +18978,18 @@
       content3 = Fragment.from(wrappers[i].type.create(wrappers[i].attrs, content3));
     }
     let start = range.start, end = range.end;
-    tr.step(new ReplaceAroundStep(start, end, start, end, new Slice(content3, 0, 0), wrappers.length, true));
+    tr2.step(new ReplaceAroundStep(start, end, start, end, new Slice(content3, 0, 0), wrappers.length, true));
   }
-  function setBlockType(tr, from2, to, type, attrs) {
+  function setBlockType(tr2, from2, to, type, attrs) {
     if (!type.isTextblock)
       throw new RangeError("Type given to setBlockType should be a textblock");
-    let mapFrom = tr.steps.length;
-    tr.doc.nodesBetween(from2, to, (node, pos) => {
-      if (node.isTextblock && !node.hasMarkup(type, attrs) && canChangeType(tr.doc, tr.mapping.slice(mapFrom).map(pos), type)) {
-        tr.clearIncompatible(tr.mapping.slice(mapFrom).map(pos, 1), type);
-        let mapping = tr.mapping.slice(mapFrom);
+    let mapFrom = tr2.steps.length;
+    tr2.doc.nodesBetween(from2, to, (node, pos) => {
+      if (node.isTextblock && !node.hasMarkup(type, attrs) && canChangeType(tr2.doc, tr2.mapping.slice(mapFrom).map(pos), type)) {
+        tr2.clearIncompatible(tr2.mapping.slice(mapFrom).map(pos, 1), type);
+        let mapping = tr2.mapping.slice(mapFrom);
         let startM = mapping.map(pos, 1), endM = mapping.map(pos + node.nodeSize, 1);
-        tr.step(new ReplaceAroundStep(startM, endM, startM + 1, endM - 1, new Slice(Fragment.from(type.create(attrs, null, node.marks)), 0, 0), 1, true));
+        tr2.step(new ReplaceAroundStep(startM, endM, startM + 1, endM - 1, new Slice(Fragment.from(type.create(attrs, null, node.marks)), 0, 0), 1, true));
         return false;
       }
     });
@@ -18998,18 +18998,18 @@
     let $pos = doc3.resolve(pos), index = $pos.index();
     return $pos.parent.canReplaceWith(index, index + 1, type);
   }
-  function setNodeMarkup(tr, pos, type, attrs, marks) {
-    let node = tr.doc.nodeAt(pos);
+  function setNodeMarkup(tr2, pos, type, attrs, marks) {
+    let node = tr2.doc.nodeAt(pos);
     if (!node)
       throw new RangeError("No node at given position");
     if (!type)
       type = node.type;
     let newNode2 = type.create(attrs, null, marks || node.marks);
     if (node.isLeaf)
-      return tr.replaceWith(pos, pos + node.nodeSize, newNode2);
+      return tr2.replaceWith(pos, pos + node.nodeSize, newNode2);
     if (!type.validContent(node.content))
       throw new RangeError("Invalid content for node type " + type.name);
-    tr.step(new ReplaceAroundStep(pos, pos + node.nodeSize, pos + 1, pos + node.nodeSize - 1, new Slice(Fragment.from(newNode2), 0, 0), 1, true));
+    tr2.step(new ReplaceAroundStep(pos, pos + node.nodeSize, pos + 1, pos + node.nodeSize - 1, new Slice(Fragment.from(newNode2), 0, 0), 1, true));
   }
   function canSplit(doc3, pos, depth = 1, typesAfter) {
     let $pos = doc3.resolve(pos), base2 = $pos.depth - depth;
@@ -19032,14 +19032,14 @@
     let baseType = typesAfter && typesAfter[0];
     return $pos.node(base2).canReplaceWith(index, index, baseType ? baseType.type : $pos.node(base2 + 1).type);
   }
-  function split(tr, pos, depth = 1, typesAfter) {
-    let $pos = tr.doc.resolve(pos), before = Fragment.empty, after = Fragment.empty;
+  function split(tr2, pos, depth = 1, typesAfter) {
+    let $pos = tr2.doc.resolve(pos), before = Fragment.empty, after = Fragment.empty;
     for (let d = $pos.depth, e = $pos.depth - depth, i = depth - 1; d > e; d--, i--) {
       before = Fragment.from($pos.node(d).copy(before));
       let typeAfter = typesAfter && typesAfter[i];
       after = Fragment.from(typeAfter ? typeAfter.type.create(typeAfter.attrs, after) : $pos.node(d).copy(after));
     }
-    tr.step(new ReplaceStep(pos, pos, new Slice(before.append(after), depth, depth), true));
+    tr2.step(new ReplaceStep(pos, pos, new Slice(before.append(after), depth, depth), true));
   }
   function canJoin(doc3, pos) {
     let $pos = doc3.resolve(pos), index = $pos.index();
@@ -19070,9 +19070,9 @@
       pos = dir < 0 ? $pos.before(d) : $pos.after(d);
     }
   }
-  function join(tr, pos, depth) {
+  function join(tr2, pos, depth) {
     let step = new ReplaceStep(pos - depth, pos + depth, Slice.empty, true);
-    tr.step(step);
+    tr2.step(step);
   }
   function insertPoint(doc3, pos, nodeType) {
     let $pos = doc3.resolve(pos);
@@ -19374,13 +19374,13 @@
   function definesContent(type) {
     return type.spec.defining || type.spec.definingForContent;
   }
-  function replaceRange(tr, from2, to, slice2) {
+  function replaceRange(tr2, from2, to, slice2) {
     if (!slice2.size)
-      return tr.deleteRange(from2, to);
-    let $from = tr.doc.resolve(from2), $to = tr.doc.resolve(to);
+      return tr2.deleteRange(from2, to);
+    let $from = tr2.doc.resolve(from2), $to = tr2.doc.resolve(to);
     if (fitsTrivially($from, $to, slice2))
-      return tr.step(new ReplaceStep(from2, to, slice2));
-    let targetDepths = coveredDepths($from, tr.doc.resolve(to));
+      return tr2.step(new ReplaceStep(from2, to, slice2));
+    let targetDepths = coveredDepths($from, tr2.doc.resolve(to));
     if (targetDepths[targetDepths.length - 1] == 0)
       targetDepths.pop();
     let preferredTarget = -($from.depth + 1);
@@ -19423,13 +19423,13 @@
         }
         let parent = $from.node(targetDepth - 1), index = $from.index(targetDepth - 1);
         if (parent.canReplaceWith(index, index, insert.type, insert.marks))
-          return tr.replace($from.before(targetDepth), expand ? $to.after(targetDepth) : to, new Slice(closeFragment(slice2.content, 0, slice2.openStart, openDepth), openDepth, slice2.openEnd));
+          return tr2.replace($from.before(targetDepth), expand ? $to.after(targetDepth) : to, new Slice(closeFragment(slice2.content, 0, slice2.openStart, openDepth), openDepth, slice2.openEnd));
       }
     }
-    let startSteps = tr.steps.length;
+    let startSteps = tr2.steps.length;
     for (let i = targetDepths.length - 1; i >= 0; i--) {
-      tr.replace(from2, to, slice2);
-      if (tr.steps.length > startSteps)
+      tr2.replace(from2, to, slice2);
+      if (tr2.steps.length > startSteps)
         break;
       let depth = targetDepths[i];
       if (depth < 0)
@@ -19450,29 +19450,29 @@
     }
     return fragment;
   }
-  function replaceRangeWith(tr, from2, to, node) {
-    if (!node.isInline && from2 == to && tr.doc.resolve(from2).parent.content.size) {
-      let point = insertPoint(tr.doc, from2, node.type);
+  function replaceRangeWith(tr2, from2, to, node) {
+    if (!node.isInline && from2 == to && tr2.doc.resolve(from2).parent.content.size) {
+      let point = insertPoint(tr2.doc, from2, node.type);
       if (point != null)
         from2 = to = point;
     }
-    tr.replaceRange(from2, to, new Slice(Fragment.from(node), 0, 0));
+    tr2.replaceRange(from2, to, new Slice(Fragment.from(node), 0, 0));
   }
-  function deleteRange(tr, from2, to) {
-    let $from = tr.doc.resolve(from2), $to = tr.doc.resolve(to);
+  function deleteRange(tr2, from2, to) {
+    let $from = tr2.doc.resolve(from2), $to = tr2.doc.resolve(to);
     let covered = coveredDepths($from, $to);
     for (let i = 0; i < covered.length; i++) {
       let depth = covered[i], last = i == covered.length - 1;
       if (last && depth == 0 || $from.node(depth).type.contentMatch.validEnd)
-        return tr.delete($from.start(depth), $to.end(depth));
+        return tr2.delete($from.start(depth), $to.end(depth));
       if (depth > 0 && (last || $from.node(depth - 1).canReplace($from.index(depth - 1), $to.indexAfter(depth - 1))))
-        return tr.delete($from.before(depth), $to.after(depth));
+        return tr2.delete($from.before(depth), $to.after(depth));
     }
     for (let d = 1; d <= $from.depth && d <= $to.depth; d++) {
       if (from2 - $from.start(d) == $from.depth - d && to > $from.end(d) && $to.end(d) - to != $to.depth - d)
-        return tr.delete($from.before(d), to);
+        return tr2.delete($from.before(d), to);
     }
-    tr.delete(from2, to);
+    tr2.delete(from2, to);
   }
   function coveredDepths($from, $to) {
     let result = [], minDepth = Math.min($from.depth, $to.depth);
@@ -19889,34 +19889,34 @@
     Replace the selection with a slice or, if no slice is given,
     delete the selection. Will append to the given transaction.
     */
-    replace(tr, content3 = Slice.empty) {
+    replace(tr2, content3 = Slice.empty) {
       let lastNode = content3.content.lastChild, lastParent = null;
       for (let i = 0; i < content3.openEnd; i++) {
         lastParent = lastNode;
         lastNode = lastNode.lastChild;
       }
-      let mapFrom = tr.steps.length, ranges = this.ranges;
+      let mapFrom = tr2.steps.length, ranges = this.ranges;
       for (let i = 0; i < ranges.length; i++) {
-        let { $from, $to } = ranges[i], mapping = tr.mapping.slice(mapFrom);
-        tr.replaceRange(mapping.map($from.pos), mapping.map($to.pos), i ? Slice.empty : content3);
+        let { $from, $to } = ranges[i], mapping = tr2.mapping.slice(mapFrom);
+        tr2.replaceRange(mapping.map($from.pos), mapping.map($to.pos), i ? Slice.empty : content3);
         if (i == 0)
-          selectionToInsertionEnd(tr, mapFrom, (lastNode ? lastNode.isInline : lastParent && lastParent.isTextblock) ? -1 : 1);
+          selectionToInsertionEnd(tr2, mapFrom, (lastNode ? lastNode.isInline : lastParent && lastParent.isTextblock) ? -1 : 1);
       }
     }
     /**
     Replace the selection with the given node, appending the changes
     to the given transaction.
     */
-    replaceWith(tr, node) {
-      let mapFrom = tr.steps.length, ranges = this.ranges;
+    replaceWith(tr2, node) {
+      let mapFrom = tr2.steps.length, ranges = this.ranges;
       for (let i = 0; i < ranges.length; i++) {
-        let { $from, $to } = ranges[i], mapping = tr.mapping.slice(mapFrom);
+        let { $from, $to } = ranges[i], mapping = tr2.mapping.slice(mapFrom);
         let from2 = mapping.map($from.pos), to = mapping.map($to.pos);
         if (i) {
-          tr.deleteRange(from2, to);
+          tr2.deleteRange(from2, to);
         } else {
-          tr.replaceRangeWith(from2, to, node);
-          selectionToInsertionEnd(tr, mapFrom, node.isInline ? -1 : 1);
+          tr2.replaceRangeWith(from2, to, node);
+          selectionToInsertionEnd(tr2, mapFrom, node.isInline ? -1 : 1);
         }
       }
     }
@@ -20040,12 +20040,12 @@
       let $anchor = doc3.resolve(mapping.map(this.anchor));
       return new _TextSelection($anchor.parent.inlineContent ? $anchor : $head, $head);
     }
-    replace(tr, content3 = Slice.empty) {
-      super.replace(tr, content3);
+    replace(tr2, content3 = Slice.empty) {
+      super.replace(tr2, content3);
       if (content3 == Slice.empty) {
         let marks = this.$from.marksAcross(this.$to);
         if (marks)
-          tr.ensureMarks(marks);
+          tr2.ensureMarks(marks);
       }
     }
     eq(other) {
@@ -20192,14 +20192,14 @@
     constructor(doc3) {
       super(doc3.resolve(0), doc3.resolve(doc3.content.size));
     }
-    replace(tr, content3 = Slice.empty) {
+    replace(tr2, content3 = Slice.empty) {
       if (content3 == Slice.empty) {
-        tr.delete(0, tr.doc.content.size);
-        let sel = Selection.atStart(tr.doc);
-        if (!sel.eq(tr.selection))
-          tr.setSelection(sel);
+        tr2.delete(0, tr2.doc.content.size);
+        let sel = Selection.atStart(tr2.doc);
+        if (!sel.eq(tr2.selection))
+          tr2.setSelection(sel);
       } else {
-        super.replace(tr, content3);
+        super.replace(tr2, content3);
       }
     }
     toJSON() {
@@ -20246,19 +20246,19 @@
     }
     return null;
   }
-  function selectionToInsertionEnd(tr, startLen, bias) {
-    let last = tr.steps.length - 1;
+  function selectionToInsertionEnd(tr2, startLen, bias) {
+    let last = tr2.steps.length - 1;
     if (last < startLen)
       return;
-    let step = tr.steps[last];
+    let step = tr2.steps[last];
     if (!(step instanceof ReplaceStep || step instanceof ReplaceAroundStep))
       return;
-    let map2 = tr.mapping.maps[last], end;
+    let map2 = tr2.mapping.maps[last], end;
     map2.forEach((_from, _to, _newFrom, newTo) => {
       if (end == null)
         end = newTo;
     });
-    tr.setSelection(Selection.near(tr.doc.resolve(end), bias));
+    tr2.setSelection(Selection.near(tr2.doc.resolve(end), bias));
   }
   var UPDATED_SEL = 1;
   var UPDATED_MARKS = 2;
@@ -20465,32 +20465,32 @@
       init(config) {
         return config.doc || config.schema.topNodeType.createAndFill();
       },
-      apply(tr) {
-        return tr.doc;
+      apply(tr2) {
+        return tr2.doc;
       }
     }),
     new FieldDesc("selection", {
       init(config, instance) {
         return config.selection || Selection.atStart(instance.doc);
       },
-      apply(tr) {
-        return tr.selection;
+      apply(tr2) {
+        return tr2.selection;
       }
     }),
     new FieldDesc("storedMarks", {
       init(config) {
         return config.storedMarks || null;
       },
-      apply(tr, _marks, _old, state) {
-        return state.selection.$cursor ? tr.storedMarks : null;
+      apply(tr2, _marks, _old, state) {
+        return state.selection.$cursor ? tr2.storedMarks : null;
       }
     }),
     new FieldDesc("scrollToSelection", {
       init() {
         return 0;
       },
-      apply(tr, prev) {
-        return tr.scrolledIntoView ? prev + 1 : prev;
+      apply(tr2, prev) {
+        return tr2.scrolledIntoView ? prev + 1 : prev;
       }
     })
   ];
@@ -20533,17 +20533,17 @@
     /**
     Apply the given transaction to produce a new state.
     */
-    apply(tr) {
-      return this.applyTransaction(tr).state;
+    apply(tr2) {
+      return this.applyTransaction(tr2).state;
     }
     /**
     @internal
     */
-    filterTransaction(tr, ignore = -1) {
+    filterTransaction(tr2, ignore = -1) {
       for (let i = 0; i < this.config.plugins.length; i++)
         if (i != ignore) {
           let plugin = this.config.plugins[i];
-          if (plugin.spec.filterTransaction && !plugin.spec.filterTransaction.call(plugin, tr, this))
+          if (plugin.spec.filterTransaction && !plugin.spec.filterTransaction.call(plugin, tr2, this))
             return false;
         }
       return true;
@@ -20565,16 +20565,16 @@
           let plugin = this.config.plugins[i];
           if (plugin.spec.appendTransaction) {
             let n = seen ? seen[i].n : 0, oldState = seen ? seen[i].state : this;
-            let tr = n < trs.length && plugin.spec.appendTransaction.call(plugin, n ? trs.slice(n) : trs, oldState, newState);
-            if (tr && newState.filterTransaction(tr, i)) {
-              tr.setMeta("appendedTransaction", rootTr);
+            let tr2 = n < trs.length && plugin.spec.appendTransaction.call(plugin, n ? trs.slice(n) : trs, oldState, newState);
+            if (tr2 && newState.filterTransaction(tr2, i)) {
+              tr2.setMeta("appendedTransaction", rootTr);
               if (!seen) {
                 seen = [];
                 for (let j = 0; j < this.config.plugins.length; j++)
                   seen.push(j < i ? { state: newState, n: trs.length } : { state: this, n: 0 });
               }
-              trs.push(tr);
-              newState = newState.applyInner(tr);
+              trs.push(tr2);
+              newState = newState.applyInner(tr2);
               haveNew = true;
             }
             if (seen)
@@ -20588,13 +20588,13 @@
     /**
     @internal
     */
-    applyInner(tr) {
-      if (!tr.before.eq(this.doc))
+    applyInner(tr2) {
+      if (!tr2.before.eq(this.doc))
         throw new RangeError("Applying a mismatched transaction");
       let newInstance = new _EditorState(this.config), fields = this.config.fields;
       for (let i = 0; i < fields.length; i++) {
         let field = fields[i];
-        newInstance[field.name] = field.apply(tr, this[field.name], this, newInstance);
+        newInstance[field.name] = field.apply(tr2, this[field.name], this, newInstance);
       }
       return newInstance;
     }
@@ -23084,12 +23084,12 @@
       return true;
     let nextNode = !$head.textOffset && (dir < 0 ? $head.nodeBefore : $head.nodeAfter);
     if (nextNode && !nextNode.isText) {
-      let tr = view.state.tr;
+      let tr2 = view.state.tr;
       if (dir < 0)
-        tr.delete($head.pos - nextNode.nodeSize, $head.pos);
+        tr2.delete($head.pos - nextNode.nodeSize, $head.pos);
       else
-        tr.delete($head.pos, $head.pos + nextNode.nodeSize);
-      view.dispatch(tr);
+        tr2.delete($head.pos, $head.pos + nextNode.nodeSize);
+      view.dispatch(tr2);
       return true;
     }
     return false;
@@ -23221,7 +23221,7 @@
         dom = child;
       }
     if (!slice2) {
-      let parser = view.someProp("clipboardParser") || view.someProp("domParser") || DOMParser.fromSchema(view.state.schema);
+      let parser = view.someProp("clipboardParser") || view.someProp("domParser") || DOMParser2.fromSchema(view.state.schema);
       slice2 = parser.parseSlice(dom, {
         preserveWhitespace: !!(asText || sliceData),
         context: $context,
@@ -23520,10 +23520,10 @@
   function updateSelection(view, selection, origin) {
     if (!view.focused)
       view.focus();
-    let tr = view.state.tr.setSelection(selection);
+    let tr2 = view.state.tr.setSelection(selection);
     if (origin == "pointer")
-      tr.setMeta("pointer", true);
-    view.dispatch(tr);
+      tr2.setMeta("pointer", true);
+    view.dispatch(tr2);
   }
   function selectClickedLeaf(view, inside) {
     if (inside == -1)
@@ -23880,8 +23880,8 @@
     if (!slice2)
       return false;
     let singleNode = sliceSingleNode(slice2);
-    let tr = singleNode ? view.state.tr.replaceSelectionWith(singleNode, preferPlain) : view.state.tr.replaceSelection(slice2);
-    view.dispatch(tr.scrollIntoView().setMeta("paste", true).setMeta("uiEvent", "paste"));
+    let tr2 = singleNode ? view.state.tr.replaceSelectionWith(singleNode, preferPlain) : view.state.tr.replaceSelection(slice2);
+    view.dispatch(tr2.scrollIntoView().setMeta("paste", true).setMeta("uiEvent", "paste"));
     return true;
   }
   function getText(clipboardData) {
@@ -23974,33 +23974,33 @@
     let insertPos = slice2 ? dropPoint(view.state.doc, $mouse.pos, slice2) : $mouse.pos;
     if (insertPos == null)
       insertPos = $mouse.pos;
-    let tr = view.state.tr;
+    let tr2 = view.state.tr;
     if (move) {
       let { node } = dragging;
       if (node)
-        node.replace(tr);
+        node.replace(tr2);
       else
-        tr.deleteSelection();
+        tr2.deleteSelection();
     }
-    let pos = tr.mapping.map(insertPos);
+    let pos = tr2.mapping.map(insertPos);
     let isNode = slice2.openStart == 0 && slice2.openEnd == 0 && slice2.content.childCount == 1;
-    let beforeInsert = tr.doc;
+    let beforeInsert = tr2.doc;
     if (isNode)
-      tr.replaceRangeWith(pos, pos, slice2.content.firstChild);
+      tr2.replaceRangeWith(pos, pos, slice2.content.firstChild);
     else
-      tr.replaceRange(pos, pos, slice2);
-    if (tr.doc.eq(beforeInsert))
+      tr2.replaceRange(pos, pos, slice2);
+    if (tr2.doc.eq(beforeInsert))
       return;
-    let $pos = tr.doc.resolve(pos);
+    let $pos = tr2.doc.resolve(pos);
     if (isNode && NodeSelection.isSelectable(slice2.content.firstChild) && $pos.nodeAfter && $pos.nodeAfter.sameMarkup(slice2.content.firstChild)) {
-      tr.setSelection(new NodeSelection($pos));
+      tr2.setSelection(new NodeSelection($pos));
     } else {
-      let end = tr.mapping.map(insertPos);
-      tr.mapping.maps[tr.mapping.maps.length - 1].forEach((_from, _to, _newFrom, newTo) => end = newTo);
-      tr.setSelection(selectionBetween(view, $pos, tr.doc.resolve(end)));
+      let end = tr2.mapping.map(insertPos);
+      tr2.mapping.maps[tr2.mapping.maps.length - 1].forEach((_from, _to, _newFrom, newTo) => end = newTo);
+      tr2.setSelection(selectionBetween(view, $pos, tr2.doc.resolve(end)));
     }
     view.focus();
-    view.dispatch(tr.setMeta("uiEvent", "drop"));
+    view.dispatch(tr2.setMeta("uiEvent", "drop"));
   };
   handlers.focus = (view) => {
     view.input.lastFocus = Date.now();
@@ -24938,12 +24938,12 @@
   function parseBetween(view, from_, to_) {
     let { node: parent, fromOffset, toOffset, from: from2, to } = view.docView.parseRange(from_, to_);
     let domSel = view.domSelectionRange();
-    let find;
+    let find2;
     let anchor = domSel.anchorNode;
     if (anchor && view.dom.contains(anchor.nodeType == 1 ? anchor : anchor.parentNode)) {
-      find = [{ node: anchor, offset: domSel.anchorOffset }];
+      find2 = [{ node: anchor, offset: domSel.anchorOffset }];
       if (!selectionCollapsed(domSel))
-        find.push({ node: domSel.focusNode, offset: domSel.focusOffset });
+        find2.push({ node: domSel.focusNode, offset: domSel.focusOffset });
     }
     if (chrome && view.input.lastKeyCode === 8) {
       for (let off = toOffset; off > fromOffset; off--) {
@@ -24957,7 +24957,7 @@
       }
     }
     let startDoc = view.state.doc;
-    let parser = view.someProp("domParser") || DOMParser.fromSchema(view.state.schema);
+    let parser = view.someProp("domParser") || DOMParser2.fromSchema(view.state.schema);
     let $from = startDoc.resolve(from2);
     let sel = null, doc3 = parser.parse(parent, {
       topNode: $from.parent,
@@ -24966,12 +24966,12 @@
       from: fromOffset,
       to: toOffset,
       preserveWhitespace: $from.parent.type.whitespace == "pre" ? "full" : true,
-      findPositions: find,
+      findPositions: find2,
       ruleFromNode,
       context: $from
     });
-    if (find && find[0].pos != null) {
-      let anchor2 = find[0].pos, head = find[1] && find[1].pos;
+    if (find2 && find2[0].pos != null) {
+      let anchor2 = find2[0].pos, head = find2[1] && find2[1].pos;
       if (head == null)
         head = anchor2;
       sel = { anchor: anchor2 + from2, head: head + from2 };
@@ -25005,14 +25005,14 @@
       if (newSel && !view.state.selection.eq(newSel)) {
         if (chrome && android && view.input.lastKeyCode === 13 && Date.now() - 100 < view.input.lastKeyCodeTime && view.someProp("handleKeyDown", (f) => f(view, keyEvent(13, "Enter"))))
           return;
-        let tr2 = view.state.tr.setSelection(newSel);
+        let tr3 = view.state.tr.setSelection(newSel);
         if (origin == "pointer")
-          tr2.setMeta("pointer", true);
+          tr3.setMeta("pointer", true);
         else if (origin == "key")
-          tr2.scrollIntoView();
+          tr3.scrollIntoView();
         if (compositionID)
-          tr2.setMeta("composition", compositionID);
-        view.dispatch(tr2);
+          tr3.setMeta("composition", compositionID);
+        view.dispatch(tr3);
       }
       return;
     }
@@ -25044,10 +25044,10 @@
         if (parse.sel) {
           let sel2 = resolveSelection(view, view.state.doc, parse.sel);
           if (sel2 && !sel2.eq(view.state.selection)) {
-            let tr2 = view.state.tr.setSelection(sel2);
+            let tr3 = view.state.tr.setSelection(sel2);
             if (compositionID)
-              tr2.setMeta("composition", compositionID);
-            view.dispatch(tr2);
+              tr3.setMeta("composition", compositionID);
+            view.dispatch(tr3);
           }
         }
         return;
@@ -25097,43 +25097,43 @@
       }, 20);
     }
     let chFrom = change.start, chTo = change.endA;
-    let tr, storedMarks, markChange;
+    let tr2, storedMarks, markChange;
     if (inlineChange) {
       if ($from.pos == $to.pos) {
         if (ie && ie_version <= 11 && $from.parentOffset == 0) {
           view.domObserver.suppressSelectionUpdates();
           setTimeout(() => selectionToDOM(view), 20);
         }
-        tr = view.state.tr.delete(chFrom, chTo);
+        tr2 = view.state.tr.delete(chFrom, chTo);
         storedMarks = doc3.resolve(change.start).marksAcross(doc3.resolve(change.endA));
       } else if (
         // Adding or removing a mark
         change.endA == change.endB && (markChange = isMarkChange($from.parent.content.cut($from.parentOffset, $to.parentOffset), $fromA.parent.content.cut($fromA.parentOffset, change.endA - $fromA.start())))
       ) {
-        tr = view.state.tr;
+        tr2 = view.state.tr;
         if (markChange.type == "add")
-          tr.addMark(chFrom, chTo, markChange.mark);
+          tr2.addMark(chFrom, chTo, markChange.mark);
         else
-          tr.removeMark(chFrom, chTo, markChange.mark);
+          tr2.removeMark(chFrom, chTo, markChange.mark);
       } else if ($from.parent.child($from.index()).isText && $from.index() == $to.index() - ($to.textOffset ? 0 : 1)) {
         let text = $from.parent.textBetween($from.parentOffset, $to.parentOffset);
         if (view.someProp("handleTextInput", (f) => f(view, chFrom, chTo, text)))
           return;
-        tr = view.state.tr.insertText(text, chFrom, chTo);
+        tr2 = view.state.tr.insertText(text, chFrom, chTo);
       }
     }
-    if (!tr)
-      tr = view.state.tr.replace(chFrom, chTo, parse.doc.slice(change.start - parse.from, change.endB - parse.from));
+    if (!tr2)
+      tr2 = view.state.tr.replace(chFrom, chTo, parse.doc.slice(change.start - parse.from, change.endB - parse.from));
     if (parse.sel) {
-      let sel2 = resolveSelection(view, tr.doc, parse.sel);
-      if (sel2 && !(chrome && android && view.composing && sel2.empty && (change.start != change.endB || view.input.lastAndroidDelete < Date.now() - 100) && (sel2.head == chFrom || sel2.head == tr.mapping.map(chTo) - 1) || ie && sel2.empty && sel2.head == chFrom))
-        tr.setSelection(sel2);
+      let sel2 = resolveSelection(view, tr2.doc, parse.sel);
+      if (sel2 && !(chrome && android && view.composing && sel2.empty && (change.start != change.endB || view.input.lastAndroidDelete < Date.now() - 100) && (sel2.head == chFrom || sel2.head == tr2.mapping.map(chTo) - 1) || ie && sel2.empty && sel2.head == chFrom))
+        tr2.setSelection(sel2);
     }
     if (storedMarks)
-      tr.ensureMarks(storedMarks);
+      tr2.ensureMarks(storedMarks);
     if (compositionID)
-      tr.setMeta("composition", compositionID);
-    view.dispatch(tr.scrollIntoView());
+      tr2.setMeta("composition", compositionID);
+    view.dispatch(tr2.scrollIntoView());
   }
   function resolveSelection(view, doc3, parsedSel) {
     if (Math.max(parsedSel.anchor, parsedSel.head) > doc3.content.size)
@@ -25643,12 +25643,12 @@
     This method is bound to the view instance, so that it can be
     easily passed around.
     */
-    dispatch(tr) {
+    dispatch(tr2) {
       let dispatchTransaction = this._props.dispatchTransaction;
       if (dispatchTransaction)
-        dispatchTransaction.call(this, tr);
+        dispatchTransaction.call(this, tr2);
       else
-        this.updateState(this.state.apply(tr));
+        this.updateState(this.state.apply(tr2));
     }
     /**
     @internal
@@ -25956,9 +25956,9 @@
       let delStep = replaceStep(state.doc, $cursor.before(), $cursor.after(), Slice.empty);
       if (delStep && delStep.slice.size < delStep.to - delStep.from) {
         if (dispatch) {
-          let tr = state.tr.step(delStep);
-          tr.setSelection(textblockAt(before, "end") ? Selection.findFrom(tr.doc.resolve(tr.mapping.map($cut.pos, -1)), -1) : NodeSelection.create(tr.doc, $cut.pos - before.nodeSize));
-          dispatch(tr.scrollIntoView());
+          let tr2 = state.tr.step(delStep);
+          tr2.setSelection(textblockAt(before, "end") ? Selection.findFrom(tr2.doc.resolve(tr2.mapping.map($cut.pos, -1)), -1) : NodeSelection.create(tr2.doc, $cut.pos - before.nodeSize));
+          dispatch(tr2.scrollIntoView());
         }
         return true;
       }
@@ -26007,9 +26007,9 @@
     if (!step || step.from != beforePos || step instanceof ReplaceStep && step.slice.size >= afterPos - beforePos)
       return false;
     if (dispatch) {
-      let tr = state.tr.step(step);
-      tr.setSelection(TextSelection.create(tr.doc, beforePos));
-      dispatch(tr.scrollIntoView());
+      let tr2 = state.tr.step(step);
+      tr2.setSelection(TextSelection.create(tr2.doc, beforePos));
+      dispatch(tr2.scrollIntoView());
     }
     return true;
   }
@@ -26068,9 +26068,9 @@
       let delStep = replaceStep(state.doc, $cursor.before(), $cursor.after(), Slice.empty);
       if (delStep && delStep.slice.size < delStep.to - delStep.from) {
         if (dispatch) {
-          let tr = state.tr.step(delStep);
-          tr.setSelection(textblockAt(after, "start") ? Selection.findFrom(tr.doc.resolve(tr.mapping.map($cut.pos)), 1) : NodeSelection.create(tr.doc, tr.mapping.map($cut.pos)));
-          dispatch(tr.scrollIntoView());
+          let tr2 = state.tr.step(delStep);
+          tr2.setSelection(textblockAt(after, "start") ? Selection.findFrom(tr2.doc.resolve(tr2.mapping.map($cut.pos)), 1) : NodeSelection.create(tr2.doc, tr2.mapping.map($cut.pos)));
+          dispatch(tr2.scrollIntoView());
         }
         return true;
       }
@@ -26121,10 +26121,10 @@
         return false;
     }
     if (dispatch) {
-      let tr = state.tr.join(point);
+      let tr2 = state.tr.join(point);
       if (nodeSel)
-        tr.setSelection(NodeSelection.create(tr.doc, point - state.doc.resolve(point).nodeBefore.nodeSize));
-      dispatch(tr.scrollIntoView());
+        tr2.setSelection(NodeSelection.create(tr2.doc, point - state.doc.resolve(point).nodeBefore.nodeSize));
+      dispatch(tr2.scrollIntoView());
     }
     return true;
   };
@@ -26176,9 +26176,9 @@
     if (!type || !above.canReplaceWith(after, after, type))
       return false;
     if (dispatch) {
-      let pos = $head.after(), tr = state.tr.replaceWith(pos, pos, type.createAndFill());
-      tr.setSelection(Selection.near(tr.doc.resolve(pos), 1));
-      dispatch(tr.scrollIntoView());
+      let pos = $head.after(), tr2 = state.tr.replaceWith(pos, pos, type.createAndFill());
+      tr2.setSelection(Selection.near(tr2.doc.resolve(pos), 1));
+      dispatch(tr2.scrollIntoView());
     }
     return true;
   };
@@ -26191,9 +26191,9 @@
       return false;
     if (dispatch) {
       let side = (!$from.parentOffset && $to.index() < $to.parent.childCount ? $from : $to).pos;
-      let tr = state.tr.insert(side, type.createAndFill());
-      tr.setSelection(TextSelection.create(tr.doc, side + 1));
-      dispatch(tr.scrollIntoView());
+      let tr2 = state.tr.insert(side, type.createAndFill());
+      tr2.setSelection(TextSelection.create(tr2.doc, side + 1));
+      dispatch(tr2.scrollIntoView());
     }
     return true;
   };
@@ -26230,27 +26230,27 @@
         return false;
       if (dispatch) {
         let atEnd = $to.parentOffset == $to.parent.content.size;
-        let tr = state.tr;
+        let tr2 = state.tr;
         if (state.selection instanceof TextSelection || state.selection instanceof AllSelection)
-          tr.deleteSelection();
+          tr2.deleteSelection();
         let deflt = $from.depth == 0 ? null : defaultBlockAt($from.node(-1).contentMatchAt($from.indexAfter(-1)));
         let splitType = splitNode && splitNode($to.parent, atEnd);
         let types = splitType ? [splitType] : atEnd && deflt ? [{ type: deflt }] : void 0;
-        let can = canSplit(tr.doc, tr.mapping.map($from.pos), 1, types);
-        if (!types && !can && canSplit(tr.doc, tr.mapping.map($from.pos), 1, deflt ? [{ type: deflt }] : void 0)) {
+        let can = canSplit(tr2.doc, tr2.mapping.map($from.pos), 1, types);
+        if (!types && !can && canSplit(tr2.doc, tr2.mapping.map($from.pos), 1, deflt ? [{ type: deflt }] : void 0)) {
           if (deflt)
             types = [{ type: deflt }];
           can = true;
         }
         if (can) {
-          tr.split(tr.mapping.map($from.pos), 1, types);
+          tr2.split(tr2.mapping.map($from.pos), 1, types);
           if (!atEnd && !$from.parentOffset && $from.parent.type != deflt) {
-            let first2 = tr.mapping.map($from.before()), $first = tr.doc.resolve(first2);
+            let first2 = tr2.mapping.map($from.before()), $first = tr2.doc.resolve(first2);
             if (deflt && $from.node(-1).canReplaceWith($first.index(), $first.index() + 1, deflt))
-              tr.setNodeMarkup(tr.mapping.map($from.before()), deflt);
+              tr2.setNodeMarkup(tr2.mapping.map($from.before()), deflt);
           }
         }
-        dispatch(tr.scrollIntoView());
+        dispatch(tr2.scrollIntoView());
       }
       return true;
     };
@@ -26299,11 +26299,11 @@
         for (let i = conn.length - 1; i >= 0; i--)
           wrap2 = Fragment.from(conn[i].create(null, wrap2));
         wrap2 = Fragment.from(before.copy(wrap2));
-        let tr = state.tr.step(new ReplaceAroundStep($cut.pos - 1, end, $cut.pos, end, new Slice(wrap2, 1, 0), conn.length, true));
+        let tr2 = state.tr.step(new ReplaceAroundStep($cut.pos - 1, end, $cut.pos, end, new Slice(wrap2, 1, 0), conn.length, true));
         let joinAt = end + 2 * conn.length;
-        if (canJoin(tr.doc, joinAt))
-          tr.join(joinAt);
-        dispatch(tr.scrollIntoView());
+        if (canJoin(tr2.doc, joinAt))
+          tr2.join(joinAt);
+        dispatch(tr2.scrollIntoView());
       }
       return true;
     }
@@ -26330,8 +26330,8 @@
           let end = Fragment.empty;
           for (let i = wrap2.length - 1; i >= 0; i--)
             end = Fragment.from(wrap2[i].copy(end));
-          let tr = state.tr.step(new ReplaceAroundStep($cut.pos - wrap2.length, $cut.pos + after.nodeSize, $cut.pos + afterDepth, $cut.pos + after.nodeSize - afterDepth, new Slice(end, wrap2.length, 0), 0, true));
-          dispatch(tr.scrollIntoView());
+          let tr2 = state.tr.step(new ReplaceAroundStep($cut.pos - wrap2.length, $cut.pos + after.nodeSize, $cut.pos + afterDepth, $cut.pos + after.nodeSize - afterDepth, new Slice(end, wrap2.length, 0), 0, true));
+          dispatch(tr2.scrollIntoView());
         }
         return true;
       }
@@ -26388,12 +26388,12 @@
       if (!applicable)
         return false;
       if (dispatch) {
-        let tr = state.tr;
+        let tr2 = state.tr;
         for (let i = 0; i < state.selection.ranges.length; i++) {
           let { $from: { pos: from2 }, $to: { pos: to } } = state.selection.ranges[i];
-          tr.setBlockType(from2, to, nodeType, attrs);
+          tr2.setBlockType(from2, to, nodeType, attrs);
         }
-        dispatch(tr.scrollIntoView());
+        dispatch(tr2.scrollIntoView());
       }
       return true;
     };
@@ -26456,11 +26456,11 @@
       return true;
     };
   }
-  function doWrapInList(tr, range, wrappers, joinBefore, listType) {
+  function doWrapInList(tr2, range, wrappers, joinBefore, listType) {
     let content3 = Fragment.empty;
     for (let i = wrappers.length - 1; i >= 0; i--)
       content3 = Fragment.from(wrappers[i].type.create(wrappers[i].attrs, content3));
-    tr.step(new ReplaceAroundStep(range.start - (joinBefore ? 2 : 0), range.end, range.start, range.end, new Slice(content3, 0, 0), wrappers.length, true));
+    tr2.step(new ReplaceAroundStep(range.start - (joinBefore ? 2 : 0), range.end, range.start, range.end, new Slice(content3, 0, 0), wrappers.length, true));
     let found2 = 0;
     for (let i = 0; i < wrappers.length; i++)
       if (wrappers[i].type == listType)
@@ -26468,13 +26468,13 @@
     let splitDepth = wrappers.length - found2;
     let splitPos = range.start + wrappers.length - (joinBefore ? 2 : 0), parent = range.parent;
     for (let i = range.startIndex, e = range.endIndex, first2 = true; i < e; i++, first2 = false) {
-      if (!first2 && canSplit(tr.doc, splitPos, splitDepth)) {
-        tr.split(splitPos, splitDepth);
+      if (!first2 && canSplit(tr2.doc, splitPos, splitDepth)) {
+        tr2.split(splitPos, splitDepth);
         splitPos += 2 * splitDepth;
       }
       splitPos += parent.child(i).nodeSize;
     }
-    return tr;
+    return tr2;
   }
   function liftListItem(itemType) {
     return function(state, dispatch) {
@@ -26491,37 +26491,37 @@
     };
   }
   function liftToOuterList(state, dispatch, itemType, range) {
-    let tr = state.tr, end = range.end, endOfList = range.$to.end(range.depth);
+    let tr2 = state.tr, end = range.end, endOfList = range.$to.end(range.depth);
     if (end < endOfList) {
-      tr.step(new ReplaceAroundStep(end - 1, endOfList, end, endOfList, new Slice(Fragment.from(itemType.create(null, range.parent.copy())), 1, 0), 1, true));
-      range = new NodeRange(tr.doc.resolve(range.$from.pos), tr.doc.resolve(endOfList), range.depth);
+      tr2.step(new ReplaceAroundStep(end - 1, endOfList, end, endOfList, new Slice(Fragment.from(itemType.create(null, range.parent.copy())), 1, 0), 1, true));
+      range = new NodeRange(tr2.doc.resolve(range.$from.pos), tr2.doc.resolve(endOfList), range.depth);
     }
     const target = liftTarget(range);
     if (target == null)
       return false;
-    tr.lift(range, target);
-    let after = tr.mapping.map(end, -1) - 1;
-    if (canJoin(tr.doc, after))
-      tr.join(after);
-    dispatch(tr.scrollIntoView());
+    tr2.lift(range, target);
+    let after = tr2.mapping.map(end, -1) - 1;
+    if (canJoin(tr2.doc, after))
+      tr2.join(after);
+    dispatch(tr2.scrollIntoView());
     return true;
   }
   function liftOutOfList(state, dispatch, range) {
-    let tr = state.tr, list = range.parent;
+    let tr2 = state.tr, list = range.parent;
     for (let pos = range.end, i = range.endIndex - 1, e = range.startIndex; i > e; i--) {
       pos -= list.child(i).nodeSize;
-      tr.delete(pos - 1, pos + 1);
+      tr2.delete(pos - 1, pos + 1);
     }
-    let $start = tr.doc.resolve(range.start), item = $start.nodeAfter;
-    if (tr.mapping.map(range.end) != range.start + $start.nodeAfter.nodeSize)
+    let $start = tr2.doc.resolve(range.start), item = $start.nodeAfter;
+    if (tr2.mapping.map(range.end) != range.start + $start.nodeAfter.nodeSize)
       return false;
     let atStart = range.startIndex == 0, atEnd = range.endIndex == list.childCount;
     let parent = $start.node(-1), indexBefore = $start.index(-1);
     if (!parent.canReplace(indexBefore + (atStart ? 0 : 1), indexBefore + 1, item.content.append(atEnd ? Fragment.empty : Fragment.from(list))))
       return false;
     let start = $start.pos, end = start + item.nodeSize;
-    tr.step(new ReplaceAroundStep(start - (atStart ? 1 : 0), end + (atEnd ? 1 : 0), start + 1, end - 1, new Slice((atStart ? Fragment.empty : Fragment.from(list.copy(Fragment.empty))).append(atEnd ? Fragment.empty : Fragment.from(list.copy(Fragment.empty))), atStart ? 0 : 1, atEnd ? 0 : 1), atStart ? 0 : 1));
-    dispatch(tr.scrollIntoView());
+    tr2.step(new ReplaceAroundStep(start - (atStart ? 1 : 0), end + (atEnd ? 1 : 0), start + 1, end - 1, new Slice((atStart ? Fragment.empty : Fragment.from(list.copy(Fragment.empty))).append(atEnd ? Fragment.empty : Fragment.from(list.copy(Fragment.empty))), atStart ? 0 : 1, atEnd ? 0 : 1), atStart ? 0 : 1));
+    dispatch(tr2.scrollIntoView());
     return true;
   }
   function sinkListItem(itemType) {
@@ -26592,13 +26592,13 @@
     get commands() {
       const { rawCommands, editor: editor2, state } = this;
       const { view } = editor2;
-      const { tr } = state;
-      const props = this.buildProps(tr);
+      const { tr: tr2 } = state;
+      const props = this.buildProps(tr2);
       return Object.fromEntries(Object.entries(rawCommands).map(([name, command2]) => {
         const method = (...args) => {
           const callback = command2(...args)(props);
-          if (!tr.getMeta("preventDispatch") && !this.hasCustomState) {
-            view.dispatch(tr);
+          if (!tr2.getMeta("preventDispatch") && !this.hasCustomState) {
+            view.dispatch(tr2);
           }
           return callback;
         };
@@ -26616,52 +26616,52 @@
       const { view } = editor2;
       const callbacks = [];
       const hasStartTransaction = !!startTr;
-      const tr = startTr || state.tr;
-      const run2 = () => {
-        if (!hasStartTransaction && shouldDispatch && !tr.getMeta("preventDispatch") && !this.hasCustomState) {
-          view.dispatch(tr);
+      const tr2 = startTr || state.tr;
+      const run3 = () => {
+        if (!hasStartTransaction && shouldDispatch && !tr2.getMeta("preventDispatch") && !this.hasCustomState) {
+          view.dispatch(tr2);
         }
         return callbacks.every((callback) => callback === true);
       };
       const chain = __spreadProps(__spreadValues({}, Object.fromEntries(Object.entries(rawCommands).map(([name, command2]) => {
         const chainedCommand = (...args) => {
-          const props = this.buildProps(tr, shouldDispatch);
+          const props = this.buildProps(tr2, shouldDispatch);
           const callback = command2(...args)(props);
           callbacks.push(callback);
           return chain;
         };
         return [name, chainedCommand];
       }))), {
-        run: run2
+        run: run3
       });
       return chain;
     }
     createCan(startTr) {
       const { rawCommands, state } = this;
       const dispatch = false;
-      const tr = startTr || state.tr;
-      const props = this.buildProps(tr, dispatch);
+      const tr2 = startTr || state.tr;
+      const props = this.buildProps(tr2, dispatch);
       const formattedCommands = Object.fromEntries(Object.entries(rawCommands).map(([name, command2]) => {
         return [name, (...args) => command2(...args)(__spreadProps(__spreadValues({}, props), { dispatch: void 0 }))];
       }));
       return __spreadProps(__spreadValues({}, formattedCommands), {
-        chain: () => this.createChain(tr, dispatch)
+        chain: () => this.createChain(tr2, dispatch)
       });
     }
-    buildProps(tr, shouldDispatch = true) {
+    buildProps(tr2, shouldDispatch = true) {
       const { rawCommands, editor: editor2, state } = this;
       const { view } = editor2;
       const props = {
-        tr,
+        tr: tr2,
         editor: editor2,
         view,
         state: createChainableState({
           state,
-          transaction: tr
+          transaction: tr2
         }),
         dispatch: shouldDispatch ? () => void 0 : void 0,
-        chain: () => this.createChain(tr, shouldDispatch),
-        can: () => this.createCan(tr),
+        chain: () => this.createChain(tr2, shouldDispatch),
+        can: () => this.createCan(tr2),
         get commands() {
           return Object.fromEntries(Object.entries(rawCommands).map(([name, command2]) => {
             return [name, (...args) => command2(...args)(props)];
@@ -27023,11 +27023,11 @@
       this.handler = config.handler;
     }
   };
-  var inputRuleMatcherHandler = (text, find) => {
-    if (isRegExp(find)) {
-      return find.exec(text);
+  var inputRuleMatcherHandler = (text, find2) => {
+    if (isRegExp(find2)) {
+      return find2.exec(text);
     }
-    const inputRuleMatch = find(text);
+    const inputRuleMatch = find2(text);
     if (!inputRuleMatch) {
       return null;
     }
@@ -27067,10 +27067,10 @@
       if (!match) {
         return;
       }
-      const tr = view.state.tr;
+      const tr2 = view.state.tr;
       const state = createChainableState({
         state: view.state,
-        transaction: tr
+        transaction: tr2
       });
       const range = {
         from: from2 - (match[0].length - text.length),
@@ -27088,16 +27088,16 @@
         chain,
         can
       });
-      if (handler === null || !tr.steps.length) {
+      if (handler === null || !tr2.steps.length) {
         return;
       }
-      tr.setMeta(plugin, {
-        transform: tr,
+      tr2.setMeta(plugin, {
+        transform: tr2,
         from: from2,
         to,
         text
       });
-      view.dispatch(tr);
+      view.dispatch(tr2);
       matched = true;
     });
     return matched;
@@ -27109,12 +27109,12 @@
         init() {
           return null;
         },
-        apply(tr, prev) {
-          const stored = tr.getMeta(plugin);
+        apply(tr2, prev) {
+          const stored = tr2.getMeta(plugin);
           if (stored) {
             return stored;
           }
-          return tr.selectionSet || tr.docChanged ? null : prev;
+          return tr2.selectionSet || tr2.docChanged ? null : prev;
         }
       },
       props: {
@@ -27180,11 +27180,11 @@
       this.handler = config.handler;
     }
   };
-  var pasteRuleMatcherHandler = (text, find, event) => {
-    if (isRegExp(find)) {
-      return [...text.matchAll(find)];
+  var pasteRuleMatcherHandler = (text, find2, event) => {
+    if (isRegExp(find2)) {
+      return [...text.matchAll(find2)];
     }
-    const matches2 = find(text, event);
+    const matches2 = find2(text, event);
     if (!matches2) {
       return [];
     }
@@ -27293,10 +27293,10 @@
           if (!isNumber(from2) || !to || from2 === to.b) {
             return;
           }
-          const tr = state.tr;
+          const tr2 = state.tr;
           const chainableState = createChainableState({
             state,
-            transaction: tr
+            transaction: tr2
           });
           const handler = run({
             editor: editor2,
@@ -27307,12 +27307,12 @@
             pasteEvent,
             dropEvent
           });
-          if (!handler || !tr.steps.length) {
+          if (!handler || !tr2.steps.length) {
             return;
           }
           dropEvent = new DragEvent("drop");
           pasteEvent = new ClipboardEvent("paste");
-          return tr;
+          return tr2;
         }
       });
     });
@@ -27673,8 +27673,8 @@
   var clearContent = (emitUpdate = false) => ({ commands: commands2 }) => {
     return commands2.setContent("", emitUpdate);
   };
-  var clearNodes = () => ({ state, tr, dispatch }) => {
-    const { selection } = tr;
+  var clearNodes = () => ({ state, tr: tr2, dispatch }) => {
+    const { selection } = tr2;
     const { ranges } = selection;
     if (!dispatch) {
       return true;
@@ -27684,7 +27684,7 @@
         if (node.type.isText) {
           return;
         }
-        const { doc: doc3, mapping } = tr;
+        const { doc: doc3, mapping } = tr2;
         const $mappedFrom = doc3.resolve(mapping.map(pos));
         const $mappedTo = doc3.resolve(mapping.map(pos + node.nodeSize));
         const nodeRange = $mappedFrom.blockRange($mappedTo);
@@ -27694,10 +27694,10 @@
         const targetLiftDepth = liftTarget(nodeRange);
         if (node.type.isTextblock) {
           const { defaultType } = $mappedFrom.parent.contentMatchAt($mappedFrom.index());
-          tr.setNodeMarkup(nodeRange.start, defaultType);
+          tr2.setNodeMarkup(nodeRange.start, defaultType);
         }
         if (targetLiftDepth || targetLiftDepth === 0) {
-          tr.lift(nodeRange, targetLiftDepth);
+          tr2.lift(nodeRange, targetLiftDepth);
         }
       });
     });
@@ -27709,55 +27709,55 @@
   var createParagraphNear2 = () => ({ state, dispatch }) => {
     return createParagraphNear(state, dispatch);
   };
-  var cut = (originRange, targetPos) => ({ editor: editor2, tr }) => {
+  var cut = (originRange, targetPos) => ({ editor: editor2, tr: tr2 }) => {
     const { state } = editor2;
     const contentSlice = state.doc.slice(originRange.from, originRange.to);
-    tr.deleteRange(originRange.from, originRange.to);
-    const newPos = tr.mapping.map(targetPos);
-    tr.insert(newPos, contentSlice.content);
-    tr.setSelection(new TextSelection(tr.doc.resolve(newPos - 1)));
+    tr2.deleteRange(originRange.from, originRange.to);
+    const newPos = tr2.mapping.map(targetPos);
+    tr2.insert(newPos, contentSlice.content);
+    tr2.setSelection(new TextSelection(tr2.doc.resolve(newPos - 1)));
     return true;
   };
-  var deleteCurrentNode = () => ({ tr, dispatch }) => {
-    const { selection } = tr;
+  var deleteCurrentNode = () => ({ tr: tr2, dispatch }) => {
+    const { selection } = tr2;
     const currentNode = selection.$anchor.node();
     if (currentNode.content.size > 0) {
       return false;
     }
-    const $pos = tr.selection.$anchor;
+    const $pos = tr2.selection.$anchor;
     for (let depth = $pos.depth; depth > 0; depth -= 1) {
       const node = $pos.node(depth);
       if (node.type === currentNode.type) {
         if (dispatch) {
           const from2 = $pos.before(depth);
           const to = $pos.after(depth);
-          tr.delete(from2, to).scrollIntoView();
+          tr2.delete(from2, to).scrollIntoView();
         }
         return true;
       }
     }
     return false;
   };
-  var deleteNode = (typeOrName) => ({ tr, state, dispatch }) => {
+  var deleteNode = (typeOrName) => ({ tr: tr2, state, dispatch }) => {
     const type = getNodeType(typeOrName, state.schema);
-    const $pos = tr.selection.$anchor;
+    const $pos = tr2.selection.$anchor;
     for (let depth = $pos.depth; depth > 0; depth -= 1) {
       const node = $pos.node(depth);
       if (node.type === type) {
         if (dispatch) {
           const from2 = $pos.before(depth);
           const to = $pos.after(depth);
-          tr.delete(from2, to).scrollIntoView();
+          tr2.delete(from2, to).scrollIntoView();
         }
         return true;
       }
     }
     return false;
   };
-  var deleteRange2 = (range) => ({ tr, dispatch }) => {
+  var deleteRange2 = (range) => ({ tr: tr2, dispatch }) => {
     const { from: from2, to } = range;
     if (dispatch) {
-      tr.delete(from2, to);
+      tr2.delete(from2, to);
     }
     return true;
   };
@@ -27835,15 +27835,15 @@
     }
     return nameOrType;
   }
-  var extendMarkRange = (typeOrName, attributes = {}) => ({ tr, state, dispatch }) => {
+  var extendMarkRange = (typeOrName, attributes = {}) => ({ tr: tr2, state, dispatch }) => {
     const type = getMarkType(typeOrName, state.schema);
-    const { doc: doc3, selection } = tr;
+    const { doc: doc3, selection } = tr2;
     const { $from, from: from2, to } = selection;
     if (dispatch) {
       const range = getMarkRange($from, type, attributes);
       if (range && range.from <= from2 && range.to >= to) {
         const newSelection = TextSelection.create(doc3, range.from, range.to);
-        tr.setSelection(newSelection);
+        tr2.setSelection(newSelection);
       }
     }
     return true;
@@ -27892,7 +27892,7 @@
       "iPod"
     ].includes(navigator.platform) || navigator.userAgent.includes("Mac") && "ontouchend" in document;
   }
-  var focus = (position = null, options = {}) => ({ editor: editor2, view, tr, dispatch }) => {
+  var focus = (position = null, options = {}) => ({ editor: editor2, view, tr: tr2, dispatch }) => {
     options = __spreadValues({
       scrollIntoView: true
     }, options);
@@ -27916,14 +27916,14 @@
       delayedFocus();
       return true;
     }
-    const selection = resolveFocusPosition(tr.doc, position) || editor2.state.selection;
+    const selection = resolveFocusPosition(tr2.doc, position) || editor2.state.selection;
     const isSameSelection = editor2.state.selection.eq(selection);
     if (dispatch) {
       if (!isSameSelection) {
-        tr.setSelection(selection);
+        tr2.setSelection(selection);
       }
-      if (isSameSelection && tr.storedMarks) {
-        tr.setStoredMarks(tr.storedMarks);
+      if (isSameSelection && tr2.storedMarks) {
+        tr2.setStoredMarks(tr2.storedMarks);
       }
       delayedFocus();
     }
@@ -27932,8 +27932,8 @@
   var forEach = (items, fn) => (props) => {
     return items.every((item, index) => fn(item, __spreadProps(__spreadValues({}, props), { index })));
   };
-  var insertContent = (value, options) => ({ tr, commands: commands2 }) => {
-    return commands2.insertContentAt({ from: tr.selection.from, to: tr.selection.to }, value, options);
+  var insertContent = (value, options) => ({ tr: tr2, commands: commands2 }) => {
+    return commands2.insertContentAt({ from: tr2.selection.from, to: tr2.selection.to }, value, options);
   };
   var removeWhitespaces = (node) => {
     const children = node.childNodes;
@@ -27969,33 +27969,33 @@
       }
     }
     if (typeof content3 === "string") {
-      const parser = DOMParser.fromSchema(schema);
+      const parser = DOMParser2.fromSchema(schema);
       return options.slice ? parser.parseSlice(elementFromString(content3), options.parseOptions).content : parser.parse(elementFromString(content3), options.parseOptions);
     }
     return createNodeFromContent("", schema, options);
   }
-  function selectionToInsertionEnd2(tr, startLen, bias) {
-    const last = tr.steps.length - 1;
+  function selectionToInsertionEnd2(tr2, startLen, bias) {
+    const last = tr2.steps.length - 1;
     if (last < startLen) {
       return;
     }
-    const step = tr.steps[last];
+    const step = tr2.steps[last];
     if (!(step instanceof ReplaceStep || step instanceof ReplaceAroundStep)) {
       return;
     }
-    const map2 = tr.mapping.maps[last];
+    const map2 = tr2.mapping.maps[last];
     let end = 0;
     map2.forEach((_from, _to, _newFrom, newTo) => {
       if (end === 0) {
         end = newTo;
       }
     });
-    tr.setSelection(Selection.near(tr.doc.resolve(end), bias));
+    tr2.setSelection(Selection.near(tr2.doc.resolve(end), bias));
   }
   var isFragment = (nodeOrFragment) => {
     return nodeOrFragment.toString().startsWith("<");
   };
-  var insertContentAt = (position, value, options) => ({ tr, dispatch, editor: editor2 }) => {
+  var insertContentAt = (position, value, options) => ({ tr: tr2, dispatch, editor: editor2 }) => {
     if (dispatch) {
       options = __spreadValues({
         parseOptions: {},
@@ -28019,7 +28019,7 @@
         isOnlyBlockContent = isOnlyBlockContent ? node.isBlock : false;
       });
       if (from2 === to && isOnlyBlockContent) {
-        const { parent } = tr.doc.resolve(from2);
+        const { parent } = tr2.doc.resolve(from2);
         const isEmptyTextBlock = parent.isTextblock && !parent.type.spec.code && !parent.childCount;
         if (isEmptyTextBlock) {
           from2 -= 1;
@@ -28028,17 +28028,17 @@
       }
       if (isOnlyTextContent) {
         if (Array.isArray(value)) {
-          tr.insertText(value.map((v) => v.text || "").join(""), from2, to);
+          tr2.insertText(value.map((v) => v.text || "").join(""), from2, to);
         } else if (typeof value === "object" && !!value && !!value.text) {
-          tr.insertText(value.text, from2, to);
+          tr2.insertText(value.text, from2, to);
         } else {
-          tr.insertText(value, from2, to);
+          tr2.insertText(value, from2, to);
         }
       } else {
-        tr.replaceWith(from2, to, content3);
+        tr2.replaceWith(from2, to, content3);
       }
       if (options.updateSelection) {
-        selectionToInsertionEnd2(tr, tr.steps.length - 1, -1);
+        selectionToInsertionEnd2(tr2, tr2.steps.length - 1, -1);
       }
     }
     return true;
@@ -28055,30 +28055,30 @@
   var joinForward2 = () => ({ state, dispatch }) => {
     return joinForward(state, dispatch);
   };
-  var joinItemBackward = () => ({ tr, state, dispatch }) => {
+  var joinItemBackward = () => ({ tr: tr2, state, dispatch }) => {
     try {
       const point = joinPoint(state.doc, state.selection.$from.pos, -1);
       if (point === null || point === void 0) {
         return false;
       }
-      tr.join(point, 2);
+      tr2.join(point, 2);
       if (dispatch) {
-        dispatch(tr);
+        dispatch(tr2);
       }
       return true;
     } catch (e) {
       return false;
     }
   };
-  var joinItemForward = () => ({ state, dispatch, tr }) => {
+  var joinItemForward = () => ({ state, dispatch, tr: tr2 }) => {
     try {
       const point = joinPoint(state.doc, state.selection.$from.pos, 1);
       if (point === null || point === void 0) {
         return false;
       }
-      tr.join(point, 2);
+      tr2.join(point, 2);
       if (dispatch) {
-        dispatch(tr);
+        dispatch(tr2);
       }
       return true;
     } catch (e) {
@@ -28138,7 +28138,7 @@
     }
     return result;
   }
-  var keyboardShortcut = (name) => ({ editor: editor2, view, tr, dispatch }) => {
+  var keyboardShortcut = (name) => ({ editor: editor2, view, tr: tr2, dispatch }) => {
     const keys2 = normalizeKeyName2(name).split(/-(?!$)/);
     const key = keys2.find((item) => !["Alt", "Ctrl", "Meta", "Shift"].includes(item));
     const event = new KeyboardEvent("keydown", {
@@ -28154,9 +28154,9 @@
       view.someProp("handleKeyDown", (f) => f(view, event));
     });
     capturedTransaction === null || capturedTransaction === void 0 ? void 0 : capturedTransaction.steps.forEach((step) => {
-      const newStep = step.map(tr.mapping);
+      const newStep = step.map(tr2.mapping);
       if (newStep && dispatch) {
-        tr.maybeStep(newStep);
+        tr2.maybeStep(newStep);
       }
     });
     return true;
@@ -28226,7 +28226,7 @@
       return newObj;
     }, {});
   }
-  var resetAttributes = (typeOrName, attributes) => ({ tr, state, dispatch }) => {
+  var resetAttributes = (typeOrName, attributes) => ({ tr: tr2, state, dispatch }) => {
     let nodeType = null;
     let markType = null;
     const schemaType = getSchemaTypeNameByName(typeof typeOrName === "string" ? typeOrName : typeOrName.name, state.schema);
@@ -28240,15 +28240,15 @@
       markType = getMarkType(typeOrName, state.schema);
     }
     if (dispatch) {
-      tr.selection.ranges.forEach((range) => {
+      tr2.selection.ranges.forEach((range) => {
         state.doc.nodesBetween(range.$from.pos, range.$to.pos, (node, pos) => {
           if (nodeType && nodeType === node.type) {
-            tr.setNodeMarkup(pos, void 0, deleteProps(node.attrs, attributes));
+            tr2.setNodeMarkup(pos, void 0, deleteProps(node.attrs, attributes));
           }
           if (markType && node.marks.length) {
             node.marks.forEach((mark) => {
               if (markType === mark.type) {
-                tr.addMark(pos, pos + node.nodeSize, markType.create(deleteProps(mark.attrs, attributes)));
+                tr2.addMark(pos, pos + node.nodeSize, markType.create(deleteProps(mark.attrs, attributes)));
               }
             });
           }
@@ -28257,16 +28257,16 @@
     }
     return true;
   };
-  var scrollIntoView = () => ({ tr, dispatch }) => {
+  var scrollIntoView = () => ({ tr: tr2, dispatch }) => {
     if (dispatch) {
-      tr.scrollIntoView();
+      tr2.scrollIntoView();
     }
     return true;
   };
-  var selectAll2 = () => ({ tr, commands: commands2 }) => {
+  var selectAll2 = () => ({ tr: tr2, commands: commands2 }) => {
     return commands2.setTextSelection({
       from: 0,
-      to: tr.doc.content.size
+      to: tr2.doc.content.size
     });
   };
   var selectNodeBackward2 = () => ({ state, dispatch }) => {
@@ -28287,11 +28287,11 @@
   function createDocument(content3, schema, parseOptions = {}) {
     return createNodeFromContent(content3, schema, { slice: false, parseOptions });
   }
-  var setContent = (content3, emitUpdate = false, parseOptions = {}) => ({ tr, editor: editor2, dispatch }) => {
-    const { doc: doc3 } = tr;
+  var setContent = (content3, emitUpdate = false, parseOptions = {}) => ({ tr: tr2, editor: editor2, dispatch }) => {
+    const { doc: doc3 } = tr2;
     const document2 = createDocument(content3, editor2.schema, parseOptions);
     if (dispatch) {
-      tr.replaceWith(0, doc3.content.size, document2).setMeta("preventUpdate", !emitUpdate);
+      tr2.replaceWith(0, doc3.content.size, document2).setMeta("preventUpdate", !emitUpdate);
     }
     return true;
   };
@@ -28315,6 +28315,15 @@
     }
     return __spreadValues({}, mark.attrs);
   }
+  function combineTransactionSteps(oldDoc, transactions) {
+    const transform = new Transform(oldDoc);
+    transactions.forEach((transaction) => {
+      transaction.steps.forEach((step) => {
+        transform.step(step);
+      });
+    });
+    return transform;
+  }
   function defaultBlockAt2(match) {
     for (let i = 0; i < match.edgeCount; i += 1) {
       const { type } = match.edge(i);
@@ -28327,6 +28336,18 @@
   function findChildren(node, predicate) {
     const nodesWithPos = [];
     node.descendants((child, pos) => {
+      if (predicate(child)) {
+        nodesWithPos.push({
+          node: child,
+          pos
+        });
+      }
+    });
+    return nodesWithPos;
+  }
+  function findChildrenInRange(node, range, predicate) {
+    const nodesWithPos = [];
+    node.nodesBetween(range.from, range.to, (child, pos) => {
       if (predicate(child)) {
         nodesWithPos.push({
           node: child,
@@ -28388,6 +28409,57 @@
       return getMarkAttributes(state, typeOrName);
     }
     return {};
+  }
+  function removeDuplicates(array, by = JSON.stringify) {
+    const seen = {};
+    return array.filter((item) => {
+      const key = by(item);
+      return Object.prototype.hasOwnProperty.call(seen, key) ? false : seen[key] = true;
+    });
+  }
+  function simplifyChangedRanges(changes) {
+    const uniqueChanges = removeDuplicates(changes);
+    return uniqueChanges.length === 1 ? uniqueChanges : uniqueChanges.filter((change, index) => {
+      const rest = uniqueChanges.filter((_, i) => i !== index);
+      return !rest.some((otherChange) => {
+        return change.oldRange.from >= otherChange.oldRange.from && change.oldRange.to <= otherChange.oldRange.to && change.newRange.from >= otherChange.newRange.from && change.newRange.to <= otherChange.newRange.to;
+      });
+    });
+  }
+  function getChangedRanges(transform) {
+    const { mapping, steps } = transform;
+    const changes = [];
+    mapping.maps.forEach((stepMap, index) => {
+      const ranges = [];
+      if (!stepMap.ranges.length) {
+        const { from: from2, to } = steps[index];
+        if (from2 === void 0 || to === void 0) {
+          return;
+        }
+        ranges.push({ from: from2, to });
+      } else {
+        stepMap.forEach((from2, to) => {
+          ranges.push({ from: from2, to });
+        });
+      }
+      ranges.forEach(({ from: from2, to }) => {
+        const newStart = mapping.slice(index).map(from2, -1);
+        const newEnd = mapping.slice(index).map(to);
+        const oldStart = mapping.invert().map(newStart, -1);
+        const oldEnd = mapping.invert().map(newEnd);
+        changes.push({
+          oldRange: {
+            from: oldStart,
+            to: oldEnd
+          },
+          newRange: {
+            from: newStart,
+            to: newEnd
+          }
+        });
+      });
+    });
+    return simplifyChangedRanges(changes);
   }
   function getMarksBetween(from2, to, doc3) {
     const marks = [];
@@ -28512,9 +28584,9 @@
     const content3 = node.toJSON();
     return JSON.stringify(defaultContent) === JSON.stringify(content3);
   }
-  function canSetMark(state, tr, newMarkType) {
+  function canSetMark(state, tr2, newMarkType) {
     var _a;
-    const { selection } = tr;
+    const { selection } = tr2;
     let cursor = null;
     if (isTextSelection(selection)) {
       cursor = selection.$cursor;
@@ -28540,14 +28612,14 @@
       return someNodeSupportsMark;
     });
   }
-  var setMark = (typeOrName, attributes = {}) => ({ tr, state, dispatch }) => {
-    const { selection } = tr;
+  var setMark = (typeOrName, attributes = {}) => ({ tr: tr2, state, dispatch }) => {
+    const { selection } = tr2;
     const { empty: empty2, ranges } = selection;
     const type = getMarkType(typeOrName, state.schema);
     if (dispatch) {
       if (empty2) {
         const oldAttributes = getMarkAttributes(state, type);
-        tr.addStoredMark(type.create(__spreadValues(__spreadValues({}, oldAttributes), attributes)));
+        tr2.addStoredMark(type.create(__spreadValues(__spreadValues({}, oldAttributes), attributes)));
       } else {
         ranges.forEach((range) => {
           const from2 = range.$from.pos;
@@ -28559,20 +28631,20 @@
             if (someHasMark) {
               node.marks.forEach((mark) => {
                 if (type === mark.type) {
-                  tr.addMark(trimmedFrom, trimmedTo, type.create(__spreadValues(__spreadValues({}, mark.attrs), attributes)));
+                  tr2.addMark(trimmedFrom, trimmedTo, type.create(__spreadValues(__spreadValues({}, mark.attrs), attributes)));
                 }
               });
             } else {
-              tr.addMark(trimmedFrom, trimmedTo, type.create(attributes));
+              tr2.addMark(trimmedFrom, trimmedTo, type.create(attributes));
             }
           });
         });
       }
     }
-    return canSetMark(state, tr, type);
+    return canSetMark(state, tr2, type);
   };
-  var setMeta = (key, value) => ({ tr }) => {
-    tr.setMeta(key, value);
+  var setMeta = (key, value) => ({ tr: tr2 }) => {
+    tr2.setMeta(key, value);
     return true;
   };
   var setNode = (typeOrName, attributes = {}) => ({ state, dispatch, chain }) => {
@@ -28591,25 +28663,25 @@
       return setBlockType2(type, attributes)(updatedState, dispatch);
     }).run();
   };
-  var setNodeSelection = (position) => ({ tr, dispatch }) => {
+  var setNodeSelection = (position) => ({ tr: tr2, dispatch }) => {
     if (dispatch) {
-      const { doc: doc3 } = tr;
+      const { doc: doc3 } = tr2;
       const from2 = minMax(position, 0, doc3.content.size);
       const selection = NodeSelection.create(doc3, from2);
-      tr.setSelection(selection);
+      tr2.setSelection(selection);
     }
     return true;
   };
-  var setTextSelection = (position) => ({ tr, dispatch }) => {
+  var setTextSelection = (position) => ({ tr: tr2, dispatch }) => {
     if (dispatch) {
-      const { doc: doc3 } = tr;
+      const { doc: doc3 } = tr2;
       const { from: from2, to } = typeof position === "number" ? { from: position, to: position } : position;
       const minPos = TextSelection.atStart(doc3).from;
       const maxPos = TextSelection.atEnd(doc3).to;
       const resolvedFrom = minMax(from2, minPos, maxPos);
       const resolvedEnd = minMax(to, minPos, maxPos);
       const selection = TextSelection.create(doc3, resolvedFrom, resolvedEnd);
-      tr.setSelection(selection);
+      tr2.setSelection(selection);
     }
     return true;
   };
@@ -28624,8 +28696,8 @@
       state.tr.ensureMarks(filteredMarks);
     }
   }
-  var splitBlock2 = ({ keepMarks = true } = {}) => ({ tr, state, dispatch, editor: editor2 }) => {
-    const { selection, doc: doc3 } = tr;
+  var splitBlock2 = ({ keepMarks = true } = {}) => ({ tr: tr2, state, dispatch, editor: editor2 }) => {
+    const { selection, doc: doc3 } = tr2;
     const { $from, $to } = selection;
     const extensionAttributes = editor2.extensionManager.attributes;
     const newAttributes = getSplittedAttributes(extensionAttributes, $from.node().type.name, $from.node().attrs);
@@ -28637,7 +28709,7 @@
         if (keepMarks) {
           ensureMarks(state, editor2.extensionManager.splittableMarks);
         }
-        tr.split($from.pos).scrollIntoView();
+        tr2.split($from.pos).scrollIntoView();
       }
       return true;
     }
@@ -28647,7 +28719,7 @@
     if (dispatch) {
       const atEnd = $to.parentOffset === $to.parent.content.size;
       if (selection instanceof TextSelection) {
-        tr.deleteSelection();
+        tr2.deleteSelection();
       }
       const deflt = $from.depth === 0 ? void 0 : defaultBlockAt2($from.node(-1).contentMatchAt($from.indexAfter(-1)));
       let types = atEnd && deflt ? [
@@ -28656,8 +28728,8 @@
           attrs: newAttributes
         }
       ] : void 0;
-      let can = canSplit(tr.doc, tr.mapping.map($from.pos), 1, types);
-      if (!types && !can && canSplit(tr.doc, tr.mapping.map($from.pos), 1, deflt ? [{ type: deflt }] : void 0)) {
+      let can = canSplit(tr2.doc, tr2.mapping.map($from.pos), 1, types);
+      if (!types && !can && canSplit(tr2.doc, tr2.mapping.map($from.pos), 1, deflt ? [{ type: deflt }] : void 0)) {
         can = true;
         types = deflt ? [
           {
@@ -28667,23 +28739,23 @@
         ] : void 0;
       }
       if (can) {
-        tr.split(tr.mapping.map($from.pos), 1, types);
+        tr2.split(tr2.mapping.map($from.pos), 1, types);
         if (deflt && !atEnd && !$from.parentOffset && $from.parent.type !== deflt) {
-          const first2 = tr.mapping.map($from.before());
-          const $first = tr.doc.resolve(first2);
+          const first2 = tr2.mapping.map($from.before());
+          const $first = tr2.doc.resolve(first2);
           if ($from.node(-1).canReplaceWith($first.index(), $first.index() + 1, deflt)) {
-            tr.setNodeMarkup(tr.mapping.map($from.before()), deflt);
+            tr2.setNodeMarkup(tr2.mapping.map($from.before()), deflt);
           }
         }
       }
       if (keepMarks) {
         ensureMarks(state, editor2.extensionManager.splittableMarks);
       }
-      tr.scrollIntoView();
+      tr2.scrollIntoView();
     }
     return true;
   };
-  var splitListItem = (typeOrName) => ({ tr, state, dispatch, editor: editor2 }) => {
+  var splitListItem = (typeOrName) => ({ tr: tr2, state, dispatch, editor: editor2 }) => {
     var _a;
     const type = getNodeType(typeOrName, state.schema);
     const { $from, $to } = state.selection;
@@ -28711,9 +28783,9 @@
         const nextType2 = ((_a = type.contentMatch.defaultType) === null || _a === void 0 ? void 0 : _a.createAndFill(newNextTypeAttributes2)) || void 0;
         wrap2 = wrap2.append(Fragment.from(type.createAndFill(null, nextType2) || void 0));
         const start = $from.before($from.depth - (depthBefore - 1));
-        tr.replace(start, $from.after(-depthAfter), new Slice(wrap2, 4 - depthBefore, 0));
+        tr2.replace(start, $from.after(-depthAfter), new Slice(wrap2, 4 - depthBefore, 0));
         let sel = -1;
-        tr.doc.nodesBetween(start, tr.doc.content.size, (n, pos) => {
+        tr2.doc.nodesBetween(start, tr2.doc.content.size, (n, pos) => {
           if (sel > -1) {
             return false;
           }
@@ -28722,71 +28794,71 @@
           }
         });
         if (sel > -1) {
-          tr.setSelection(TextSelection.near(tr.doc.resolve(sel)));
+          tr2.setSelection(TextSelection.near(tr2.doc.resolve(sel)));
         }
-        tr.scrollIntoView();
+        tr2.scrollIntoView();
       }
       return true;
     }
     const nextType = $to.pos === $from.end() ? grandParent.contentMatchAt(0).defaultType : null;
     const newTypeAttributes = getSplittedAttributes(extensionAttributes, grandParent.type.name, grandParent.attrs);
     const newNextTypeAttributes = getSplittedAttributes(extensionAttributes, $from.node().type.name, $from.node().attrs);
-    tr.delete($from.pos, $to.pos);
+    tr2.delete($from.pos, $to.pos);
     const types = nextType ? [
       { type, attrs: newTypeAttributes },
       { type: nextType, attrs: newNextTypeAttributes }
     ] : [{ type, attrs: newTypeAttributes }];
-    if (!canSplit(tr.doc, $from.pos, 2)) {
+    if (!canSplit(tr2.doc, $from.pos, 2)) {
       return false;
     }
     if (dispatch) {
       const { selection, storedMarks } = state;
       const { splittableMarks } = editor2.extensionManager;
       const marks = storedMarks || selection.$to.parentOffset && selection.$from.marks();
-      tr.split($from.pos, 2, types).scrollIntoView();
+      tr2.split($from.pos, 2, types).scrollIntoView();
       if (!marks || !dispatch) {
         return true;
       }
       const filteredMarks = marks.filter((mark) => splittableMarks.includes(mark.type.name));
-      tr.ensureMarks(filteredMarks);
+      tr2.ensureMarks(filteredMarks);
     }
     return true;
   };
-  var joinListBackwards = (tr, listType) => {
-    const list = findParentNode((node) => node.type === listType)(tr.selection);
+  var joinListBackwards = (tr2, listType) => {
+    const list = findParentNode((node) => node.type === listType)(tr2.selection);
     if (!list) {
       return true;
     }
-    const before = tr.doc.resolve(Math.max(0, list.pos - 1)).before(list.depth);
+    const before = tr2.doc.resolve(Math.max(0, list.pos - 1)).before(list.depth);
     if (before === void 0) {
       return true;
     }
-    const nodeBefore = tr.doc.nodeAt(before);
-    const canJoinBackwards = list.node.type === (nodeBefore === null || nodeBefore === void 0 ? void 0 : nodeBefore.type) && canJoin(tr.doc, list.pos);
+    const nodeBefore = tr2.doc.nodeAt(before);
+    const canJoinBackwards = list.node.type === (nodeBefore === null || nodeBefore === void 0 ? void 0 : nodeBefore.type) && canJoin(tr2.doc, list.pos);
     if (!canJoinBackwards) {
       return true;
     }
-    tr.join(list.pos);
+    tr2.join(list.pos);
     return true;
   };
-  var joinListForwards = (tr, listType) => {
-    const list = findParentNode((node) => node.type === listType)(tr.selection);
+  var joinListForwards = (tr2, listType) => {
+    const list = findParentNode((node) => node.type === listType)(tr2.selection);
     if (!list) {
       return true;
     }
-    const after = tr.doc.resolve(list.start).after(list.depth);
+    const after = tr2.doc.resolve(list.start).after(list.depth);
     if (after === void 0) {
       return true;
     }
-    const nodeAfter = tr.doc.nodeAt(after);
-    const canJoinForwards = list.node.type === (nodeAfter === null || nodeAfter === void 0 ? void 0 : nodeAfter.type) && canJoin(tr.doc, after);
+    const nodeAfter = tr2.doc.nodeAt(after);
+    const canJoinForwards = list.node.type === (nodeAfter === null || nodeAfter === void 0 ? void 0 : nodeAfter.type) && canJoin(tr2.doc, after);
     if (!canJoinForwards) {
       return true;
     }
-    tr.join(after);
+    tr2.join(after);
     return true;
   };
-  var toggleList = (listTypeOrName, itemTypeOrName, keepMarks, attributes = {}) => ({ editor: editor2, tr, state, dispatch, chain, commands: commands2, can }) => {
+  var toggleList = (listTypeOrName, itemTypeOrName, keepMarks, attributes = {}) => ({ editor: editor2, tr: tr2, state, dispatch, chain, commands: commands2, can }) => {
     const { extensions: extensions2, splittableMarks } = editor2.extensionManager;
     const listType = getNodeType(listTypeOrName, state.schema);
     const itemType = getNodeType(itemTypeOrName, state.schema);
@@ -28804,9 +28876,9 @@
       }
       if (isList(parentList.node.type.name, extensions2) && listType.validContent(parentList.node.content) && dispatch) {
         return chain().command(() => {
-          tr.setNodeMarkup(parentList.pos, listType);
+          tr2.setNodeMarkup(parentList.pos, listType);
           return true;
-        }).command(() => joinListBackwards(tr, listType)).command(() => joinListForwards(tr, listType)).run();
+        }).command(() => joinListBackwards(tr2, listType)).command(() => joinListForwards(tr2, listType)).run();
       }
     }
     if (!keepMarks || !marks || !dispatch) {
@@ -28816,17 +28888,17 @@
           return true;
         }
         return commands2.clearNodes();
-      }).wrapInList(listType, attributes).command(() => joinListBackwards(tr, listType)).command(() => joinListForwards(tr, listType)).run();
+      }).wrapInList(listType, attributes).command(() => joinListBackwards(tr2, listType)).command(() => joinListForwards(tr2, listType)).run();
     }
     return chain().command(() => {
       const canWrapInList = can().wrapInList(listType, attributes);
       const filteredMarks = marks.filter((mark) => splittableMarks.includes(mark.type.name));
-      tr.ensureMarks(filteredMarks);
+      tr2.ensureMarks(filteredMarks);
       if (canWrapInList) {
         return true;
       }
       return commands2.clearNodes();
-    }).wrapInList(listType, attributes).command(() => joinListBackwards(tr, listType)).command(() => joinListForwards(tr, listType)).run();
+    }).wrapInList(listType, attributes).command(() => joinListBackwards(tr2, listType)).command(() => joinListForwards(tr2, listType)).run();
   };
   var toggleMark = (typeOrName, attributes = {}, options = {}) => ({ state, commands: commands2 }) => {
     const { extendEmptyMarkRange = false } = options;
@@ -28861,16 +28933,16 @@
       let undoable;
       if (plugin.spec.isInputRules && (undoable = plugin.getState(state))) {
         if (dispatch) {
-          const tr = state.tr;
+          const tr2 = state.tr;
           const toUndo = undoable.transform;
           for (let j = toUndo.steps.length - 1; j >= 0; j -= 1) {
-            tr.step(toUndo.steps[j].invert(toUndo.docs[j]));
+            tr2.step(toUndo.steps[j].invert(toUndo.docs[j]));
           }
           if (undoable.text) {
-            const marks = tr.doc.resolve(undoable.from).marks();
-            tr.replaceWith(undoable.from, undoable.to, state.schema.text(undoable.text, marks));
+            const marks = tr2.doc.resolve(undoable.from).marks();
+            tr2.replaceWith(undoable.from, undoable.to, state.schema.text(undoable.text, marks));
           } else {
-            tr.delete(undoable.from, undoable.to);
+            tr2.delete(undoable.from, undoable.to);
           }
         }
         return true;
@@ -28878,23 +28950,23 @@
     }
     return false;
   };
-  var unsetAllMarks = () => ({ tr, dispatch }) => {
-    const { selection } = tr;
+  var unsetAllMarks = () => ({ tr: tr2, dispatch }) => {
+    const { selection } = tr2;
     const { empty: empty2, ranges } = selection;
     if (empty2) {
       return true;
     }
     if (dispatch) {
       ranges.forEach((range) => {
-        tr.removeMark(range.$from.pos, range.$to.pos);
+        tr2.removeMark(range.$from.pos, range.$to.pos);
       });
     }
     return true;
   };
-  var unsetMark = (typeOrName, options = {}) => ({ tr, state, dispatch }) => {
+  var unsetMark = (typeOrName, options = {}) => ({ tr: tr2, state, dispatch }) => {
     var _a;
     const { extendEmptyMarkRange = false } = options;
-    const { selection } = tr;
+    const { selection } = tr2;
     const type = getMarkType(typeOrName, state.schema);
     const { $from, empty: empty2, ranges } = selection;
     if (!dispatch) {
@@ -28908,16 +28980,16 @@
         from2 = range.from;
         to = range.to;
       }
-      tr.removeMark(from2, to, type);
+      tr2.removeMark(from2, to, type);
     } else {
       ranges.forEach((range) => {
-        tr.removeMark(range.$from.pos, range.$to.pos, type);
+        tr2.removeMark(range.$from.pos, range.$to.pos, type);
       });
     }
-    tr.removeStoredMark(type);
+    tr2.removeStoredMark(type);
     return true;
   };
-  var updateAttributes = (typeOrName, attributes = {}) => ({ tr, state, dispatch }) => {
+  var updateAttributes = (typeOrName, attributes = {}) => ({ tr: tr2, state, dispatch }) => {
     let nodeType = null;
     let markType = null;
     const schemaType = getSchemaTypeNameByName(typeof typeOrName === "string" ? typeOrName : typeOrName.name, state.schema);
@@ -28931,19 +29003,19 @@
       markType = getMarkType(typeOrName, state.schema);
     }
     if (dispatch) {
-      tr.selection.ranges.forEach((range) => {
+      tr2.selection.ranges.forEach((range) => {
         const from2 = range.$from.pos;
         const to = range.$to.pos;
         state.doc.nodesBetween(from2, to, (node, pos) => {
           if (nodeType && nodeType === node.type) {
-            tr.setNodeMarkup(pos, void 0, __spreadValues(__spreadValues({}, node.attrs), attributes));
+            tr2.setNodeMarkup(pos, void 0, __spreadValues(__spreadValues({}, node.attrs), attributes));
           }
           if (markType && node.marks.length) {
             node.marks.forEach((mark) => {
               if (markType === mark.type) {
                 const trimmedFrom = Math.max(pos, from2);
                 const trimmedTo = Math.min(pos + node.nodeSize, to);
-                tr.addMark(trimmedFrom, trimmedTo, markType.create(__spreadValues(__spreadValues({}, mark.attrs), attributes)));
+                tr2.addMark(trimmedFrom, trimmedTo, markType.create(__spreadValues(__spreadValues({}, mark.attrs), attributes)));
               }
             });
           }
@@ -29073,11 +29145,11 @@
       const handleBackspace = () => this.editor.commands.first(({ commands: commands2 }) => [
         () => commands2.undoInputRule(),
         // maybe convert first text block node to default node
-        () => commands2.command(({ tr }) => {
-          const { selection, doc: doc3 } = tr;
+        () => commands2.command(({ tr: tr2 }) => {
+          const { selection, doc: doc3 } = tr2;
           const { empty: empty2, $anchor } = selection;
           const { pos, parent } = $anchor;
-          const $parentPos = $anchor.parent.isTextblock ? tr.doc.resolve(pos - 1) : $anchor;
+          const $parentPos = $anchor.parent.isTextblock ? tr2.doc.resolve(pos - 1) : $anchor;
           const parentIsIsolating = $parentPos.parent.type.spec.isolating;
           const parentPos = $anchor.pos - $anchor.parentOffset;
           const isAtStart = parentIsIsolating && $parentPos.parent.childCount === 1 ? parentPos === $anchor.pos : Selection.atStart(doc3).from === pos;
@@ -29153,20 +29225,20 @@
             if (!isEmpty) {
               return;
             }
-            const tr = newState.tr;
+            const tr2 = newState.tr;
             const state = createChainableState({
               state: newState,
-              transaction: tr
+              transaction: tr2
             });
             const { commands: commands2 } = new CommandManager({
               editor: this.editor,
               state
             });
             commands2.clearNodes();
-            if (!tr.steps.length) {
+            if (!tr2.steps.length) {
               return;
             }
-            return tr;
+            return tr2;
           }
         })
       ];
@@ -29590,9 +29662,9 @@
       this.isCapturingTransaction = true;
       fn();
       this.isCapturingTransaction = false;
-      const tr = this.capturedTransaction;
+      const tr2 = this.capturedTransaction;
       this.capturedTransaction = null;
-      return tr;
+      return tr2;
     }
     /**
      * The callback over which to send transactions (state updates) produced by the view.
@@ -29740,7 +29812,7 @@
         if (attributes === false || attributes === null) {
           return null;
         }
-        const { tr } = state;
+        const { tr: tr2 } = state;
         const captureGroup = match[match.length - 1];
         const fullMatch = match[0];
         if (captureGroup) {
@@ -29755,14 +29827,14 @@
             return null;
           }
           if (textEnd < range.to) {
-            tr.delete(textEnd, range.to);
+            tr2.delete(textEnd, range.to);
           }
           if (textStart > range.from) {
-            tr.delete(range.from + startSpaces, textStart);
+            tr2.delete(range.from + startSpaces, textStart);
           }
           const markEnd = range.from + startSpaces + captureGroup.length;
-          tr.addMark(range.from + startSpaces, markEnd, config.type.create(attributes || {}));
-          tr.removeStoredMark(config.type);
+          tr2.addMark(range.from + startSpaces, markEnd, config.type.create(attributes || {}));
+          tr2.removeStoredMark(config.type);
         }
       }
     });
@@ -29772,7 +29844,7 @@
       find: config.find,
       handler: ({ state, range, match }) => {
         const attributes = callOrReturn(config.getAttributes, void 0, match) || {};
-        const { tr } = state;
+        const { tr: tr2 } = state;
         const start = range.from;
         let end = range.to;
         const newNode2 = config.type.create(attributes);
@@ -29785,12 +29857,12 @@
             end = matchStart + match[1].length;
           }
           const lastChar = match[0][match[0].length - 1];
-          tr.insertText(lastChar, start + match[0].length - 1);
-          tr.replaceWith(matchStart, end, newNode2);
+          tr2.insertText(lastChar, start + match[0].length - 1);
+          tr2.replaceWith(matchStart, end, newNode2);
         } else if (match[0]) {
-          tr.insert(start - 1, config.type.create(attributes)).delete(tr.mapping.map(start), tr.mapping.map(end));
+          tr2.insert(start - 1, config.type.create(attributes)).delete(tr2.mapping.map(start), tr2.mapping.map(end));
         }
-        tr.scrollIntoView();
+        tr2.scrollIntoView();
       }
     });
   }
@@ -29812,30 +29884,30 @@
       find: config.find,
       handler: ({ state, range, match, chain }) => {
         const attributes = callOrReturn(config.getAttributes, void 0, match) || {};
-        const tr = state.tr.delete(range.from, range.to);
-        const $start = tr.doc.resolve(range.from);
+        const tr2 = state.tr.delete(range.from, range.to);
+        const $start = tr2.doc.resolve(range.from);
         const blockRange = $start.blockRange();
         const wrapping = blockRange && findWrapping(blockRange, config.type, attributes);
         if (!wrapping) {
           return null;
         }
-        tr.wrap(blockRange, wrapping);
+        tr2.wrap(blockRange, wrapping);
         if (config.keepMarks && config.editor) {
           const { selection, storedMarks } = state;
           const { splittableMarks } = config.editor.extensionManager;
           const marks = storedMarks || selection.$to.parentOffset && selection.$from.marks();
           if (marks) {
             const filteredMarks = marks.filter((mark) => splittableMarks.includes(mark.type.name));
-            tr.ensureMarks(filteredMarks);
+            tr2.ensureMarks(filteredMarks);
           }
         }
         if (config.keepAttributes) {
           const nodeType = config.type.name === "bulletList" || config.type.name === "orderedList" ? "listItem" : "taskList";
           chain().updateAttributes(nodeType, attributes).run();
         }
-        const before = tr.doc.resolve(range.from - 1).nodeBefore;
-        if (before && before.type === config.type && canJoin(tr.doc, range.from - 1) && (!config.joinPredicate || config.joinPredicate(match, before))) {
-          tr.join(range.from - 1);
+        const before = tr2.doc.resolve(range.from - 1).nodeBefore;
+        if (before && before.type === config.type && canJoin(tr2.doc, range.from - 1) && (!config.joinPredicate || config.joinPredicate(match, before))) {
+          tr2.join(range.from - 1);
         }
       }
     });
@@ -29896,7 +29968,7 @@
       return extension;
     }
     static handleExit({ editor: editor2, mark }) {
-      const { tr } = editor2.state;
+      const { tr: tr2 } = editor2.state;
       const currentPos = editor2.state.selection.$from;
       const isAtEnd = currentPos.pos === currentPos.end();
       if (isAtEnd) {
@@ -29907,10 +29979,10 @@
         }
         const removeMark2 = currentMarks.find((m) => (m === null || m === void 0 ? void 0 : m.type.name) === mark.name);
         if (removeMark2) {
-          tr.removeStoredMark(removeMark2);
+          tr2.removeStoredMark(removeMark2);
         }
-        tr.insertText(" ", currentPos.pos);
-        editor2.view.dispatch(tr);
+        tr2.insertText(" ", currentPos.pos);
+        editor2.view.dispatch(tr2);
         return true;
       }
       return false;
@@ -29980,7 +30052,7 @@
         if (attributes === false || attributes === null) {
           return null;
         }
-        const { tr } = state;
+        const { tr: tr2 } = state;
         const captureGroup = match[match.length - 1];
         const fullMatch = match[0];
         let markEnd = range.to;
@@ -29996,14 +30068,14 @@
             return null;
           }
           if (textEnd < range.to) {
-            tr.delete(textEnd, range.to);
+            tr2.delete(textEnd, range.to);
           }
           if (textStart > range.from) {
-            tr.delete(range.from + startSpaces, textStart);
+            tr2.delete(range.from + startSpaces, textStart);
           }
           markEnd = range.from + startSpaces + captureGroup.length;
-          tr.addMark(range.from + startSpaces, markEnd, config.type.create(attributes || {}));
-          tr.removeStoredMark(config.type);
+          tr2.addMark(range.from + startSpaces, markEnd, config.type.create(attributes || {}));
+          tr2.removeStoredMark(config.type);
         }
       }
     });
@@ -30530,8 +30602,8 @@
           if (!isAtEnd || !endsWithDoubleNewline) {
             return false;
           }
-          return editor2.chain().command(({ tr }) => {
-            tr.delete($from.pos - 2, $from.pos);
+          return editor2.chain().command(({ tr: tr2 }) => {
+            tr2.delete($from.pos - 2, $from.pos);
             return true;
           }).exitCode().run();
         },
@@ -30601,12 +30673,12 @@
               if (!text || !language) {
                 return false;
               }
-              const { tr } = view.state;
-              tr.replaceSelectionWith(this.type.create({ language }));
-              tr.setSelection(TextSelection.near(tr.doc.resolve(Math.max(0, tr.selection.from - 2))));
-              tr.insertText(text.replace(/\r\n?/g, "\n"));
-              tr.setMeta("paste", true);
-              view.dispatch(tr);
+              const { tr: tr2 } = view.state;
+              tr2.replaceSelectionWith(this.type.create({ language }));
+              tr2.setSelection(TextSelection.near(tr2.doc.resolve(Math.max(0, tr2.selection.from - 2))));
+              tr2.insertText(text.replace(/\r\n?/g, "\n"));
+              tr2.setMeta("paste", true);
+              view.dispatch(tr2);
               return true;
             }
           }
@@ -30966,9 +31038,9 @@
     let frag = Fragment.empty;
     for (let i = insert.length - 1; i >= 0; i--)
       frag = Fragment.from(insert[i].createAndFill(null, frag));
-    let tr = view.state.tr.replace($from.pos, $from.pos, new Slice(frag, 0, 0));
-    tr.setSelection(TextSelection.near(tr.doc.resolve($from.pos + 1)));
-    view.dispatch(tr);
+    let tr2 = view.state.tr.replace($from.pos, $from.pos, new Slice(frag, 0, 0));
+    tr2.setSelection(TextSelection.near(tr2.doc.resolve($from.pos + 1)));
+    view.dispatch(tr2);
     return false;
   }
   function drawGapCursor(state) {
@@ -31036,10 +31108,10 @@
               const { keepMarks } = this.options;
               const { splittableMarks } = editor2.extensionManager;
               const marks = storedMarks || selection.$to.parentOffset && selection.$from.marks();
-              return chain().insertContent({ type: this.name }).command(({ tr, dispatch }) => {
+              return chain().insertContent({ type: this.name }).command(({ tr: tr2, dispatch }) => {
                 if (dispatch && marks && keepMarks) {
                   const filteredMarks = marks.filter((mark) => splittableMarks.includes(mark.type.name));
-                  tr.ensureMarks(filteredMarks);
+                  tr2.ensureMarks(filteredMarks);
                 }
                 return true;
               }).run();
@@ -31534,29 +31606,29 @@
     }
   };
   var DEPTH_OVERFLOW = 20;
-  function applyTransaction(history2, state, tr, options) {
-    let historyTr = tr.getMeta(historyKey), rebased;
+  function applyTransaction(history2, state, tr2, options) {
+    let historyTr = tr2.getMeta(historyKey), rebased;
     if (historyTr)
       return historyTr.historyState;
-    if (tr.getMeta(closeHistoryKey))
+    if (tr2.getMeta(closeHistoryKey))
       history2 = new HistoryState(history2.done, history2.undone, null, 0, -1);
-    let appended = tr.getMeta("appendedTransaction");
-    if (tr.steps.length == 0) {
+    let appended = tr2.getMeta("appendedTransaction");
+    if (tr2.steps.length == 0) {
       return history2;
     } else if (appended && appended.getMeta(historyKey)) {
       if (appended.getMeta(historyKey).redo)
-        return new HistoryState(history2.done.addTransform(tr, void 0, options, mustPreserveItems(state)), history2.undone, rangesFor(tr.mapping.maps[tr.steps.length - 1]), history2.prevTime, history2.prevComposition);
+        return new HistoryState(history2.done.addTransform(tr2, void 0, options, mustPreserveItems(state)), history2.undone, rangesFor(tr2.mapping.maps[tr2.steps.length - 1]), history2.prevTime, history2.prevComposition);
       else
-        return new HistoryState(history2.done, history2.undone.addTransform(tr, void 0, options, mustPreserveItems(state)), null, history2.prevTime, history2.prevComposition);
-    } else if (tr.getMeta("addToHistory") !== false && !(appended && appended.getMeta("addToHistory") === false)) {
-      let composition = tr.getMeta("composition");
-      let newGroup = history2.prevTime == 0 || !appended && history2.prevComposition != composition && (history2.prevTime < (tr.time || 0) - options.newGroupDelay || !isAdjacentTo(tr, history2.prevRanges));
-      let prevRanges = appended ? mapRanges(history2.prevRanges, tr.mapping) : rangesFor(tr.mapping.maps[tr.steps.length - 1]);
-      return new HistoryState(history2.done.addTransform(tr, newGroup ? state.selection.getBookmark() : void 0, options, mustPreserveItems(state)), Branch.empty, prevRanges, tr.time, composition == null ? history2.prevComposition : composition);
-    } else if (rebased = tr.getMeta("rebased")) {
-      return new HistoryState(history2.done.rebased(tr, rebased), history2.undone.rebased(tr, rebased), mapRanges(history2.prevRanges, tr.mapping), history2.prevTime, history2.prevComposition);
+        return new HistoryState(history2.done, history2.undone.addTransform(tr2, void 0, options, mustPreserveItems(state)), null, history2.prevTime, history2.prevComposition);
+    } else if (tr2.getMeta("addToHistory") !== false && !(appended && appended.getMeta("addToHistory") === false)) {
+      let composition = tr2.getMeta("composition");
+      let newGroup = history2.prevTime == 0 || !appended && history2.prevComposition != composition && (history2.prevTime < (tr2.time || 0) - options.newGroupDelay || !isAdjacentTo(tr2, history2.prevRanges));
+      let prevRanges = appended ? mapRanges(history2.prevRanges, tr2.mapping) : rangesFor(tr2.mapping.maps[tr2.steps.length - 1]);
+      return new HistoryState(history2.done.addTransform(tr2, newGroup ? state.selection.getBookmark() : void 0, options, mustPreserveItems(state)), Branch.empty, prevRanges, tr2.time, composition == null ? history2.prevComposition : composition);
+    } else if (rebased = tr2.getMeta("rebased")) {
+      return new HistoryState(history2.done.rebased(tr2, rebased), history2.undone.rebased(tr2, rebased), mapRanges(history2.prevRanges, tr2.mapping), history2.prevTime, history2.prevComposition);
     } else {
-      return new HistoryState(history2.done.addMaps(tr.mapping.maps), history2.undone.addMaps(tr.mapping.maps), mapRanges(history2.prevRanges, tr.mapping), history2.prevTime, history2.prevComposition);
+      return new HistoryState(history2.done.addMaps(tr2.mapping.maps), history2.undone.addMaps(tr2.mapping.maps), mapRanges(history2.prevRanges, tr2.mapping), history2.prevTime, history2.prevComposition);
     }
   }
   function isAdjacentTo(transform, prevRanges) {
@@ -31627,8 +31699,8 @@
         init() {
           return new HistoryState(Branch.empty, Branch.empty, null, 0, -1);
         },
-        apply(tr, hist, state) {
-          return applyTransaction(hist, state, tr, config);
+        apply(tr2, hist, state) {
+          return applyTransaction(hist, state, tr2, config);
         }
       },
       config,
@@ -31724,27 +31796,27 @@
           } else {
             currentChain.insertContent({ type: this.name });
           }
-          return currentChain.command(({ tr, dispatch }) => {
+          return currentChain.command(({ tr: tr2, dispatch }) => {
             var _a;
             if (dispatch) {
-              const { $to } = tr.selection;
+              const { $to } = tr2.selection;
               const posAfter = $to.end();
               if ($to.nodeAfter) {
                 if ($to.nodeAfter.isTextblock) {
-                  tr.setSelection(TextSelection.create(tr.doc, $to.pos + 1));
+                  tr2.setSelection(TextSelection.create(tr2.doc, $to.pos + 1));
                 } else if ($to.nodeAfter.isBlock) {
-                  tr.setSelection(NodeSelection.create(tr.doc, $to.pos));
+                  tr2.setSelection(NodeSelection.create(tr2.doc, $to.pos));
                 } else {
-                  tr.setSelection(TextSelection.create(tr.doc, $to.pos));
+                  tr2.setSelection(TextSelection.create(tr2.doc, $to.pos));
                 }
               } else {
                 const node = (_a = $to.parent.type.contentMatch.defaultType) === null || _a === void 0 ? void 0 : _a.create();
                 if (node) {
-                  tr.insert(posAfter, node);
-                  tr.setSelection(TextSelection.create(tr.doc, posAfter + 1));
+                  tr2.insert(posAfter, node);
+                  tr2.setSelection(TextSelection.create(tr2.doc, posAfter + 1));
                 }
               }
-              tr.scrollIntoView();
+              tr2.scrollIntoView();
             }
             return true;
           }).run();
@@ -33895,6 +33967,1410 @@
     }
   });
 
+  // node_modules/linkifyjs/dist/linkify.es.js
+  var encodedTlds = "aaa1rp3bb0ott3vie4c1le2ogado5udhabi7c0ademy5centure6ountant0s9o1tor4d0s1ult4e0g1ro2tna4f0l1rica5g0akhan5ency5i0g1rbus3force5tel5kdn3l0ibaba4pay4lfinanz6state5y2sace3tom5m0azon4ericanexpress7family11x2fam3ica3sterdam8nalytics7droid5quan4z2o0l2partments8p0le4q0uarelle8r0ab1mco4chi3my2pa2t0e3s0da2ia2sociates9t0hleta5torney7u0ction5di0ble3o3spost5thor3o0s4vianca6w0s2x0a2z0ure5ba0by2idu3namex3narepublic11d1k2r0celona5laycard4s5efoot5gains6seball5ketball8uhaus5yern5b0c1t1va3cg1n2d1e0ats2uty4er2ntley5rlin4st0buy5t2f1g1h0arti5i0ble3d1ke2ng0o3o1z2j1lack0friday9ockbuster8g1omberg7ue3m0s1w2n0pparibas9o0ats3ehringer8fa2m1nd2o0k0ing5sch2tik2on4t1utique6x2r0adesco6idgestone9oadway5ker3ther5ussels7s1t1uild0ers6siness6y1zz3v1w1y1z0h3ca0b1fe2l0l1vinklein9m0era3p2non3petown5ital0one8r0avan4ds2e0er0s4s2sa1e1h1ino4t0ering5holic7ba1n1re3c1d1enter4o1rn3f0a1d2g1h0anel2nel4rity4se2t2eap3intai5ristmas6ome4urch5i0priani6rcle4sco3tadel4i0c2y3k1l0aims4eaning6ick2nic1que6othing5ud3ub0med6m1n1o0ach3des3ffee4llege4ogne5m0cast4mbank4unity6pany2re3uter5sec4ndos3struction8ulting7tact3ractors9oking4l1p2rsica5untry4pon0s4rses6pa2r0edit0card4union9icket5own3s1uise0s6u0isinella9v1w1x1y0mru3ou3z2dabur3d1nce3ta1e1ing3sun4y2clk3ds2e0al0er2s3gree4livery5l1oitte5ta3mocrat6ntal2ist5si0gn4v2hl2iamonds6et2gital5rect0ory7scount3ver5h2y2j1k1m1np2o0cs1tor4g1mains5t1wnload7rive4tv2ubai3nlop4pont4rban5vag2r2z2earth3t2c0o2deka3u0cation8e1g1mail3erck5nergy4gineer0ing9terprises10pson4quipment8r0icsson6ni3s0q1tate5t1u0rovision8s2vents5xchange6pert3osed4ress5traspace10fage2il1rwinds6th3mily4n0s2rm0ers5shion4t3edex3edback6rrari3ero6i0delity5o2lm2nal1nce1ial7re0stone6mdale6sh0ing5t0ness6j1k1lickr3ghts4r2orist4wers5y2m1o0o0d1tball6rd1ex2sale4um3undation8x2r0ee1senius7l1ogans4ntier7tr2ujitsu5n0d2rniture7tbol5yi3ga0l0lery3o1up4me0s3p1rden4y2b0iz3d0n2e0a1nt0ing5orge5f1g0ee3h1i0ft0s3ves2ing5l0ass3e1obal2o4m0ail3bh2o1x2n1odaddy5ld0point6f2o0dyear5g0le4p1t1v2p1q1r0ainger5phics5tis4een3ipe3ocery4up4s1t1u0ardian6cci3ge2ide2tars5ru3w1y2hair2mburg5ngout5us3bo2dfc0bank7ealth0care8lp1sinki6re1mes5iphop4samitsu7tachi5v2k0t2m1n1ockey4ldings5iday5medepot5goods5s0ense7nda3rse3spital5t0ing5t0els3mail5use3w2r1sbc3t1u0ghes5yatt3undai7ibm2cbc2e1u2d1e0ee3fm2kano4l1m0amat4db2mo0bilien9n0c1dustries8finiti5o2g1k1stitute6urance4e4t0ernational10uit4vestments10o1piranga7q1r0ish4s0maili5t0anbul7t0au2v3jaguar4va3cb2e0ep2tzt3welry6io2ll2m0p2nj2o0bs1urg4t1y2p0morgan6rs3uegos4niper7kaufen5ddi3e0rryhotels6logistics9properties14fh2g1h1i0a1ds2m1ndle4tchen5wi3m1n1oeln3matsu5sher5p0mg2n2r0d1ed3uokgroup8w1y0oto4z2la0caixa5mborghini8er3ncaster6d0rover6xess5salle5t0ino3robe5w0yer5b1c1ds2ease3clerc5frak4gal2o2xus4gbt3i0dl2fe0insurance9style7ghting6ke2lly3mited4o2ncoln4k2psy3ve1ing5k1lc1p2oan0s3cker3us3l1ndon4tte1o3ve3pl0financial11r1s1t0d0a3u0ndbeck6xe1ury5v1y2ma0drid4if1son4keup4n0agement7go3p1rket0ing3s4riott5shalls7ttel5ba2c0kinsey7d1e0d0ia3et2lbourne7me1orial6n0u2rckmsd7g1h1iami3crosoft7l1ni1t2t0subishi9k1l0b1s2m0a2n1o0bi0le4da2e1i1m1nash3ey2ster5rmon3tgage6scow4to0rcycles9v0ie4p1q1r1s0d2t0n1r2u0seum3ic4v1w1x1y1z2na0b1goya4me2tura4vy3ba2c1e0c1t0bank4flix4work5ustar5w0s2xt0direct7us4f0l2g0o2hk2i0co2ke1on3nja3ssan1y5l1o0kia3rton4w0ruz3tv4p1r0a1w2tt2u1yc2z2obi1server7ffice5kinawa6layan0group9dnavy5lo3m0ega4ne1g1l0ine5oo2pen3racle3nge4g0anic5igins6saka4tsuka4t2vh3pa0ge2nasonic7ris2s1tners4s1y3y2ccw3e0t2f0izer5g1h0armacy6d1ilips5one2to0graphy6s4ysio5ics1tet2ures6d1n0g1k2oneer5zza4k1l0ace2y0station9umbing5s3m1n0c2ohl2ker3litie5rn2st3r0america6xi3ess3ime3o0d0uctions8f1gressive8mo2perties3y5tection8u0dential9s1t1ub2w0c2y2qa1pon3uebec3st5racing4dio4e0ad1lestate6tor2y4cipes5d0stone5umbrella9hab3ise0n3t2liance6n0t0als5pair3ort3ublican8st0aurant8view0s5xroth6ich0ardli6oh3l1o1p2o0cks3deo3gers4om3s0vp3u0gby3hr2n2w0e2yukyu6sa0arland6fe0ty4kura4le1on3msclub4ung5ndvik0coromant12ofi4p1rl2s1ve2xo3b0i1s2c0a1b1haeffler7midt4olarships8ol3ule3warz5ience5ot3d1e0arch3t2cure1ity6ek2lect4ner3rvices6ven3w1x0y3fr2g1h0angrila6rp2w2ell3ia1ksha5oes2p0ping5uji3w3i0lk2na1gles5te3j1k0i0n2y0pe4l0ing4m0art3ile4n0cf3o0ccer3ial4ftbank4ware6hu2lar2utions7ng1y2y2pa0ce3ort2t3r0l2s1t0ada2ples4r1tebank4farm7c0group6ockholm6rage3e3ream4udio2y3yle4u0cks3pplies3y2ort5rf1gery5zuki5v1watch4iss4x1y0dney4stems6z2tab1ipei4lk2obao4rget4tamotors6r2too4x0i3c0i2d0k2eam2ch0nology8l1masek5nnis4va3f1g1h0d1eater2re6iaa2ckets5enda4ps2res2ol4j0maxx4x2k0maxx5l1m0all4n1o0day3kyo3ols3p1ray3shiba5tal3urs3wn2yota3s3r0ade1ing4ining5vel0ers0insurance16ust3v2t1ube2i1nes3shu4v0s2w1z2ua1bank3s2g1k1nicom3versity8o2ol2ps2s1y1z2va0cations7na1guard7c1e0gas3ntures6risign5m\xF6gensberater2ung14sicherung10t2g1i0ajes4deo3g1king4llas4n1p1rgin4sa1ion4va1o3laanderen9n1odka3lvo3te1ing3o2yage5u2wales2mart4ter4ng0gou5tch0es6eather0channel12bcam3er2site5d0ding5ibo2r3f1hoswho6ien2ki2lliamhill9n0dows4e1ners6me2olterskluwer11odside6rk0s2ld3w2s1tc1f3xbox3erox4finity6ihuan4n2xx2yz3yachts4hoo3maxun5ndex5e1odobashi7ga2kohama6u0tube6t1un3za0ppos4ra3ero3ip2m1one3uerich6w2";
+  var encodedUtlds = "\u03B5\u03BB1\u03C52\u0431\u04331\u0435\u043B3\u0434\u0435\u0442\u04384\u0435\u044E2\u043A\u0430\u0442\u043E\u043B\u0438\u043A6\u043E\u043C3\u043C\u043A\u04342\u043E\u043D1\u0441\u043A\u0432\u04306\u043E\u043D\u043B\u0430\u0439\u043D5\u0440\u04333\u0440\u0443\u04412\u04442\u0441\u0430\u0439\u04423\u0440\u04313\u0443\u043A\u04403\u049B\u0430\u04373\u0570\u0561\u05753\u05D9\u05E9\u05E8\u05D0\u05DC5\u05E7\u05D5\u05DD3\u0627\u0628\u0648\u0638\u0628\u064A5\u0631\u0627\u0645\u0643\u06485\u0644\u0627\u0631\u062F\u06464\u0628\u062D\u0631\u064A\u06465\u062C\u0632\u0627\u0626\u06315\u0633\u0639\u0648\u062F\u064A\u06296\u0639\u0644\u064A\u0627\u06465\u0645\u063A\u0631\u06285\u0645\u0627\u0631\u0627\u062A5\u06CC\u0631\u0627\u06465\u0628\u0627\u0631\u062A2\u0632\u0627\u06314\u064A\u062A\u06433\u06BE\u0627\u0631\u062A5\u062A\u0648\u0646\u06334\u0633\u0648\u062F\u0627\u06463\u0631\u064A\u06295\u0634\u0628\u0643\u06294\u0639\u0631\u0627\u06422\u06282\u0645\u0627\u06464\u0641\u0644\u0633\u0637\u064A\u06466\u0642\u0637\u06313\u0643\u0627\u062B\u0648\u0644\u064A\u06436\u0648\u06453\u0645\u0635\u06312\u0644\u064A\u0633\u064A\u06275\u0648\u0631\u064A\u062A\u0627\u0646\u064A\u06277\u0642\u06394\u0647\u0645\u0631\u0627\u06475\u067E\u0627\u06A9\u0633\u062A\u0627\u06467\u0680\u0627\u0631\u062A4\u0915\u0949\u092E3\u0928\u0947\u091F3\u092D\u093E\u0930\u09240\u092E\u094D3\u094B\u09245\u0938\u0902\u0917\u0920\u09285\u09AC\u09BE\u0982\u09B2\u09BE5\u09AD\u09BE\u09B0\u09A42\u09F0\u09A44\u0A2D\u0A3E\u0A30\u0A244\u0AAD\u0ABE\u0AB0\u0AA44\u0B2D\u0B3E\u0B30\u0B244\u0B87\u0BA8\u0BCD\u0BA4\u0BBF\u0BAF\u0BBE6\u0BB2\u0B99\u0BCD\u0B95\u0BC86\u0B9A\u0BBF\u0B99\u0BCD\u0B95\u0BAA\u0BCD\u0BAA\u0BC2\u0BB0\u0BCD11\u0C2D\u0C3E\u0C30\u0C24\u0C4D5\u0CAD\u0CBE\u0CB0\u0CA44\u0D2D\u0D3E\u0D30\u0D24\u0D025\u0DBD\u0D82\u0D9A\u0DCF4\u0E04\u0E2D\u0E213\u0E44\u0E17\u0E223\u0EA5\u0EB2\u0EA73\u10D2\u10D42\u307F\u3093\u306A3\u30A2\u30DE\u30BE\u30F34\u30AF\u30E9\u30A6\u30C94\u30B0\u30FC\u30B0\u30EB4\u30B3\u30E02\u30B9\u30C8\u30A23\u30BB\u30FC\u30EB3\u30D5\u30A1\u30C3\u30B7\u30E7\u30F36\u30DD\u30A4\u30F3\u30C84\u4E16\u754C2\u4E2D\u4FE11\u56FD1\u570B1\u6587\u7F513\u4E9A\u9A6C\u900A3\u4F01\u4E1A2\u4F5B\u5C712\u4FE1\u606F2\u5065\u5EB72\u516B\u53662\u516C\u53F81\u76CA2\u53F0\u6E7E1\u70632\u5546\u57CE1\u5E971\u68072\u5609\u91CC0\u5927\u9152\u5E975\u5728\u7EBF2\u5927\u62FF2\u5929\u4E3B\u65593\u5A31\u4E502\u5BB6\u96FB2\u5E7F\u4E1C2\u5FAE\u535A2\u6148\u55842\u6211\u7231\u4F603\u624B\u673A2\u62DB\u80582\u653F\u52A11\u5E9C2\u65B0\u52A0\u57612\u95FB2\u65F6\u5C1A2\u66F8\u7C4D2\u673A\u67842\u6DE1\u9A6C\u95213\u6E38\u620F2\u6FB3\u95802\u70B9\u770B2\u79FB\u52A82\u7EC4\u7EC7\u673A\u67844\u7F51\u57401\u5E971\u7AD91\u7EDC2\u8054\u901A2\u8C37\u6B4C2\u8D2D\u72692\u901A\u8CA92\u96C6\u56E22\u96FB\u8A0A\u76C8\u79D14\u98DE\u5229\u6D663\u98DF\u54C12\u9910\u53852\u9999\u683C\u91CC\u62C93\u6E2F2\uB2F7\uB1371\uCEF42\uC0BC\uC1312\uD55C\uAD6D2";
+  var assign = (target, properties) => {
+    for (const key in properties) {
+      target[key] = properties[key];
+    }
+    return target;
+  };
+  var numeric = "numeric";
+  var ascii = "ascii";
+  var alpha = "alpha";
+  var asciinumeric = "asciinumeric";
+  var alphanumeric = "alphanumeric";
+  var domain = "domain";
+  var emoji = "emoji";
+  var scheme = "scheme";
+  var slashscheme = "slashscheme";
+  var whitespace = "whitespace";
+  function registerGroup(name, groups) {
+    if (!(name in groups)) {
+      groups[name] = [];
+    }
+    return groups[name];
+  }
+  function addToGroups(t, flags, groups) {
+    if (flags[numeric]) {
+      flags[asciinumeric] = true;
+      flags[alphanumeric] = true;
+    }
+    if (flags[ascii]) {
+      flags[asciinumeric] = true;
+      flags[alpha] = true;
+    }
+    if (flags[asciinumeric]) {
+      flags[alphanumeric] = true;
+    }
+    if (flags[alpha]) {
+      flags[alphanumeric] = true;
+    }
+    if (flags[alphanumeric]) {
+      flags[domain] = true;
+    }
+    if (flags[emoji]) {
+      flags[domain] = true;
+    }
+    for (const k in flags) {
+      const group = registerGroup(k, groups);
+      if (group.indexOf(t) < 0) {
+        group.push(t);
+      }
+    }
+  }
+  function flagsForToken(t, groups) {
+    const result = {};
+    for (const c2 in groups) {
+      if (groups[c2].indexOf(t) >= 0) {
+        result[c2] = true;
+      }
+    }
+    return result;
+  }
+  function State(token) {
+    if (token === void 0) {
+      token = null;
+    }
+    this.j = {};
+    this.jr = [];
+    this.jd = null;
+    this.t = token;
+  }
+  State.groups = {};
+  State.prototype = {
+    accepts() {
+      return !!this.t;
+    },
+    /**
+     * Follow an existing transition from the given input to the next state.
+     * Does not mutate.
+     * @param {string} input character or token type to transition on
+     * @returns {?State<T>} the next state, if any
+     */
+    go(input) {
+      const state = this;
+      const nextState = state.j[input];
+      if (nextState) {
+        return nextState;
+      }
+      for (let i = 0; i < state.jr.length; i++) {
+        const regex = state.jr[i][0];
+        const nextState2 = state.jr[i][1];
+        if (nextState2 && regex.test(input)) {
+          return nextState2;
+        }
+      }
+      return state.jd;
+    },
+    /**
+     * Whether the state has a transition for the given input. Set the second
+     * argument to true to only look for an exact match (and not a default or
+     * regular-expression-based transition)
+     * @param {string} input
+     * @param {boolean} exactOnly
+     */
+    has(input, exactOnly) {
+      if (exactOnly === void 0) {
+        exactOnly = false;
+      }
+      return exactOnly ? input in this.j : !!this.go(input);
+    },
+    /**
+     * Short for "transition all"; create a transition from the array of items
+     * in the given list to the same final resulting state.
+     * @param {string | string[]} inputs Group of inputs to transition on
+     * @param {Transition<T> | State<T>} [next] Transition options
+     * @param {Flags} [flags] Collections flags to add token to
+     * @param {Collections<T>} [groups] Master list of token groups
+     */
+    ta(inputs, next, flags, groups) {
+      for (let i = 0; i < inputs.length; i++) {
+        this.tt(inputs[i], next, flags, groups);
+      }
+    },
+    /**
+     * Short for "take regexp transition"; defines a transition for this state
+     * when it encounters a token which matches the given regular expression
+     * @param {RegExp} regexp Regular expression transition (populate first)
+     * @param {T | State<T>} [next] Transition options
+     * @param {Flags} [flags] Collections flags to add token to
+     * @param {Collections<T>} [groups] Master list of token groups
+     * @returns {State<T>} taken after the given input
+     */
+    tr(regexp, next, flags, groups) {
+      groups = groups || State.groups;
+      let nextState;
+      if (next && next.j) {
+        nextState = next;
+      } else {
+        nextState = new State(next);
+        if (flags && groups) {
+          addToGroups(next, flags, groups);
+        }
+      }
+      this.jr.push([regexp, nextState]);
+      return nextState;
+    },
+    /**
+     * Short for "take transitions", will take as many sequential transitions as
+     * the length of the given input and returns the
+     * resulting final state.
+     * @param {string | string[]} input
+     * @param {T | State<T>} [next] Transition options
+     * @param {Flags} [flags] Collections flags to add token to
+     * @param {Collections<T>} [groups] Master list of token groups
+     * @returns {State<T>} taken after the given input
+     */
+    ts(input, next, flags, groups) {
+      let state = this;
+      const len = input.length;
+      if (!len) {
+        return state;
+      }
+      for (let i = 0; i < len - 1; i++) {
+        state = state.tt(input[i]);
+      }
+      return state.tt(input[len - 1], next, flags, groups);
+    },
+    /**
+     * Short for "take transition", this is a method for building/working with
+     * state machines.
+     *
+     * If a state already exists for the given input, returns it.
+     *
+     * If a token is specified, that state will emit that token when reached by
+     * the linkify engine.
+     *
+     * If no state exists, it will be initialized with some default transitions
+     * that resemble existing default transitions.
+     *
+     * If a state is given for the second argument, that state will be
+     * transitioned to on the given input regardless of what that input
+     * previously did.
+     *
+     * Specify a token group flags to define groups that this token belongs to.
+     * The token will be added to corresponding entires in the given groups
+     * object.
+     *
+     * @param {string} input character, token type to transition on
+     * @param {T | State<T>} [next] Transition options
+     * @param {Flags} [flags] Collections flags to add token to
+     * @param {Collections<T>} [groups] Master list of groups
+     * @returns {State<T>} taken after the given input
+     */
+    tt(input, next, flags, groups) {
+      groups = groups || State.groups;
+      const state = this;
+      if (next && next.j) {
+        state.j[input] = next;
+        return next;
+      }
+      const t = next;
+      let nextState, templateState = state.go(input);
+      if (templateState) {
+        nextState = new State();
+        assign(nextState.j, templateState.j);
+        nextState.jr.push.apply(nextState.jr, templateState.jr);
+        nextState.jd = templateState.jd;
+        nextState.t = templateState.t;
+      } else {
+        nextState = new State();
+      }
+      if (t) {
+        if (groups) {
+          if (nextState.t && typeof nextState.t === "string") {
+            const allFlags = assign(flagsForToken(nextState.t, groups), flags);
+            addToGroups(t, allFlags, groups);
+          } else if (flags) {
+            addToGroups(t, flags, groups);
+          }
+        }
+        nextState.t = t;
+      }
+      state.j[input] = nextState;
+      return nextState;
+    }
+  };
+  var ta = (state, input, next, flags, groups) => state.ta(input, next, flags, groups);
+  var tr = (state, regexp, next, flags, groups) => state.tr(regexp, next, flags, groups);
+  var ts = (state, input, next, flags, groups) => state.ts(input, next, flags, groups);
+  var tt = (state, input, next, flags, groups) => state.tt(input, next, flags, groups);
+  var WORD = "WORD";
+  var UWORD = "UWORD";
+  var LOCALHOST = "LOCALHOST";
+  var TLD = "TLD";
+  var UTLD = "UTLD";
+  var SCHEME = "SCHEME";
+  var SLASH_SCHEME = "SLASH_SCHEME";
+  var NUM = "NUM";
+  var WS = "WS";
+  var NL$1 = "NL";
+  var OPENBRACE = "OPENBRACE";
+  var CLOSEBRACE = "CLOSEBRACE";
+  var OPENBRACKET = "OPENBRACKET";
+  var CLOSEBRACKET = "CLOSEBRACKET";
+  var OPENPAREN = "OPENPAREN";
+  var CLOSEPAREN = "CLOSEPAREN";
+  var OPENANGLEBRACKET = "OPENANGLEBRACKET";
+  var CLOSEANGLEBRACKET = "CLOSEANGLEBRACKET";
+  var FULLWIDTHLEFTPAREN = "FULLWIDTHLEFTPAREN";
+  var FULLWIDTHRIGHTPAREN = "FULLWIDTHRIGHTPAREN";
+  var LEFTCORNERBRACKET = "LEFTCORNERBRACKET";
+  var RIGHTCORNERBRACKET = "RIGHTCORNERBRACKET";
+  var LEFTWHITECORNERBRACKET = "LEFTWHITECORNERBRACKET";
+  var RIGHTWHITECORNERBRACKET = "RIGHTWHITECORNERBRACKET";
+  var FULLWIDTHLESSTHAN = "FULLWIDTHLESSTHAN";
+  var FULLWIDTHGREATERTHAN = "FULLWIDTHGREATERTHAN";
+  var AMPERSAND = "AMPERSAND";
+  var APOSTROPHE = "APOSTROPHE";
+  var ASTERISK = "ASTERISK";
+  var AT = "AT";
+  var BACKSLASH = "BACKSLASH";
+  var BACKTICK = "BACKTICK";
+  var CARET = "CARET";
+  var COLON = "COLON";
+  var COMMA = "COMMA";
+  var DOLLAR = "DOLLAR";
+  var DOT = "DOT";
+  var EQUALS = "EQUALS";
+  var EXCLAMATION = "EXCLAMATION";
+  var HYPHEN = "HYPHEN";
+  var PERCENT = "PERCENT";
+  var PIPE = "PIPE";
+  var PLUS = "PLUS";
+  var POUND = "POUND";
+  var QUERY = "QUERY";
+  var QUOTE = "QUOTE";
+  var SEMI = "SEMI";
+  var SLASH = "SLASH";
+  var TILDE = "TILDE";
+  var UNDERSCORE = "UNDERSCORE";
+  var EMOJI$1 = "EMOJI";
+  var SYM = "SYM";
+  var tk = /* @__PURE__ */ Object.freeze({
+    __proto__: null,
+    WORD,
+    UWORD,
+    LOCALHOST,
+    TLD,
+    UTLD,
+    SCHEME,
+    SLASH_SCHEME,
+    NUM,
+    WS,
+    NL: NL$1,
+    OPENBRACE,
+    CLOSEBRACE,
+    OPENBRACKET,
+    CLOSEBRACKET,
+    OPENPAREN,
+    CLOSEPAREN,
+    OPENANGLEBRACKET,
+    CLOSEANGLEBRACKET,
+    FULLWIDTHLEFTPAREN,
+    FULLWIDTHRIGHTPAREN,
+    LEFTCORNERBRACKET,
+    RIGHTCORNERBRACKET,
+    LEFTWHITECORNERBRACKET,
+    RIGHTWHITECORNERBRACKET,
+    FULLWIDTHLESSTHAN,
+    FULLWIDTHGREATERTHAN,
+    AMPERSAND,
+    APOSTROPHE,
+    ASTERISK,
+    AT,
+    BACKSLASH,
+    BACKTICK,
+    CARET,
+    COLON,
+    COMMA,
+    DOLLAR,
+    DOT,
+    EQUALS,
+    EXCLAMATION,
+    HYPHEN,
+    PERCENT,
+    PIPE,
+    PLUS,
+    POUND,
+    QUERY,
+    QUOTE,
+    SEMI,
+    SLASH,
+    TILDE,
+    UNDERSCORE,
+    EMOJI: EMOJI$1,
+    SYM
+  });
+  var ASCII_LETTER = /[a-z]/;
+  var LETTER = new RegExp("\\p{L}", "u");
+  var EMOJI = new RegExp("\\p{Emoji}", "u");
+  var DIGIT = /\d/;
+  var SPACE = /\s/;
+  var NL = "\n";
+  var EMOJI_VARIATION = "\uFE0F";
+  var EMOJI_JOINER = "\u200D";
+  var tlds = null;
+  var utlds = null;
+  function init$2(customSchemes) {
+    if (customSchemes === void 0) {
+      customSchemes = [];
+    }
+    const groups = {};
+    State.groups = groups;
+    const Start = new State();
+    if (tlds == null) {
+      tlds = decodeTlds(encodedTlds);
+    }
+    if (utlds == null) {
+      utlds = decodeTlds(encodedUtlds);
+    }
+    tt(Start, "'", APOSTROPHE);
+    tt(Start, "{", OPENBRACE);
+    tt(Start, "}", CLOSEBRACE);
+    tt(Start, "[", OPENBRACKET);
+    tt(Start, "]", CLOSEBRACKET);
+    tt(Start, "(", OPENPAREN);
+    tt(Start, ")", CLOSEPAREN);
+    tt(Start, "<", OPENANGLEBRACKET);
+    tt(Start, ">", CLOSEANGLEBRACKET);
+    tt(Start, "\uFF08", FULLWIDTHLEFTPAREN);
+    tt(Start, "\uFF09", FULLWIDTHRIGHTPAREN);
+    tt(Start, "\u300C", LEFTCORNERBRACKET);
+    tt(Start, "\u300D", RIGHTCORNERBRACKET);
+    tt(Start, "\u300E", LEFTWHITECORNERBRACKET);
+    tt(Start, "\u300F", RIGHTWHITECORNERBRACKET);
+    tt(Start, "\uFF1C", FULLWIDTHLESSTHAN);
+    tt(Start, "\uFF1E", FULLWIDTHGREATERTHAN);
+    tt(Start, "&", AMPERSAND);
+    tt(Start, "*", ASTERISK);
+    tt(Start, "@", AT);
+    tt(Start, "`", BACKTICK);
+    tt(Start, "^", CARET);
+    tt(Start, ":", COLON);
+    tt(Start, ",", COMMA);
+    tt(Start, "$", DOLLAR);
+    tt(Start, ".", DOT);
+    tt(Start, "=", EQUALS);
+    tt(Start, "!", EXCLAMATION);
+    tt(Start, "-", HYPHEN);
+    tt(Start, "%", PERCENT);
+    tt(Start, "|", PIPE);
+    tt(Start, "+", PLUS);
+    tt(Start, "#", POUND);
+    tt(Start, "?", QUERY);
+    tt(Start, '"', QUOTE);
+    tt(Start, "/", SLASH);
+    tt(Start, ";", SEMI);
+    tt(Start, "~", TILDE);
+    tt(Start, "_", UNDERSCORE);
+    tt(Start, "\\", BACKSLASH);
+    const Num = tr(Start, DIGIT, NUM, {
+      [numeric]: true
+    });
+    tr(Num, DIGIT, Num);
+    const Word = tr(Start, ASCII_LETTER, WORD, {
+      [ascii]: true
+    });
+    tr(Word, ASCII_LETTER, Word);
+    const UWord = tr(Start, LETTER, UWORD, {
+      [alpha]: true
+    });
+    tr(UWord, ASCII_LETTER);
+    tr(UWord, LETTER, UWord);
+    const Ws = tr(Start, SPACE, WS, {
+      [whitespace]: true
+    });
+    tt(Start, NL, NL$1, {
+      [whitespace]: true
+    });
+    tt(Ws, NL);
+    tr(Ws, SPACE, Ws);
+    const Emoji = tr(Start, EMOJI, EMOJI$1, {
+      [emoji]: true
+    });
+    tr(Emoji, EMOJI, Emoji);
+    tt(Emoji, EMOJI_VARIATION, Emoji);
+    const EmojiJoiner = tt(Emoji, EMOJI_JOINER);
+    tr(EmojiJoiner, EMOJI, Emoji);
+    const wordjr = [[ASCII_LETTER, Word]];
+    const uwordjr = [[ASCII_LETTER, null], [LETTER, UWord]];
+    for (let i = 0; i < tlds.length; i++) {
+      fastts(Start, tlds[i], TLD, WORD, wordjr);
+    }
+    for (let i = 0; i < utlds.length; i++) {
+      fastts(Start, utlds[i], UTLD, UWORD, uwordjr);
+    }
+    addToGroups(TLD, {
+      tld: true,
+      ascii: true
+    }, groups);
+    addToGroups(UTLD, {
+      utld: true,
+      alpha: true
+    }, groups);
+    fastts(Start, "file", SCHEME, WORD, wordjr);
+    fastts(Start, "mailto", SCHEME, WORD, wordjr);
+    fastts(Start, "http", SLASH_SCHEME, WORD, wordjr);
+    fastts(Start, "https", SLASH_SCHEME, WORD, wordjr);
+    fastts(Start, "ftp", SLASH_SCHEME, WORD, wordjr);
+    fastts(Start, "ftps", SLASH_SCHEME, WORD, wordjr);
+    addToGroups(SCHEME, {
+      scheme: true,
+      ascii: true
+    }, groups);
+    addToGroups(SLASH_SCHEME, {
+      slashscheme: true,
+      ascii: true
+    }, groups);
+    customSchemes = customSchemes.sort((a, b) => a[0] > b[0] ? 1 : -1);
+    for (let i = 0; i < customSchemes.length; i++) {
+      const sch = customSchemes[i][0];
+      const optionalSlashSlash = customSchemes[i][1];
+      const flags = optionalSlashSlash ? {
+        [scheme]: true
+      } : {
+        [slashscheme]: true
+      };
+      if (sch.indexOf("-") >= 0) {
+        flags[domain] = true;
+      } else if (!ASCII_LETTER.test(sch)) {
+        flags[numeric] = true;
+      } else if (DIGIT.test(sch)) {
+        flags[asciinumeric] = true;
+      } else {
+        flags[ascii] = true;
+      }
+      ts(Start, sch, sch, flags);
+    }
+    ts(Start, "localhost", LOCALHOST, {
+      ascii: true
+    });
+    Start.jd = new State(SYM);
+    return {
+      start: Start,
+      tokens: assign({
+        groups
+      }, tk)
+    };
+  }
+  function run$12(start, str) {
+    const iterable = stringToArray(str.replace(/[A-Z]/g, (c2) => c2.toLowerCase()));
+    const charCount = iterable.length;
+    const tokens = [];
+    let cursor = 0;
+    let charCursor = 0;
+    while (charCursor < charCount) {
+      let state = start;
+      let nextState = null;
+      let tokenLength = 0;
+      let latestAccepting = null;
+      let sinceAccepts = -1;
+      let charsSinceAccepts = -1;
+      while (charCursor < charCount && (nextState = state.go(iterable[charCursor]))) {
+        state = nextState;
+        if (state.accepts()) {
+          sinceAccepts = 0;
+          charsSinceAccepts = 0;
+          latestAccepting = state;
+        } else if (sinceAccepts >= 0) {
+          sinceAccepts += iterable[charCursor].length;
+          charsSinceAccepts++;
+        }
+        tokenLength += iterable[charCursor].length;
+        cursor += iterable[charCursor].length;
+        charCursor++;
+      }
+      cursor -= sinceAccepts;
+      charCursor -= charsSinceAccepts;
+      tokenLength -= sinceAccepts;
+      tokens.push({
+        t: latestAccepting.t,
+        // token type/name
+        v: str.slice(cursor - tokenLength, cursor),
+        // string value
+        s: cursor - tokenLength,
+        // start index
+        e: cursor
+        // end index (excluding)
+      });
+    }
+    return tokens;
+  }
+  function stringToArray(str) {
+    const result = [];
+    const len = str.length;
+    let index = 0;
+    while (index < len) {
+      let first2 = str.charCodeAt(index);
+      let second;
+      let char = first2 < 55296 || first2 > 56319 || index + 1 === len || (second = str.charCodeAt(index + 1)) < 56320 || second > 57343 ? str[index] : str.slice(index, index + 2);
+      result.push(char);
+      index += char.length;
+    }
+    return result;
+  }
+  function fastts(state, input, t, defaultt, jr) {
+    let next;
+    const len = input.length;
+    for (let i = 0; i < len - 1; i++) {
+      const char = input[i];
+      if (state.j[char]) {
+        next = state.j[char];
+      } else {
+        next = new State(defaultt);
+        next.jr = jr.slice();
+        state.j[char] = next;
+      }
+      state = next;
+    }
+    next = new State(t);
+    next.jr = jr.slice();
+    state.j[input[len - 1]] = next;
+    return next;
+  }
+  function decodeTlds(encoded) {
+    const words = [];
+    const stack = [];
+    let i = 0;
+    let digits = "0123456789";
+    while (i < encoded.length) {
+      let popDigitCount = 0;
+      while (digits.indexOf(encoded[i + popDigitCount]) >= 0) {
+        popDigitCount++;
+      }
+      if (popDigitCount > 0) {
+        words.push(stack.join(""));
+        for (let popCount = parseInt(encoded.substring(i, i + popDigitCount), 10); popCount > 0; popCount--) {
+          stack.pop();
+        }
+        i += popDigitCount;
+      } else {
+        stack.push(encoded[i]);
+        i++;
+      }
+    }
+    return words;
+  }
+  var defaults = {
+    defaultProtocol: "http",
+    events: null,
+    format: noop,
+    formatHref: noop,
+    nl2br: false,
+    tagName: "a",
+    target: null,
+    rel: null,
+    validate: true,
+    truncate: Infinity,
+    className: null,
+    attributes: null,
+    ignoreTags: [],
+    render: null
+  };
+  function Options(opts, defaultRender) {
+    if (defaultRender === void 0) {
+      defaultRender = null;
+    }
+    let o = assign({}, defaults);
+    if (opts) {
+      o = assign(o, opts instanceof Options ? opts.o : opts);
+    }
+    const ignoredTags = o.ignoreTags;
+    const uppercaseIgnoredTags = [];
+    for (let i = 0; i < ignoredTags.length; i++) {
+      uppercaseIgnoredTags.push(ignoredTags[i].toUpperCase());
+    }
+    this.o = o;
+    if (defaultRender) {
+      this.defaultRender = defaultRender;
+    }
+    this.ignoreTags = uppercaseIgnoredTags;
+  }
+  Options.prototype = {
+    o: defaults,
+    /**
+     * @type string[]
+     */
+    ignoreTags: [],
+    /**
+     * @param {IntermediateRepresentation} ir
+     * @returns {any}
+     */
+    defaultRender(ir) {
+      return ir;
+    },
+    /**
+     * Returns true or false based on whether a token should be displayed as a
+     * link based on the user options.
+     * @param {MultiToken} token
+     * @returns {boolean}
+     */
+    check(token) {
+      return this.get("validate", token.toString(), token);
+    },
+    // Private methods
+    /**
+     * Resolve an option's value based on the value of the option and the given
+     * params. If operator and token are specified and the target option is
+     * callable, automatically calls the function with the given argument.
+     * @template {keyof Opts} K
+     * @param {K} key Name of option to use
+     * @param {string} [operator] will be passed to the target option if it's a
+     * function. If not specified, RAW function value gets returned
+     * @param {MultiToken} [token] The token from linkify.tokenize
+     * @returns {Opts[K] | any}
+     */
+    get(key, operator2, token) {
+      const isCallable = operator2 != null;
+      let option = this.o[key];
+      if (!option) {
+        return option;
+      }
+      if (typeof option === "object") {
+        option = token.t in option ? option[token.t] : defaults[key];
+        if (typeof option === "function" && isCallable) {
+          option = option(operator2, token);
+        }
+      } else if (typeof option === "function" && isCallable) {
+        option = option(operator2, token.t, token);
+      }
+      return option;
+    },
+    /**
+     * @template {keyof Opts} L
+     * @param {L} key Name of options object to use
+     * @param {string} [operator]
+     * @param {MultiToken} [token]
+     * @returns {Opts[L] | any}
+     */
+    getObj(key, operator2, token) {
+      let obj = this.o[key];
+      if (typeof obj === "function" && operator2 != null) {
+        obj = obj(operator2, token.t, token);
+      }
+      return obj;
+    },
+    /**
+     * Convert the given token to a rendered element that may be added to the
+     * calling-interface's DOM
+     * @param {MultiToken} token Token to render to an HTML element
+     * @returns {any} Render result; e.g., HTML string, DOM element, React
+     *   Component, etc.
+     */
+    render(token) {
+      const ir = token.render(this);
+      const renderFn = this.get("render", null, token) || this.defaultRender;
+      return renderFn(ir, token.t, token);
+    }
+  };
+  function noop(val) {
+    return val;
+  }
+  function MultiToken(value, tokens) {
+    this.t = "token";
+    this.v = value;
+    this.tk = tokens;
+  }
+  MultiToken.prototype = {
+    isLink: false,
+    /**
+     * Return the string this token represents.
+     * @return {string}
+     */
+    toString() {
+      return this.v;
+    },
+    /**
+     * What should the value for this token be in the `href` HTML attribute?
+     * Returns the `.toString` value by default.
+     * @param {string} [scheme]
+     * @return {string}
+    */
+    toHref(scheme2) {
+      return this.toString();
+    },
+    /**
+     * @param {Options} options Formatting options
+     * @returns {string}
+     */
+    toFormattedString(options) {
+      const val = this.toString();
+      const truncate = options.get("truncate", val, this);
+      const formatted = options.get("format", val, this);
+      return truncate && formatted.length > truncate ? formatted.substring(0, truncate) + "\u2026" : formatted;
+    },
+    /**
+     *
+     * @param {Options} options
+     * @returns {string}
+     */
+    toFormattedHref(options) {
+      return options.get("formatHref", this.toHref(options.get("defaultProtocol")), this);
+    },
+    /**
+     * The start index of this token in the original input string
+     * @returns {number}
+     */
+    startIndex() {
+      return this.tk[0].s;
+    },
+    /**
+     * The end index of this token in the original input string (up to this
+     * index but not including it)
+     * @returns {number}
+     */
+    endIndex() {
+      return this.tk[this.tk.length - 1].e;
+    },
+    /**
+    	Returns an object  of relevant values for this token, which includes keys
+    	* type - Kind of token ('url', 'email', etc.)
+    	* value - Original text
+    	* href - The value that should be added to the anchor tag's href
+    		attribute
+    		@method toObject
+    	@param {string} [protocol] `'http'` by default
+    */
+    toObject(protocol) {
+      if (protocol === void 0) {
+        protocol = defaults.defaultProtocol;
+      }
+      return {
+        type: this.t,
+        value: this.toString(),
+        isLink: this.isLink,
+        href: this.toHref(protocol),
+        start: this.startIndex(),
+        end: this.endIndex()
+      };
+    },
+    /**
+     *
+     * @param {Options} options Formatting option
+     */
+    toFormattedObject(options) {
+      return {
+        type: this.t,
+        value: this.toFormattedString(options),
+        isLink: this.isLink,
+        href: this.toFormattedHref(options),
+        start: this.startIndex(),
+        end: this.endIndex()
+      };
+    },
+    /**
+     * Whether this token should be rendered as a link according to the given options
+     * @param {Options} options
+     * @returns {boolean}
+     */
+    validate(options) {
+      return options.get("validate", this.toString(), this);
+    },
+    /**
+     * Return an object that represents how this link should be rendered.
+     * @param {Options} options Formattinng options
+     */
+    render(options) {
+      const token = this;
+      const href = this.toHref(options.get("defaultProtocol"));
+      const formattedHref = options.get("formatHref", href, this);
+      const tagName = options.get("tagName", href, token);
+      const content3 = this.toFormattedString(options);
+      const attributes = {};
+      const className = options.get("className", href, token);
+      const target = options.get("target", href, token);
+      const rel = options.get("rel", href, token);
+      const attrs = options.getObj("attributes", href, token);
+      const eventListeners = options.getObj("events", href, token);
+      attributes.href = formattedHref;
+      if (className) {
+        attributes.class = className;
+      }
+      if (target) {
+        attributes.target = target;
+      }
+      if (rel) {
+        attributes.rel = rel;
+      }
+      if (attrs) {
+        assign(attributes, attrs);
+      }
+      return {
+        tagName,
+        attributes,
+        content: content3,
+        eventListeners
+      };
+    }
+  };
+  function createTokenClass(type, props) {
+    class Token extends MultiToken {
+      constructor(value, tokens) {
+        super(value, tokens);
+        this.t = type;
+      }
+    }
+    for (const p in props) {
+      Token.prototype[p] = props[p];
+    }
+    Token.t = type;
+    return Token;
+  }
+  var Email = createTokenClass("email", {
+    isLink: true,
+    toHref() {
+      return "mailto:" + this.toString();
+    }
+  });
+  var Text2 = createTokenClass("text");
+  var Nl = createTokenClass("nl");
+  var Url = createTokenClass("url", {
+    isLink: true,
+    /**
+    	Lowercases relevant parts of the domain and adds the protocol if
+    	required. Note that this will not escape unsafe HTML characters in the
+    	URL.
+    		@param {string} [scheme] default scheme (e.g., 'https')
+    	@return {string} the full href
+    */
+    toHref(scheme2) {
+      if (scheme2 === void 0) {
+        scheme2 = defaults.defaultProtocol;
+      }
+      return this.hasProtocol() ? this.v : "".concat(scheme2, "://").concat(this.v);
+    },
+    /**
+     * Check whether this URL token has a protocol
+     * @return {boolean}
+     */
+    hasProtocol() {
+      const tokens = this.tk;
+      return tokens.length >= 2 && tokens[0].t !== LOCALHOST && tokens[1].t === COLON;
+    }
+  });
+  var makeState = (arg) => new State(arg);
+  function init$1(_ref) {
+    let {
+      groups
+    } = _ref;
+    const qsAccepting = groups.domain.concat([AMPERSAND, ASTERISK, AT, BACKSLASH, BACKTICK, CARET, DOLLAR, EQUALS, HYPHEN, NUM, PERCENT, PIPE, PLUS, POUND, SLASH, SYM, TILDE, UNDERSCORE]);
+    const qsNonAccepting = [APOSTROPHE, COLON, COMMA, DOT, EXCLAMATION, QUERY, QUOTE, SEMI, OPENANGLEBRACKET, CLOSEANGLEBRACKET, OPENBRACE, CLOSEBRACE, CLOSEBRACKET, OPENBRACKET, OPENPAREN, CLOSEPAREN, FULLWIDTHLEFTPAREN, FULLWIDTHRIGHTPAREN, LEFTCORNERBRACKET, RIGHTCORNERBRACKET, LEFTWHITECORNERBRACKET, RIGHTWHITECORNERBRACKET, FULLWIDTHLESSTHAN, FULLWIDTHGREATERTHAN];
+    const localpartAccepting = [AMPERSAND, APOSTROPHE, ASTERISK, BACKSLASH, BACKTICK, CARET, DOLLAR, EQUALS, HYPHEN, OPENBRACE, CLOSEBRACE, PERCENT, PIPE, PLUS, POUND, QUERY, SLASH, SYM, TILDE, UNDERSCORE];
+    const Start = makeState();
+    const Localpart = tt(Start, TILDE);
+    ta(Localpart, localpartAccepting, Localpart);
+    ta(Localpart, groups.domain, Localpart);
+    const Domain = makeState(), Scheme = makeState(), SlashScheme = makeState();
+    ta(Start, groups.domain, Domain);
+    ta(Start, groups.scheme, Scheme);
+    ta(Start, groups.slashscheme, SlashScheme);
+    ta(Domain, localpartAccepting, Localpart);
+    ta(Domain, groups.domain, Domain);
+    const LocalpartAt = tt(Domain, AT);
+    tt(Localpart, AT, LocalpartAt);
+    tt(Scheme, AT, LocalpartAt);
+    tt(SlashScheme, AT, LocalpartAt);
+    const LocalpartDot = tt(Localpart, DOT);
+    ta(LocalpartDot, localpartAccepting, Localpart);
+    ta(LocalpartDot, groups.domain, Localpart);
+    const EmailDomain = makeState();
+    ta(LocalpartAt, groups.domain, EmailDomain);
+    ta(EmailDomain, groups.domain, EmailDomain);
+    const EmailDomainDot = tt(EmailDomain, DOT);
+    ta(EmailDomainDot, groups.domain, EmailDomain);
+    const Email$1 = makeState(Email);
+    ta(EmailDomainDot, groups.tld, Email$1);
+    ta(EmailDomainDot, groups.utld, Email$1);
+    tt(LocalpartAt, LOCALHOST, Email$1);
+    const EmailDomainHyphen = tt(EmailDomain, HYPHEN);
+    ta(EmailDomainHyphen, groups.domain, EmailDomain);
+    ta(Email$1, groups.domain, EmailDomain);
+    tt(Email$1, DOT, EmailDomainDot);
+    tt(Email$1, HYPHEN, EmailDomainHyphen);
+    const EmailColon = tt(Email$1, COLON);
+    ta(EmailColon, groups.numeric, Email);
+    const DomainHyphen = tt(Domain, HYPHEN);
+    const DomainDot = tt(Domain, DOT);
+    ta(DomainHyphen, groups.domain, Domain);
+    ta(DomainDot, localpartAccepting, Localpart);
+    ta(DomainDot, groups.domain, Domain);
+    const DomainDotTld = makeState(Url);
+    ta(DomainDot, groups.tld, DomainDotTld);
+    ta(DomainDot, groups.utld, DomainDotTld);
+    ta(DomainDotTld, groups.domain, Domain);
+    ta(DomainDotTld, localpartAccepting, Localpart);
+    tt(DomainDotTld, DOT, DomainDot);
+    tt(DomainDotTld, HYPHEN, DomainHyphen);
+    tt(DomainDotTld, AT, LocalpartAt);
+    const DomainDotTldColon = tt(DomainDotTld, COLON);
+    const DomainDotTldColonPort = makeState(Url);
+    ta(DomainDotTldColon, groups.numeric, DomainDotTldColonPort);
+    const Url$1 = makeState(Url);
+    const UrlNonaccept = makeState();
+    ta(Url$1, qsAccepting, Url$1);
+    ta(Url$1, qsNonAccepting, UrlNonaccept);
+    ta(UrlNonaccept, qsAccepting, Url$1);
+    ta(UrlNonaccept, qsNonAccepting, UrlNonaccept);
+    tt(DomainDotTld, SLASH, Url$1);
+    tt(DomainDotTldColonPort, SLASH, Url$1);
+    const SchemeColon = tt(Scheme, COLON);
+    const SlashSchemeColon = tt(SlashScheme, COLON);
+    const SlashSchemeColonSlash = tt(SlashSchemeColon, SLASH);
+    const UriPrefix = tt(SlashSchemeColonSlash, SLASH);
+    ta(Scheme, groups.domain, Domain);
+    tt(Scheme, DOT, DomainDot);
+    tt(Scheme, HYPHEN, DomainHyphen);
+    ta(SlashScheme, groups.domain, Domain);
+    tt(SlashScheme, DOT, DomainDot);
+    tt(SlashScheme, HYPHEN, DomainHyphen);
+    ta(SchemeColon, groups.domain, Url$1);
+    tt(SchemeColon, SLASH, Url$1);
+    ta(UriPrefix, groups.domain, Url$1);
+    ta(UriPrefix, qsAccepting, Url$1);
+    tt(UriPrefix, SLASH, Url$1);
+    const bracketPairs = [
+      [OPENBRACE, CLOSEBRACE],
+      // {}
+      [OPENBRACKET, CLOSEBRACKET],
+      // []
+      [OPENPAREN, CLOSEPAREN],
+      // ()
+      [OPENANGLEBRACKET, CLOSEANGLEBRACKET],
+      // <>
+      [FULLWIDTHLEFTPAREN, FULLWIDTHRIGHTPAREN],
+      // （）
+      [LEFTCORNERBRACKET, RIGHTCORNERBRACKET],
+      // 「」
+      [LEFTWHITECORNERBRACKET, RIGHTWHITECORNERBRACKET],
+      // 『』
+      [FULLWIDTHLESSTHAN, FULLWIDTHGREATERTHAN]
+      // ＜＞
+    ];
+    for (let i = 0; i < bracketPairs.length; i++) {
+      const [OPEN, CLOSE] = bracketPairs[i];
+      const UrlOpen = tt(Url$1, OPEN);
+      tt(UrlNonaccept, OPEN, UrlOpen);
+      tt(UrlOpen, CLOSE, Url$1);
+      const UrlOpenQ = makeState(Url);
+      ta(UrlOpen, qsAccepting, UrlOpenQ);
+      const UrlOpenSyms = makeState();
+      ta(UrlOpen, qsNonAccepting);
+      ta(UrlOpenQ, qsAccepting, UrlOpenQ);
+      ta(UrlOpenQ, qsNonAccepting, UrlOpenSyms);
+      ta(UrlOpenSyms, qsAccepting, UrlOpenQ);
+      ta(UrlOpenSyms, qsNonAccepting, UrlOpenSyms);
+      tt(UrlOpenQ, CLOSE, Url$1);
+      tt(UrlOpenSyms, CLOSE, Url$1);
+    }
+    tt(Start, LOCALHOST, DomainDotTld);
+    tt(Start, NL$1, Nl);
+    return {
+      start: Start,
+      tokens: tk
+    };
+  }
+  function run2(start, input, tokens) {
+    let len = tokens.length;
+    let cursor = 0;
+    let multis = [];
+    let textTokens = [];
+    while (cursor < len) {
+      let state = start;
+      let secondState = null;
+      let nextState = null;
+      let multiLength = 0;
+      let latestAccepting = null;
+      let sinceAccepts = -1;
+      while (cursor < len && !(secondState = state.go(tokens[cursor].t))) {
+        textTokens.push(tokens[cursor++]);
+      }
+      while (cursor < len && (nextState = secondState || state.go(tokens[cursor].t))) {
+        secondState = null;
+        state = nextState;
+        if (state.accepts()) {
+          sinceAccepts = 0;
+          latestAccepting = state;
+        } else if (sinceAccepts >= 0) {
+          sinceAccepts++;
+        }
+        cursor++;
+        multiLength++;
+      }
+      if (sinceAccepts < 0) {
+        cursor -= multiLength;
+        if (cursor < len) {
+          textTokens.push(tokens[cursor]);
+          cursor++;
+        }
+      } else {
+        if (textTokens.length > 0) {
+          multis.push(initMultiToken(Text2, input, textTokens));
+          textTokens = [];
+        }
+        cursor -= sinceAccepts;
+        multiLength -= sinceAccepts;
+        const Multi = latestAccepting.t;
+        const subtokens = tokens.slice(cursor - multiLength, cursor);
+        multis.push(initMultiToken(Multi, input, subtokens));
+      }
+    }
+    if (textTokens.length > 0) {
+      multis.push(initMultiToken(Text2, input, textTokens));
+    }
+    return multis;
+  }
+  function initMultiToken(Multi, input, tokens) {
+    const startIdx = tokens[0].s;
+    const endIdx = tokens[tokens.length - 1].e;
+    const value = input.slice(startIdx, endIdx);
+    return new Multi(value, tokens);
+  }
+  var warn2 = typeof console !== "undefined" && console && console.warn || (() => {
+  });
+  var warnAdvice = "until manual call of linkify.init(). Register all schemes and plugins before invoking linkify the first time.";
+  var INIT = {
+    scanner: null,
+    parser: null,
+    tokenQueue: [],
+    pluginQueue: [],
+    customSchemes: [],
+    initialized: false
+  };
+  function reset() {
+    State.groups = {};
+    INIT.scanner = null;
+    INIT.parser = null;
+    INIT.tokenQueue = [];
+    INIT.pluginQueue = [];
+    INIT.customSchemes = [];
+    INIT.initialized = false;
+  }
+  function registerCustomProtocol(scheme2, optionalSlashSlash) {
+    if (optionalSlashSlash === void 0) {
+      optionalSlashSlash = false;
+    }
+    if (INIT.initialized) {
+      warn2('linkifyjs: already initialized - will not register custom scheme "'.concat(scheme2, '" ').concat(warnAdvice));
+    }
+    if (!/^[0-9a-z]+(-[0-9a-z]+)*$/.test(scheme2)) {
+      throw new Error('linkifyjs: incorrect scheme format.\n1. Must only contain digits, lowercase ASCII letters or "-"\n2. Cannot start or end with "-"\n3. "-" cannot repeat');
+    }
+    INIT.customSchemes.push([scheme2, optionalSlashSlash]);
+  }
+  function init() {
+    INIT.scanner = init$2(INIT.customSchemes);
+    for (let i = 0; i < INIT.tokenQueue.length; i++) {
+      INIT.tokenQueue[i][1]({
+        scanner: INIT.scanner
+      });
+    }
+    INIT.parser = init$1(INIT.scanner.tokens);
+    for (let i = 0; i < INIT.pluginQueue.length; i++) {
+      INIT.pluginQueue[i][1]({
+        scanner: INIT.scanner,
+        parser: INIT.parser
+      });
+    }
+    INIT.initialized = true;
+  }
+  function tokenize(str) {
+    if (!INIT.initialized) {
+      init();
+    }
+    return run2(INIT.parser.start, str, run$12(INIT.scanner.start, str));
+  }
+  function find(str, type, opts) {
+    if (type === void 0) {
+      type = null;
+    }
+    if (opts === void 0) {
+      opts = null;
+    }
+    if (type && typeof type === "object") {
+      if (opts) {
+        throw Error("linkifyjs: Invalid link type ".concat(type, "; must be a string"));
+      }
+      opts = type;
+      type = null;
+    }
+    const options = new Options(opts);
+    const tokens = tokenize(str);
+    const filtered = [];
+    for (let i = 0; i < tokens.length; i++) {
+      const token = tokens[i];
+      if (token.isLink && (!type || token.t === type) && options.check(token)) {
+        filtered.push(token.toFormattedObject(options));
+      }
+    }
+    return filtered;
+  }
+
+  // node_modules/@tiptap/extension-link/dist/index.js
+  function autolink(options) {
+    return new Plugin({
+      key: new PluginKey("autolink"),
+      appendTransaction: (transactions, oldState, newState) => {
+        const docChanges = transactions.some((transaction) => transaction.docChanged) && !oldState.doc.eq(newState.doc);
+        const preventAutolink = transactions.some((transaction) => transaction.getMeta("preventAutolink"));
+        if (!docChanges || preventAutolink) {
+          return;
+        }
+        const { tr: tr2 } = newState;
+        const transform = combineTransactionSteps(oldState.doc, [...transactions]);
+        const changes = getChangedRanges(transform);
+        changes.forEach(({ newRange }) => {
+          const nodesInChangedRanges = findChildrenInRange(newState.doc, newRange, (node) => node.isTextblock);
+          let textBlock;
+          let textBeforeWhitespace;
+          if (nodesInChangedRanges.length > 1) {
+            textBlock = nodesInChangedRanges[0];
+            textBeforeWhitespace = newState.doc.textBetween(textBlock.pos, textBlock.pos + textBlock.node.nodeSize, void 0, " ");
+          } else if (nodesInChangedRanges.length && newState.doc.textBetween(newRange.from, newRange.to, " ", " ").endsWith(" ")) {
+            textBlock = nodesInChangedRanges[0];
+            textBeforeWhitespace = newState.doc.textBetween(textBlock.pos, newRange.to, void 0, " ");
+          }
+          if (textBlock && textBeforeWhitespace) {
+            const wordsBeforeWhitespace = textBeforeWhitespace.split(" ").filter((s) => s !== "");
+            if (wordsBeforeWhitespace.length <= 0) {
+              return false;
+            }
+            const lastWordBeforeSpace = wordsBeforeWhitespace[wordsBeforeWhitespace.length - 1];
+            const lastWordAndBlockOffset = textBlock.pos + textBeforeWhitespace.lastIndexOf(lastWordBeforeSpace);
+            if (!lastWordBeforeSpace) {
+              return false;
+            }
+            find(lastWordBeforeSpace).filter((link) => link.isLink).map((link) => __spreadProps(__spreadValues({}, link), {
+              from: lastWordAndBlockOffset + link.start + 1,
+              to: lastWordAndBlockOffset + link.end + 1
+            })).filter((link) => {
+              if (!newState.schema.marks.code) {
+                return true;
+              }
+              return !newState.doc.rangeHasMark(link.from, link.to, newState.schema.marks.code);
+            }).filter((link) => {
+              if (options.validate) {
+                return options.validate(link.value);
+              }
+              return true;
+            }).forEach((link) => {
+              if (getMarksBetween(link.from, link.to, newState.doc).some((item) => item.mark.type === options.type)) {
+                return;
+              }
+              tr2.addMark(link.from, link.to, options.type.create({
+                href: link.href
+              }));
+            });
+          }
+        });
+        if (!tr2.steps.length) {
+          return;
+        }
+        return tr2;
+      }
+    });
+  }
+  function clickHandler(options) {
+    return new Plugin({
+      key: new PluginKey("handleClickLink"),
+      props: {
+        handleClick: (view, pos, event) => {
+          var _a, _b;
+          if (event.button !== 0) {
+            return false;
+          }
+          let a = event.target;
+          const els = [];
+          while (a.nodeName !== "DIV") {
+            els.push(a);
+            a = a.parentNode;
+          }
+          if (!els.find((value) => value.nodeName === "A")) {
+            return false;
+          }
+          const attrs = getAttributes(view.state, options.type.name);
+          const link = event.target;
+          const href = (_a = link === null || link === void 0 ? void 0 : link.href) !== null && _a !== void 0 ? _a : attrs.href;
+          const target = (_b = link === null || link === void 0 ? void 0 : link.target) !== null && _b !== void 0 ? _b : attrs.target;
+          if (link && href) {
+            window.open(href, target);
+            return true;
+          }
+          return false;
+        }
+      }
+    });
+  }
+  function pasteHandler(options) {
+    return new Plugin({
+      key: new PluginKey("handlePasteLink"),
+      props: {
+        handlePaste: (view, event, slice2) => {
+          const { state } = view;
+          const { selection } = state;
+          const { empty: empty2 } = selection;
+          if (empty2) {
+            return false;
+          }
+          let textContent = "";
+          slice2.content.forEach((node) => {
+            textContent += node.textContent;
+          });
+          const link = find(textContent).find((item) => item.isLink && item.value === textContent);
+          if (!textContent || !link) {
+            return false;
+          }
+          options.editor.commands.setMark(options.type, {
+            href: link.href
+          });
+          return true;
+        }
+      }
+    });
+  }
+  var Link = Mark2.create({
+    name: "link",
+    priority: 1e3,
+    keepOnSplit: false,
+    onCreate() {
+      this.options.protocols.forEach((protocol) => {
+        if (typeof protocol === "string") {
+          registerCustomProtocol(protocol);
+          return;
+        }
+        registerCustomProtocol(protocol.scheme, protocol.optionalSlashes);
+      });
+    },
+    onDestroy() {
+      reset();
+    },
+    inclusive() {
+      return this.options.autolink;
+    },
+    addOptions() {
+      return {
+        openOnClick: true,
+        linkOnPaste: true,
+        autolink: true,
+        protocols: [],
+        HTMLAttributes: {
+          target: "_blank",
+          rel: "noopener noreferrer nofollow",
+          class: null
+        },
+        validate: void 0
+      };
+    },
+    addAttributes() {
+      return {
+        href: {
+          default: null
+        },
+        target: {
+          default: this.options.HTMLAttributes.target
+        },
+        rel: {
+          default: this.options.HTMLAttributes.rel
+        },
+        class: {
+          default: this.options.HTMLAttributes.class
+        }
+      };
+    },
+    parseHTML() {
+      return [{ tag: 'a[href]:not([href *= "javascript:" i])' }];
+    },
+    renderHTML({ HTMLAttributes }) {
+      var _a;
+      if ((_a = HTMLAttributes.href) === null || _a === void 0 ? void 0 : _a.startsWith("javascript:")) {
+        return ["a", mergeAttributes(this.options.HTMLAttributes, __spreadProps(__spreadValues({}, HTMLAttributes), { href: "" })), 0];
+      }
+      return ["a", mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0];
+    },
+    addCommands() {
+      return {
+        setLink: (attributes) => ({ chain }) => {
+          return chain().setMark(this.name, attributes).setMeta("preventAutolink", true).run();
+        },
+        toggleLink: (attributes) => ({ chain }) => {
+          return chain().toggleMark(this.name, attributes, { extendEmptyMarkRange: true }).setMeta("preventAutolink", true).run();
+        },
+        unsetLink: () => ({ chain }) => {
+          return chain().unsetMark(this.name, { extendEmptyMarkRange: true }).setMeta("preventAutolink", true).run();
+        }
+      };
+    },
+    addPasteRules() {
+      return [
+        markPasteRule({
+          find: (text, event) => {
+            var _a;
+            const html = (_a = event === null || event === void 0 ? void 0 : event.clipboardData) === null || _a === void 0 ? void 0 : _a.getData("text/html");
+            const foundLinks = [];
+            if (html) {
+              const dom = new DOMParser().parseFromString(html, "text/html");
+              const anchors = dom.querySelectorAll("a");
+              if (anchors.length) {
+                [...anchors].forEach((anchor) => foundLinks.push({
+                  text: anchor.innerText,
+                  data: {
+                    href: anchor.getAttribute("href")
+                  },
+                  // get the index of the anchor inside the text
+                  // and add the length of the anchor text
+                  index: dom.body.innerText.indexOf(anchor.innerText) + anchor.innerText.length
+                }));
+              }
+            }
+            if (text) {
+              const links = find(text).filter((item) => item.isLink);
+              if (links.length) {
+                links.forEach((link) => foundLinks.push({
+                  text: link.value,
+                  data: {
+                    href: link.href
+                  },
+                  index: link.start
+                }));
+              }
+            }
+            return foundLinks;
+          },
+          type: this.type,
+          getAttributes: (match) => {
+            var _a;
+            return {
+              href: (_a = match.data) === null || _a === void 0 ? void 0 : _a.href
+            };
+          }
+        })
+      ];
+    },
+    addProseMirrorPlugins() {
+      const plugins = [];
+      if (this.options.autolink) {
+        plugins.push(autolink({
+          type: this.type,
+          validate: this.options.validate
+        }));
+      }
+      if (this.options.openOnClick) {
+        plugins.push(clickHandler({
+          type: this.type
+        }));
+      }
+      if (this.options.linkOnPaste) {
+        plugins.push(pasteHandler({
+          editor: this.editor,
+          type: this.type
+        }));
+      }
+      return plugins;
+    }
+  });
+
   // src/editor.js
   var content2 = (init_content_placeholder(), __toCommonJS(content_placeholder_exports)).content;
   var lowlight2 = (init_lowlight2(), __toCommonJS(lowlight_exports)).lowlight;
@@ -33917,13 +35393,18 @@
       Image.configure({
         inline: true,
         HTMLAttributes: {
-          class: "max-w-96 mx-auto"
+          class: "max-h-96 mx-auto"
         }
+      }),
+      Link.configure({
+        openOnClick: true,
+        autolink: true,
+        linkOnPaste: true
       })
     ],
     editorProps: {
       attributes: {
-        class: "prose prose-slate lg:prose-xl md:prose-lg dark:prose-invert prose-h2:bg-clip-text prose-h2:text-transparent prose-h2:bg-gradient-to-r prose-h2:from-pink-600 prose-h2:via-purple-600 prose-h2:to-indigo-600 prose-h3:bg-clip-text  prose-h3:text-transparent  prose-h3:bg-gradient-to-r  prose-h3:from-teal-600  prose-h3:via-sky-600  prose-h3:to-indigo-600 prose-pre:bg-slate-900 prose-pre:w-full prose-pre:text-white"
+        class: "prose prose-slate lg:prose-xl md:prose-lg dark:prose-invert prose-pre:bg-slate-900 prose-pre:w-full prose-pre:text-white focus:outline-none prose-h2:text-primary prose-h3:text-secondary prose-h4:text-accent prose-em:text-secondary prose-strong:text-primary prose-strong:font-extrabold prose-a:font-extrabold prose-a:text-accent"
       }
     },
     content: content2

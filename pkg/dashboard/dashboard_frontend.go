@@ -10,8 +10,9 @@ import (
 	"github.com/muhwyndhamhp/marknotes/config"
 	"github.com/muhwyndhamhp/marknotes/pkg/models"
 	"github.com/muhwyndhamhp/marknotes/pkg/post/values"
+	pub_editor "github.com/muhwyndhamhp/marknotes/pub/components/editor"
 	pub_dashboards_articles "github.com/muhwyndhamhp/marknotes/pub/pages/dashboards/articles"
-	pub_dashboard_editor "github.com/muhwyndhamhp/marknotes/pub/pages/dashboards/editor"
+	pub_dashboards_articles_create "github.com/muhwyndhamhp/marknotes/pub/pages/dashboards/articles/create"
 	pub_dashboards_profile "github.com/muhwyndhamhp/marknotes/pub/pages/dashboards/profile"
 	pub_variables "github.com/muhwyndhamhp/marknotes/pub/variables"
 	"github.com/muhwyndhamhp/marknotes/template"
@@ -35,17 +36,29 @@ func NewDashboardFrontend(
 	fe := &DashboardFrontend{PostRepo}
 
 	g.GET("/dashboard/articles", fe.Articles, authMid)
+	g.GET("/dashboard/articles/create", fe.ArticlesCreate, authMid)
 	g.GET("/dashboard/profile", fe.Profile, authMid)
 	g.GET("/dashboard/editor", fe.Editor, authMid)
 }
 
-func (fe *DashboardFrontend) Editor(c echo.Context) error {
-	opts := pub_variables.DashboardOpts{Nav: nav(1)}
+func (fe *DashboardFrontend) ArticlesCreate(c echo.Context) error {
+	opts := pub_variables.DashboardOpts{
+		Nav: nav(2),
+	}
 
 	baseURL := strings.Split(config.Get(config.OAUTH_URL), "/callback")[0]
 	uploadURL := fmt.Sprintf("%s/posts/%d/media/upload", baseURL, 0)
 
-	dashboard := pub_dashboard_editor.Editor(opts, uploadURL)
+	articleCreate := pub_dashboards_articles_create.Create(opts, uploadURL)
+
+	return template.AssertRender(c, http.StatusOK, articleCreate)
+}
+
+func (fe *DashboardFrontend) Editor(c echo.Context) error {
+	baseURL := strings.Split(config.Get(config.OAUTH_URL), "/callback")[0]
+	uploadURL := fmt.Sprintf("%s/posts/%d/media/upload", baseURL, 0)
+
+	dashboard := pub_editor.Editor(uploadURL)
 
 	return template.AssertRender(c, http.StatusOK, dashboard)
 }
@@ -129,10 +142,11 @@ func (fe *DashboardFrontend) Articles(c echo.Context) error {
 	pageSizes := fe.SizeDropdown(page, pageSize)
 	pages := fe.PageDropdown(tern.Int(page, 1), tern.Int(pageSize, 10), count)
 	articleVM := pub_dashboards_articles.ArticlesVM{
-		Opts:      opts,
-		Posts:     posts,
-		PageSizes: pageSizes,
-		Pages:     pages,
+		Opts:       opts,
+		Posts:      posts,
+		PageSizes:  pageSizes,
+		Pages:      pages,
+		CreatePath: "/dashboard/articles/create",
 	}
 
 	dashboard := pub_dashboards_articles.Articles(articleVM)
@@ -148,19 +162,22 @@ func (fe *DashboardFrontend) Articles(c echo.Context) error {
 func nav(indexSelected int) []pub_variables.DrawerMenu {
 	lists := []pub_variables.DrawerMenu{
 		{
-			Label:    "Articles",
-			URL:      "/dashboard/articles",
-			IsActive: false,
+			Label:     "Articles",
+			URL:       "/dashboard/articles",
+			IsActive:  false,
+			IsBoosted: true,
 		},
 		{
-			Label:    "Profile",
-			URL:      "/dashboard/profile",
-			IsActive: false,
+			Label:     "Profile",
+			URL:       "/dashboard/profile",
+			IsActive:  false,
+			IsBoosted: true,
 		},
 		{
-			Label:    "Create Post",
-			URL:      "/dashboard/editor",
-			IsActive: false,
+			Label:     "Create Post",
+			URL:       "/dashboard/editor",
+			IsActive:  false,
+			IsBoosted: false,
 		},
 	}
 

@@ -1,0 +1,22 @@
+package pub_dashboards_articles_create
+
+import "github.com/muhwyndhamhp/marknotes/pub/variables"
+import "github.com/muhwyndhamhp/marknotes/pub/pages/dashboards"
+
+templ Create(opts pub_variables.DashboardOpts, uploadURL string) {
+	@pub_dashboard.Dashboard(pub_variables.DashboardOpts{
+		Nav:               opts.Nav,
+		AdditionalHeaders: opts.AdditionalHeaders,
+		Comp:              create(uploadURL),
+	})
+}
+
+templ create(uploadURL string) {
+	<div class="w-full h-full">
+		<div class="flex flex-col justify-center items-center">
+			<div hx-get="/dashboard/editor" hx-trigger="load" hx-swap="outerHTML"></div>
+		</div>
+		<br/>
+		<div class="h-20"></div>
+	</div>
+}
