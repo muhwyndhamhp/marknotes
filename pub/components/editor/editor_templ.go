@@ -25,7 +25,7 @@ func Editor(uploadURL string) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<script src=\"/dist/editor.js\"></script><div class=\"card w-full md:max-w-3xl lg:max-w-4xl min-h-96 bg-neutral-50 p-6 mt-5\"><div _=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<script src=\"/dist/editor.js\"></script><div _=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -37,7 +37,7 @@ func Editor(uploadURL string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" id=\"code-editor\" class=\"tiptap focus:outline-none\"></div></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" id=\"code-editor\" class=\"tiptap card w-full md:max-w-3xl lg:max-w-4xl min-h-96 bg-neutral-50 p-6 shadow-2xl shadow-accent/20\"></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

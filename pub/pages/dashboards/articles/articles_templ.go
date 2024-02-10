@@ -99,7 +99,7 @@ func articles(posts []models.Post, pageSizes, pages pub_variables.DropdownVM, cr
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"w-full h-full\" id=\"articles\"><div class=\"mx-10 mt-5\"><div class=\"w-full flex mt-5 flex-row justify-end\"><h1 class=\"grow text-4xl text-secondary font-bold my-auto\">List of Articles</h1>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"w-full h-full\" id=\"articles\"><div class=\"mx-10\"><div class=\"w-full flex flex-row justify-end\"><h1 class=\"grow text-4xl text-secondary font-bold my-auto\">List of Articles</h1>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -280,7 +280,7 @@ func pageSize(vm pub_variables.DropdownVM, attrs templ.Attributes) templ.Compone
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><ul tabindex=\"0\" class=\"dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><ul tabindex=\"0\" class=\"dropdown-content z-[1] menu p-2 shadow bg-neutral-50 rounded-box w-52\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

@@ -14,7 +14,7 @@
 
 
 pre {
-    @apply rounded-md;
+    @apply rounded-box;
     @apply p-4;
     @apply font-mono;
 

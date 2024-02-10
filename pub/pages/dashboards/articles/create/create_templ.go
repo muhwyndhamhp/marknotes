@@ -54,7 +54,7 @@ func create(uploadURL string) templ.Component {
 			templ_7745c5c3_Var2 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"w-full h-full\"><div class=\"flex flex-col justify-center items-center\"><div hx-get=\"/dashboard/editor\" hx-trigger=\"load\" hx-swap=\"outerHTML\"></div></div><br><div class=\"h-20\"></div></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"w-full h-full\"><br><div class=\"flex flex-col justify-center items-center\"><input placeholder=\"Blog title goes here...\" class=\"text-4xl font-semibold text-accent card md:max-w-3xl lg:max-w-4xl bg-neutral-50 text-center\n                border-transparent w-full p-3 mt-0 focus:outline-none shadow-2xl shadow-accent/20\" type=\"text\" name=\"title\"><br><div hx-get=\"/dashboard/editor\" hx-trigger=\"load\" hx-swap=\"outerHTML\"></div></div><br><div class=\"h-20\"></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
