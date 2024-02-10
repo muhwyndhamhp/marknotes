@@ -4,6 +4,7 @@ vendor
 tmp
 postgres
 node_modules
+dist
 .pnpm-store
 .idea
 
