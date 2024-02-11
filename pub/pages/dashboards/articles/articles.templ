@@ -87,7 +87,7 @@ templ pageSize(vm pub_variables.DropdownVM, attrs templ.Attributes) {
 	>
 		<div class="dropdown dropdown-hover my-auto">
 			<div tabindex="0" role="button" class="btn btn-ghost m-1">{ vm.Items[vm.Selected].Label }</div>
-			<ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-neutral-50 rounded-box w-52">
+			<ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-neutral-50 dark:bg-neutral-900 rounded-box w-52">
 				for i := range vm.Items {
 					<li
 						_={ fmt.Sprintf("on click put %s into previous <div/>", vm.Items[i].Label) }
@@ -107,7 +107,7 @@ templ articleTable(posts []models.Post, attrs templ.Attributes) {
 	<div
 		id="article-table"
 		{ attrs... }
-		class="card overflow-x-auto bg-neutral-50"
+		class="card overflow-x-auto bg-neutral-50 dark:bg-neutral-900"
 	>
 		<table class="table">
 			<!-- head -->

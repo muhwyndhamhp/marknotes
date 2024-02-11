@@ -41,7 +41,7 @@ func Create(opts pub_variables.DashboardOpts, uploadURL string) templ.Component 
 	})
 }
 
-func create(uploadURL string) templ.Component {
+func submitButton() templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -54,7 +54,39 @@ func create(uploadURL string) templ.Component {
 			templ_7745c5c3_Var2 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"w-full h-full\"><br><div class=\"flex flex-col justify-center items-center\"><input placeholder=\"Blog title goes here...\" class=\"text-4xl font-semibold text-accent card md:max-w-3xl lg:max-w-4xl bg-neutral-50 text-center\n                border-transparent w-full p-3 mt-0 focus:outline-none shadow-2xl shadow-accent/20\" type=\"text\" name=\"title\"><br><div hx-get=\"/dashboard/editor\" hx-trigger=\"load\" hx-swap=\"outerHTML\"></div></div><br><div class=\"h-20\"></div></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button class=\"btn btn-accent btn-wide\" type=\"submit\" _=\"on click window.editor.getHTML() then set #content.value to it then call htmx.trigger(&#39;#article-submit&#39;, &#39;click&#39;)\">Submit</button> <button id=\"article-submit\" class=\"hidden\" hx-post=\"/posts/create\" hx-include=\"#form-post\"></button>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		if !templ_7745c5c3_IsBuffer {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteTo(templ_7745c5c3_W)
+		}
+		return templ_7745c5c3_Err
+	})
+}
+
+func create(uploadURL string) templ.Component {
+	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
+		if !templ_7745c5c3_IsBuffer {
+			templ_7745c5c3_Buffer = templ.GetBuffer()
+			defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
+		}
+		ctx = templ.InitializeContext(ctx)
+		templ_7745c5c3_Var3 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var3 == nil {
+			templ_7745c5c3_Var3 = templ.NopComponent
+		}
+		ctx = templ.ClearChildren(ctx)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"w-full h-full\"><br><div class=\"flex flex-col justify-center items-center\"><form id=\"form-post\" class=\"md:max-w-3xl lg:max-w-4xl \"><input placeholder=\"Blog title goes here...\" class=\"text-4xl font-semibold text-accent card bg-neutral-50 dark:bg-neutral-900 text-center border-transparent w-full p-3 mt-0 focus:outline-none shadow-2xl shadow-accent/20\" type=\"text\" name=\"title\"> <input class=\"hidden\" name=\"content\" type=\"text\" id=\"content\"><br><div hx-get=\"/dashboard/editor\" hx-trigger=\"load\" hx-swap=\"outerHTML\"></div>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = submitButton().Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</form></div><br><div class=\"h-20\"></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

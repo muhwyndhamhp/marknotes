@@ -10,7 +10,7 @@ import Link from '@tiptap/extension-link'
 const content = require('./unexported/content_placeholder.js').content;
 const lowlight = require('./unexported/lowlight.js').lowlight;
 
-const editor = new Editor({
+export const editor = new Editor({
    element: document.querySelector('#code-editor'),
    extensions: [
       Color.configure({ types: [TextStyle.name, ListItem.name] }),
@@ -45,6 +45,8 @@ const editor = new Editor({
    },
    content: content,
 })
+
+window.editor = editor
 
 
 window.allowDrop = function (ev) {

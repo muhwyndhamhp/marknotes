@@ -280,7 +280,7 @@ func pageSize(vm pub_variables.DropdownVM, attrs templ.Attributes) templ.Compone
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><ul tabindex=\"0\" class=\"dropdown-content z-[1] menu p-2 shadow bg-neutral-50 rounded-box w-52\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><ul tabindex=\"0\" class=\"dropdown-content z-[1] menu p-2 shadow bg-neutral-50 dark:bg-neutral-900 rounded-box w-52\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -351,7 +351,7 @@ func articleTable(posts []models.Post, attrs templ.Attributes) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" class=\"card overflow-x-auto bg-neutral-50\"><table class=\"table\"><!-- head --><thead><tr class=\"h-16\"><th></th><th>ID</th><th>Title</th><th>Created At</th><th>Status</th><th></th></tr></thead> <tbody>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" class=\"card overflow-x-auto bg-neutral-50 dark:bg-neutral-900\"><table class=\"table\"><!-- head --><thead><tr class=\"h-16\"><th></th><th>ID</th><th>Title</th><th>Created At</th><th>Status</th><th></th></tr></thead> <tbody>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

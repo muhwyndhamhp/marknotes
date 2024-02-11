@@ -42,8 +42,8 @@ module.exports = {
             }
 
          },
-   "dark",
-],
-   darkTheme: "dark",
-},
+         "dark",
+      ],
+      darkTheme: "dark",
+   },
 }

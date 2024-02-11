@@ -6,6 +6,7 @@ type DashboardOpts struct {
 	Nav               []DrawerMenu
 	Comp              templ.Component
 	AdditionalHeaders []string
+	NavItems          []templ.Component
 }
 
 type DrawerMenu struct {
