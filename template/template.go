@@ -2,6 +2,7 @@ package template
 
 import (
 	"errors"
+	"fmt"
 	"io"
 
 	"github.com/a-h/templ"
@@ -16,7 +17,14 @@ func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Con
 		return errors.New("failed to parse data as templ.Component, do you pass the correct params?")
 	}
 
-	return component.Render(c.Request().Context(), w)
+	writer := newWriterFromWriter(w)
+	res := component.Render(c.Request().Context(), writer)
+	if name == "templ-log" {
+		fmt.Println(string(bytes))
+	}
+
+	bytes = []byte("")
+	return res
 }
 
 func NewTemplateRenderer(e *echo.Echo) {
@@ -30,4 +38,24 @@ func newTemplate() echo.Renderer {
 
 func AssertRender(c echo.Context, statusCode int, component templ.Component) error {
 	return c.Render(statusCode, "templ", component)
+}
+
+func AssertRenderLog(c echo.Context, statusCode int, component templ.Component) error {
+	return c.Render(statusCode, "templ-log", component)
+}
+
+type writer struct {
+	existing io.Writer
+}
+
+var bytes = []byte("")
+
+// Write implements io.Writer.
+func (w writer) Write(p []byte) (n int, err error) {
+	bytes = append(bytes, p...)
+	return w.existing.Write(p)
+}
+
+func newWriterFromWriter(w io.Writer) io.Writer {
+	return writer{w}
 }

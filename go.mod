@@ -1,6 +1,8 @@
 module github.com/muhwyndhamhp/marknotes
 
-go 1.20
+go 1.21
+
+toolchain go1.21.0
 
 require (
 	github.com/13rac1/goldmark-embed v0.0.0-20201220231550-e6806f2de66a
@@ -21,6 +23,11 @@ require (
 )
 
 require (
+	github.com/aymerick/douceur v0.2.0 // indirect
+	github.com/gorilla/css v1.0.0 // indirect
+)
+
+require (
 	github.com/dlclark/regexp2 v1.7.0 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.2 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
@@ -36,6 +43,7 @@ require (
 	github.com/leodido/go-urn v1.2.4 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
+	github.com/microcosm-cc/bluemonday v1.0.26
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v1.2.2 // indirect

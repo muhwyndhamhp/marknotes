@@ -1,0 +1,52 @@
+package pub_dashboards_articles_new
+
+import "github.com/muhwyndhamhp/marknotes/pub/variables"
+import "github.com/muhwyndhamhp/marknotes/pub/pages/dashboards"
+
+type NewVM struct {
+	Opts      pub_variables.DashboardOpts
+	UploadURL string
+}
+
+templ New(vm NewVM) {
+	@pub_dashboard.Dashboard(pub_variables.DashboardOpts{
+		Nav:               vm.Opts.Nav,
+		AdditionalHeaders: vm.Opts.AdditionalHeaders,
+		Comp:              new(vm.UploadURL),
+	})
+}
+
+templ submitButton() {
+	<button
+		class="btn btn-primary btn-lg w-full mt-6"
+		hx-post="/dashboard/articles/create"
+		hx-target="#form-post"
+	>
+		Submit
+	</button>
+}
+
+templ new(uploadURL string) {
+	<div class="w-full h-full">
+		<br/>
+		<div class="flex flex-col justify-center items-center">
+			<form id="form-post" class="w-full md:max-w-3xl lg:max-w-4xl ">
+				<input
+					placeholder="Blog title goes here..."
+					class="text-4xl font-semibold placeholder:text-2xl placeholder:font-normal text-accent card
+                    bg-neutral-50 dark:bg-neutral-900 text-center border-transparent w-full p-3 mt-0 focus:outline-none
+                    shadow-2xl shadow-accent/20"
+					type="text"
+					name="title"
+				/>
+				<br/>
+				<input class="hidden" name="content" type="text" id="content"/>
+				<br/>
+				<div hx-get="/dashboard/editor" hx-trigger="load" hx-swap="outerHTML"></div>
+				@submitButton()
+			</form>
+		</div>
+		<br/>
+		<div class="h-20"></div>
+	</div>
+}

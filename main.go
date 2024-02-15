@@ -50,7 +50,7 @@ func main() {
 
 	admin.NewAdminFrontend(adminGroup, postRepo, authDescMid)
 	post.NewPostFrontend(adminGroup, postRepo, htmxMid, authMid, authDescMid, byIDMid)
-	dashboard.NewDashboardFrontend(adminGroup, postRepo, htmxMid, authMid, authDescMid, byIDMid)
+	dashboard.NewDashboardFrontend(adminGroup, postRepo, tagRepo, htmxMid, authMid, authDescMid, byIDMid)
 	tag.NewTagFrontend(adminGroup, tagRepo, authMid)
 	auth.NewAuthService(adminGroup, service, config.Get(config.OAUTH_AUTHORIZE_URL),
 		config.Get(config.OAUTH_ACCESSTOKEN_URL),

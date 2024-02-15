@@ -23,6 +23,12 @@ func RenderRaw(content string) templ.Component {
 	return templ.Raw[string](content)
 }
 
+templ ExampleRaw(content string) {
+	<div>
+		@RenderRaw(content)
+	</div>
+}
+
 templ drawer(items []pub_variables.DrawerMenu, comp templ.Component, navItems ...templ.Component) {
 	<div class="drawer lg:drawer-open">
 		<input id="my-drawer" type="checkbox" class="drawer-toggle"/>

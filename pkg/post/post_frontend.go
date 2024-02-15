@@ -1,7 +1,6 @@
 package post
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
 	"html/template"
@@ -458,18 +457,9 @@ func (fe *PostFrontend) PostCreate(c echo.Context) error {
 	ctx := c.Request().Context()
 
 	var req dto.PostCreateRequest
-	mapreq := map[string]interface{}{}
-
 	if err := c.Bind(&req); err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
-
-	if err := c.Bind(&mapreq); err != nil {
-		return c.JSON(http.StatusBadRequest, err.Error())
-	}
-
-	js, _ := json.Marshal(mapreq)
-	fmt.Println(string(js))
 
 	if err := c.Validate(req); err != nil {
 		return err

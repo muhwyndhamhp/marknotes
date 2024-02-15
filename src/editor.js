@@ -6,8 +6,10 @@ import TextStyle from '@tiptap/extension-text-style'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import Image from '@tiptap/extension-image'
 import Link from '@tiptap/extension-link'
+import Placeholder from '@tiptap/extension-placeholder'
+import Mention from '@tiptap/extension-mention'
+import tippy from 'tippy.js'
 
-const content = require('./unexported/content_placeholder.js').content;
 const lowlight = require('./unexported/lowlight.js').lowlight;
 
 export const editor = new Editor({
@@ -37,14 +39,82 @@ export const editor = new Editor({
         autolink: true,
         linkOnPaste: true,
       }),
+      Placeholder.configure({
+         considerAnyAsEmpty: true,
+         placeholder: 'Write your thought here...',
+      }),
+      Mention.configure({
+         suggestion: {
+            char: "#",
+            render: () => {
+               let popup
+
+               return {
+                  onStart: (props) => {
+                     popup = tippy(document.body, {
+                        getReferenceClientRect: props.clientRect,
+                        appendTo: () => document.body,
+                        content: `
+                         <div class="dropdown dropdown-open">
+                           <ul class="p-4 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-64">
+                              <li class="text-lg text-base-content">
+                                 Start Write to Search...
+                              </li>
+                           </ul>
+                        </div>
+                        `,
+                        allowHTML: true,
+                        showOnCreate: true,
+                        trigger: 'manual',
+                        placement: 'bottom-start',
+                     })
+                  },
+                  onUpdate: () => {
+                     content = editor.state
+                        .selection
+                        .$head
+                        .parent
+                        .textContent
+                        .replace("#", "")
+
+                     debounceUpdate(content, popup);
+                  },
+                  onExit() {
+                     popup.destroy()
+                  }
+               }
+            }
+         }
+      }),
    ],
    editorProps: {
       attributes: {
-         class: 'mx-auto prose prose-slate lg:prose-xl md:prose-lg dark:prose-invert prose-pre:bg-slate-900 prose-pre:w-full prose-pre:text-white focus:outline-none prose-h2:text-primary prose-h3:text-secondary prose-h4:text-accent prose-em:text-secondary prose-strong:text-primary prose-strong:font-extrabold prose-a:font-extrabold prose-a:text-accent',
+         class: 'caret-rose-800 w-full mx-auto prose prose-slate lg:prose-xl md:prose-lg dark:prose-invert prose-pre:bg-slate-900 prose-pre:w-full prose-pre:text-white focus:outline-none prose-h2:text-primary prose-h3:text-secondary prose-h4:text-accent prose-em:text-secondary prose-strong:text-primary prose-strong:font-extrabold prose-a:font-extrabold prose-a:text-accent',
       },
    },
-   content: content,
 })
+
+function debounce(callback, delay) {
+   let timerID;
+   return (...args) => {
+      clearTimeout(timerID);
+      timerID = setTimeout(() => {
+         callback(...args);
+      }, delay);
+   }
+}
+
+const debounceUpdate = debounce((content, popup) => {
+   fetch(`/dashboard/tags?tag=${content}`, {
+      method: 'GET',
+   }).then((response) => {
+      return response.text()
+   }).then((data) => {
+      popup.setProps({
+         content: data,
+      })
+   })
+}, 500)
 
 window.editor = editor
 
@@ -55,7 +125,6 @@ window.allowDrop = function (ev) {
 
 window.upload = function(ev, url) {
    ev.preventDefault()
-
 
    if(ev.dataTransfer.files.length === 0) {
       return
