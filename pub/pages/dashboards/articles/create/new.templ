@@ -2,31 +2,48 @@ package pub_dashboards_articles_new
 
 import "github.com/muhwyndhamhp/marknotes/pub/variables"
 import "github.com/muhwyndhamhp/marknotes/pub/pages/dashboards"
+import "github.com/muhwyndhamhp/marknotes/pkg/models"
+import "strings"
+import "fmt"
+import "github.com/muhwyndhamhp/marknotes/utils/tern"
 
 type NewVM struct {
 	Opts      pub_variables.DashboardOpts
 	UploadURL string
+	Post      *models.Post
 }
 
 templ New(vm NewVM) {
 	@pub_dashboard.Dashboard(pub_variables.DashboardOpts{
 		Nav:               vm.Opts.Nav,
 		AdditionalHeaders: vm.Opts.AdditionalHeaders,
-		Comp:              new(vm.UploadURL),
+		BreadCrumbs:       vm.Opts.BreadCrumbs,
+		Comp:              new(vm.UploadURL, vm.Post),
 	})
 }
 
-templ submitButton() {
-	<button
-		class="btn btn-primary btn-lg w-full mt-6"
-		hx-post="/dashboard/articles/create"
-		hx-target="#form-post"
-	>
-		Submit
-	</button>
+templ submitButton(existingID uint) {
+	<div class="w-full flex flex-row justify-between py-6 join join-horizontal">
+		<button
+			class="btn btn-primary btn-lg flex-grow join-item"
+			hx-post={ fmt.Sprintf("/dashboard/articles/push?status=published&existingID=%d", existingID) }
+			hx-target="#admin-root"
+			hx-vals='{"innerHTML": "#code-editor"}'
+		>
+			Publish
+		</button>
+		<button
+			class="btn btn-secondary btn-lg flex-grow join-item"
+			hx-post={ fmt.Sprintf("/dashboard/articles/push?status=draft&existingID=%d", existingID) }
+			hx-target="#admin-root"
+			hx-vals='{"innerHTML": "#code-editor"}'
+		>
+			Save Draft
+		</button>
+	</div>
 }
 
-templ new(uploadURL string) {
+templ new(uploadURL string, existingPost *models.Post) {
 	<div class="w-full h-full">
 		<br/>
 		<div class="flex flex-col justify-center items-center">
@@ -38,15 +55,52 @@ templ new(uploadURL string) {
                     shadow-2xl shadow-accent/20"
 					type="text"
 					name="title"
+					if existingPost != nil {
+						value={ existingPost.Title }
+					}
 				/>
 				<br/>
-				<input class="hidden" name="content" type="text" id="content"/>
+				<textarea
+					class="hidden"
+					name="content"
+					type="text"
+					id="content"
+					if existingPost != nil {
+						value={ string(existingPost.EncodedContent) }
+					}
+				></textarea>
+				<input
+					class="hidden"
+					name="tags"
+					type="text"
+					id="tags"
+					if existingPost != nil {
+						value={ TagsToCommaSeparated(existingPost.Tags) }
+					}
+				/>
 				<br/>
-				<div hx-get="/dashboard/editor" hx-trigger="load" hx-swap="outerHTML"></div>
-				@submitButton()
+				<div
+					_={ fmt.Sprintf(
+               "on load or htmx:swap set window.content to `%s` then trigger loadEditor",
+               tern.Struct(existingPost, &models.Post{}).EncodedContent,
+               ) }
+					class="min-h-96"
+					hx-get="/dashboard/editor"
+					hx-trigger="loadEditor"
+					hx-swap="outerHTML"
+				></div>
+				@submitButton(tern.Struct(existingPost, &models.Post{}).ID)
 			</form>
 		</div>
 		<br/>
 		<div class="h-20"></div>
 	</div>
+}
+
+func TagsToCommaSeparated(tags []*models.Tag) string {
+	var tagNames []string
+	for _, tag := range tags {
+		tagNames = append(tagNames, tag.Title)
+	}
+	return strings.Join(tagNames, ",")
 }

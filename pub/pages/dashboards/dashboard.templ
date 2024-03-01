@@ -14,13 +14,13 @@ templ Dashboard(opts pub_variables.DashboardOpts) {
 			<title>mwyndham.dev</title>
 		</head>
 		<body id="admin-root" class="bg-base-100">
-			@drawer(opts.Nav, opts.Comp, opts.NavItems...)
+			@drawer(opts.Nav, opts.BreadCrumbs, opts.Comp, opts.NavItems...)
 		</body>
 	</html>
 }
 
 func RenderRaw(content string) templ.Component {
-	return templ.Raw[string](content)
+	return templ.Raw(content)
 }
 
 templ ExampleRaw(content string) {
@@ -29,12 +29,22 @@ templ ExampleRaw(content string) {
 	</div>
 }
 
-templ drawer(items []pub_variables.DrawerMenu, comp templ.Component, navItems ...templ.Component) {
+templ drawer(items []pub_variables.DrawerMenu, breadcrumbs []pub_variables.Breadcrumb, comp templ.Component, navItems ...templ.Component) {
 	<div class="drawer lg:drawer-open">
 		<input id="my-drawer" type="checkbox" class="drawer-toggle"/>
 		<div class="drawer-content">
 			@navBar(navItems...)
 			<div class="flex flex-col items-center justify-center">
+				<div class="text-sm breadcrumbs px-10 w-full">
+					<ul>
+						for i := range breadcrumbs {
+							<li>
+								<a href={ breadcrumbs[i].URL }>{ breadcrumbs[i].Label }</a>
+							</li>
+						}
+					</ul>
+				</div>
+				<br/>
 				@comp
 			</div>
 		</div>

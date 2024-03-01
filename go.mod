@@ -7,7 +7,7 @@ toolchain go1.21.0
 require (
 	github.com/13rac1/goldmark-embed v0.0.0-20201220231550-e6806f2de66a
 	github.com/StudioSol/sitemap v0.0.0-20230104165527-bf245c07e1c2
-	github.com/a-h/templ v0.2.543
+	github.com/a-h/templ v0.2.590
 	github.com/alecthomas/chroma/v2 v2.2.0
 	github.com/apsystole/log v0.3.0
 	github.com/go-playground/validator/v10 v10.15.1
@@ -47,8 +47,8 @@ require (
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v1.2.2 // indirect
-	golang.org/x/crypto v0.14.0 // indirect
-	golang.org/x/net v0.17.0 // indirect
-	golang.org/x/sys v0.14.0 // indirect
-	golang.org/x/text v0.13.0 // indirect
+	golang.org/x/crypto v0.16.0 // indirect
+	golang.org/x/net v0.19.0 // indirect
+	golang.org/x/sys v0.15.0 // indirect
+	golang.org/x/text v0.14.0 // indirect
 )

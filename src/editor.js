@@ -7,10 +7,11 @@ import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import Image from '@tiptap/extension-image'
 import Link from '@tiptap/extension-link'
 import Placeholder from '@tiptap/extension-placeholder'
-import Mention from '@tiptap/extension-mention'
-import tippy from 'tippy.js'
 
 const lowlight = require('./unexported/lowlight.js').lowlight;
+const hashtag = require('./unexported/hashtag.js').HashTag;
+
+const editorProps = require('./unexported/editor_props.js').EditorProps;
 
 export const editor = new Editor({
    element: document.querySelector('#code-editor'),
@@ -43,78 +44,36 @@ export const editor = new Editor({
          considerAnyAsEmpty: true,
          placeholder: 'Write your thought here...',
       }),
-      Mention.configure({
-         suggestion: {
-            char: "#",
-            render: () => {
-               let popup
-
-               return {
-                  onStart: (props) => {
-                     popup = tippy(document.body, {
-                        getReferenceClientRect: props.clientRect,
-                        appendTo: () => document.body,
-                        content: `
-                         <div class="dropdown dropdown-open">
-                           <ul class="p-4 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-64">
-                              <li class="text-lg text-base-content">
-                                 Start Write to Search...
-                              </li>
-                           </ul>
-                        </div>
-                        `,
-                        allowHTML: true,
-                        showOnCreate: true,
-                        trigger: 'manual',
-                        placement: 'bottom-start',
-                     })
-                  },
-                  onUpdate: () => {
-                     content = editor.state
-                        .selection
-                        .$head
-                        .parent
-                        .textContent
-                        .replace("#", "")
-
-                     debounceUpdate(content, popup);
-                  },
-                  onExit() {
-                     popup.destroy()
-                  }
-               }
-            }
-         }
-      }),
+      hashtag,
    ],
-   editorProps: {
-      attributes: {
-         class: 'caret-rose-800 w-full mx-auto prose prose-slate lg:prose-xl md:prose-lg dark:prose-invert prose-pre:bg-slate-900 prose-pre:w-full prose-pre:text-white focus:outline-none prose-h2:text-primary prose-h3:text-secondary prose-h4:text-accent prose-em:text-secondary prose-strong:text-primary prose-strong:font-extrabold prose-a:font-extrabold prose-a:text-accent',
-      },
+   editorProps: editorProps,
+   onCreate: () => {
+      const encodedContent = document.getElementById('code-editor').children[0].innerHTML
+      document.getElementById('content').value = encodedContent
    },
+
+   onUpdate: ({ editor }) => {
+      const encodedContent = document.getElementById('code-editor').children[0].innerHTML
+      document.getElementById('content').value = encodedContent
+
+      const tags = editor.getJSON().content
+         .filter((node) => node.type === 'paragraph')
+         .filter((node) => node.content !== undefined)
+         .filter((node) => node.content.length > 0)
+         .flatMap((node) => 
+            node
+            .content
+            .filter((child) => child !== undefined)
+            .filter((child) => child.type === 'mention')
+            .map((child) => child.attrs.id)
+         )      
+
+      const uqTags = [...new Set(tags)]
+      document.getElementById('tags').value = uqTags.join(',')
+   },
+   content: window.content,
 })
 
-function debounce(callback, delay) {
-   let timerID;
-   return (...args) => {
-      clearTimeout(timerID);
-      timerID = setTimeout(() => {
-         callback(...args);
-      }, delay);
-   }
-}
-
-const debounceUpdate = debounce((content, popup) => {
-   fetch(`/dashboard/tags?tag=${content}`, {
-      method: 'GET',
-   }).then((response) => {
-      return response.text()
-   }).then((data) => {
-      popup.setProps({
-         content: data,
-      })
-   })
-}, 500)
 
 window.editor = editor
 

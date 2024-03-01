@@ -1,13 +1,14 @@
 package pub_tagsuggest
 
 import "github.com/muhwyndhamhp/marknotes/pkg/models"
+import "fmt"
 
 templ TagSuggest(tags []models.Tag) {
-	<div class="dropdown dropdown-open">
-		<ul class="p-4 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
-			for _, tag := range tags {
-				<li class="text-lg text-base-content">{ tag.Title }</li>
-			}
-		</ul>
-	</div>
+	<ul class="menu m-6 bg-base-200 rounded-box min-w-52">
+		for i, tag := range tags {
+			<li class="text-lg text-base-content">
+				<a id={ fmt.Sprintf("tag-suggest-%d", i) } class={ templ.KV("active", i == 0) }>{ tag.Title }</a>
+			</li>
+		}
+	</ul>
 }

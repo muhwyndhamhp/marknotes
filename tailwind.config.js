@@ -2,7 +2,7 @@ const defaultTheme = require('tailwindcss/defaultTheme')
 const plugin = require('tailwindcss/plugin');
 
 module.exports = {
-  content: ["./pub/**/*.templ", "./src/*.js"],
+  content: ["./pub/**/*.templ", "./src/**/*.js"],
   theme: {
     screens: {
         'xs': '320px',
@@ -26,6 +26,10 @@ module.exports = {
   ],
    daisyui: {
       themes:[
+         // "light",
+         // "cupcake",
+         // "wireframe",
+         "autumn",
          {
 
             mytheme: {
