@@ -38,7 +38,7 @@ templ PostItem(post models.Post) {
 }
 
 templ PostMetadata(post models.Post) {
-	<p class={ "text-sm text-slate-600 my-2 dark:text-slate-300", templ.KV("text-center", post.FormMeta["CenterAlign"] == true) }>
+	<p class={ "text-sm text-primary-content my-2 font-bold", templ.KV("text-center", post.FormMeta["CenterAlign"] == true) }>
 		Created: { post.CreatedAt.Format("Jan, 02 2006") } | 
 		Updated: { post.UpdatedAt.Format("Jan, 02 2006") } | 
 		Published: { post.PublishedAt.Format("Jan, 02 2006") }

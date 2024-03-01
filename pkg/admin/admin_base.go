@@ -48,17 +48,23 @@ func AppendHeaderButtons(userID uint) []pub_variables.InlineButton {
 			UserID:    userID,
 		},
 		{
-			AnchorUrl: "/posts/new",
-			Label:     "Create Post",
+			AnchorUrl: "/dashboard",
+			Label:     "Dashboard",
 			AuthRule:  pub_variables.UserMode,
 			UserID:    userID,
 		},
-		{
-			AnchorUrl: "/posts_manage",
-			Label:     "Manage Post",
-			AuthRule:  pub_variables.UserMode,
-			UserID:    userID,
-		},
+		// {
+		// 	AnchorUrl: "/posts/new",
+		// 	Label:     "Create Post",
+		// 	AuthRule:  pub_variables.UserMode,
+		// 	UserID:    userID,
+		// },
+		// {
+		// 	AnchorUrl: "/posts_manage",
+		// 	Label:     "Manage Post",
+		// 	AuthRule:  pub_variables.UserMode,
+		// 	UserID:    userID,
+		// },
 		{
 			AnchorUrl: "/logout",
 			Label:     "Logout",

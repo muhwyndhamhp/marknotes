@@ -6,7 +6,7 @@ export const HashTag = Mention.configure({
       return [
          "span",
          { 
-            class : "font-semibold text-primary suggestion",
+            class : "font-semibold text-accent suggestion",
             "data-type": "mention",
             "data-id": node.attrs.id,
          },

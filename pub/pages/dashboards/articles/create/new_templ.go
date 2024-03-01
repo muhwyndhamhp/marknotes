@@ -73,7 +73,7 @@ func submitButton(existingID uint) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-target=\"#admin-root\" hx-vals=\"{&#34;innerHTML&#34;: &#34;#code-editor&#34;}\">Publish</button> <button class=\"btn btn-secondary btn-lg flex-grow join-item\" hx-post=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-target=\"#admin-root\" hx-vals=\"js:{content_json: window.editor.getJSON()}\">Publish</button> <button class=\"btn btn-secondary btn-lg flex-grow join-item\" hx-post=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -81,7 +81,7 @@ func submitButton(existingID uint) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-target=\"#admin-root\" hx-vals=\"{&#34;innerHTML&#34;: &#34;#code-editor&#34;}\">Save Draft</button></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-target=\"#admin-root\" hx-vals=\"js:{content_json: window.editor.getJSON()}\">Save Draft</button></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -105,7 +105,7 @@ func new(uploadURL string, existingPost *models.Post) templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"w-full h-full\"><br><div class=\"flex flex-col justify-center items-center\"><form id=\"form-post\" class=\"w-full md:max-w-3xl lg:max-w-4xl \"><input placeholder=\"Blog title goes here...\" class=\"text-4xl font-semibold placeholder:text-2xl placeholder:font-normal text-accent card\n                    bg-neutral-50 dark:bg-neutral-900 text-center border-transparent w-full p-3 mt-0 focus:outline-none\n                    shadow-2xl shadow-accent/20\" type=\"text\" name=\"title\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"w-full h-full\"><br><div class=\"flex flex-col justify-center items-center\"><form id=\"form-post\" class=\"w-full md:max-w-3xl lg:max-w-4xl \"><input placeholder=\"Blog title goes here...\" class=\"text-4xl font-semibold text-accent text-center placeholder:text-2xl placeholder:font-normal card\n                    bg-neutral-50 dark:bg-neutral-900 border-transparent w-full p-3 mt-0 focus:outline-none\n                    shadow-2xl shadow-accent/20\" type=\"text\" name=\"title\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -164,8 +164,8 @@ func new(uploadURL string, existingPost *models.Post) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(fmt.Sprintf(
-			"on load or htmx:swap set window.content to `%s` then trigger loadEditor",
-			tern.Struct(existingPost, &models.Post{}).EncodedContent,
+			"on load or htmx:swap set window.content to %s then trigger loadEditor",
+			tern.Struct(existingPost, &models.Post{}).Content,
 		)))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err

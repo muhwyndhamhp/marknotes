@@ -16,7 +16,11 @@ func SanitizeHtml(escapedHTML string) string {
 					`|(hljs-function)`+`|(hljs-params)`+
 					`|(hljs-keyword)`+`|(hljs-type)`+
 					`|(hljs-number)`+`|(hljs-comment)`+
-					`|(\bsuggestion\b)`+`|(\blanguage-([a-z]*\b)\b)`,
+					`|(hljs-variable)`+`|(hljs-selector-class)`+
+					`|(hljs-selector-id)`+`|(hljs-selector-tag)`+
+					`|(hljs-meta)`+`|(hljs-tag)`+`|(hljs-attribute)`+
+					`|(\bsuggestion\b)`+`|(\blanguage-([a-z]*\b)\b)`+
+					`|(\bxml\b)`,
 			)).
 		OnElements("span", "code")
 

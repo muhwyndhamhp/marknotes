@@ -1,11 +1,11 @@
 package pub_mainmenu
 
-import "github.com/muhwyndhamhp/marknotes/pub/elements"
 import "github.com/muhwyndhamhp/marknotes/pub/variables"
+import "github.com/muhwyndhamhp/marknotes/pub/base"
 
 templ MainMenu(buttons []pub_variables.InlineButton) {
 	<header class="text-center xs:mt-20 md:mt-10">
-		<div class="w-full flex-row">
+		<div class="w-full flex-row justify-center">
 			@title()
 			@buttonRows(buttons)
 		</div>
@@ -14,16 +14,34 @@ templ MainMenu(buttons []pub_variables.InlineButton) {
 
 templ title() {
 	<a hx-boost="true" href="/">
-		<h1 class="mb-10 flex-auto">
+		<h1 class="mb-10 text-4xl text-secondary font-extrabold">
 			mwyndham.dev
 		</h1>
 	</a>
 }
 
 templ buttonRows(buttons []pub_variables.InlineButton) {
-	<div class="inline w-full flex-auto rounded-md bg-slate-200 py-4 dark:bg-slate-900 md:px-4">
-		for _, btn := range buttons {
-			@pub_elements.AnchorButton(btn)
-		}
+	<div class="navbar bg-base-100 md:max-w-xl lg:max-w-xl shadow-xl md:rounded-box mx-auto">
+		<div class="navbar-start"></div>
+		<div class="navbar-center flex">
+			<ul class="menu menu-horizontal px-1">
+				for _, btn := range buttons {
+					<li>
+						<a
+							hx-boost="true"
+							if !pub_base.IsVisible(btn.AuthRule, btn.UserID) {
+								class="hidden"
+							} else {
+								class="menu text-base-content hover:font-bold hover:bg-accent hover:text-accent-content"
+							}
+							href={ templ.URL(btn.AnchorUrl) }
+						>
+							{ btn.Label }
+						</a>
+					</li>
+				}
+			</ul>
+		</div>
+		<div class="navbar-end"></div>
 	</div>
 }

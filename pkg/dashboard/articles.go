@@ -154,7 +154,9 @@ func (fe *DashboardFrontend) ArticlesPush(c echo.Context) error {
 		return err
 	}
 
+	fmt.Println(req.Content)
 	sanitizedHTML := sanitizations.SanitizeHtml(req.Content)
+	fmt.Println(sanitizedHTML)
 
 	slug, err := strman.GenerateSlug(req.Title)
 	if err != nil {
@@ -165,6 +167,7 @@ func (fe *DashboardFrontend) ArticlesPush(c echo.Context) error {
 	post := tern.Struct(xp, &models.Post{})
 
 	post.Title = req.Title
+	post.Content = req.ContentJSON
 	post.EncodedContent = template.HTML(sanitizedHTML)
 	post.Status = status
 	post.UserID = claims.UserID

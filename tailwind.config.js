@@ -29,7 +29,9 @@ module.exports = {
          // "light",
          // "cupcake",
          // "wireframe",
-         "autumn",
+         // "autumn",
+         // "emerald",
+         "fantasy",
          {
 
             mytheme: {
@@ -47,7 +49,8 @@ module.exports = {
 
          },
          "dark",
+         "night",
       ],
-      darkTheme: "dark",
+      darkTheme: "night",
    },
 }

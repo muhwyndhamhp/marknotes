@@ -1,12 +1,15 @@
 package template
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"io"
+	"os"
 
 	"github.com/a-h/templ"
 	"github.com/labstack/echo/v4"
+	"github.com/muhwyndhamhp/marknotes/config"
 )
 
 type Template struct{}
@@ -42,6 +45,23 @@ func AssertRender(c echo.Context, statusCode int, component templ.Component) err
 
 func AssertRenderLog(c echo.Context, statusCode int, component templ.Component) error {
 	return c.Render(statusCode, "templ-log", component)
+}
+
+func RenderPost(component templ.Component, slug string, id uint) error {
+	pagesPath := config.Get(config.POSTS_VOL_PATH)
+
+	file, err := os.Create(fmt.Sprintf("%s/%s-%d.html", pagesPath, slug, id))
+	if err != nil {
+		return err
+	}
+
+	defer file.Close()
+
+	err = component.Render(context.Background(), file)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 type writer struct {

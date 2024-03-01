@@ -20,6 +20,7 @@ const (
 	RESUME_POST_ID        = "RESUME_POST_ID"
 	DATABASE_URL          = "DATABASE_URL"
 	STORE_VOL_PATH        = "STORE_VOL_PATH"
+	POSTS_VOL_PATH        = "POSTS_VOL_PATH"
 )
 
 func init() {

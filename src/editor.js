@@ -54,6 +54,7 @@ export const editor = new Editor({
 
    onUpdate: ({ editor }) => {
       const encodedContent = document.getElementById('code-editor').children[0].innerHTML
+      console.log(encodedContent)
       document.getElementById('content').value = encodedContent
 
       const tags = editor.getJSON().content
@@ -72,6 +73,7 @@ export const editor = new Editor({
       document.getElementById('tags').value = uqTags.join(',')
    },
    content: window.content,
+   
 })
 
 
