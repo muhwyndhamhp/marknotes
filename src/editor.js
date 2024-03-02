@@ -70,7 +70,6 @@ export const editor = new Editor({
 
    onUpdate: ({ editor }) => {
       const encodedContent = document.getElementById('code-editor').children[0].innerHTML
-      console.log(encodedContent)
       document.getElementById('content').value = encodedContent
 
       const tags = editor.getJSON().content
@@ -108,8 +107,6 @@ window.upload = function(ev, url) {
    }
 
    file = ev.dataTransfer.files[0]
-
-   console.log(file)
 
    Swal.showLoading()
 

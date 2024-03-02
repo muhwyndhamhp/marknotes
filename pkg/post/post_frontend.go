@@ -333,8 +333,6 @@ func (fe *PostFrontend) GetPostBySlug(c echo.Context) error {
 		Component:     nil,
 	}
 
-	fmt.Println(post.PublishedAt.Unix())
-
 	postDetail := pub_post_detail.PostDetail(bodyOpts, post)
 
 	return templateRenderer.AssertRender(c, http.StatusOK, postDetail)

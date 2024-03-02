@@ -18,6 +18,6 @@ func OrderBy(field string, direction Direction) QueryScope {
 		if field == "" || direction == "" {
 			return db
 		}
-		return db.Order(fmt.Sprintf("STRFTIME('%%Y-%%m-%%d %%H:%%M:%%S', %s) %s", field, direction))
+		return db.Order(fmt.Sprintf("%s %s", field, direction))
 	}
 }

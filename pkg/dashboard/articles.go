@@ -155,9 +155,7 @@ func (fe *DashboardFrontend) ArticlesPush(c echo.Context) error {
 		return err
 	}
 
-	fmt.Println(req.Content)
 	sanitizedHTML := sanitizations.SanitizeHtml(req.Content)
-	fmt.Println(sanitizedHTML)
 
 	slug, err := strman.GenerateSlug(req.Title)
 	if err != nil {
