@@ -14,14 +14,26 @@ templ MainMenu(buttons []pub_variables.InlineButton) {
 
 templ title() {
 	<a hx-boost="true" href="/">
-		<h1 class="mb-10 text-4xl text-secondary font-extrabold">
+		<h1 class="mb-10 text-4xl text-info font-extrabold">
 			mwyndham.dev
 		</h1>
 	</a>
 }
 
 templ buttonRows(buttons []pub_variables.InlineButton) {
-	<div class="navbar bg-base-100 md:max-w-xl lg:max-w-xl shadow-xl md:rounded-box mx-auto">
+	<div
+		class={
+			"navbar bg-base-100 shadow-xl md:rounded-badge mx-auto",
+			templ.KV(
+				"md:max-w-xl lg:max-w-xl",
+				buttons[0].UserID != uint(0),
+			),
+			templ.KV(
+				"md:max-w-sm lg:max-w-sm",
+				buttons[0].UserID == uint(0),
+			),
+		}
+	>
 		<div class="navbar-start"></div>
 		<div class="navbar-center flex">
 			<ul class="menu menu-horizontal px-1">
@@ -32,7 +44,7 @@ templ buttonRows(buttons []pub_variables.InlineButton) {
 							if !pub_base.IsVisible(btn.AuthRule, btn.UserID) {
 								class="hidden"
 							} else {
-								class="menu text-base-content hover:font-bold hover:bg-accent hover:text-accent-content"
+								class="menu rounded-badge text-base-content hover:font-bold hover:bg-accent hover:text-accent-content mx-2"
 							}
 							href={ templ.URL(btn.AnchorUrl) }
 						>

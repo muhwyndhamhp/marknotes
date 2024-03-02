@@ -32,6 +32,8 @@ module.exports = {
          // "autumn",
          // "emerald",
          "fantasy",
+         // "retro",
+         // "cyberpunk",
          {
 
             mytheme: {
@@ -50,7 +52,8 @@ module.exports = {
          },
          "dark",
          "night",
+         "forest",
       ],
-      darkTheme: "night",
+      darkTheme: "forest",
    },
 }

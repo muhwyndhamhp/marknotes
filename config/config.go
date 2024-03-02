@@ -10,6 +10,7 @@ import (
 const (
 	ENV_FILE = ".env"
 
+	ENV                   = "ENV"
 	APP_PORT              = "APP_PORT"
 	JWT_SECRET            = "JWT_SECRET"
 	OAUTH_AUTHORIZE_URL   = "OAUTH_AUTHORIZE_URL"

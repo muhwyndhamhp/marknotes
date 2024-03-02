@@ -70,7 +70,7 @@ func PostItem(post models.Post) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("><div class=\"px-auto relative mx-auto w-full self-center bg-stone-100 p-6 dark:bg-slate-900 md:mx-auto md:my-4 md:max-w-3xl md:rounded-md md:px-0 lg:max-w-4xl\"><div class=\"mx-4\"><h2 class=\"pt\"><a hx-boost=\"true\" hx-swap=\"innerHTML\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("><div class=\"px-auto relative mx-auto w-full bg-base-100 card shadow-xl self-center  p-6 md:mx-auto md:my-4 md:max-w-3xl md:px-0 lg:max-w-4xl\"><div class=\"mx-4\"><h2 class=\"text-2xl font-extrabold hover:text-accent\"><a hx-boost=\"true\" hx-swap=\"innerHTML\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -148,7 +148,7 @@ func PostMetadata(post models.Post) templ.Component {
 			templ_7745c5c3_Var6 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		var templ_7745c5c3_Var7 = []any{"text-sm text-primary-content my-2 font-bold", templ.KV("text-center", post.FormMeta["CenterAlign"] == true)}
+		var templ_7745c5c3_Var7 = []any{"font-mono text-sm mt-2", templ.KV("text-center", post.FormMeta["CenterAlign"] == true)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var7...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -204,7 +204,7 @@ func PostMetadata(post models.Post) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var11 = []any{"text-sm text-slate-600 my-2 dark:text-slate-300", templ.KV("text-center", post.FormMeta["CenterAlign"] == true)}
+		var templ_7745c5c3_Var11 = []any{"text-sm text-accent font-semibold my-3", templ.KV("text-center", post.FormMeta["CenterAlign"] == true)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var11...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -235,7 +235,20 @@ func PostMetadata(post models.Post) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		for i := range post.Tags {
-			templ_7745c5c3_Err = TagItem(post.Tags[i]).Render(ctx, templ_7745c5c3_Buffer)
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"badge badge-outline badge-primary mx-1\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var13 string
+			templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(post.Tags[i].Title)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/components/postlist/postlist.templ`, Line: 50, Col: 75}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -259,9 +272,9 @@ func TagItem(tag *models.Tag) templ.Component {
 			defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var13 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var13 == nil {
-			templ_7745c5c3_Var13 = templ.NopComponent
+		templ_7745c5c3_Var14 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var14 == nil {
+			templ_7745c5c3_Var14 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"mx-1 mt-2 basis-auto rounded-xl bg-rose-50 px-2 pb-1 pt-1 text-xs ring-1 ring-rose-900/10 dark:bg-slate-700 dark:text-slate-100\"")
@@ -286,12 +299,12 @@ func TagItem(tag *models.Tag) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var14 string
-		templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(tag.Title)
+		var templ_7745c5c3_Var15 string
+		templ_7745c5c3_Var15, templ_7745c5c3_Err = templ.JoinStringErrs(tag.Title)
 		if templ_7745c5c3_Err != nil {
 			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/components/postlist/postlist.templ`, Line: 70, Col: 19}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var15))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

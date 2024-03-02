@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/labstack/echo/v4"
 	"github.com/muhwyndhamhp/marknotes/config"
@@ -172,6 +173,10 @@ func (fe *DashboardFrontend) ArticlesPush(c echo.Context) error {
 	post.Status = status
 	post.UserID = claims.UserID
 	post.Slug = slug
+	if status == values.Published {
+		now := time.Now()
+		post.PublishedAt = *tern.Struct(&post.PublishedAt, &now)
+	}
 
 	tags := strings.Split(req.Tags, ",")
 

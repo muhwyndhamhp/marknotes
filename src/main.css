@@ -14,8 +14,6 @@
 
 
 pre {
-    @apply rounded-box;
-    @apply p-4;
     @apply font-mono;
 
 }

@@ -29,7 +29,8 @@ func WriteFile(f *multipart.FileHeader, prefix string) (string, error) {
 		return "", err
 	}
 
-	name := fmt.Sprintf("%s-%s", prefix, AppendTimestamp(f.Filename))
+	fname := strings.ReplaceAll(f.Filename, " ", "_")
+	name := fmt.Sprintf("%s-%s", prefix, AppendTimestamp(fname))
 
 	dst, err := os.Create(fmt.Sprintf("%s/%s", config.Get(config.STORE_VOL_PATH), name))
 	if err != nil {

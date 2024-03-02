@@ -4,6 +4,7 @@ import (
 	"regexp"
 
 	"github.com/microcosm-cc/bluemonday"
+	"github.com/muhwyndhamhp/marknotes/config"
 )
 
 func SanitizeHtml(escapedHTML string) string {
@@ -20,13 +21,27 @@ func SanitizeHtml(escapedHTML string) string {
 					`|(hljs-selector-id)`+`|(hljs-selector-tag)`+
 					`|(hljs-meta)`+`|(hljs-tag)`+`|(hljs-attribute)`+
 					`|(\bsuggestion\b)`+`|(\blanguage-([a-z]*\b)\b)`+
-					`|(\bxml\b)`,
+					`|(\bxml\b)`+`|(\bmockup-code\b)`,
 			)).
-		OnElements("span", "code")
+		OnElements("span", "code", "pre")
 
 	p.AllowAttrs("contenteditable").Matching(regexp.MustCompile(`(false)`)).OnElements("span")
 	p.AllowAttrs("data-type").Matching(regexp.MustCompile(`(mention)`)).OnElements("span")
 	p.AllowAttrs("data-id").Matching(regexp.MustCompile(`([a-z]+)`)).OnElements("span")
+
+	p.AllowStandardURLs()
+	p.AllowAttrs("class").Matching(regexp.MustCompile(`(max-h-96)|(mx-auto)`)).OnElements("img")
+	p.AllowURLSchemes("mailto", "http", "https")
+	p.AllowAttrs("src").OnElements("img")
+	p.RequireParseableURLs(true)
+
+	p.AllowAttrs("src").Matching(regexp.MustCompile(`(https://www.youtube.com/embed/[a-zA-Z0-9_-]+)`)).OnElements("iframe")
+	p.AllowAttrs("class").Matching(regexp.MustCompile(`(mx-auto)`)).OnElements("iframe")
+	p.AllowAttrs("width", "height").Matching(regexp.MustCompile(`([0-9]+)`)).OnElements("iframe")
+
+	if config.Get(config.ENV) == "dev" {
+		p.AllowRelativeURLs(true)
+	}
 
 	html := p.Sanitize(escapedHTML)
 

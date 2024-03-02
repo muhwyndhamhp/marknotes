@@ -17,6 +17,7 @@
     "@tiptap/extension-mention": "^2.2.2",
     "@tiptap/extension-placeholder": "^2.2.2",
     "@tiptap/extension-text-style": "^2.2.2",
+    "@tiptap/extension-youtube": "^2.2.4",
     "@tiptap/pm": "^2.2.2",
     "@tiptap/starter-kit": "^2.2.2",
     "codemirror": "^6.0.1",

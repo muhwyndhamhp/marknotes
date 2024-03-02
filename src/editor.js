@@ -7,6 +7,7 @@ import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import Image from '@tiptap/extension-image'
 import Link from '@tiptap/extension-link'
 import Placeholder from '@tiptap/extension-placeholder'
+import Youtube from '@tiptap/extension-youtube'
 
 const lowlight = require('./unexported/lowlight.js').lowlight;
 const hashtag = require('./unexported/hashtag.js').HashTag;
@@ -28,7 +29,12 @@ export const editor = new Editor({
             keepAttributes: false, 
          },
       }),
-      CodeBlockLowlight.configure({ lowlight }),
+      CodeBlockLowlight.configure({ 
+         lowlight,
+         HTMLAttributes: {
+            class: 'mockup-code rounded-badge',
+         }
+      }),
       Image.configure({
          inline: true,
          HTMLAttributes: {
@@ -43,6 +49,16 @@ export const editor = new Editor({
       Placeholder.configure({
          considerAnyAsEmpty: true,
          placeholder: 'Write your thought here...',
+      }),
+      Youtube.configure({
+         inline: false,
+         width: 512,
+         height: 288,
+         modestBranding: 'true',
+         progressBarColor: 'white',
+         HTMLAttributes: {
+            class: 'mx-auto'
+         }
       }),
       hashtag,
    ],

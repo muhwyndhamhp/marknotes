@@ -18,9 +18,9 @@ templ PostItem(post models.Post) {
 			hx-swap="afterend"
 		}
 	>
-		<div class="px-auto relative mx-auto w-full self-center bg-stone-100 p-6 dark:bg-slate-900 md:mx-auto md:my-4 md:max-w-3xl md:rounded-md md:px-0 lg:max-w-4xl">
+		<div class="px-auto relative mx-auto w-full bg-base-100 card shadow-xl self-center  p-6 md:mx-auto md:my-4 md:max-w-3xl md:px-0 lg:max-w-4xl">
 			<div class="mx-4">
-				<h2 class="pt">
+				<h2 class="text-2xl font-extrabold hover:text-accent">
 					<a
 						hx-boost="true"
 						hx-swap="innerHTML"
@@ -38,17 +38,17 @@ templ PostItem(post models.Post) {
 }
 
 templ PostMetadata(post models.Post) {
-	<p class={ "text-sm text-primary-content my-2 font-bold", templ.KV("text-center", post.FormMeta["CenterAlign"] == true) }>
+	<p class={ "font-mono text-sm mt-2", templ.KV("text-center", post.FormMeta["CenterAlign"] == true) }>
 		Created: { post.CreatedAt.Format("Jan, 02 2006") } | 
 		Updated: { post.UpdatedAt.Format("Jan, 02 2006") } | 
 		Published: { post.PublishedAt.Format("Jan, 02 2006") }
 	</p>
-	<p class={ "text-sm text-slate-600 my-2 dark:text-slate-300", templ.KV("text-center", post.FormMeta["CenterAlign"] == true) }>
+	<p class={ "text-sm text-accent font-semibold my-3", templ.KV("text-center", post.FormMeta["CenterAlign"] == true) }>
 		Status: { string(post.Status) }
 	</p>
 	<div id="tag-flex" class="w-12/12 -ms-1 flex flex-row flex-wrap">
 		for i := range post.Tags {
-			@TagItem(post.Tags[i])
+			<div class="badge badge-outline badge-primary mx-1">{ post.Tags[i].Title }</div>
 		}
 	</div>
 }

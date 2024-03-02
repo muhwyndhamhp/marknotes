@@ -92,16 +92,10 @@ func nav(indexSelected int) []pub_variables.DrawerMenu {
 			IsBoosted: true,
 		},
 		{
-			Label:     "Profile",
-			URL:       "/dashboard/profile",
+			Label:     "Back to Site",
+			URL:       "/",
 			IsActive:  false,
 			IsBoosted: true,
-		},
-		{
-			Label:     "Create Post",
-			URL:       "/dashboard/editor",
-			IsActive:  false,
-			IsBoosted: false,
 		},
 	}
 
