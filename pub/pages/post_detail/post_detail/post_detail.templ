@@ -2,65 +2,28 @@ package pub_post_detail
 
 import "github.com/muhwyndhamhp/marknotes/pkg/models"
 import "fmt"
-import "github.com/muhwyndhamhp/marknotes/pub/components/postlist"
 import "html/template"
 import "github.com/muhwyndhamhp/marknotes/pub/variables"
 import "github.com/muhwyndhamhp/marknotes/pub"
+import "github.com/muhwyndhamhp/marknotes/pub/assets"
 
 templ PostDetail(body pub_variables.BodyOpts, post models.Post) {
 	@pub.Body(pub_variables.BodyOpts{
-       HeaderButtons: body.HeaderButtons,
-       FooterButtons: body.FooterButtons,
-       Component: postDetail(post),
-       })
+		HeaderButtons: body.HeaderButtons,
+		FooterButtons: body.FooterButtons,
+		Component:     postDetail(post),
+	})
 }
 
 templ postDetail(post models.Post) {
 	<div class="relative w-full md:mx-auto md:max-w-3xl lg:max-w-4xl pt-8">
-		<h1 class="text-center">{ post.Title }</h1>
-		<div class="mt-6 mb-4 px-4 md:px-0">
-			@pub_postlist.PostMetadata(post)
+		<div class="flex flex-row mt-2 mx-8">
+			@TitleGroup(post)
+			@AdminMenu(post)
 		</div>
-		if post.FormMeta["UserID"].(uint) != uint(0) {
-			<div class="inline">
-				<button
-					hx-get={ fmt.Sprintf("/posts/%d/edit", post.ID) }
-					hx-target="#admin-root"
-					hx-push-url="true"
-					class="inline-block mx-2 my-4 uppercase"
-				>
-					Edit
-				</button>
-				<button
-					hx-get="/posts/{{.ID}}/delete"
-					hx-target="#admin-root"
-					_={ showSwal("Delete") }
-					class=" inline-block mx-2 my-4 uppercase"
-				>
-					Delete
-				</button>
-				<button
-					hx-target="#admin-root"
-					class=" inline-block mx-2 my-4 uppercase"
-					if post.Status == "draft" {
-						hx-get={ fmt.Sprintf("/posts/%d/publish", post.ID) }
-						_={ showSwal("Publish") }
-					} else {
-						hx-get={ fmt.Sprintf("/posts/%d/draft", post.ID) }
-						_={ showSwal("Unpublish") }
-					}
-				>
-					if post.Status == "draft" {
-						Publish
-					} else {
-						Unpublish
-					}
-				</button>
-			</div>
-		}
 	</div>
 	<div
-		class="relative w-full md:rounded-xl bg-stone-100 px-6 dark:bg-slate-950 md:max-w-3xl lg:max-w-4xl md:pt-4 lg:pb-28 lg:pt-6 mt-4 py-8 md:mx-auto shadow-xl shadow-slate-700/10 ring-1 ring-gray-900/5"
+		class="relative w-full card card-body bg-base-100 px-6  md:max-w-3xl lg:max-w-4xl md:pt-4 lg:pb-28 lg:pt-6 mt-4 py-8 md:mx-auto shadow-xl"
 	>
 		@MarkdownBody(post.EncodedContent)
 	</div>
@@ -78,9 +41,77 @@ func showSwal(text string) string {
    `, text)
 }
 
+templ TitleGroup(post models.Post) {
+	<div class="grow align-middle flex flex-col">
+		<h1 class="text-4xl font-extrabold">{ post.Title }</h1>
+		<p class="text-sm font-mono mt-4">
+			{ fmt.Sprintf("Created at %s", post.CreatedAt.Format("January 2, 2006")) }
+		</p>
+		if post.PublishedAt.Unix() > 0 {
+			<p class="text-sm font-mono">
+				{ fmt.Sprintf("Published %s", post.PublishedAt.Format("January 2, 2006")) }
+			</p>
+		}
+		<div id="tag-flex" class="w-full flex flex-row flex-wrap">
+			for i := range post.Tags {
+				<div class={ "badge badge-primary badge-outline badge-md mx-1 mt-4", templ.KV("-ms-1", i == 0) }>
+					{ post.Tags[i].Title }
+				</div>
+			}
+		</div>
+	</div>
+}
+
+templ AdminMenu(post models.Post) {
+	if post.FormMeta["UserID"].(uint) != uint(0) {
+		<div class="dropdown dropdown-hover flex-none align-middle">
+			<div tabindex="0" role="button" class="btn btn-ghost align-bottom">
+				@pub_assets.Setting(6)
+			</div>
+			<ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+				<li>
+					<p
+						hx-get={ fmt.Sprintf("/dashboard/articles/%d/edit", post.ID) }
+						hx-target="#admin-root"
+						hx-push-url="true"
+					>
+						Edit
+					</p>
+				</li>
+				<li>
+					<p
+						hx-get={ fmt.Sprintf("/posts/%d/delete", post.ID) }
+						hx-target="#admin-root"
+						_={ showSwal("Delete") }
+					>
+						Delete
+					</p>
+				</li>
+				if post.Status == "draft" {
+					<li>
+						<p
+							hx-get={ fmt.Sprintf("/posts/%d/publish", post.ID) }
+							hx-target="#admin-root"
+							_={ showSwal("Publish") }
+						>Publish</p>
+					</li>
+				} else {
+					<li>
+						<p
+							hx-get={ fmt.Sprintf("/posts/%d/unpublish", post.ID) }
+							hx-target="#admin-root"
+							_={ showSwal("Unpublish") }
+						>Unpublish</p>
+					</li>
+				}
+			</ul>
+		</div>
+	}
+}
+
 templ MarkdownBody(content template.HTML) {
 	<article
-		class="prose prose-slate lg:prose-xl md:prose-lg dark:prose-invert prose-h2:bg-clip-text prose-h2:text-transparent prose-h2:bg-gradient-to-r prose-h2:from-pink-600 prose-h2:via-purple-600 prose-h2:to-indigo-600 prose-h3:bg-clip-text  prose-h3:text-transparent  prose-h3:bg-gradient-to-r  prose-h3:from-teal-600  prose-h3:via-sky-600  prose-h3:to-indigo-600"
+		class="caret-rose-800 w-full mx-auto prose prose-slate lg:prose-xl md:prose-lg dark:prose-invert prose-pre:bg-slate-900 prose-pre:w-full prose-pre:text-white focus:outline-none prose-em:text-secondary prose-strong:text-primary prose-strong:font-extrabold prose-a:font-extrabold prose-a:text-accent"
 		id="preview"
 	>
 		@RenderRaw(content)
@@ -88,5 +119,5 @@ templ MarkdownBody(content template.HTML) {
 }
 
 func RenderRaw(content template.HTML) templ.Component {
-	return templ.Raw[template.HTML](content)
+	return templ.Raw(content)
 }

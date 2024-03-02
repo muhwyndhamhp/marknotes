@@ -9,6 +9,13 @@ func String(a, b string) string {
 	return b
 }
 
+func Struct[T any](a, b *T) *T {
+	if a != nil {
+		return a
+	}
+	return b
+}
+
 // Uint returns non nil value if available
 func Uint(a, b uint) uint {
 	if a > 0 {

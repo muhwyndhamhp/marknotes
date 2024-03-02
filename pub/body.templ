@@ -11,12 +11,14 @@ templ Body(opts pub_variables.BodyOpts) {
 			@Header()
 			<title>mwyndham.dev</title>
 		</head>
-		<body id="admin-root">
-			@background()
+		<body id="admin-root" class="bg-base-100 dark:bg-base-300">
+			@Background()
 			<div class="relative flex flex-col justify-center overflow-hidden pt-8">
 				@pub_mainmenu.MainMenu(opts.HeaderButtons)
 				<br/>
-				@opts.Component
+				<div class="min-h-screen">
+					@opts.Component
+				</div>
 				<br/>
 				@pub_footermenu.FooterMenu(opts.FooterButtons)
 			</div>
@@ -24,8 +26,9 @@ templ Body(opts pub_variables.BodyOpts) {
 	</html>
 }
 
-templ background() {
+templ Background() {
 	<div
-		class="fixed start-0 top-0 -z-50 h-full w-full bg-gradient-to-bl from-rose-50 via-stone-200 to-slate-300 dark:bg-gradient-to-bl dark:from-sky-800 dark:via-slate-900 dark:to-stone-900"
+		class="fixed start-0 top-0 h-full w-full bg-gradient-to-bl from-primary/10 via-secondary/10
+      to-accent/10"
 	></div>
 }

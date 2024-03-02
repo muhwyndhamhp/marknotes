@@ -6,7 +6,6 @@ import (
 
 	embed "github.com/13rac1/goldmark-embed"
 	chromahtml "github.com/alecthomas/chroma/v2/formatters/html"
-	"github.com/dlclark/regexp2"
 	"github.com/yuin/goldmark"
 	highlighting "github.com/yuin/goldmark-highlighting/v2"
 	"github.com/yuin/goldmark/extension"
@@ -53,18 +52,13 @@ func ParseMD(source string) (string, error) {
 
 func postProcessHTML(str string) string {
 	str = changeCodeBlockBg(str)
-	str = addCodeBlockStyling(str)
 	return str
 }
 
-func addCodeBlockStyling(str string) string {
-	regex := regexp2.MustCompile("<code>(?!<)", regexp2.None)
-	str, _ = regex.Replace(str, `<code class="inline-code">`, 0, -1)
-	return str
-}
 func changeCodeBlockBg(str string) string {
 	return strings.ReplaceAll(str,
 		`style="color:#fff;background-color:#1f1f24;"`,
+
 		`style="color:#fff;
 		background-color:rgb(15 23 42);
 		width:100%;

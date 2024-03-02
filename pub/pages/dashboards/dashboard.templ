@@ -1,0 +1,104 @@
+package pub_dashboard
+
+import "github.com/muhwyndhamhp/marknotes/pub"
+import "github.com/muhwyndhamhp/marknotes/pub/variables"
+
+templ Dashboard(opts pub_variables.DashboardOpts) {
+	<!DOCTYPE html>
+	<html lang="en">
+		<head hx-boost="true">
+			@pub.Background()
+			for i := range opts.AdditionalHeaders {
+				@RenderRaw(opts.AdditionalHeaders[i])
+			}
+			@pub.Header()
+			<title>mwyndham.dev</title>
+		</head>
+		<body id="admin-root" class="bg-base-100">
+			@drawer(opts.Nav, opts.BreadCrumbs, opts.Comp, opts.NavItems...)
+		</body>
+	</html>
+}
+
+func RenderRaw(content string) templ.Component {
+	return templ.Raw(content)
+}
+
+templ ExampleRaw(content string) {
+	<div>
+		@RenderRaw(content)
+	</div>
+}
+
+templ drawer(items []pub_variables.DrawerMenu, breadcrumbs []pub_variables.Breadcrumb, comp templ.Component, navItems ...templ.Component) {
+	<div class="drawer lg:drawer-open">
+		<input id="my-drawer" type="checkbox" class="drawer-toggle"/>
+		<div class="drawer-content">
+			@navBar(navItems...)
+			<div class="flex flex-col items-center justify-center pt-6">
+				<div class="text-sm breadcrumbs px-10 w-full">
+					<ul>
+						for i := range breadcrumbs {
+							<li>
+								<a href={ breadcrumbs[i].URL }>{ breadcrumbs[i].Label }</a>
+							</li>
+						}
+					</ul>
+				</div>
+				<br/>
+				@comp
+			</div>
+		</div>
+		<div class="divider"></div>
+		<div class="drawer-side">
+			<label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
+			<ul class="menu px-4 w-72 min-h-full text-base-content bg-base-100">
+				<div class="navbar sticky w-64 top-0">
+					<div class="">
+						@title()
+					</div>
+				</div>
+				for i := range items {
+					@drawerItem(items[i])
+				}
+			</ul>
+		</div>
+	</div>
+}
+
+templ navBar(elems ...templ.Component) {
+	<div class="lg:hidden navbar sticky top-0 z-20 bg-base-100 lg:bg-base-100/80">
+		<div class="flex-none">
+			<label hx-boost="false" for="my-drawer" class="btn btn-square btn-ghost drawer-button lg:hidden">
+				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-5 h-5 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+			</label>
+		</div>
+		<div class="lg:invisible flex-1">
+			@title()
+		</div>
+		for _, elem:= range elems {
+			@elem
+		}
+	</div>
+}
+
+templ title() {
+	<div class="flex-1">
+		<a class="btn btn-ghost text-xl">Marknotes CMS</a>
+	</div>
+}
+
+templ drawerItem(item pub_variables.DrawerMenu) {
+	<li class="p-1 h-30">
+		<a
+			if item.IsBoosted {
+				hx-boost="true"
+				hx-swap="innerHTML"
+			} else {
+				hx-boost="false"
+			}
+			class={ "group", templ.KV("active", item.IsActive) }
+			href={ item.URL }
+		>{ item.Label }</a>
+	</li>
+}

@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Overpass+Mono&display=swap');
+@import url('https://fonts.cdnfonts.com/css/spicy-kebab');
+@import url('https://fonts.cdnfonts.com/css/open-sauce-one');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+
+    [un-cloak] {
+        display: none;
+    }
+}
+
+
+pre {
+    @apply font-mono;
+
+}
+
+code {
+    @apply bg-none;
+    @apply text-white;
+    @apply text-sm;
+    @apply p-0;
+}
+
+.hljs-comment,
+.hljs-quote {
+    @apply text-gray-500;
+}
+
+.hljs-variable,
+.hljs-template-variable,
+.hljs-attribute,
+.hljs-tag,
+.hljs-name,
+.hljs-regexp,
+.hljs-link,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class {
+    @apply text-teal-400;
+}
+
+.hljs-number,
+.hljs-meta,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params {
+    @apply text-rose-400;
+}
+
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet {
+    @apply text-green-300;
+}
+
+.hljs-title,
+.hljs-section {
+    @apply text-amber-200;
+}
+
+.hljs-keyword,
+.hljs-selector-tag {
+    @apply text-cyan-400;
+}
+
+.hljs-emphasis {
+    @apply italic;
+}
+
+.tiptap p.is-editor-empty:first-child::before {
+  color: #adb5bd;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+

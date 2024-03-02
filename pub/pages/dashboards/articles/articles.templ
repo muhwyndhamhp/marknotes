@@ -1,0 +1,150 @@
+package pub_dashboards_articles
+
+import "github.com/muhwyndhamhp/marknotes/pub/variables"
+import "github.com/muhwyndhamhp/marknotes/pkg/models"
+import "github.com/muhwyndhamhp/marknotes/pub/pages/dashboards"
+import "fmt"
+
+type ArticlesVM struct {
+	Opts       pub_variables.DashboardOpts
+	Posts      []models.Post
+	PageSizes  pub_variables.DropdownVM
+	Pages      pub_variables.DropdownVM
+	CreatePath string
+}
+
+templ Articles(vm ArticlesVM) {
+	@pub_dashboard.Dashboard(pub_variables.DashboardOpts{
+		Nav:         vm.Opts.Nav,
+		BreadCrumbs: vm.Opts.BreadCrumbs,
+		Comp:        articles(vm.Posts, vm.PageSizes, vm.Pages, vm.CreatePath),
+	})
+}
+
+templ ArticleOOB(posts []models.Post, pageSizes, pages pub_variables.DropdownVM) {
+	@articleTable(posts, getOOBAttr())
+	@pageSize(pageSizes, getOOBAttr())
+	@pagination(pages, getOOBAttr())
+}
+
+func getOOBAttr() templ.Attributes {
+	return templ.Attributes{"hx-swap-oob": "true"}
+}
+
+templ articles(posts []models.Post, pageSizes, pages pub_variables.DropdownVM, createPath string) {
+	<div class="w-full h-full" id="articles">
+		<div class="mx-10">
+			<div class="w-full flex flex-row justify-end">
+				<h1 class="grow text-4xl text-secondary font-bold my-auto">List of Articles</h1>
+				@createArticleButton(createPath)
+			</div>
+			<br/>
+			@articleTable(posts, templ.Attributes{})
+			<div class="w-full flex flex-row mt-5 justify-end">
+				@pageSize(pageSizes, templ.Attributes{})
+				@pagination(pages, templ.Attributes{})
+			</div>
+		</div>
+		<br/>
+		<div class="h-20"></div>
+	</div>
+}
+
+templ createArticleButton(path string) {
+	<button
+		hx-get={ path }
+		hx-target="#admin-root"
+		hx-push-url="true"
+		class="btn btn-primary flex-initial"
+	>
+		Create
+		<svg class="h-8 w-8 text-primary-content" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"></path> <rect x="4" y="4" width="16" height="16" rx="2"></rect> <line x1="9" y1="12" x2="15" y2="12"></line> <line x1="12" y1="9" x2="12" y2="15"></line></svg>
+	</button>
+}
+
+templ pagination(vm pub_variables.DropdownVM, attrs templ.Attributes) {
+	<div
+		id="pages"
+		{ attrs... }
+		class="join flex-initial"
+	>
+		for i := range vm.Items {
+			<button
+				class={ "join-item btn btn-md btn-ghost", templ.KV("btn-active", i == vm.Selected) }
+				hx-get={ vm.Items[i].Path }
+				hx-push-url="true"
+			>
+				{ vm.Items[i].Label }
+			</button>
+		}
+	</div>
+}
+
+templ pageSize(vm pub_variables.DropdownVM, attrs templ.Attributes) {
+	<div
+		id="page-sizes"
+		{ attrs... }
+		class="flex flex-row flex-auto"
+	>
+		<div class="dropdown dropdown-hover my-auto">
+			<div tabindex="0" role="button" class="btn btn-ghost m-1">{ vm.Items[vm.Selected].Label }</div>
+			<ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+				for i := range vm.Items {
+					<li
+						_={ fmt.Sprintf("on click put %s into previous <div/>", vm.Items[i].Label) }
+						hx-get={ vm.Items[i].Path }
+						hx-push-url="true"
+					>
+						<a>{ vm.Items[i].Label }</a>
+					</li>
+				}
+			</ul>
+		</div>
+		<p class="my-auto mx-3">Entries per Page</p>
+	</div>
+}
+
+templ articleTable(posts []models.Post, attrs templ.Attributes) {
+	<div
+		id="article-table"
+		{ attrs... }
+		class="card overflow-x-auto bg-base-100"
+	>
+		<table class="table">
+			<!-- head -->
+			<thead>
+				<tr class="h-16">
+					<th></th>
+					<th>ID</th>
+					<th>Title</th>
+					<th>Created At</th>
+					<th>Status</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				for i := range posts {
+					@articleRow(posts[i])
+				}
+			</tbody>
+		</table>
+	</div>
+}
+
+templ articleRow(post models.Post) {
+	<tr class="h-16">
+		<th></th>
+		<th class="font-normal">{ fmt.Sprintf("%d", post.ID) }</th>
+		<th><a href={ templ.SafeURL(fmt.Sprintf("/dashboard/articles/%d/edit", post.ID)) }>{ post.Title }</a></th>
+		<th class="font-normal">{ post.CreatedAt.Format("Jan, 02 2006 15:04:05") }</th>
+		<th>
+			<div
+				class={
+					"badge badge-outline badge-sm font-normal px-3 py-2",
+					templ.KV("badge-primary text-primary-content", post.Status == "published"),
+					templ.KV("badge-accent text-accent-content", post.Status == "draft"),
+				}
+			>{ string(post.Status) }</div>
+		</th>
+	</tr>
+}

@@ -1,0 +1,15 @@
+package pub_dashboard_profile
+
+import "github.com/muhwyndhamhp/marknotes/pub/variables"
+import "github.com/muhwyndhamhp/marknotes/pub/pages/dashboards"
+
+templ Profile(opts pub_variables.DashboardOpts) {
+	@pub_dashboard.Dashboard(pub_variables.DashboardOpts{
+          Nav: opts.Nav,
+          Comp: profile(),
+       })
+}
+
+templ profile() {
+	<p>Profile</p>
+}

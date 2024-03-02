@@ -31,6 +31,7 @@ type PostRepository interface {
 	Upsert(ctx context.Context, value *Post) error
 	GetByID(ctx context.Context, id uint) (*Post, error)
 	Get(ctx context.Context, funcs ...scopes.QueryScope) ([]Post, error)
+	Count(ctx context.Context, funs ...scopes.QueryScope) int
 	Delete(ctx context.Context, id uint) error
 }
 

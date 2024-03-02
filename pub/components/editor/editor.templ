@@ -1,0 +1,16 @@
+package pub_editor
+
+import "fmt"
+
+templ Editor(uploadURL string) {
+	<script src="/dist/editor.js"></script>
+	<div
+		_={ fmt.Sprintf(`
+            on drop call window.upload(event, "%s")
+            on dragover call window.allowDrop(event)
+            `, 
+            uploadURL) }
+		id="code-editor"
+		class="tiptap card w-full md:max-w-3xl lg:max-w-4xl min-h-96 bg-base-100 p-6 shadow-2xl"
+	></div>
+}

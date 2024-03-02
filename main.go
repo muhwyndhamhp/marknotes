@@ -10,6 +10,7 @@ import (
 	"github.com/muhwyndhamhp/marknotes/pkg/admin"
 	"github.com/muhwyndhamhp/marknotes/pkg/auth"
 	_userRepo "github.com/muhwyndhamhp/marknotes/pkg/auth/repository"
+	"github.com/muhwyndhamhp/marknotes/pkg/dashboard"
 	"github.com/muhwyndhamhp/marknotes/pkg/post"
 	_postRepo "github.com/muhwyndhamhp/marknotes/pkg/post/repository"
 	"github.com/muhwyndhamhp/marknotes/pkg/tag"
@@ -19,6 +20,7 @@ import (
 	"github.com/muhwyndhamhp/marknotes/utils/routing"
 )
 
+// nolint: typecheck
 func main() {
 	e := echo.New()
 	routing.SetupRouter(e)
@@ -48,6 +50,7 @@ func main() {
 
 	admin.NewAdminFrontend(adminGroup, postRepo, authDescMid)
 	post.NewPostFrontend(adminGroup, postRepo, htmxMid, authMid, authDescMid, byIDMid)
+	dashboard.NewDashboardFrontend(adminGroup, postRepo, tagRepo, htmxMid, authMid, authDescMid, byIDMid)
 	tag.NewTagFrontend(adminGroup, tagRepo, authMid)
 	auth.NewAuthService(adminGroup, service, config.Get(config.OAUTH_AUTHORIZE_URL),
 		config.Get(config.OAUTH_ACCESSTOKEN_URL),
@@ -57,11 +60,11 @@ func main() {
 		userRepo)
 
 	// go func() {
-	// 	site.PingSitemap(postRepo)
+	// 	migration.Migrate(db.GetDB())
 	// }()
 	//
 	// go func() {
-	// 	migration.Migrate(db.GetDB())
+	// 	site.PingSitemap(postRepo)
 	// }()
 
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%s", config.Get(config.APP_PORT))))

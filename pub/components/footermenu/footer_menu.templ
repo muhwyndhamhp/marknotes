@@ -2,8 +2,46 @@ package pub_footermenu
 
 import "github.com/muhwyndhamhp/marknotes/pub/elements"
 import "github.com/muhwyndhamhp/marknotes/pub/variables"
+import "github.com/muhwyndhamhp/marknotes/pub/assets"
 
 templ FooterMenu(buttons []pub_variables.InlineButton) {
+	<div class="mt-10">
+		<footer
+			class="footer footer-center p-10 bg-neutral dark:bg-neutral-950
+      dark:bg-opacity-20 text-neutral-content"
+		>
+			<aside>
+				@pub_assets.Note(32)
+				<p class="font-bold">
+					Marknotes by Wyndham
+					<br/>
+				</p>
+				<p>Copyright © 2024 - All right reserved</p>
+			</aside>
+			<nav>
+				<div class="grid grid-flow-col gap-4">
+					<a href="https://twitter.com/muhwyndham">
+						@pub_assets.Twitter()
+					</a>
+					<a href="https://www.youtube.com/channel/UCPmxWqF9kzhe-VrOylqH2AA">
+						@pub_assets.Youtube()
+					</a>
+					<a href="https://github.com/muhwyndhamhp">
+						@pub_assets.Github()
+					</a>
+					<a href="https://mwyndham.medium.com">
+						@pub_assets.Medium()
+					</a>
+					<a href="https://www.linkedin.com/in/m-wyndham-haryata-permana-b43ab2134/">
+						@pub_assets.Linkedin()
+					</a>
+				</div>
+			</nav>
+		</footer>
+	</div>
+}
+
+templ oldFooter(buttons []pub_variables.InlineButton) {
 	<div class="mt-20 h-16 w-full flex-row bg-slate-200 px-8 pt-2 text-center dark:bg-slate-900">
 		<div class="inline w-full flex-auto rounded-md bg-slate-200 py-4 dark:bg-slate-900 md:px-4">
 			for _, btn := range buttons {

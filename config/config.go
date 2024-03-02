@@ -10,6 +10,7 @@ import (
 const (
 	ENV_FILE = ".env"
 
+	ENV                   = "ENV"
 	APP_PORT              = "APP_PORT"
 	JWT_SECRET            = "JWT_SECRET"
 	OAUTH_AUTHORIZE_URL   = "OAUTH_AUTHORIZE_URL"
@@ -20,6 +21,7 @@ const (
 	RESUME_POST_ID        = "RESUME_POST_ID"
 	DATABASE_URL          = "DATABASE_URL"
 	STORE_VOL_PATH        = "STORE_VOL_PATH"
+	POSTS_VOL_PATH        = "POSTS_VOL_PATH"
 )
 
 func init() {
