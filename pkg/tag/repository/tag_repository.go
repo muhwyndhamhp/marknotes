@@ -25,7 +25,7 @@ func (r *repository) Delete(ctx context.Context, id uint) error {
 func (r *repository) Get(ctx context.Context, funcs ...scopes.QueryScope) ([]models.Tag, error) {
 	var res []models.Tag
 	scopes := scopes.Unwrap(funcs...)
-	err := r.db.WithContext(ctx).Debug().
+	err := r.db.WithContext(ctx).
 		Session(&gorm.Session{SkipDefaultTransaction: true}).
 		Scopes(scopes...).
 		Find(&res).

@@ -6,7 +6,16 @@ import (
 )
 
 func Migrate(db *gorm.DB) {
-	db.Debug().AutoMigrate(&models.Post{})
-	db.Debug().AutoMigrate(&models.User{})
-	db.Debug().AutoMigrate(&models.Tag{})
+	err := db.Debug().AutoMigrate(&models.Post{})
+	if err != nil {
+		panic(err)
+	}
+	err = db.Debug().AutoMigrate(&models.User{})
+	if err != nil {
+		panic(err)
+	}
+	err = db.Debug().AutoMigrate(&models.Tag{})
+	if err != nil {
+		panic(err)
+	}
 }

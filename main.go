@@ -38,9 +38,9 @@ func main() {
 
 	adminGroup := e.Group("")
 
-	postRepo := _postRepo.NewPostRepository(db.GetDB())
-	userRepo := _userRepo.NewUserRepository(db.GetDB())
-	tagRepo := _tagRepo.NewTagRepository(db.GetDB())
+	postRepo := _postRepo.NewPostRepository(db.GetLibSQLDB())
+	userRepo := _userRepo.NewUserRepository(db.GetLibSQLDB())
+	tagRepo := _tagRepo.NewTagRepository(db.GetLibSQLDB())
 	htmxMid := middlewares.HTMXRequest()
 
 	service := jwt.Service{SecretKey: []byte(config.Get(config.JWT_SECRET))}
@@ -60,7 +60,16 @@ func main() {
 		userRepo)
 
 	// go func() {
-	// 	migration.Migrate(db.GetDB())
+	// migration.Migrate(db.GetLibSQLDB())
+	// var ex models.User
+	// _ = db.GetLibSQLDB().First(&ex).Error
+	// if ex.ID == 0 {
+	// 	db.GetLibSQLDB().Save(&models.User{
+	// 		Email:       "mwyndham@graveltechnology.com",
+	// 		Name:        "M Wyndham",
+	// 		OauthUserID: "34619560",
+	// 	})
+	// }
 	// }()
 	//
 	// go func() {
