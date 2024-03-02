@@ -27,4 +27,7 @@ build:
 	@CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "$(LDFLAGS)" -o main main.go
 
 minify-tw:
-	@tailwindcss -i ./dist/main.css -o ./dist/tailwind.css --minify
+	@npx tailwindcss -i ./src/main.css -o ./dist/tailwind.css --minify
+
+minify-es:
+	@./node_modules/.bin/esbuild ./src/*.js --bundle --minify --outdir=dist --target=chrome58,firefox57,safari11
