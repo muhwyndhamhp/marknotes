@@ -95,7 +95,13 @@ func nav(indexSelected int) []pub_variables.DrawerMenu {
 			Label:     "Back to Site",
 			URL:       "/",
 			IsActive:  false,
-			IsBoosted: true,
+			IsBoosted: false,
+		},
+		{
+			Label:     "Logout",
+			URL:       "/logout",
+			IsActive:  false,
+			IsBoosted: false,
 		},
 	}
 

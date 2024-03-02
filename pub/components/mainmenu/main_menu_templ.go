@@ -93,7 +93,7 @@ func buttonRows(buttons []pub_variables.InlineButton) templ.Component {
 				buttons[0].UserID != uint(0),
 			),
 			templ.KV(
-				"md:max-w-sm lg:max-w-sm",
+				"md:max-w-sm lg:max-w-md",
 				buttons[0].UserID == uint(0),
 			),
 		}
@@ -114,9 +114,20 @@ func buttonRows(buttons []pub_variables.InlineButton) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		for _, btn := range buttons {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<li><a hx-boost=\"true\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<li><a")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
+			}
+			if btn.IsBoosted {
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" hx-boost=\"true\"")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+			} else {
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" hx-boost=\"false\"")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
 			}
 			if !pub_base.IsVisible(btn.AuthRule, btn.UserID) {
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" class=\"hidden\"")
@@ -145,7 +156,7 @@ func buttonRows(buttons []pub_variables.InlineButton) templ.Component {
 			var templ_7745c5c3_Var6 string
 			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(btn.Label)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/components/mainmenu/main_menu.templ`, Line: 50, Col: 18}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/components/mainmenu/main_menu.templ`, Line: 54, Col: 18}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 			if templ_7745c5c3_Err != nil {

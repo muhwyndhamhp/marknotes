@@ -105,25 +105,22 @@ func new(uploadURL string, existingPost *models.Post) templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"w-full h-full\"><br><div class=\"flex flex-col justify-center items-center\"><form id=\"form-post\" class=\"w-full md:max-w-3xl lg:max-w-4xl \"><input placeholder=\"Blog title goes here...\" class=\"text-4xl font-semibold text-accent text-center placeholder:text-2xl placeholder:font-normal card\n                    bg-neutral-50 dark:bg-neutral-900 border-transparent w-full p-3 mt-0 focus:outline-none\n                    shadow-2xl shadow-accent/20\" type=\"text\" name=\"title\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"w-full h-full\"><br><div class=\"flex flex-col justify-center items-center\"><form id=\"form-post\" class=\"w-full md:max-w-3xl lg:max-w-4xl\"><textarea placeholder=\"Blog title goes here...\" class=\"text-4xl textarea textarea-xs textarea-ghost font-extrabold\n               resize-y\n               align-middle\n               text-justify placeholder:text-2xl placeholder:font-normal border-transparent w-full p-6\n               mt-0 focus:outline-none min-h-1\" type=\"text\" name=\"title\" rows=\"2\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		if existingPost != nil {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" value=\"")
+			var templ_7745c5c3_Var4 string
+			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(existingPost.Title)
 			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/pages/dashboards/articles/create/new.templ`, Line: 62, Col: 26}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(existingPost.Title))
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("><br><textarea class=\"hidden\" name=\"content\" type=\"text\" id=\"content\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</textarea><br><textarea class=\"hidden\" name=\"content\" type=\"text\" id=\"content\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

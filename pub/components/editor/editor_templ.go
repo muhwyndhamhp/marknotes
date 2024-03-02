@@ -37,7 +37,7 @@ func Editor(uploadURL string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" id=\"code-editor\" class=\"tiptap card w-full md:max-w-3xl lg:max-w-4xl min-h-96 bg-neutral-50 dark:bg-neutral-900 p-6 shadow-2xl shadow-accent/20\"></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" id=\"code-editor\" class=\"tiptap card w-full md:max-w-3xl lg:max-w-4xl min-h-96 bg-base-100 p-6 shadow-2xl\"></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

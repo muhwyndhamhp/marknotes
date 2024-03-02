@@ -26,14 +26,17 @@ module.exports = {
   ],
    daisyui: {
       themes:[
-         // "light",
-         // "cupcake",
-         // "wireframe",
-         // "autumn",
-         // "emerald",
          "fantasy",
-         // "retro",
-         // "cyberpunk",
+         "light",
+         "cupcake",
+         "wireframe",
+         "autumn",
+         "emerald",
+         "retro",
+         "cyberpunk",
+         "pastel",
+         "lemonade",
+         "cmyk",
          {
 
             mytheme: {
@@ -54,6 +57,6 @@ module.exports = {
          "night",
          "forest",
       ],
-      darkTheme: "forest",
+      darkTheme: "night",
    },
 }

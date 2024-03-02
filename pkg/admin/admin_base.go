@@ -18,12 +18,6 @@ func AppendFooterButtons(userID uint) []pub_variables.InlineButton {
 			AuthRule:  pub_variables.AlwaysMode,
 			UserID:    userID,
 		},
-		{
-			AnchorUrl: "/login",
-			Label:     "Login",
-			AuthRule:  pub_variables.GuestMode,
-			UserID:    userID,
-		},
 	}
 }
 
@@ -34,42 +28,42 @@ func AppendHeaderButtons(userID uint) []pub_variables.InlineButton {
 			Label:     "Articles",
 			AuthRule:  pub_variables.AlwaysMode,
 			UserID:    userID,
+			IsBoosted: true,
 		},
 		{
 			AnchorUrl: "/contact",
 			Label:     "Contact Me",
 			AuthRule:  pub_variables.AlwaysMode,
 			UserID:    userID,
+			IsBoosted: true,
 		},
 		{
 			AnchorUrl: "/resume",
 			Label:     "Resume",
 			AuthRule:  pub_variables.AlwaysMode,
 			UserID:    userID,
+			IsBoosted: true,
 		},
 		{
 			AnchorUrl: "/dashboard",
 			Label:     "Dashboard",
 			AuthRule:  pub_variables.UserMode,
 			UserID:    userID,
+			IsBoosted: true,
 		},
-		// {
-		// 	AnchorUrl: "/posts/new",
-		// 	Label:     "Create Post",
-		// 	AuthRule:  pub_variables.UserMode,
-		// 	UserID:    userID,
-		// },
-		// {
-		// 	AnchorUrl: "/posts_manage",
-		// 	Label:     "Manage Post",
-		// 	AuthRule:  pub_variables.UserMode,
-		// 	UserID:    userID,
-		// },
+		{
+			AnchorUrl: "/login",
+			Label:     "Login",
+			AuthRule:  pub_variables.GuestMode,
+			UserID:    userID,
+			IsBoosted: false,
+		},
 		{
 			AnchorUrl: "/logout",
 			Label:     "Logout",
 			AuthRule:  pub_variables.UserMode,
 			UserID:    userID,
+			IsBoosted: false,
 		},
 	}
 }

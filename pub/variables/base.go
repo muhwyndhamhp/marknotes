@@ -7,6 +7,7 @@ type InlineButton struct {
 	Label     string
 	AuthRule  AuthRule
 	UserID    uint
+	IsBoosted bool
 }
 
 const (

@@ -29,7 +29,7 @@ templ buttonRows(buttons []pub_variables.InlineButton) {
 				buttons[0].UserID != uint(0),
 			),
 			templ.KV(
-				"md:max-w-sm lg:max-w-sm",
+				"md:max-w-sm lg:max-w-md",
 				buttons[0].UserID == uint(0),
 			),
 		}
@@ -40,7 +40,11 @@ templ buttonRows(buttons []pub_variables.InlineButton) {
 				for _, btn := range buttons {
 					<li>
 						<a
-							hx-boost="true"
+							if btn.IsBoosted {
+								hx-boost="true"
+							} else {
+								hx-boost="false"
+							}
 							if !pub_base.IsVisible(btn.AuthRule, btn.UserID) {
 								class="hidden"
 							} else {
