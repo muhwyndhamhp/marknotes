@@ -38,17 +38,15 @@ templ PostItem(post models.Post) {
 }
 
 templ PostMetadata(post models.Post) {
-	<p class={ "font-mono text-sm mt-2", templ.KV("text-center", post.FormMeta["CenterAlign"] == true) }>
+	<p class={ "font-mono text-sm mt-2 text-accent", templ.KV("text-center", post.FormMeta["CenterAlign"] == true) }>
 		Created: { post.CreatedAt.Format("Jan, 02 2006") } | 
 		Updated: { post.UpdatedAt.Format("Jan, 02 2006") } | 
 		Published: { post.PublishedAt.Format("Jan, 02 2006") }
 	</p>
-	<p class={ "text-sm text-accent font-semibold my-3", templ.KV("text-center", post.FormMeta["CenterAlign"] == true) }>
-		Status: { string(post.Status) }
-	</p>
+	<p class={ "text-sm text-accent font-semibold my-3", templ.KV("text-center", post.FormMeta["CenterAlign"] == true) }></p>
 	<div id="tag-flex" class="w-12/12 -ms-1 flex flex-row flex-wrap">
 		for i := range post.Tags {
-			<div class="badge badge-outline badge-primary mx-1">{ post.Tags[i].Title }</div>
+			<div class="badge badge-outline badge-primary mx-1 my-2">{ post.Tags[i].Title }</div>
 		}
 	</div>
 }

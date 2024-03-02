@@ -168,7 +168,7 @@ func TitleGroup(post models.Post) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		for i := range post.Tags {
-			var templ_7745c5c3_Var7 = []any{"badge badge-primary badge-outline badge-md mx-1 mt-4", templ.KV("-ms-1", i == 0)}
+			var templ_7745c5c3_Var7 = []any{"badge badge-primary badge-outline badge-md mx-1 mt-4"}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var7...)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
