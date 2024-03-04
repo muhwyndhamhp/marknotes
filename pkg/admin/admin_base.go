@@ -51,19 +51,5 @@ func AppendHeaderButtons(userID uint) []pub_variables.InlineButton {
 			UserID:    userID,
 			IsBoosted: true,
 		},
-		// {
-		// 	AnchorUrl: "/login",
-		// 	Label:     "Login",
-		// 	AuthRule:  pub_variables.GuestMode,
-		// 	UserID:    userID,
-		// 	IsBoosted: false,
-		// },
-		// {
-		// 	AnchorUrl: "/logout",
-		// 	Label:     "Logout",
-		// 	AuthRule:  pub_variables.UserMode,
-		// 	UserID:    userID,
-		// 	IsBoosted: false,
-		// },
 	}
 }
