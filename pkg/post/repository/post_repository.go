@@ -58,7 +58,8 @@ func (r *repository) GetByID(ctx context.Context, id uint) (*models.Post, error)
 	if err := r.db.WithContext(ctx).
 		Session(&gorm.Session{SkipDefaultTransaction: true}).
 		Preload("Tags").
-		First(&res, id).
+		Where("id = ?", id).
+		First(&res).
 		Error; err != nil {
 		return nil, errs.Wrap(err)
 	}

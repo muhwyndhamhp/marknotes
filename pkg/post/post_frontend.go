@@ -71,7 +71,7 @@ func NewPostFrontend(g *echo.Group,
 
 	// Alias `articles` for `posts`
 	g.GET("/articles", fe.PostsIndex, authDescribeMid)
-	g.GET("/articles/:slug", fe.GetPostBySlug, authDescribeMid)
+	// g.GET("/articles/:slug", fe.GetPostBySlug, authDescribeMid)
 }
 
 func (fe *PostFrontend) PostMediaGet(c echo.Context) error {
@@ -285,6 +285,8 @@ func (fe *PostFrontend) PostsIndex(c echo.Context) error {
 		scopes.WithStatus(values.Published),
 		scopes.PostIndexedOnly(),
 	)
+
+	fmt.Println(posts)
 	if err != nil {
 		return err
 	}
@@ -311,31 +313,9 @@ func (fe *PostFrontend) PostsIndex(c echo.Context) error {
 }
 
 func (fe *PostFrontend) GetPostBySlug(c echo.Context) error {
-	ctx := c.Request().Context()
-
 	slug := strings.TrimSpace(c.Param("slug"))
 
-	posts, err := fe.repo.Get(ctx, scopes.Where("slug = ?", slug))
-	if err != nil {
-		return err
-	}
-
-	post := posts[0]
-
-	userID := jwt.AppendAndReturnUserID(c, map[string]interface{}{})
-
-	post.FormMeta = map[string]interface{}{
-		"UserID": userID,
-	}
-	bodyOpts := pub_variables.BodyOpts{
-		HeaderButtons: admin.AppendHeaderButtons(userID),
-		FooterButtons: admin.AppendFooterButtons(userID),
-		Component:     nil,
-	}
-
-	postDetail := pub_post_detail.PostDetail(bodyOpts, post)
-
-	return templateRenderer.AssertRender(c, http.StatusOK, postDetail)
+	return c.Redirect(http.StatusFound, fmt.Sprintf("/articles/%s.html", slug))
 }
 
 func (fe *PostFrontend) GetPostByID(c echo.Context) error {

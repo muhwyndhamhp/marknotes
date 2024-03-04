@@ -34,6 +34,10 @@ func NewDashboardFrontend(
 	g.GET("/dashboard/profile", fe.Profile, authMid)
 	g.GET("/dashboard/editor", fe.Editor, authMid)
 	g.GET("/dashboard/tags", fe.Tags, authMid)
+	g.GET("/dismiss", func(c echo.Context) error {
+		// return empty html
+		return c.HTML(200, "")
+	})
 }
 
 type ArticlesCreateRequest struct {

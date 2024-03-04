@@ -18,7 +18,7 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
-	sqldb = db
+	sqldb = db.Debug()
 }
 
 func GetLibSQLDB() *gorm.DB {

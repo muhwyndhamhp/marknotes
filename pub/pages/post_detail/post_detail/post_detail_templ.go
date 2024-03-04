@@ -132,7 +132,7 @@ func TitleGroup(post models.Post) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var5 string
-		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("Created at %s", post.CreatedAt.Format("January 2, 2006")))
+		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("Updated at %s", post.UpdatedAt.Format("January 2, 2006")))
 		if templ_7745c5c3_Err != nil {
 			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/pages/post_detail/post_detail/post_detail.templ`, Line: 47, Col: 75}
 		}

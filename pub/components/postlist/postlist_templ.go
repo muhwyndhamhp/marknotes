@@ -70,7 +70,7 @@ func PostItem(post models.Post) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("><div class=\"px-auto relative mx-auto w-full bg-base-100 card shadow-xl self-center  p-6 md:mx-auto md:my-4 md:max-w-3xl md:px-0 lg:max-w-4xl\"><div class=\"mx-4\"><h2 class=\"text-2xl font-extrabold hover:text-accent\"><a hx-boost=\"true\" hx-swap=\"innerHTML\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("><div class=\"px-auto relative mx-auto w-full bg-base-100 card shadow-xl self-center  p-6 md:mx-auto md:my-4 md:max-w-3xl md:px-0 lg:max-w-4xl\"><div class=\"mx-4\"><h2 class=\"text-2xl font-extrabold hover:text-accent\"><a hx-boost=\"true\" hx-swap=\"outerHTML\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -93,7 +93,7 @@ func PostItem(post models.Post) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var4 templ.SafeURL = templ.SafeURL(fmt.Sprintf("/articles/%s", post.Slug))
+			var templ_7745c5c3_Var4 templ.SafeURL = templ.SafeURL(fmt.Sprintf("/articles/%s.html", post.Slug))
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var4)))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err

@@ -23,11 +23,11 @@ templ PostItem(post models.Post) {
 				<h2 class="text-2xl font-extrabold hover:text-accent">
 					<a
 						hx-boost="true"
-						hx-swap="innerHTML"
+						hx-swap="outerHTML"
 						if post.Slug == "" {
 							href={ templ.SafeURL(fmt.Sprintf("/posts/%d", post.ID)) }
 						} else {
-							href={ templ.SafeURL(fmt.Sprintf("/articles/%s", post.Slug)) }
+							href={ templ.SafeURL(fmt.Sprintf("/articles/%s.html", post.Slug)) }
 						}
 					>{ post.Title }</a>
 				</h2>

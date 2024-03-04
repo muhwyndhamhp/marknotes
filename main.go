@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/labstack/echo/v4"
@@ -17,6 +18,7 @@ import (
 	_tagRepo "github.com/muhwyndhamhp/marknotes/pkg/tag/repository"
 	"github.com/muhwyndhamhp/marknotes/template"
 	"github.com/muhwyndhamhp/marknotes/utils/jwt"
+	"github.com/muhwyndhamhp/marknotes/utils/renderfile"
 	"github.com/muhwyndhamhp/marknotes/utils/routing"
 )
 
@@ -29,6 +31,7 @@ func main() {
 	rg.Use(middlewares.SetCachePolicy())
 	rg.Static("/dist", "dist")
 	rg.Static("/assets", "public/assets")
+	rg.Static("/articles", "public/articles")
 
 	e.Static("/public/sitemap", "public/sitemap")
 	e.File("/robots.txt", "public/assets/robots.txt")
@@ -75,6 +78,10 @@ func main() {
 	// go func() {
 	// 	site.PingSitemap(postRepo)
 	// }()
+
+	go func() {
+		renderfile.RenderPosts(context.Background(), postRepo)
+	}()
 
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%s", config.Get(config.APP_PORT))))
 }

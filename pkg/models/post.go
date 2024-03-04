@@ -18,9 +18,9 @@ type Post struct {
 	Title          string
 	Content        string
 	EncodedContent template.HTML
-	Status         values.PostStatus
+	Status         values.PostStatus `gorm:"index"`
 	PublishedAt    time.Time
-	Slug           string
+	Slug           string                 `gorm:"index"`
 	FormMeta       map[string]interface{} `gorm:"-"`
 	UserID         uint
 	User           User
