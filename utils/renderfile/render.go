@@ -2,6 +2,7 @@ package renderfile
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"os"
 
@@ -25,6 +26,9 @@ func RenderPost(ctx context.Context, post *models.Post) {
 		FooterButtons: admin.AppendFooterButtons(userID),
 		Component:     nil,
 	}
+
+	js, _ := json.MarshalIndent(post, "", "   ")
+	fmt.Println(string(js))
 
 	postDetail := pub_post_detail.PostDetail(bodyOpts, *post)
 
