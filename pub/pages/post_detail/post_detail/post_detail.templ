@@ -45,7 +45,7 @@ templ TitleGroup(post models.Post) {
 	<div class="grow align-middle flex flex-col">
 		<h1 class="text-4xl font-extrabold">{ post.Title }</h1>
 		<p class="text-sm font-mono mt-4">
-			{ fmt.Sprintf("Created at %s", post.CreatedAt.Format("January 2, 2006")) }
+			{ fmt.Sprintf("Updated at %s", post.UpdatedAt.Format("January 2, 2006")) }
 		</p>
 		if post.PublishedAt.Unix() > 0 {
 			<p class="text-sm font-mono">
@@ -54,7 +54,7 @@ templ TitleGroup(post models.Post) {
 		}
 		<div id="tag-flex" class="w-full flex flex-row flex-wrap">
 			for i := range post.Tags {
-				<div class={ "badge badge-primary badge-outline badge-md mx-1 mt-4", templ.KV("-ms-1", i == 0) }>
+				<div class={ "badge badge-primary badge-outline badge-md mx-1 mt-4" }>
 					{ post.Tags[i].Title }
 				</div>
 			}

@@ -14,7 +14,7 @@ func PostIndexedOnly() QueryScope {
 			"id", "title",
 			"created_at", "published_at",
 			"updated_at", "user_id",
-			"status",
+			"status", "slug",
 		)
 	}
 }

@@ -22,17 +22,7 @@ templ title() {
 
 templ buttonRows(buttons []pub_variables.InlineButton) {
 	<div
-		class={
-			"navbar bg-base-100 shadow-xl md:rounded-badge mx-auto",
-			templ.KV(
-				"md:max-w-xl lg:max-w-xl",
-				buttons[0].UserID != uint(0),
-			),
-			templ.KV(
-				"md:max-w-sm lg:max-w-md",
-				buttons[0].UserID == uint(0),
-			),
-		}
+		class={ "navbar bg-base-100 shadow-xl md:rounded-badge mx-auto md:max-w-lg" }
 	>
 		<div class="navbar-start"></div>
 		<div class="navbar-center flex">

@@ -112,7 +112,6 @@ func (h *AuthService) Login(c echo.Context) error {
 		"state":        []string{token},
 	}
 
-	fmt.Println(params)
 	u, err := url.ParseRequestURI(h.AuthURL)
 	if err != nil {
 		return err

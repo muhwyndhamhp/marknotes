@@ -9,7 +9,6 @@ import (
 
 	"github.com/a-h/templ"
 	"github.com/labstack/echo/v4"
-	"github.com/muhwyndhamhp/marknotes/config"
 )
 
 type Template struct{}
@@ -47,10 +46,8 @@ func AssertRenderLog(c echo.Context, statusCode int, component templ.Component) 
 	return c.Render(statusCode, "templ-log", component)
 }
 
-func RenderPost(component templ.Component, slug string, id uint) error {
-	pagesPath := config.Get(config.POSTS_VOL_PATH)
-
-	file, err := os.Create(fmt.Sprintf("%s/%s-%d.html", pagesPath, slug, id))
+func RenderPost(component templ.Component, path, slug string, id uint) error {
+	file, err := os.Create(fmt.Sprintf("%s/%s.html", path, slug))
 	if err != nil {
 		return err
 	}

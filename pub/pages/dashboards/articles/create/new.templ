@@ -27,15 +27,18 @@ templ submitButton(existingID uint) {
 		<button
 			class="btn btn-primary btn-lg flex-grow join-item"
 			hx-post={ fmt.Sprintf("/dashboard/articles/push?status=published&existingID=%d", existingID) }
-			hx-target="#admin-root"
+			hx-target="#dashboard-content"
+			hx-swap="afterend"
 			hx-vals="js:{content_json: window.editor.getJSON()}"
+			hx-indicator="#global-progress"
 		>
 			Publish
 		</button>
 		<button
 			class="btn btn-secondary btn-lg flex-grow join-item"
 			hx-post={ fmt.Sprintf("/dashboard/articles/push?status=draft&existingID=%d", existingID) }
-			hx-target="#admin-root"
+			hx-target="#dashboard-content"
+			hx-swap="afterend"
 			hx-vals="js:{content_json: window.editor.getJSON()}"
 		>
 			Save Draft
@@ -88,7 +91,7 @@ templ new(uploadURL string, existingPost *models.Post) {
                "on load or htmx:swap set window.content to %s then trigger loadEditor",
                tern.Struct(existingPost, &models.Post{}).Content,
                ) }
-					class="min-h-96"
+					class="card w-full md:max-w-3xl lg:max-w-4xl min-h-96 bg-base-100 p-6 shadow-2xl"
 					hx-get="/dashboard/editor"
 					hx-trigger="loadEditor"
 					hx-swap="outerHTML"

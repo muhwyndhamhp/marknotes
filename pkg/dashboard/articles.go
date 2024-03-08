@@ -1,6 +1,7 @@
 package dashboard
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"html/template"
@@ -13,6 +14,7 @@ import (
 	"github.com/muhwyndhamhp/marknotes/config"
 	"github.com/muhwyndhamhp/marknotes/pkg/models"
 	"github.com/muhwyndhamhp/marknotes/pkg/post/values"
+	pub_alert "github.com/muhwyndhamhp/marknotes/pub/components/alert"
 	pub_dashboards_articles "github.com/muhwyndhamhp/marknotes/pub/pages/dashboards/articles"
 	pub_dashboards_articles_new "github.com/muhwyndhamhp/marknotes/pub/pages/dashboards/articles/create"
 	pub_variables "github.com/muhwyndhamhp/marknotes/pub/variables"
@@ -20,6 +22,7 @@ import (
 	"github.com/muhwyndhamhp/marknotes/utils/constants"
 	"github.com/muhwyndhamhp/marknotes/utils/errs"
 	"github.com/muhwyndhamhp/marknotes/utils/jwt"
+	"github.com/muhwyndhamhp/marknotes/utils/renderfile"
 	"github.com/muhwyndhamhp/marknotes/utils/sanitizations"
 	"github.com/muhwyndhamhp/marknotes/utils/scopes"
 	"github.com/muhwyndhamhp/marknotes/utils/strman"
@@ -147,22 +150,23 @@ func (fe *DashboardFrontend) ArticlesPush(c echo.Context) error {
 	var req ArticlesCreateRequest
 	if err := c.Bind(&req); err != nil {
 		fmt.Println(err)
-		return c.JSON(http.StatusBadRequest, err.Error())
+		fail := pub_alert.AlertFailure("Failed to save post:", err.Error())
+		return templates.AssertRender(c, http.StatusOK, fail)
 	}
 
 	if err := c.Validate(req); err != nil {
 		fmt.Println(err)
-		return err
+		fail := pub_alert.AlertFailure("Failed to save post:", err.Error())
+		return templates.AssertRender(c, http.StatusOK, fail)
 	}
 
-	fmt.Println(req.Content)
 	sanitizedHTML := sanitizations.SanitizeHtml(req.Content)
-	fmt.Println(sanitizedHTML)
 
 	slug, err := strman.GenerateSlug(req.Title)
 	if err != nil {
 		fmt.Println(err)
-		return err
+		fail := pub_alert.AlertFailure("Failed to save post:", err.Error())
+		return templates.AssertRender(c, http.StatusOK, fail)
 	}
 
 	post := tern.Struct(xp, &models.Post{})
@@ -173,9 +177,9 @@ func (fe *DashboardFrontend) ArticlesPush(c echo.Context) error {
 	post.Status = status
 	post.UserID = claims.UserID
 	post.Slug = slug
-	if status == values.Published {
+	if status == values.Published && post.PublishedAt.IsZero() {
 		now := time.Now()
-		post.PublishedAt = *tern.Struct(&post.PublishedAt, &now)
+		post.PublishedAt = now
 	}
 
 	tags := strings.Split(req.Tags, ",")
@@ -211,23 +215,25 @@ func (fe *DashboardFrontend) ArticlesPush(c echo.Context) error {
 
 	err = fe.PostRepo.Upsert(ctx, post)
 	if err != nil {
-		return err
+		fail := pub_alert.AlertFailure("Failed to save post:", err.Error())
+		return templates.AssertRender(c, http.StatusOK, fail)
 	}
 
-	opts := pub_variables.DashboardOpts{
-		Nav:         nav(0),
-		BreadCrumbs: fe.Breadcrumbs(fmt.Sprintf("dashboard/articles/%d/edit", post.ID)),
+	if status == values.Published {
+		go func() {
+			ctx := context.Background()
+			renderfile.RenderPost(ctx, post)
+		}()
+	} else {
+		go func() {
+			err := renderfile.DeleteFile(fmt.Sprintf("public/articles/%s.html", post.Slug))
+			if err != nil {
+				fmt.Println(err)
+			}
+		}()
 	}
 
-	baseURL := strings.Split(config.Get(config.OAUTH_URL), "/callback")[0]
-	uploadURL := fmt.Sprintf("%s/posts/%d/media/upload", baseURL, post.ID)
+	success := pub_alert.AlertSuccess("Post has been saved successfully")
 
-	vm := pub_dashboards_articles_new.NewVM{
-		Opts:      opts,
-		UploadURL: uploadURL,
-		Post:      post,
-	}
-	articlesNew := pub_dashboards_articles_new.New(vm)
-
-	return templates.AssertRender(c, http.StatusOK, articlesNew)
+	return templates.AssertRender(c, http.StatusOK, success)
 }

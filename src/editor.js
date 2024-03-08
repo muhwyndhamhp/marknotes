@@ -29,7 +29,7 @@ export const editor = new Editor({
             keepAttributes: false, 
          },
       }),
-      CodeBlockLowlight.configure({ 
+      CodeBlockLowlight.extend({}).configure({ 
          lowlight,
          HTMLAttributes: {
             class: 'mockup-code rounded-badge',
@@ -92,8 +92,22 @@ export const editor = new Editor({
    
 })
 
-
 window.editor = editor
+
+window.editor.view.dom.addEventListener('paste', function(event) {
+   const clipboardData = event.clipboardData || window.clipboardData
+   const pastedContent = clipboardData.getData('text/html')
+
+   if (pastedContent === undefined || pastedContent === "") {
+      return
+   }
+
+   event.preventDefault()
+   const parsedContent = new DOMParser().parseFromString(pastedContent, 'text/html')
+
+   editor.chain().focus().setContent(parsedContent.body.innerHTML).run()
+})
+
 
 
 window.allowDrop = function (ev) {
@@ -108,8 +122,6 @@ window.upload = function(ev, url) {
    }
 
    file = ev.dataTransfer.files[0]
-
-   console.log(file)
 
    Swal.showLoading()
 

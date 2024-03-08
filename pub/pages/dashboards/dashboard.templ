@@ -7,7 +7,6 @@ templ Dashboard(opts pub_variables.DashboardOpts) {
 	<!DOCTYPE html>
 	<html lang="en">
 		<head hx-boost="true">
-			@pub.Background()
 			for i := range opts.AdditionalHeaders {
 				@RenderRaw(opts.AdditionalHeaders[i])
 			}
@@ -15,6 +14,8 @@ templ Dashboard(opts pub_variables.DashboardOpts) {
 			<title>mwyndham.dev</title>
 		</head>
 		<body id="admin-root" class="bg-base-100">
+			@pub.Background()
+			<progress id="global-progress" class="htmx-indicator progress w-full top-0 fixed z-30"></progress>
 			@drawer(opts.Nav, opts.BreadCrumbs, opts.Comp, opts.NavItems...)
 		</body>
 	</html>
@@ -40,13 +41,15 @@ templ drawer(items []pub_variables.DrawerMenu, breadcrumbs []pub_variables.Bread
 					<ul>
 						for i := range breadcrumbs {
 							<li>
-								<a href={ breadcrumbs[i].URL }>{ breadcrumbs[i].Label }</a>
+								<a hx-boost="true" href={ breadcrumbs[i].URL }>{ breadcrumbs[i].Label }</a>
 							</li>
 						}
 					</ul>
 				</div>
 				<br/>
-				@comp
+				<div id="dashboard-content" class="w-full h-full">
+					@comp
+				</div>
 			</div>
 		</div>
 		<div class="divider"></div>
