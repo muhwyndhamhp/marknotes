@@ -27,7 +27,6 @@ import (
 	"github.com/muhwyndhamhp/marknotes/utils/scopes"
 	"github.com/muhwyndhamhp/marknotes/utils/strman"
 	"github.com/muhwyndhamhp/marknotes/utils/tern"
-	"gorm.io/gorm"
 )
 
 func (fe *DashboardFrontend) ArticlesEdit(c echo.Context) error {
@@ -183,6 +182,7 @@ func (fe *DashboardFrontend) ArticlesPush(c echo.Context) error {
 	}
 
 	tags := strings.Split(req.Tags, ",")
+	post.Tags = []*models.Tag{}
 
 	for i := range tags {
 		if tags[i] == "" {
@@ -190,10 +190,10 @@ func (fe *DashboardFrontend) ArticlesPush(c echo.Context) error {
 		}
 		tagName := strings.ToLower(strings.TrimSpace(tags[i]))
 		tagSlug := strings.ReplaceAll(tagName, " ", "-")
-		var id uint
 		res, _ := fe.TagRepo.Get(ctx, scopes.Where("slug = ?", tagSlug))
+		var vTag models.Tag
 		if len(res) != 0 {
-			id = res[0].ID
+			vTag = res[0]
 		} else {
 			tag := models.Tag{
 				Slug:  tagSlug,
@@ -203,14 +203,10 @@ func (fe *DashboardFrontend) ArticlesPush(c echo.Context) error {
 			if err != nil {
 				return errs.Wrap(err)
 			}
-			id = tag.ID
+			vTag = tag
 		}
 
-		post.Tags = append(post.Tags, &models.Tag{
-			Model: gorm.Model{
-				ID: uint(id),
-			},
-		})
+		post.Tags = append(post.Tags, &vTag)
 	}
 
 	err = fe.PostRepo.Upsert(ctx, post)
