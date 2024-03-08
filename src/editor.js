@@ -95,11 +95,14 @@ export const editor = new Editor({
 window.editor = editor
 
 window.editor.view.dom.addEventListener('paste', function(event) {
-   event.preventDefault()
-
    const clipboardData = event.clipboardData || window.clipboardData
    const pastedContent = clipboardData.getData('text/html')
 
+   if (pastedContent === undefined || pastedContent === "") {
+      return
+   }
+
+   event.preventDefault()
    const parsedContent = new DOMParser().parseFromString(pastedContent, 'text/html')
 
    editor.chain().focus().setContent(parsedContent.body.innerHTML).run()
