@@ -3,6 +3,8 @@ package main
 import (
 	"context"
 	"fmt"
+	"net/http"
+	"strings"
 
 	"github.com/labstack/echo/v4"
 	"github.com/muhwyndhamhp/marknotes/config"
@@ -30,6 +32,7 @@ func main() {
 	routing.SetupRouter(e)
 
 	rg := e.Group("")
+	rg.Use(redirectHTML())
 	rg.Use(middlewares.SetCachePolicy())
 	rg.Static("/dist", "dist")
 	rg.Static("/assets", "public/assets")
@@ -77,4 +80,17 @@ func main() {
 	}()
 
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%s", config.Get(config.APP_PORT))))
+}
+
+func redirectHTML() echo.MiddlewareFunc {
+	return func(next echo.HandlerFunc) echo.HandlerFunc {
+		return func(c echo.Context) error {
+			requestedPath := c.Request().URL.Path
+			if strings.HasPrefix(requestedPath, "/articles") && !strings.HasSuffix(requestedPath, ".html") {
+				newPath := requestedPath + ".html"
+				return c.Redirect(http.StatusMovedPermanently, newPath)
+			}
+			return next(c)
+		}
+	}
 }

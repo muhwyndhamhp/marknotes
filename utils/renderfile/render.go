@@ -28,6 +28,14 @@ func RenderPost(ctx context.Context, post *models.Post) {
 
 	postDetail := pub_post_detail.PostDetail(bodyOpts, *post)
 
+	// check if public/articles path exists
+	if _, err := os.Stat("public/articles"); os.IsNotExist(err) {
+		err := os.Mkdir("public/articles", 0o755)
+		if err != nil {
+			fmt.Println(err)
+		}
+	}
+
 	err := template.RenderPost(postDetail, "public/articles", post.Slug, post.ID)
 	if err != nil {
 		fmt.Println(err)
