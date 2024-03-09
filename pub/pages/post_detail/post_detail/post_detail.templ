@@ -12,6 +12,7 @@ templ PostDetail(body pub_variables.BodyOpts, post models.Post) {
 		HeaderButtons: body.HeaderButtons,
 		FooterButtons: body.FooterButtons,
 		Component:     postDetail(post),
+		ExtraHeaders:  body.ExtraHeaders,
 	})
 }
 

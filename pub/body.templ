@@ -9,6 +9,9 @@ templ Body(opts pub_variables.BodyOpts) {
 	<html lang="en">
 		<head hx-boost="true">
 			@Header()
+			for _ , head := range opts.ExtraHeaders {
+				@head
+			}
 			<title>mwyndham.dev</title>
 		</head>
 		<body id="admin-root" class="bg-base-100 dark:bg-base-300">

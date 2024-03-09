@@ -34,6 +34,7 @@ func PostDetail(body pub_variables.BodyOpts, post models.Post) templ.Component {
 			HeaderButtons: body.HeaderButtons,
 			FooterButtons: body.FooterButtons,
 			Component:     postDetail(post),
+			ExtraHeaders:  body.ExtraHeaders,
 		}).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -121,7 +122,7 @@ func TitleGroup(post models.Post) templ.Component {
 		var templ_7745c5c3_Var4 string
 		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(post.Title)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/pages/post_detail/post_detail/post_detail.templ`, Line: 45, Col: 50}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/pages/post_detail/post_detail/post_detail.templ`, Line: 46, Col: 50}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {
@@ -134,7 +135,7 @@ func TitleGroup(post models.Post) templ.Component {
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("Updated at %s", post.UpdatedAt.Format("January 2, 2006")))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/pages/post_detail/post_detail/post_detail.templ`, Line: 47, Col: 75}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/pages/post_detail/post_detail/post_detail.templ`, Line: 48, Col: 75}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
@@ -152,7 +153,7 @@ func TitleGroup(post models.Post) templ.Component {
 			var templ_7745c5c3_Var6 string
 			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("Published %s", post.PublishedAt.Format("January 2, 2006")))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/pages/post_detail/post_detail/post_detail.templ`, Line: 51, Col: 77}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/pages/post_detail/post_detail/post_detail.templ`, Line: 52, Col: 77}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 			if templ_7745c5c3_Err != nil {
@@ -188,7 +189,7 @@ func TitleGroup(post models.Post) templ.Component {
 			var templ_7745c5c3_Var8 string
 			templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(post.Tags[i].Title)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/pages/post_detail/post_detail/post_detail.templ`, Line: 57, Col: 25}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/pages/post_detail/post_detail/post_detail.templ`, Line: 58, Col: 25}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 			if templ_7745c5c3_Err != nil {

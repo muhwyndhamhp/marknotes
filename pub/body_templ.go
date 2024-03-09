@@ -35,6 +35,12 @@ func Body(opts pub_variables.BodyOpts) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
+		for _, head := range opts.ExtraHeaders {
+			templ_7745c5c3_Err = head.Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<title>mwyndham.dev</title></head><body id=\"admin-root\" class=\"bg-base-100 dark:bg-base-300\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
