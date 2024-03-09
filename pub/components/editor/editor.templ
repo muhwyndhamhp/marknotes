@@ -1,9 +1,14 @@
 package pub_editor
 
 import "fmt"
+import "github.com/muhwyndhamhp/marknotes/config"
 
 templ Editor(uploadURL string) {
-	<script src="/dist/editor.js"></script>
+	if config.Get(config.ENV) != "dev" {
+		<script src="https://resource.mwyndham.dev/dist/editor.js"></script>
+	} else {
+		<script src="/dist/editor.js"></script>
+	}
 	<div
 		_={ fmt.Sprintf(`
             on drop call window.upload(event, "%s")

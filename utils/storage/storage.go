@@ -57,7 +57,7 @@ func AppendTimestamp(fileName string) string {
 	return fileName
 }
 
-func IsValidFileType(fileHeader *multipart.FileHeader) bool {
+func IsValidFileType(fileHeader *multipart.FileHeader) (string, bool) {
 	allowedImageTypes := map[string]bool{
 		"image/jpeg": true,
 		"image/png":  true,
@@ -75,18 +75,18 @@ func IsValidFileType(fileHeader *multipart.FileHeader) bool {
 
 	file, err := fileHeader.Open()
 	if err != nil {
-		return false
+		return "", false
 	}
 	defer file.Close()
 
 	buffer := make([]byte, 512) // Read the first 512 bytes to detect file type
 	_, err = file.Read(buffer)
 	if err != nil {
-		return false
+		return "", false
 	}
 
 	contentType := http.DetectContentType(buffer)
 
 	// Check if the content type is allowed for either images or videos
-	return allowedImageTypes[contentType] || allowedVideoTypes[contentType]
+	return contentType, allowedImageTypes[contentType] || allowedVideoTypes[contentType]
 }

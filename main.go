@@ -20,6 +20,7 @@ import (
 	"github.com/muhwyndhamhp/marknotes/pkg/tag"
 	_tagRepo "github.com/muhwyndhamhp/marknotes/pkg/tag/repository"
 	"github.com/muhwyndhamhp/marknotes/template"
+	"github.com/muhwyndhamhp/marknotes/utils/cloudbucket"
 	"github.com/muhwyndhamhp/marknotes/utils/jwt"
 	"github.com/muhwyndhamhp/marknotes/utils/renderfile"
 	"github.com/muhwyndhamhp/marknotes/utils/routing"
@@ -45,6 +46,7 @@ func main() {
 
 	adminGroup := e.Group("")
 
+	bucket := cloudbucket.NewS3Client()
 	postRepo := _postRepo.NewPostRepository(db.GetLibSQLDB())
 	userRepo := _userRepo.NewUserRepository(db.GetLibSQLDB())
 	tagRepo := _tagRepo.NewTagRepository(db.GetLibSQLDB())
@@ -56,7 +58,7 @@ func main() {
 	byIDMid := middlewares.ByIDMiddleware()
 
 	admin.NewAdminFrontend(adminGroup, postRepo, authDescMid)
-	post.NewPostFrontend(adminGroup, postRepo, htmxMid, authMid, authDescMid, byIDMid)
+	post.NewPostFrontend(adminGroup, postRepo, bucket, htmxMid, authMid, authDescMid, byIDMid)
 	dashboard.NewDashboardFrontend(adminGroup, postRepo, tagRepo, htmxMid, authMid, authDescMid, byIDMid)
 	tag.NewTagFrontend(adminGroup, tagRepo, authMid)
 	auth.NewAuthService(adminGroup, service, config.Get(config.OAUTH_AUTHORIZE_URL),
@@ -65,6 +67,28 @@ func main() {
 		config.Get(config.OAUTH_SECRET),
 		config.Get(config.OAUTH_URL),
 		userRepo)
+
+	go func() {
+		if config.Get(config.ENV) == "dev" {
+			return
+		}
+
+		ctx := context.Background()
+		_, err := bucket.UploadStatic(ctx, "dist/tailwind.css", "text/css")
+		if err != nil {
+			e.Logger.Fatal(err)
+		}
+
+		_, err = bucket.UploadStatic(ctx, "dist/main.js", "text/javascript")
+		if err != nil {
+			e.Logger.Fatal(err)
+		}
+
+		_, err = bucket.UploadStatic(ctx, "dist/editor.js", "text/javascript")
+		if err != nil {
+			e.Logger.Fatal(err)
+		}
+	}()
 
 	go func() {
 		renderfile.RenderPosts(context.Background(), postRepo)

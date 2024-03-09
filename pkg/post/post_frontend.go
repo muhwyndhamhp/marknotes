@@ -23,6 +23,7 @@ import (
 	pub_post_manage "github.com/muhwyndhamhp/marknotes/pub/pages/post_manage"
 	pub_variables "github.com/muhwyndhamhp/marknotes/pub/variables"
 	templateRenderer "github.com/muhwyndhamhp/marknotes/template"
+	"github.com/muhwyndhamhp/marknotes/utils/cloudbucket"
 	"github.com/muhwyndhamhp/marknotes/utils/jwt"
 	"github.com/muhwyndhamhp/marknotes/utils/markd"
 	"github.com/muhwyndhamhp/marknotes/utils/params"
@@ -35,18 +36,21 @@ import (
 )
 
 type PostFrontend struct {
-	repo models.PostRepository
+	repo   models.PostRepository
+	bucket *cloudbucket.S3Client
 }
 
 func NewPostFrontend(g *echo.Group,
 	repo models.PostRepository,
+	bucket *cloudbucket.S3Client,
 	htmxMid echo.MiddlewareFunc,
 	authMid echo.MiddlewareFunc,
 	authDescribeMid echo.MiddlewareFunc,
 	byIDMiddleware echo.MiddlewareFunc,
 ) {
 	fe := &PostFrontend{
-		repo: repo,
+		repo:   repo,
+		bucket: bucket,
 	}
 
 	g.GET("/posts", fe.PostsGet, authDescribeMid)
@@ -86,17 +90,19 @@ func (fe *PostFrontend) PostMediaGet(c echo.Context) error {
 
 func (fe *PostFrontend) PostMediaUpload(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
+	ctx := c.Request().Context()
 
 	f, err := c.FormFile("file")
 	if err != nil {
 		return err
 	}
 
-	if !storage.IsValidFileType(f) {
+	ct, valid := storage.IsValidFileType(f)
+	if !valid {
 		return resp.HTTPBadRequest(c, "NOT_SUPPORTED", "file type not supported")
 	}
 
-	url, err := storage.WriteFile(f, fmt.Sprintf("%d", id))
+	url, err := fe.bucket.UploadMedia(ctx, f, fmt.Sprintf("%d", id), ct)
 	if err != nil {
 		return err
 	}
