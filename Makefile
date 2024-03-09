@@ -31,3 +31,9 @@ minify-tw:
 
 minify-es:
 	@./node_modules/.bin/esbuild ./src/*.js --bundle --minify --outdir=dist --target=chrome58,firefox57,safari11
+
+deploy:
+	@templ generate 
+	@npx tailwindcss -i ./src/main.css -o ./dist/tailwind.css --minify
+	@./node_modules/.bin/esbuild ./src/*.js --bundle --minify --outdir=dist --target=chrome58,firefox57,safari11
+	@flyctl deploy
