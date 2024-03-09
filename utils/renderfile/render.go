@@ -5,10 +5,14 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"strings"
 
+	"github.com/a-h/templ"
+	"github.com/muhwyndhamhp/marknotes/config"
 	"github.com/muhwyndhamhp/marknotes/pkg/admin"
 	"github.com/muhwyndhamhp/marknotes/pkg/models"
 	"github.com/muhwyndhamhp/marknotes/pkg/post/values"
+	"github.com/muhwyndhamhp/marknotes/pub"
 	pub_post_detail "github.com/muhwyndhamhp/marknotes/pub/pages/post_detail/post_detail"
 	pub_variables "github.com/muhwyndhamhp/marknotes/pub/variables"
 	"github.com/muhwyndhamhp/marknotes/template"
@@ -21,10 +25,17 @@ func RenderPost(ctx context.Context, post *models.Post) {
 	post.FormMeta = map[string]interface{}{
 		"UserID": userID,
 	}
+
+	baseURL := strings.Split(config.Get(config.OAUTH_URL), "/callback")[0]
+	canonURL := fmt.Sprintf("%s/articles/%s.html", baseURL, post.Slug)
+
 	bodyOpts := pub_variables.BodyOpts{
 		HeaderButtons: admin.AppendHeaderButtons(userID),
 		FooterButtons: admin.AppendFooterButtons(userID),
 		Component:     nil,
+		ExtraHeaders: []templ.Component{
+			pub.CannonicalRel(canonURL),
+		},
 	}
 
 	js, _ := json.MarshalIndent(post, "", "   ")

@@ -6,4 +6,5 @@ type BodyOpts struct {
 	HeaderButtons []InlineButton
 	FooterButtons []InlineButton
 	Component     templ.Component
+	ExtraHeaders  []templ.Component
 }
