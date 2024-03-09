@@ -26,8 +26,7 @@ func PingSitemap(postRepo models.PostRepository) {
 		log.Fatal(err)
 	}
 	for i := range posts {
-		pg.Add(sitemap.URL{Loc: appendPath(fmt.Sprintf("posts/%d", posts[i].ID)), LastMod: &lastMod})
-		pg.Add(sitemap.URL{Loc: appendPath(fmt.Sprintf("articles/%s", posts[i].Slug)), LastMod: &lastMod})
+		pg.Add(sitemap.URL{Loc: appendPath(fmt.Sprintf("articles/%s.html", posts[i].Slug)), LastMod: &lastMod})
 	}
 
 	pg.Add(sitemap.URL{Loc: appendPath("posts_index"), LastMod: &lastMod})
