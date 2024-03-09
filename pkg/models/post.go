@@ -25,6 +25,7 @@ type Post struct {
 	UserID         uint
 	User           User
 	Tags           []*Tag `gorm:"many2many:post_tags;"`
+	Comments       []*Comment
 }
 
 type PostRepository interface {

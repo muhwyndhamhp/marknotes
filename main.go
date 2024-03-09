@@ -18,6 +18,7 @@ import (
 	"github.com/muhwyndhamhp/marknotes/pkg/models"
 	"github.com/muhwyndhamhp/marknotes/pkg/post"
 	_postRepo "github.com/muhwyndhamhp/marknotes/pkg/post/repository"
+	"github.com/muhwyndhamhp/marknotes/pkg/site"
 	"github.com/muhwyndhamhp/marknotes/pkg/tag"
 	_tagRepo "github.com/muhwyndhamhp/marknotes/pkg/tag/repository"
 	"github.com/muhwyndhamhp/marknotes/template"
@@ -77,6 +78,9 @@ func main() {
 
 	go func() {
 		renderfile.RenderPosts(context.Background(), postRepo)
+		if config.Get(config.ENV) != "dev" {
+			site.PingSitemap(postRepo)
+		}
 	}()
 
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%s", config.Get(config.APP_PORT))))

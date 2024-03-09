@@ -19,6 +19,15 @@ func Migrate(db *gorm.DB) {
 	if err != nil {
 		panic(err)
 	}
+	err = db.Debug().AutoMigrate(&models.Comment{})
+	if err != nil {
+		panic(err)
+	}
+
+	err = db.Debug().AutoMigrate(&models.Commenter{})
+	if err != nil {
+		panic(err)
+	}
 }
 
 func MigrateToLibSQL() {
