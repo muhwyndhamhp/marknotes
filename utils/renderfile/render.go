@@ -2,7 +2,6 @@ package renderfile
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"os"
 	"strings"
@@ -37,9 +36,6 @@ func RenderPost(ctx context.Context, post *models.Post) {
 			pub.CannonicalRel(canonURL),
 		},
 	}
-
-	js, _ := json.MarshalIndent(post, "", "   ")
-	fmt.Println(string(js))
 
 	postDetail := pub_post_detail.PostDetail(bodyOpts, *post)
 
