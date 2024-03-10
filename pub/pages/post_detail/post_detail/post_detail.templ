@@ -5,7 +5,6 @@ import "fmt"
 import "html/template"
 import "github.com/muhwyndhamhp/marknotes/pub/variables"
 import "github.com/muhwyndhamhp/marknotes/pub"
-import "github.com/muhwyndhamhp/marknotes/pub/assets"
 
 templ PostDetail(body pub_variables.BodyOpts, post models.Post) {
 	@pub.Body(pub_variables.BodyOpts{
@@ -20,7 +19,6 @@ templ postDetail(post models.Post) {
 	<div class="relative w-full md:mx-auto md:max-w-3xl lg:max-w-4xl pt-8">
 		<div class="flex flex-row mt-2 mx-8">
 			@TitleGroup(post)
-			@AdminMenu(post)
 		</div>
 	</div>
 	<div
@@ -30,21 +28,9 @@ templ postDetail(post models.Post) {
 	</div>
 }
 
-func showSwal(text string) string {
-	return fmt.Sprintf(`
-    on htmx:confirm(issueRequest) 
-    halt the event 
-    call Swal.fire({
-       title: 'Confirm %s', 
-       text:'Do you want to continue?'
-       }) 
-    if result.isConfirmed issueRequest()
-   `, text)
-}
-
 templ TitleGroup(post models.Post) {
 	<div class="grow align-middle flex flex-col">
-		<h1 class="text-4xl font-extrabold">{ post.Title }</h1>
+		<h1 class="text-2xl md:text-4xl font-extrabold">{ post.Title }</h1>
 		<p class="text-sm font-mono mt-4">
 			{ fmt.Sprintf("Updated at %s", post.UpdatedAt.Format("January 2, 2006")) }
 		</p>
@@ -61,53 +47,6 @@ templ TitleGroup(post models.Post) {
 			}
 		</div>
 	</div>
-}
-
-templ AdminMenu(post models.Post) {
-	if post.FormMeta["UserID"].(uint) != uint(0) {
-		<div class="dropdown dropdown-hover flex-none align-middle">
-			<div tabindex="0" role="button" class="btn btn-ghost align-bottom">
-				@pub_assets.Setting(6)
-			</div>
-			<ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-				<li>
-					<p
-						hx-get={ fmt.Sprintf("/dashboard/articles/%d/edit", post.ID) }
-						hx-target="#admin-root"
-						hx-push-url="true"
-					>
-						Edit
-					</p>
-				</li>
-				<li>
-					<p
-						hx-get={ fmt.Sprintf("/posts/%d/delete", post.ID) }
-						hx-target="#admin-root"
-						_={ showSwal("Delete") }
-					>
-						Delete
-					</p>
-				</li>
-				if post.Status == "draft" {
-					<li>
-						<p
-							hx-get={ fmt.Sprintf("/posts/%d/publish", post.ID) }
-							hx-target="#admin-root"
-							_={ showSwal("Publish") }
-						>Publish</p>
-					</li>
-				} else {
-					<li>
-						<p
-							hx-get={ fmt.Sprintf("/posts/%d/unpublish", post.ID) }
-							hx-target="#admin-root"
-							_={ showSwal("Unpublish") }
-						>Unpublish</p>
-					</li>
-				}
-			</ul>
-		</div>
-	}
 }
 
 templ MarkdownBody(content template.HTML) {
