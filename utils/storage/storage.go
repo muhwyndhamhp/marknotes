@@ -2,12 +2,10 @@ package storage
 
 import (
 	"fmt"
-	"io"
 	"mime/multipart"
 	"net/http"
 	"os"
 	"path/filepath"
-	"strings"
 	"time"
 
 	"github.com/muhwyndhamhp/marknotes/config"
@@ -21,33 +19,6 @@ func ServeFile(filename string) (string, error) {
 	}
 
 	return filePath, nil
-}
-
-func WriteFile(f *multipart.FileHeader, prefix string) (string, error) {
-	file, err := f.Open()
-	if err != nil {
-		return "", err
-	}
-
-	fname := strings.ReplaceAll(f.Filename, " ", "_")
-	name := fmt.Sprintf("%s-%s", prefix, AppendTimestamp(fname))
-
-	dst, err := os.Create(fmt.Sprintf("%s/%s", config.Get(config.STORE_VOL_PATH), name))
-	if err != nil {
-		return "", err
-	}
-
-	_, err = io.Copy(dst, file)
-	if err != nil {
-		return "", err
-	}
-
-	file.Close()
-	dst.Close()
-
-	baseURL := strings.Split(config.Get(config.OAUTH_URL), "/callback")[0]
-
-	return fmt.Sprintf("%s/posts/media/%s", baseURL, name), nil
 }
 
 func AppendTimestamp(fileName string) string {

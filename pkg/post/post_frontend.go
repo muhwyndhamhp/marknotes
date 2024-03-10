@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
-	"strings"
 
 	"github.com/labstack/echo/v4"
 	"github.com/muhwyndhamhp/marknotes/middlewares"
@@ -12,7 +11,6 @@ import (
 	"github.com/muhwyndhamhp/marknotes/pkg/models"
 	"github.com/muhwyndhamhp/marknotes/pkg/post/values"
 	pub_postlist "github.com/muhwyndhamhp/marknotes/pub/components/postlist"
-	pub_post_detail "github.com/muhwyndhamhp/marknotes/pub/pages/post_detail/post_detail"
 	pub_post_index "github.com/muhwyndhamhp/marknotes/pub/pages/post_index"
 	pub_variables "github.com/muhwyndhamhp/marknotes/pub/variables"
 	templateRenderer "github.com/muhwyndhamhp/marknotes/template"
@@ -126,12 +124,6 @@ func (fe *PostFrontend) PostsIndex(c echo.Context) error {
 	return templateRenderer.AssertRender(c, http.StatusOK, postIndex)
 }
 
-func (fe *PostFrontend) GetPostBySlug(c echo.Context) error {
-	slug := strings.TrimSpace(c.Param("slug"))
-
-	return c.Redirect(http.StatusFound, fmt.Sprintf("/articles/%s.html", slug))
-}
-
 func (fe *PostFrontend) GetPostByID(c echo.Context) error {
 	ctx := c.Request().Context()
 	id, _ := c.Get(middlewares.ByIDKey).(int)
@@ -141,39 +133,7 @@ func (fe *PostFrontend) GetPostByID(c echo.Context) error {
 		return err
 	}
 
-	if post.Slug == "" {
-		return fe.renderPost(c, post)
-	} else {
-		return c.Redirect(http.StatusFound, fmt.Sprintf("/articles/%s", post.Slug))
-	}
-}
-
-func (fe *PostFrontend) renderPost(c echo.Context, post *models.Post) error {
-	claims, _ := c.Get(jwt.AuthClaimKey).(*jwt.Claims)
-	var bodyOpts pub_variables.BodyOpts
-
-	if post.FormMeta == nil {
-		post.FormMeta = map[string]interface{}{}
-	}
-
-	if claims != nil {
-		post.FormMeta["UserID"] = claims.UserID
-		bodyOpts = pub_variables.BodyOpts{
-			HeaderButtons: admin.AppendHeaderButtons(claims.UserID),
-			FooterButtons: admin.AppendFooterButtons(claims.UserID),
-			Component:     nil,
-		}
-	}
-	post.FormMeta["CenterAlign"] = true
-
-	if post.Status == values.Draft &&
-		(claims == nil || claims.UserID == 0) {
-		return c.Redirect(http.StatusFound, "/")
-	}
-
-	postDetail := pub_post_detail.PostDetail(bodyOpts, *post)
-
-	return templateRenderer.AssertRender(c, http.StatusOK, postDetail)
+	return c.Redirect(http.StatusFound, fmt.Sprintf("/articles/%s", post.Slug))
 }
 
 func (fe *PostFrontend) PostsGet(c echo.Context) error {
