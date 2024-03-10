@@ -9,6 +9,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/muhwyndhamhp/marknotes/config"
 	pub_editor "github.com/muhwyndhamhp/marknotes/pub/components/editor"
+	pub_iframe "github.com/muhwyndhamhp/marknotes/pub/components/iframe"
 	pub_variables "github.com/muhwyndhamhp/marknotes/pub/variables"
 	templates "github.com/muhwyndhamhp/marknotes/template"
 	"golang.org/x/text/cases"
@@ -22,6 +23,14 @@ func (fe *DashboardFrontend) Editor(c echo.Context) error {
 	dashboard := pub_editor.Editor(uploadURL)
 
 	return templates.AssertRender(c, http.StatusOK, dashboard)
+}
+
+func (fe *DashboardFrontend) LoadIframe(c echo.Context) error {
+	url := c.QueryParam("url")
+
+	iframe := pub_iframe.Iframe(url)
+
+	return templates.AssertRender(c, http.StatusOK, iframe)
 }
 
 func (fe *DashboardFrontend) Breadcrumbs(path string) []pub_variables.Breadcrumb {
