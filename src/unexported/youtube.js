@@ -32,7 +32,7 @@ export const yt = Youtube.extend({
          { 
             'data-youtube-video': '',
             'hx-get': '/dashboard/load-iframe?url=' + encodeURIComponent(embedUrl),
-            'hx-trigger': 'revealed',
+            'hx-trigger': 'load delay:5s',
             'hx-swap': 'innerHTML'
          },
          [
