@@ -13,7 +13,7 @@ const hashtag = require('./unexported/hashtag.js').HashTag;
 
 const editorProps = require('./unexported/editor_props.js').EditorProps;
 
-const yt = require('./unexported/youtube.js').yt
+const yt = require('./unexported/youtube.js').Youtube
 
 export const editor = new Editor({
    element: document.querySelector('#code-editor'),
