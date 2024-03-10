@@ -158,7 +158,6 @@ func (fe *DashboardFrontend) ArticlesPush(c echo.Context) error {
 		fail := pub_alert.AlertFailure("Failed to save post:", err.Error())
 		return templates.AssertRender(c, http.StatusOK, fail)
 	}
-
 	sanitizedHTML := sanitizations.SanitizeHtml(req.Content)
 
 	slug, err := strman.GenerateSlug(req.Title)

@@ -25,6 +25,9 @@ func SanitizeHtml(escapedHTML string) string {
 			)).
 		OnElements("span", "code", "pre")
 
+	p.AllowAttrs("hx-get").OnElements("div")
+	p.AllowAttrs("hx-swap").OnElements("div")
+	p.AllowAttrs("hx-trigger").OnElements("div")
 	p.AllowAttrs("contenteditable").Matching(regexp.MustCompile(`(false)`)).OnElements("span")
 	p.AllowAttrs("data-type").Matching(regexp.MustCompile(`(mention)`)).OnElements("span")
 	p.AllowAttrs("data-id").Matching(regexp.MustCompile(`([a-z]+)`)).OnElements("span")
@@ -35,7 +38,6 @@ func SanitizeHtml(escapedHTML string) string {
 	p.AllowAttrs("src").OnElements("img")
 	p.RequireParseableURLs(true)
 
-	p.AllowAttrs("src").Matching(regexp.MustCompile(`(https://www.youtube.com/embed/[a-zA-Z0-9_-]+)`)).OnElements("iframe")
 	p.AllowAttrs("class").Matching(regexp.MustCompile(`(mx-auto)`)).OnElements("iframe")
 	p.AllowAttrs("width", "height").Matching(regexp.MustCompile(`([0-9]+)`)).OnElements("iframe")
 

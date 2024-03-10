@@ -291,8 +291,6 @@ func (fe *PostFrontend) PostsIndex(c echo.Context) error {
 		scopes.WithStatus(values.Published),
 		scopes.PostIndexedOnly(),
 	)
-
-	fmt.Println(posts)
 	if err != nil {
 		return err
 	}

@@ -7,12 +7,13 @@ import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import Image from '@tiptap/extension-image'
 import Link from '@tiptap/extension-link'
 import Placeholder from '@tiptap/extension-placeholder'
-import Youtube from '@tiptap/extension-youtube'
 
 const lowlight = require('./unexported/lowlight.js').lowlight;
 const hashtag = require('./unexported/hashtag.js').HashTag;
 
 const editorProps = require('./unexported/editor_props.js').EditorProps;
+
+const yt = require('./unexported/youtube.js').yt
 
 export const editor = new Editor({
    element: document.querySelector('#code-editor'),
@@ -50,10 +51,11 @@ export const editor = new Editor({
          considerAnyAsEmpty: true,
          placeholder: 'Write your thought here...',
       }),
-      Youtube.configure({
+      yt.configure({
          inline: false,
          width: 512,
          height: 288,
+         nocookie: true,
          modestBranding: 'true',
          progressBarColor: 'white',
          HTMLAttributes: {
@@ -94,18 +96,39 @@ export const editor = new Editor({
 
 window.editor = editor
 
-window.editor.view.dom.addEventListener('paste', function(event) {
+window.editor.view.dom.addEventListener('paste', async (event)  =>{
    const clipboardData = event.clipboardData || window.clipboardData
    const pastedContent = clipboardData.getData('text/html')
+   console.log(clipboardData)
+   const imageData = clipboardData.getData('image')
 
-   if (pastedContent === undefined || pastedContent === "") {
+   console.log(imageData)
+
+   if (pastedContent !== undefined && pastedContent !== "") {
+      event.preventDefault()
+      const parsedContent = new DOMParser().parseFromString(pastedContent, 'text/html')
+
+      editor.chain().focus().setContent(parsedContent.body.innerHTML).run()
       return
    }
 
-   event.preventDefault()
-   const parsedContent = new DOMParser().parseFromString(pastedContent, 'text/html')
+   // if (imageData !== undefined) {
+   //    event.preventDefault()
+   //    const blob = await new Promise((resolve) => {
+   //       const reader = new FileReader();
+   //       reader.onload = (event) => {
+   //          resolve(event.target.result);
+   //       };
+   //       reader.readAsDataURL(imageData.getAsFile());
+   //    });
+   //
+   //    // Create an URL object from the Blob
+   //    const url = URL.createObjectURL(blob);
+   //
+   //    // Set the URL as the source of the image element
+   //    console.log(url)
+   // }
 
-   editor.chain().focus().setContent(parsedContent.body.innerHTML).run()
 })
 
 

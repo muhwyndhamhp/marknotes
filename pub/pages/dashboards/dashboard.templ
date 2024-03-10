@@ -21,6 +21,27 @@ templ Dashboard(opts pub_variables.DashboardOpts) {
 	</html>
 }
 
+templ Iframe(url string) {
+	<iframe
+		class="mx-auto"
+		width="512"
+		height="288"
+		allowfullscreen="true"
+		autoplay="false"
+		disablekbcontrols="false"
+		enableiframeapi="false"
+		endtime="0"
+		ivloadpolicy="0"
+		loop="false"
+		modestbranding="true"
+		origin=""
+		playlist=""
+		progressbarcolor="white"
+		src={ url }
+		start="0"
+	></iframe>
+}
+
 func RenderRaw(content string) templ.Component {
 	return templ.Raw(content)
 }

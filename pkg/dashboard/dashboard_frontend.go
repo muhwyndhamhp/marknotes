@@ -38,6 +38,7 @@ func NewDashboardFrontend(
 		// return empty html
 		return c.HTML(200, "")
 	})
+	g.GET("/dashboard/load-iframe", fe.LoadIframe, authMid)
 }
 
 type ArticlesCreateRequest struct {
