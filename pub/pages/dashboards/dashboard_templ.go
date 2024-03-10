@@ -40,7 +40,7 @@ func Dashboard(opts pub_variables.DashboardOpts) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<title>mwyndham.dev</title></head><body id=\"admin-root\" class=\"bg-base-100\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<title>mwyndham.dev</title></head><body id=\"admin-root\" class=\"bg-base-100\"><script async src=\"https://cdn.jsdelivr.net/npm/sweetalert2@11\"></script><script async src=\"https://unpkg.com/hyperscript.org@0.9.11\"></script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -145,7 +145,7 @@ func drawer(items []pub_variables.DrawerMenu, breadcrumbs []pub_variables.Breadc
 			var templ_7745c5c3_Var5 string
 			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(breadcrumbs[i].Label)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/pages/dashboards/dashboard.templ`, Line: 43, Col: 77}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/pages/dashboards/dashboard.templ`, Line: 45, Col: 77}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
@@ -320,7 +320,7 @@ func drawerItem(item pub_variables.DrawerMenu) templ.Component {
 		var templ_7745c5c3_Var11 string
 		templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(item.Label)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/pages/dashboards/dashboard.templ`, Line: 104, Col: 15}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/pages/dashboards/dashboard.templ`, Line: 106, Col: 15}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 		if templ_7745c5c3_Err != nil {
