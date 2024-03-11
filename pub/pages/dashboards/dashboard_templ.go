@@ -124,7 +124,7 @@ func drawer(items []pub_variables.DrawerMenu, breadcrumbs []pub_variables.Breadc
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-col items-center justify-center pt-6\"><div class=\"text-sm breadcrumbs px-10 w-full\"><ul>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-col items-center justify-center pt-6\"><div class=\"text-sm breadcrumbs px-3 md:px-10 w-full\"><ul>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

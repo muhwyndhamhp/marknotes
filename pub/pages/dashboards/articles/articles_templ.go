@@ -100,7 +100,7 @@ func articles(posts []models.Post, pageSizes, pages pub_variables.DropdownVM, cr
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"w-full h-full\" id=\"articles\"><div class=\"mx-10\"><div class=\"w-full flex flex-row justify-end\"><h1 class=\"grow text-4xl text-secondary font-bold my-auto\">List of Articles</h1>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"w-full h-full\" id=\"articles\"><div class=\"mx-3 md:mx-10\"><div class=\"w-full flex flex-col md:flex-row justify-end\"><h1 class=\"grow text-4xl text-secondary font-bold my-auto mt-3 md:mt-0\">List of Articles</h1>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -160,7 +160,7 @@ func createArticleButton(path string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-target=\"#admin-root\" hx-push-url=\"true\" class=\"btn btn-primary flex-initial\">Create <svg class=\"h-8 w-8 text-primary-content\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" stroke-width=\"2\" stroke=\"currentColor\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path stroke=\"none\" d=\"M0 0h24v24H0z\"></path> <rect x=\"4\" y=\"4\" width=\"16\" height=\"16\" rx=\"2\"></rect> <line x1=\"9\" y1=\"12\" x2=\"15\" y2=\"12\"></line> <line x1=\"12\" y1=\"9\" x2=\"12\" y2=\"15\"></line></svg></button>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-target=\"#admin-root\" hx-push-url=\"true\" class=\"btn btn-primary mt-5 md:mt-0 flex-initial\">Create <svg class=\"h-8 w-8 text-primary-content\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" stroke-width=\"2\" stroke=\"currentColor\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path stroke=\"none\" d=\"M0 0h24v24H0z\"></path> <rect x=\"4\" y=\"4\" width=\"16\" height=\"16\" rx=\"2\"></rect> <line x1=\"9\" y1=\"12\" x2=\"15\" y2=\"12\"></line> <line x1=\"12\" y1=\"9\" x2=\"12\" y2=\"15\"></line></svg></button>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -225,7 +225,7 @@ func pagination(vm pub_variables.DropdownVM, attrs templ.Attributes) templ.Compo
 			var templ_7745c5c3_Var7 string
 			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(vm.Items[i].Label)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/pages/dashboards/articles/articles.templ`, Line: 76, Col: 23}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/pages/dashboards/articles/articles.templ`, Line: 78, Col: 23}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 			if templ_7745c5c3_Err != nil {
@@ -275,7 +275,7 @@ func pageSize(vm pub_variables.DropdownVM, attrs templ.Attributes) templ.Compone
 		var templ_7745c5c3_Var9 string
 		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(vm.Items[vm.Selected].Label)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/pages/dashboards/articles/articles.templ`, Line: 89, Col: 90}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/pages/dashboards/articles/articles.templ`, Line: 91, Col: 90}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 		if templ_7745c5c3_Err != nil {
@@ -309,7 +309,7 @@ func pageSize(vm pub_variables.DropdownVM, attrs templ.Attributes) templ.Compone
 			var templ_7745c5c3_Var10 string
 			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(vm.Items[i].Label)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/pages/dashboards/articles/articles.templ`, Line: 97, Col: 28}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/pages/dashboards/articles/articles.templ`, Line: 99, Col: 28}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 			if templ_7745c5c3_Err != nil {
@@ -393,7 +393,7 @@ func articleRow(post models.Post) templ.Component {
 		var templ_7745c5c3_Var13 string
 		templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%d", post.ID))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/pages/dashboards/articles/articles.templ`, Line: 136, Col: 54}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/pages/dashboards/articles/articles.templ`, Line: 138, Col: 54}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
 		if templ_7745c5c3_Err != nil {
@@ -415,7 +415,7 @@ func articleRow(post models.Post) templ.Component {
 		var templ_7745c5c3_Var15 string
 		templ_7745c5c3_Var15, templ_7745c5c3_Err = templ.JoinStringErrs(post.Title)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/pages/dashboards/articles/articles.templ`, Line: 137, Col: 113}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/pages/dashboards/articles/articles.templ`, Line: 139, Col: 113}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var15))
 		if templ_7745c5c3_Err != nil {
@@ -428,7 +428,7 @@ func articleRow(post models.Post) templ.Component {
 		var templ_7745c5c3_Var16 string
 		templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.JoinStringErrs(post.CreatedAt.Format("Jan, 02 2006 15:04:05"))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/pages/dashboards/articles/articles.templ`, Line: 138, Col: 74}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/pages/dashboards/articles/articles.templ`, Line: 140, Col: 74}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var16))
 		if templ_7745c5c3_Err != nil {
@@ -462,7 +462,7 @@ func articleRow(post models.Post) templ.Component {
 		var templ_7745c5c3_Var18 string
 		templ_7745c5c3_Var18, templ_7745c5c3_Err = templ.JoinStringErrs(string(post.Status))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/pages/dashboards/articles/articles.templ`, Line: 146, Col: 25}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/pages/dashboards/articles/articles.templ`, Line: 148, Col: 25}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var18))
 		if templ_7745c5c3_Err != nil {

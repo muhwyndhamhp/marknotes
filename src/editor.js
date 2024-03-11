@@ -53,13 +53,13 @@ export const editor = new Editor({
       }),
       yt.configure({
          inline: false,
-         width: 512,
-         height: 288,
+         // width: 512,
+         // height: 288,
          nocookie: true,
          modestBranding: 'true',
          progressBarColor: 'white',
          HTMLAttributes: {
-            class: 'mx-auto'
+            class: 'mx-auto max-w-[320px] md:max-w-[512px] max-h-[240px] md:max-h-[288px]'
          }
       }),
       hashtag,

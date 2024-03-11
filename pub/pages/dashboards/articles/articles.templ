@@ -33,9 +33,11 @@ func getOOBAttr() templ.Attributes {
 
 templ articles(posts []models.Post, pageSizes, pages pub_variables.DropdownVM, createPath string) {
 	<div class="w-full h-full" id="articles">
-		<div class="mx-10">
-			<div class="w-full flex flex-row justify-end">
-				<h1 class="grow text-4xl text-secondary font-bold my-auto">List of Articles</h1>
+		<div class="mx-3 md:mx-10">
+			<div class="w-full flex flex-col md:flex-row justify-end">
+				<h1 class="grow text-4xl text-secondary font-bold my-auto mt-3 md:mt-0">
+					List of Articles
+				</h1>
 				@createArticleButton(createPath)
 			</div>
 			<br/>
@@ -55,7 +57,7 @@ templ createArticleButton(path string) {
 		hx-get={ path }
 		hx-target="#admin-root"
 		hx-push-url="true"
-		class="btn btn-primary flex-initial"
+		class="btn btn-primary mt-5 md:mt-0 flex-initial"
 	>
 		Create
 		<svg class="h-8 w-8 text-primary-content" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"></path> <rect x="4" y="4" width="16" height="16" rx="2"></rect> <line x1="9" y1="12" x2="15" y2="12"></line> <line x1="12" y1="9" x2="12" y2="15"></line></svg>

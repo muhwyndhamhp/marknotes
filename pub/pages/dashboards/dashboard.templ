@@ -39,7 +39,7 @@ templ drawer(items []pub_variables.DrawerMenu, breadcrumbs []pub_variables.Bread
 		<div class="drawer-content">
 			@navBar(navItems...)
 			<div class="flex flex-col items-center justify-center pt-6">
-				<div class="text-sm breadcrumbs px-10 w-full">
+				<div class="text-sm breadcrumbs px-3 md:px-10 w-full">
 					<ul>
 						for i := range breadcrumbs {
 							<li>
