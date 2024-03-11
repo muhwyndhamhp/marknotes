@@ -26,15 +26,15 @@ func MainMenu(buttons []pub_variables.InlineButton) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<header class=\"text-center xs:mt-20 md:mt-10\"><div class=\"w-full flex-row justify-center\">")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = title().Render(ctx, templ_7745c5c3_Buffer)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<header class=\"text-center\"><div class=\"w-full flex-row justify-center\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		templ_7745c5c3_Err = buttonRows(buttons).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = title().Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -62,7 +62,7 @@ func title() templ.Component {
 			templ_7745c5c3_Var2 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a hx-boost=\"true\" href=\"/\"><h1 class=\"mb-10 text-4xl text-info font-extrabold\">mwyndham.dev</h1></a>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a hx-boost=\"true\" href=\"/\"><h1 class=\"my-10 text-4xl text-info font-extrabold hidden md:flex justify-center\">mwyndham.dev</h1></a>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -86,7 +86,7 @@ func buttonRows(buttons []pub_variables.InlineButton) templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		var templ_7745c5c3_Var4 = []any{"navbar bg-base-100 shadow-xl md:rounded-badge mx-auto md:max-w-lg"}
+		var templ_7745c5c3_Var4 = []any{"navbar bg-base-100 shadow-xl md:rounded-badge mx-auto md:max-w-lg md:mt-5"}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var4...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -99,7 +99,7 @@ func buttonRows(buttons []pub_variables.InlineButton) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><div class=\"navbar-start\"></div><div class=\"navbar-center flex\"><ul class=\"menu menu-horizontal px-1\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><div class=\"navbar-start\"><div class=\"dropdown md:hidden\"><div tabindex=\"0\" role=\"button\" class=\"btn btn-ghost btn-circle\"><svg xmlns=\"http://www.w3.org/2000/svg\" class=\"h-5 w-5\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M4 6h16M4 12h16M4 18h7\"></path></svg></div><ul tabindex=\"0\" class=\"menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -125,7 +125,7 @@ func buttonRows(buttons []pub_variables.InlineButton) templ.Component {
 					return templ_7745c5c3_Err
 				}
 			} else {
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" class=\"menu rounded-badge text-base-content hover:font-bold hover:bg-accent hover:text-accent-content mx-2\"")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" class=\"menu text-base-content hover:font-bold hover:bg-accent\n                        hover:text-accent-content mx-2 py-2\"")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -146,9 +146,67 @@ func buttonRows(buttons []pub_variables.InlineButton) templ.Component {
 			var templ_7745c5c3_Var6 string
 			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(btn.Label)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/components/mainmenu/main_menu.templ`, Line: 44, Col: 18}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/components/mainmenu/main_menu.templ`, Line: 48, Col: 19}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</a></li>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</ul></div></div><div class=\"navbar-center flex\"><ul class=\"menu menu-horizontal px-1\"><li class=\"md:hidden\"><a hx-boost=\"true\" href=\"/\"><h1 class=\"text-2xl text-info font-extrabold\">mwyndham.dev</h1></a></li>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		for _, btn := range buttons {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<li><a")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			if btn.IsBoosted {
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" hx-boost=\"true\"")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+			} else {
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" hx-boost=\"false\"")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+			}
+			if !pub_base.IsVisible(btn.AuthRule, btn.UserID) {
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" class=\"hidden\"")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+			} else {
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" class=\"menu rounded-badge text-base-content hover:font-bold hover:bg-accent\n                        hover:text-accent-content mx-2 hidden md:flex\"")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" href=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var7 templ.SafeURL = templ.URL(btn.AnchorUrl)
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var7)))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var8 string
+			templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(btn.Label)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/components/mainmenu/main_menu.templ`, Line: 80, Col: 18}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
