@@ -99,12 +99,11 @@ window.editor = editor
 window.editor.view.dom.addEventListener('paste', async (event)  =>{
    const clipboardData = event.clipboardData || window.clipboardData
    const pastedContent = clipboardData.getData('text/html')
-   console.log(clipboardData)
    const imageData = clipboardData.getData('image')
 
    console.log(imageData)
 
-   if (pastedContent !== undefined && pastedContent !== "") {
+   if (pastedContent !== undefined && pastedContent !== "" && window.editor.isEmpty) {
       event.preventDefault()
       const parsedContent = new DOMParser().parseFromString(pastedContent, 'text/html')
 
