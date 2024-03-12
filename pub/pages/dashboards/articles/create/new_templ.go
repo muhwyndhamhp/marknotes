@@ -105,7 +105,7 @@ func new(uploadURL string, existingPost *models.Post) templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"w-full h-full\"><br><div class=\"flex flex-col justify-center items-center\"><form id=\"form-post\" class=\"w-full md:max-w-3xl lg:max-w-4xl\"><textarea placeholder=\"Blog title goes here...\" class=\"text-4xl textarea textarea-xs textarea-ghost font-extrabold\n               resize-y\n               align-middle\n               text-justify placeholder:text-2xl placeholder:font-normal border-transparent w-full p-6\n               mt-0 focus:outline-none min-h-1\" type=\"text\" name=\"title\" rows=\"2\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"w-full h-full\"><br><div class=\"flex flex-col justify-center items-center\"><form id=\"form-post\" class=\"w-full md:max-w-3xl lg:max-w-4xl\"><textarea placeholder=\"Blog title goes here...\" class=\"text-2xl md:text-4xl textarea textarea-xs textarea-ghost font-extrabold\n               resize-y\n               align-middle\n               text-justify placeholder:text-2xl placeholder:font-normal border-transparent w-full p-6\n               mt-0 focus:outline-none min-h-1\" type=\"text\" name=\"title\" rows=\"2\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

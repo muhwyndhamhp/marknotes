@@ -1,22 +1,29 @@
-function backPress() {
-   history.back();
-};
+const colorSchemeQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
-document.onload = function () {
-   checkTheme()
-}
+// Listen for changes in the color scheme preference
+colorSchemeQuery.addEventListener('change', (event) => {
+   setMkTheme(event.matches)
+});
 
-document.addEventListener('checkTheme', function (evt) {
-   checkTheme()
-})
+window.addEventListener('load', () => {
+   setMkTheme(colorSchemeQuery.matches)
+});
 
-function checkTheme() {
-   if (localStorage.theme === 'dark'
-      || (!('theme' in localStorage)
-         && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      document.documentElement.classList.add('dark')
+function setMkTheme(isDark, theme) {
+   if (isDark) {
+      theme = localStorage.getItem('mk-theme-dark')
+      if (theme === null) {
+         theme = 'night'
+         localStorage.setItem('mk-theme-dark', theme)
+      }
    } else {
-      document.documentElement.classList.remove('dark')
+      theme = localStorage.getItem('mk-theme-light')
+      if (theme === null) {
+         theme = 'fantasy'
+         localStorage.setItem('mk-theme-light', theme)
+      }
    }
-}
 
+   const baseElement = document.documentElement;
+   baseElement.setAttribute('data-theme', theme)
+}
