@@ -21,7 +21,7 @@ func SetupRouter(e *echo.Echo) {
 		rate.Limit(20),
 	)))
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{"*://localhost:*", "*://www.github.com", "*://github.com", "*.fly.dev", "*://mwyndham.dev", "unpkg.com", "cdn.jsdelivr.net"},
+		AllowOrigins: []string{"*://localhost:*", "*://www.github.com", "*://github.com", "*.fly.dev", "*://mwyndham.dev", "unpkg.com", "cdn.jsdelivr.net", "static.cloudflare.com", "static.cloudflareinsights.com"},
 	}))
 
 	e.Validator = &validate.CustomValidator{
