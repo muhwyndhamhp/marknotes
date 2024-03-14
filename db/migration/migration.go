@@ -6,24 +6,25 @@ import (
 )
 
 func Migrate(db *gorm.DB) {
-	err := db.Debug().AutoMigrate(&models.Post{})
-	if err != nil {
-		panic(err)
-	}
-	err = db.Debug().AutoMigrate(&models.User{})
-	if err != nil {
-		panic(err)
-	}
-	err = db.Debug().AutoMigrate(&models.Tag{})
-	if err != nil {
-		panic(err)
-	}
-	err = db.Debug().AutoMigrate(&models.Comment{})
+	err := db.AutoMigrate(&models.User{})
 	if err != nil {
 		panic(err)
 	}
 
-	err = db.Debug().AutoMigrate(&models.Commenter{})
+	err = db.AutoMigrate(&models.Post{})
+	if err != nil {
+		panic(err)
+	}
+	err = db.AutoMigrate(&models.Tag{})
+	if err != nil {
+		panic(err)
+	}
+	err = db.AutoMigrate(&models.Comment{})
+	if err != nil {
+		panic(err)
+	}
+
+	err = db.AutoMigrate(&models.Commenter{})
 	if err != nil {
 		panic(err)
 	}

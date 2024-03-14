@@ -9,6 +9,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/muhwyndhamhp/marknotes/config"
 	"github.com/muhwyndhamhp/marknotes/db"
+	"github.com/muhwyndhamhp/marknotes/db/migration"
 	"github.com/muhwyndhamhp/marknotes/middlewares"
 	"github.com/muhwyndhamhp/marknotes/pkg/admin"
 	"github.com/muhwyndhamhp/marknotes/pkg/auth"
@@ -24,6 +25,7 @@ import (
 	"github.com/muhwyndhamhp/marknotes/utils/jwt"
 	"github.com/muhwyndhamhp/marknotes/utils/renderfile"
 	"github.com/muhwyndhamhp/marknotes/utils/routing"
+	"github.com/muhwyndhamhp/marknotes/utils/rss"
 )
 
 // nolint: typecheck
@@ -31,12 +33,11 @@ func main() {
 	e := echo.New()
 	routing.SetupRouter(e)
 
-	rg := e.Group("")
-	rg.Use(redirectHTML())
-	rg.Use(middlewares.SetCachePolicy())
-	rg.Static("/dist", "dist")
-	rg.Static("/assets", "public/assets")
-	rg.Static("/articles", "public/articles")
+	e.Use(redirectHTML())
+	e.Use(middlewares.SetCachePolicy())
+	e.Static("/dist", "dist")
+	e.Static("/assets", "public/assets")
+	e.Static("/articles", "public/articles")
 
 	e.Static("/public/sitemap", "public/sitemap")
 	e.File("/robots.txt", "public/assets/robots.txt")
@@ -51,6 +52,13 @@ func main() {
 	userRepo := _userRepo.NewUserRepository(db.GetLibSQLDB())
 	tagRepo := _tagRepo.NewTagRepository(db.GetLibSQLDB())
 	htmxMid := middlewares.HTMXRequest()
+
+	ctx := context.Background()
+	err := rss.GenerateRSS(ctx, postRepo)
+	if err != nil {
+		panic(err)
+	}
+	e.File("/rss.xml", "public/assets/rss.xml")
 
 	service := jwt.Service{SecretKey: []byte(config.Get(config.JWT_SECRET))}
 	authMid := service.AuthMiddleware()
@@ -68,6 +76,9 @@ func main() {
 		config.Get(config.OAUTH_URL),
 		userRepo)
 
+	go func() {
+		migration.Migrate(db.GetLibSQLDB())
+	}()
 	go func() {
 		if config.Get(config.ENV) == "dev" {
 			return
@@ -104,7 +115,7 @@ func redirectHTML() echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			requestedPath := c.Request().URL.Path
-			if strings.HasPrefix(requestedPath, "/articles") && !strings.HasSuffix(requestedPath, ".html") {
+			if strings.HasPrefix(requestedPath, "/articles/") && !strings.HasSuffix(requestedPath, ".html") {
 				newPath := requestedPath + ".html"
 				return c.Redirect(http.StatusMovedPermanently, newPath)
 			}

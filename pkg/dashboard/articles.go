@@ -21,8 +21,10 @@ import (
 	templates "github.com/muhwyndhamhp/marknotes/template"
 	"github.com/muhwyndhamhp/marknotes/utils/constants"
 	"github.com/muhwyndhamhp/marknotes/utils/errs"
+	"github.com/muhwyndhamhp/marknotes/utils/fileman"
 	"github.com/muhwyndhamhp/marknotes/utils/jwt"
 	"github.com/muhwyndhamhp/marknotes/utils/renderfile"
+	"github.com/muhwyndhamhp/marknotes/utils/rss"
 	"github.com/muhwyndhamhp/marknotes/utils/sanitizations"
 	"github.com/muhwyndhamhp/marknotes/utils/scopes"
 	"github.com/muhwyndhamhp/marknotes/utils/strman"
@@ -167,6 +169,12 @@ func (fe *DashboardFrontend) ArticlesPush(c echo.Context) error {
 		return templates.AssertRender(c, http.StatusOK, fail)
 	}
 
+	count := fe.PostRepo.Count(ctx, scopes.Where("slug = ?", slug))
+	if count > 0 && xp == nil {
+		fmt.Println(count)
+		slug = fmt.Sprintf("%s-%d", slug, count)
+	}
+
 	post := tern.Struct(xp, &models.Post{})
 
 	post.Title = req.Title
@@ -218,10 +226,15 @@ func (fe *DashboardFrontend) ArticlesPush(c echo.Context) error {
 		go func() {
 			ctx := context.Background()
 			renderfile.RenderPost(ctx, post)
+
+			err := rss.GenerateRSS(ctx, fe.PostRepo)
+			if err != nil {
+				fmt.Println(err)
+			}
 		}()
 	} else {
 		go func() {
-			err := renderfile.DeleteFile(fmt.Sprintf("public/articles/%s.html", post.Slug))
+			err := fileman.DeleteFile(fmt.Sprintf("public/articles/%s.html", post.Slug))
 			if err != nil {
 				fmt.Println(err)
 			}

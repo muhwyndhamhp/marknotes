@@ -130,8 +130,6 @@ window.editor.view.dom.addEventListener('paste', async (event)  =>{
 
 })
 
-
-
 window.allowDrop = function (ev) {
    ev.preventDefault()
 }
