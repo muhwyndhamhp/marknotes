@@ -3,7 +3,6 @@ package renderfile
 import (
 	"context"
 	"fmt"
-	"os"
 	"strings"
 
 	"github.com/a-h/templ"
@@ -15,6 +14,7 @@ import (
 	pub_post_detail "github.com/muhwyndhamhp/marknotes/pub/pages/post_detail/post_detail"
 	pub_variables "github.com/muhwyndhamhp/marknotes/pub/variables"
 	"github.com/muhwyndhamhp/marknotes/template"
+	"github.com/muhwyndhamhp/marknotes/utils/fileman"
 	"github.com/muhwyndhamhp/marknotes/utils/scopes"
 )
 
@@ -39,12 +39,8 @@ func RenderPost(ctx context.Context, post *models.Post) {
 
 	postDetail := pub_post_detail.PostDetail(bodyOpts, *post)
 
-	// check if public/articles path exists
-	if _, err := os.Stat("public/articles"); os.IsNotExist(err) {
-		err := os.Mkdir("public/articles", 0o755)
-		if err != nil {
-			fmt.Println(err)
-		}
+	if err := fileman.CheckDir("public/articles"); err != nil {
+		fmt.Println(err)
 	}
 
 	err := template.RenderPost(postDetail, "public/articles", post.Slug, post.ID)
@@ -54,7 +50,7 @@ func RenderPost(ctx context.Context, post *models.Post) {
 }
 
 func RenderPosts(ctx context.Context, repo models.PostRepository) {
-	err := DeletAllFiles("public/articles")
+	err := fileman.DeletAllFiles("public/articles")
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -67,35 +63,4 @@ func RenderPosts(ctx context.Context, repo models.PostRepository) {
 	for _, post := range posts {
 		RenderPost(ctx, &post)
 	}
-}
-
-func DeleteFile(filepath string) error {
-	err := os.Remove(filepath)
-	if err != nil {
-		fmt.Println(err)
-		return err
-	}
-	return nil
-}
-
-func DeletAllFiles(dir string) error {
-	files, err := os.ReadDir(dir)
-	if err != nil {
-		fmt.Println("Error reading directory:", err)
-		return nil
-	}
-
-	for _, file := range files {
-		if file.IsDir() {
-			continue
-		}
-
-		err := os.Remove(fmt.Sprintf("%s/%s", dir, file.Name()))
-		if err != nil {
-			fmt.Println("Error deleting file:", err)
-			return nil
-		}
-	}
-
-	return nil
 }

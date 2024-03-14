@@ -5,10 +5,8 @@ go 1.22
 toolchain go1.22.0
 
 require (
-	github.com/13rac1/goldmark-embed v0.0.0-20201220231550-e6806f2de66a
 	github.com/StudioSol/sitemap v0.0.0-20230104165527-bf245c07e1c2
 	github.com/a-h/templ v0.2.590
-	github.com/alecthomas/chroma/v2 v2.2.0
 	github.com/apsystole/log v0.3.0
 	github.com/aws/aws-sdk-go-v2 v1.25.3
 	github.com/aws/aws-sdk-go-v2/config v1.27.7
@@ -17,11 +15,10 @@ require (
 	github.com/go-playground/validator/v10 v10.15.1
 	github.com/golang-jwt/jwt/v5 v5.0.0
 	github.com/gorilla/csrf v1.7.1
+	github.com/gorilla/feeds v1.1.2
 	github.com/joho/godotenv v1.5.1
 	github.com/labstack/echo/v4 v4.11.1
 	github.com/renxzen/gorm-libsql v0.0.0-20240301223231-6621a843345a
-	github.com/yuin/goldmark v1.5.6
-	github.com/yuin/goldmark-highlighting/v2 v2.0.0-20230729083705-37449abec8cc
 	golang.org/x/time v0.3.0
 	gorm.io/gorm v1.25.7-0.20240204074919-46816ad31dde
 )
@@ -52,7 +49,6 @@ require (
 )
 
 require (
-	github.com/dlclark/regexp2 v1.7.0 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.2 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect

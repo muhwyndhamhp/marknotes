@@ -13,4 +13,6 @@ const (
 	KEYWORD   = "keyword"
 	SEARCH    = "search"
 	LOAD_NEXT = "loadNext"
+
+	RSS_PATH = "public/assets/rss.xml"
 )

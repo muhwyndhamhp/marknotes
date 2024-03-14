@@ -6,8 +6,10 @@ import (
 	"html/template"
 	"net/url"
 	"strconv"
+	"strings"
 	"time"
 
+	"github.com/muhwyndhamhp/marknotes/config"
 	"github.com/muhwyndhamhp/marknotes/pkg/post/values"
 	"github.com/muhwyndhamhp/marknotes/utils/scopes"
 	"gorm.io/gorm"
@@ -16,6 +18,7 @@ import (
 type Post struct {
 	gorm.Model
 	Title          string
+	Abstract       string
 	Content        string
 	EncodedContent template.HTML
 	Status         values.PostStatus `gorm:"index"`
@@ -34,6 +37,11 @@ type PostRepository interface {
 	Get(ctx context.Context, funcs ...scopes.QueryScope) ([]Post, error)
 	Count(ctx context.Context, funs ...scopes.QueryScope) int
 	Delete(ctx context.Context, id uint) error
+}
+
+func (m *Post) GenerateURL() string {
+	baseURL := strings.Split(config.Get(config.OAUTH_URL), "/callback")[0]
+	return fmt.Sprintf("%s/%s.html", baseURL, m.Slug)
 }
 
 func (m *Post) AppendFormMeta(

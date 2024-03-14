@@ -8,12 +8,7 @@ module.exports = {
         'xs': '320px',
       ...defaultTheme.screens,
     },
-    fontFamily: {
-      'sans': ['Open Sauce Sans', 'system-ui', 'sans-serif'],
-      'serif': ['Spicy Kebab', 'system-ui', 'serif'],
-      'mono': ['Overpass Mono', 'system-ui', 'mono'],
-    },
-    extend: {},
+     extend: {},
   },
   plugins: [
     plugin(function({ addBase }) {

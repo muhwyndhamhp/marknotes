@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>mwyndham.dev blog</title>
+    <link>https://mwyndham.dev</link>
+    <description>my persona blog, contain my personal thought and learning experience</description>
+    <managingEditor>business@mwyndham.dev (M Wyndham)</managingEditor>
+    <pubDate>Thu, 14 Mar 2024 11:17:24 +0700</pubDate>
+    <item>
+      <title>I Made This Website Using HTMX + Go in One Month, Here&#39;s What I Learned</title>
+      <link>http://localhost:4040/i-made-this-website-using-htmx-go-in.html</link>
+      <description></description>
+      <content:encoded><![CDATA[<p><span class="font-semibold text-accent suggestion" data-type="mention" data-id="Golang" contenteditable="false">#Golang</span> <span class="font-semibold text-accent suggestion" data-type="mention" data-id="Go" contenteditable="false">#Go</span> <span class="font-semibold text-accent suggestion" data-type="mention" data-id="Gorm" contenteditable="false">#Gorm</span> <span class="font-semibold text-accent suggestion" data-type="mention" contenteditable="false">#HTMX</span> <span class="font-semibold text-accent suggestion" data-type="mention" data-id="Templating" contenteditable="false">#Templating</span> <span class="font-semibold text-accent suggestion" data-type="mention" data-id="HTML/Template" contenteditable="false">#HTML/Template</span> <span class="font-semibold text-accent suggestion" data-type="mention" data-id="TailwindCSS" contenteditable="false">#TailwindCSS</span> <span class="font-semibold text-accent suggestion" data-type="mention" data-id="Tailwind" contenteditable="false">#Tailwind</span> <span class="font-semibold text-accent suggestion" data-type="mention" data-id="Impression" contenteditable="false">#Impression</span> </p><h2>How it started</h2><p>One  and a half month ago, I learned the existence of this new fancy  pants  technology that was called HTMX. It basically tried to answer the   question <em>“What if JavaScript does not take over the world?”</em> and giving us another attempts to be the antidote in this <em>hyper-javascript-driven</em> web development that has reach fever level insanity.</p><p>I  personally has always been on the sideline watching the front-end  web  being reinvented every 6 months, as I myself was not a Web Dev. I   primarily was an Android Dev but only switched to Backend in the past 2   years.</p><p>I wasn’t particularly want to learn Web Dev due to how  JavaScript are  1) Mind Numbing, and 2) Contagious, as once you adopt  JavaScript,  everything becomes JavaScript. But I kept wanting some part  of those  Fullstack Pie. This is where HTMX intrigues me. I mean,  side-stepping  JavaScript and brings back old Web 1.0 development but “<strong><em>M O D E R N</em></strong>”? Hell yeah..?!</p><p>Now, long story short, <strong>I made myself a simple website that acts as a personal blog, this very place where you read this very story.</strong>   I originally intended this to be just a one off project, but I fell in   love with how it works that I kept going at it until I suddenly have   usable blogging tools.</p><h2>Caveat</h2><p>Before we continue, I want  you to put yourself in my shoes, so when I  either praise or woes about  all of my stacks, you can see where I’m  coming from.</p><p>First, <strong>I don’t have any proper frontend web experience ever</strong>.   I have dabbled with HTML, CSS, and JS here and there and tried to work   with React (and React Native) to supplement my Android Dev background,   but it does not go far professionally.</p><p>Secondly, I have Backend  Dev experience. I’ve been personally work as  a Backend in the past 2  years both professionally and as a hobby. My  language of Choice is <strong>Go</strong> but I also have pretty good understanding of Python and Ruby on Rails.</p><p>Finally, My prior experiences are mostly in <strong>Android Native Development</strong>.   So I am very used to dealing with Markup Language to templates UI.   (Android uses XML to templates it’s UI until very recently, where we   switched to declarative syntax via Jetpack Compose).</p><h2>Tech Stacks</h2><p>I made this website using <strong>3 + 1</strong> basic ingredients: <strong>HTMX, Go, TailwindCSS + Go Templating</strong>. I mostly use vanilla tools with some exceptions:</p><ul><li><p>Labstack Echo as the HTTP Server</p></li><li><p>GORM as the ORM</p></li></ul><p>Everything else is vanilla, including Templating, Tailwind, and the Go setups. I use <strong>PostgresSQL</strong> as the DB and <strong>Fly.io</strong> as the service hosting.</p><h2>What I’ve built</h2><div><iframe class="mx-auto" src="https://www.youtube.com/embed/D3KGxmWXxb8" width="512" height="288"></iframe></div><p>You can just look around this very web/blog to see what’s there, or see the demo video above. This web/blog has:</p><ul><li><p>Infinite Scrolling of Posts</p></li><li><p>Server-Side Rendered Markdown to HTML in real time. (<a href="https://youtu.be/kDZ9lASnqqM" rel="nofollow">See this for older demo</a>)</p></li><li><p>OAuth Login</p></li><li><p>Search that matches several fields (This is painful to do with ORM, I would probably remove GORM after this)</p></li><li><p>Cute Tagging system</p></li></ul><h2>TL;DR</h2><p><strong>I like it a lot!!</strong>.  I find it incredibly easy and  intuitive to do. I felt like my  background in Android and Backend both  takes part in the process of  understanding the development process. <strong>But I also have lots of issues with it.</strong></p><p>Now, Let’s break it down</p><h2>Pros</h2><h3>HTMX ❤️ Go Template</h3><p>HTMX  goes very well with Go native templating. I can inject URLs,  IDs, and  even HTMX Attributes on the fly as needed. I can add  declarative  conditional UI state directly in the HTML like this:</p><pre class="mockup-code rounded-badge"><code class="language-html">&lt;div {{if .FormMeta.IsLastItem}}
+     <span>hx-get</span>=<span class="hljs-string">&#34;/posts?page={{.FormMeta.Page}}&amp;pageSize=10&#34;</span>
+     <span>hx-trigger</span>=<span class="hljs-string">&#34;revealed&#34;</span>
+     <span>hx-swap</span>=<span class="hljs-string">&#34;afterend&#34;</span>
+     {{end}}&gt;
+&lt;/div&gt;</code></pre><p>Where it will only have htmx attributes whenever the Item is marked as the last Item.</p><h3>Go Template ❤️ Tailwind</h3><p>Golang templating is also very useful when abstracting common styles without the need to dabbles with CSS class. For example:</p><pre class="mockup-code rounded-badge"><code>{{<span class="hljs-keyword">define</span> <span class="hljs-string">&#34;style_common_width&#34;</span>}}
+<span>xl:w-3/5 lg:w-4/5 sm:w-10/12 xs:w-11/12</span>
+{{end}}</code></pre><p>will give me instant sets of reusable  styles  that I can just plop whenever I need this sets of css class  attributes,  which I use like this:</p><pre class="mockup-code rounded-badge"><code>&lt;div <span>class</span>=<span class="hljs-string">&#34;bg-slate-200 dark:bg-slate-900 rounded-md p-4 
+         {{template &#34;</span>style_common_width<span class="hljs-string">&#34;}} 
+         self-center mx-auto px-auto my-4&#34;</span>&gt;
+         ...
+&lt;/div&gt;</code></pre><p>See that I also can just add more css  class  as needed, so I do not constrained with the rules of css classes. I   even can compose styles to create even more elaborate component:</p><pre class="mockup-code rounded-badge"><code>{{define <span class="hljs-string">&#34;style_base&#34;</span>}} <span class="hljs-comment">// the base implementation</span>
+	focus:border-transparent 
+	focus:outline-none
+	focus:outline-sky<span class="hljs-number">-600</span> 
+	border-transparent 
+{{end}}
+{{define <span class="hljs-string">&#34;style_button_primary&#34;</span>}}
+	{{<span class="hljs-keyword">template</span> <span class="hljs-string">&#34;style_base&#34;</span>}} <span class="hljs-comment">// reusing the base implementation</span>
+	bg-teal<span class="hljs-number">-800</span> p<span class="hljs-number">-2</span> 
+	my<span class="hljs-number">-3</span> 
+	drop-shadow-md 
+	text-slate<span class="hljs-number">-100</span> 
+	px<span class="hljs-number">-8</span> text-lg 
+	border-none
+{{end}}</code></pre><h3>Zero Effort List</h3><p>In my Android Dev days, dealing with list of items are always painful. You have the choice of <code>RecyclerView</code>, incredibly powerful yet very frustrating recycling list, or very rudimentary <code>ArrayList</code> that basically will chugs everytime you have more than 50 items to display.</p><p>Dealing with pagination is also very hard to do as <a href="https://www.reddit.com/r/mAndroidDev/search/?q=paging%203&amp;restrict_sr=1" rel="nofollow">paging3 library has the complexity so high it became a meme</a> and is very painful to deal with.</p><p>On the contrary? this is how I implement infinite scroll of items in HTMX + Template:</p><pre class="mockup-code rounded-badge"><code><span class="xml hljs-comment">&lt;!--in the index.html--&gt;</span><span class="xml">
+</span><span class="xml hljs-tag">&lt;</span><span class="xml hljs-tag hljs-name">div</span><span class="xml hljs-tag"> </span><span class="xml hljs-tag hljs-attr">id</span><span class="xml hljs-tag">=</span><span class="xml hljs-tag hljs-string">&#34;post-list&#34;</span><span class="xml hljs-tag">&gt;</span><span class="xml">
+	{{template &#34;post_list&#34; .Posts}}
+</span><span class="xml hljs-tag">&lt;/</span><span class="xml hljs-tag hljs-name">div</span><span class="xml hljs-tag">&gt;</span><span class="xml">
+
+</span><span class="xml hljs-comment">&lt;!--in the post_list.html--&gt;</span><span class="xml">
+{{define &#34;post_list&#34;}}
+    {{range .}}
+        {{template &#34;post_item&#34; .}}
+    {{end}}
+{{end}}
+
+</span><span class="xml hljs-comment">&lt;!--in the post_item.html--&gt;</span><span class="xml">
+{{define &#34;post_item&#34;}}
+</span><span class="xml hljs-tag">&lt;</span><span class="xml hljs-tag hljs-name">div</span><span class="xml hljs-tag"> {{</span><span class="xml hljs-tag hljs-attr">if</span><span class="xml hljs-tag"> </span><span class="xml hljs-tag hljs-attr">.FormMeta.IsLastItem</span><span class="xml hljs-tag">}}
+     </span><span class="xml hljs-tag hljs-attr">hx-get</span><span class="xml hljs-tag">=</span><span class="xml hljs-tag hljs-string">&#34;/posts?page={{.FormMeta.Page}}&amp;pageSize=10&#34;</span><span class="xml hljs-tag">
+     </span><span class="xml hljs-tag hljs-attr">hx-trigger</span><span class="xml hljs-tag">=</span><span class="xml hljs-tag hljs-string">&#34;revealed&#34;</span><span class="xml hljs-tag">
+     </span><span class="xml hljs-tag hljs-attr">hx-swap</span><span class="xml hljs-tag">=</span><span class="xml hljs-tag hljs-string">&#34;afterend&#34;</span><span class="xml hljs-tag">
+     {{</span><span class="xml hljs-tag hljs-attr">end</span><span class="xml hljs-tag">}}&gt;</span><span class="xml">
+    </span><span class="xml hljs-tag">&lt;</span><span class="xml hljs-tag hljs-name">div</span><span class="xml hljs-tag"> </span><span class="xml hljs-tag hljs-attr">class</span><span class="xml hljs-tag">=</span><span class="xml hljs-tag hljs-string">&#34;...{{template &#34;</span><span class="xml hljs-tag hljs-attr">style_common_width</span><span class="xml hljs-tag">&#34;}}&#34;&gt;</span><span class="xml">
+        </span><span class="xml hljs-tag">&lt;</span><span class="xml hljs-tag hljs-name">h2</span><span class="xml hljs-tag"> </span><span class="xml hljs-tag hljs-attr">class</span><span class="xml hljs-tag">=</span><span class="xml hljs-tag hljs-string">&#34;text-start&#34;</span><span class="xml hljs-tag">&gt;</span><span class="xml">
+            </span><span class="xml hljs-tag">&lt;</span><span class="xml hljs-tag hljs-name">a</span><span class="xml hljs-tag"> </span><span class="xml hljs-tag hljs-attr">href</span><span class="xml hljs-tag">=</span><span class="xml hljs-tag hljs-string">&#34;/posts/{{.ID}}&#34;</span><span class="xml hljs-tag">&gt;</span><span class="xml">{{.Title}}</span><span class="xml hljs-tag">&lt;/</span><span class="xml hljs-tag hljs-name">a</span><span class="xml hljs-tag">&gt;</span><span class="xml">
+        </span><span class="xml hljs-tag">&lt;/</span><span class="xml hljs-tag hljs-name">h2</span><span class="xml hljs-tag">&gt;</span><span class="xml">
+        ...
+        {{template &#34;tag_list&#34; .Tags}}
+    </span><span class="xml hljs-tag">&lt;/</span><span class="xml hljs-tag hljs-name">div</span><span class="xml hljs-tag">&gt;</span><span class="xml">
+</span><span class="xml hljs-tag">&lt;/</span><span class="xml hljs-tag hljs-name">div</span><span class="xml hljs-tag">&gt;</span><span class="xml">
+{{end}}</span></code></pre><p>This simple snippets of HTML handles the followings behavior:</p><ul><li><p>Please renders me list of <code>Posts</code></p></li><li><p>Each <code>Post</code> in <code>Posts</code> renders: </p><ul><li><p>parent div with style <code>{{template &#34;style_common_width&#34;}}</code></p></li><li><p>clickable Title text whichs navigates to <code>/posts/:id</code></p></li><li><p>List of tags from <code>Post.Tags</code></p></li><li><p>Whenever it marked with <code>IsLastItem</code> please: </p><ul><li><p>Loads more by calling <code>GET /posts</code> with specified <code>page</code> and <code>pageSize</code></p></li><li><p>Do it whenever the Item is <code>revealed</code> on the screen</p></li><li><p>Append the response <code>after</code> the <code>end</code> of this very item.</p></li></ul></li></ul></li></ul><p>And all of that is declaratively stated and infinitely reusable! Crazy!! 🤯🤯🤯</p><h3>You do very little HTMX</h3><p>Contrary on how I make big deal out of it, in actuality I use <strong>very little of HTMX</strong>.   In total I only use htmx 12 times, and 6 of those are me eagering   myself using htmx for something that can be done by simple anchor tag.</p><blockquote><p>But wait, that’s a good thing?</p></blockquote><p>Yes, actually! <strong>great tools should be something that stops once it’s usefulness ends.</strong> And HTMX is one hell of a great tools. I’m not forced to use it, but when I do, it solves real problems.</p><p>I’ve  only effectively use HTMX 6 times for the whole project. Yet  with only  those 6 I solve major interaction issues that usually warrants  a  framework / some JS codes. It is incredibly cheap to just use htmx.   Even just a little.</p><h2>Cons</h2><h3>Mediocre Documentation</h3><p>The  HTMX Documentation looks so simple and it deceptively looks  complete.  But in reality, there are many unexplained context that lost  (at least  on me) that only solvable if you’re somewhat already familiar  with HTML  DOM and HTML Events.</p><p>Given this usecase:<br> <code>I want to make a text input which triggers hx-post whenever I press either Cmd+Enter or Ctrl+Enter</code></p><p>Seems  easy enough, but somehow it took me several hours digging  through  docs, GitHub issues, and W3Schools to understand how to use <code>hx-trigger</code> with keyboard bindings. In the HTMX’s own example, they gives us this:</p><pre class="mockup-code rounded-badge"><code>hx-trigger=&#34;click, keyup<span>[altKey&amp;&amp;shiftKey&amp;&amp;key==</span><span class="hljs-selector-attr hljs-string">&#39;D&#39;</span><span>]</span> <span class="hljs-selector-tag">from</span>:body<span class="hljs-string">&#34;</span></code></pre><p>Which:</p><ol><li><p>Does not explain when to use <code>altKey</code> and when to compare <code>key</code> with value of  <code>&#39;D&#39;</code></p></li><li><p>Does not even works in Mac 🫠🫠</p></li></ol><p>Turns out, <code>hx-triggers</code> could be triggered by <a href="https://www.w3schools.com/jsref/obj_keyboardevent.asp" rel="nofollow">HTML Keyboard Events</a>. Where special keys such as <code>ctrl</code>, <code>shift</code>, and <code>Cmd</code> (<code>metaKey</code>???) are boolean atrributes and common keyboard keys can be matched by any <code>char</code> value that the keyboard keys represent. hence <code>key==&#39;D&#39;</code> in the example above.</p><p>So to solve the original usecase, I can use followings <code>hx-trigger</code>:</p><pre class="mockup-code rounded-badge"><code>hx-trigger=&#34;keydown<span>[metaKey&amp;&amp;key==</span><span class="hljs-selector-attr hljs-string">&#39;Enter&#39;</span><span>]</span>, keydown<span>[ctrlKey&amp;&amp;key==</span><span class="hljs-selector-attr hljs-string">&#39;Enter&#39;</span><span>]</span>, tag&#34;</code></pre><p>Where <code>tag</code> is the target <code>id</code> of the HTML element.</p><h3>HTML logic sliperry slopes</h3><p>Have access to declarative logics in the HTML is nice and all, but <strong>How far is too far</strong>? At some point I have a HTML templates that looks like this:</p><pre class="mockup-code rounded-badge"><code>&lt;div 
+	  <span>hx-get</span>=<span class="hljs-string">&#34;/posts?page={{.FormMeta.Page}}&amp;pageSize=10{{if .FormMeta.PublishedOnly}}&amp;status=published{{end}}{{if .FormMeta.SortQuery}}&amp;sortBy={{.FormMeta.SortQuery}}{{end}} {{if .FormMeta.Keyword}}&amp;search={{.FormMeta.Keyword}}{{end}}&#34;</span>
+     <span>hx-trigger</span>=<span class="hljs-string">&#34;revealed&#34;</span>
+     <span>hx-swap</span>=<span class="hljs-string">&#34;afterend&#34;</span>&gt;
+     ...
+&lt;/div&gt;</code></pre><p>Which is very hard to read but also very   hard to debug. As Templates does not throws error codes that is easy to   digest. You have to guess a lot of it.</p><p>This can happend so easily and naturally as you originally want to build simple <code>hx-get</code>to   fetch some item, but then you add 1 query param, and more query  params,  and more and more. And suddenly, you have this unwieldly long   conditional statement that is very brittle.</p><p>I have not even refactor the code above so you can see it in all of it’s glory in the GitHub repo of this very blog.</p><h3>You cannot fully escape from JavaScript</h3><p>As  you might guess from the demo video up above, I ultimately had  little  bit JavaScript to help some stuff, like Image Uploading and   Confirmation/Loading Dialog (I’m using SweetAlert for quick and easy   solution right now).</p><p>Though to be fair, I’m using Hyperscript as  opposed to JavaScript on  several Dialog triggers (please spare me  🙇🏽‍♂️🙇🏽‍♂️🙇🏽‍♂️🙇🏽‍♂️).</p><h3>ORM is Great, until suddenly it’s the worst!</h3><p>I started this naively by thinking <em>“surely, for a simple blogpost with entities count below 10 using ORM would be correct, no?”</em>, and the answer is “hell no” 🤣.</p><p>Initially  it’s fun and dandy when each model is unrelated and all I  need is  simple CRUD. But once I start to join things together, it became  pretty  messy. Let’s take the worst example: <strong><em>article search.</em></strong></p><p>I  want my search to look for matching content not only in the title  and  the content of the post, but also in the tags related to the post.  The  thing is, tag located in different table, and the relation between  the  two is <code>many to many</code>(as 1 tag can be  related to multiple  posts and a post can have multiple tags), so do  that I effectively need  to join them together.</p><p>I try to do it the “ORM” way where I’m suppose to not write any sql myself. But GORM does not support <code>JOIN</code> followed by <code>Conditional Statement</code> (Evaluate the <code>JOIN</code> result). It only support eager loading with conditions (Evaluate the value <strong>before</strong> <code>JOIN</code>), so I cannot just create a <code>FULL JOIN</code> of both.</p><p>I then give up tried to do it the ORM way, and just use ORM but with a bit of SQL. Then I came up with this:</p><pre class="mockup-code rounded-badge"><code class="language-go"><span class="hljs-function hljs-keyword">func</span><span class="hljs-function"> </span><span class="hljs-function hljs-title">search</span><span class="hljs-function hljs-params">()</span> <span class="hljs-type">error</span> {
+   db.Table(<span class="hljs-string">&#34;posts&#34;</span>).
+	   Select(<span class="hljs-string">&#34;distinct posts.id&#34;</span>,
+		   <span class="hljs-string">&#34;posts.title&#34;</span>, <span class="hljs-string">&#34;posts.created_at&#34;</span>,
+		   <span class="hljs-string">&#34;posts.status&#34;</span>, <span class="hljs-string">&#34;posts.updated_at&#34;</span>,
+		   <span class="hljs-string">&#34;posts.published_at&#34;</span>).
+	   Joins(<span class="hljs-string">&#34;full join post_tags on posts.id = post_tags.post_id&#34;</span>).
+	   Joins(<span class="hljs-string">&#34;left join tags on post_tags.tag_id = tags.id&#34;</span>).
+	   Where(<span class="hljs-string">&#34;lower(posts.title) like ?&#34;</span>, wrappedKeyword).
+	   Or(<span class="hljs-string">&#34;lower(posts.content) like ?&#34;</span>, wrappedKeyword).
+	   Or(<span class="hljs-string">&#34;lower(tags.title) like ?&#34;</span>, wrappedKeyword),
+	   Where(<span class="hljs-string">&#34;posts.status = ?&#34;</span>, status)
+}</code></pre><p>Which is suspiciously just look like raw SQL but with syntactic sugar. And the best part? it does not do what I want.</p><p>So, please watch the last part where I add <code>Where()</code> condition that should filters out status. All <code>Where()</code> function is flattened, meaning all live in the same plane. The query above is equal to <code>WHERE...OR...AND...</code> instead of my goal which is <code>WHERE(...OR...)AND...</code></p><p>It  took me quite a while flipping around GORM documentation. But it  turns  out, you could just nest the “Where” statement to simulate <code>WHERE(..OR..)AND ...</code>. So I modified it into this:</p><pre class="mockup-code rounded-badge"><code class="language-go"><span class="hljs-function hljs-keyword">func</span><span class="hljs-function"> </span><span class="hljs-function hljs-title">search</span><span class="hljs-function hljs-params">()</span> <span class="hljs-type">error</span> {
+   wrappedKeyword := fmt.Sprintf(<span class="hljs-string">&#34;%%%s%%&#34;</span>, strings.ToLower(keyword))
+   dbs := db.Table(<span class="hljs-string">&#34;posts&#34;</span>).
+	   Select(<span class="hljs-string">&#34;distinct posts.id&#34;</span>,
+		   <span class="hljs-string">&#34;posts.title&#34;</span>, <span class="hljs-string">&#34;posts.created_at&#34;</span>,
+		   <span class="hljs-string">&#34;posts.status&#34;</span>, <span class="hljs-string">&#34;posts.updated_at&#34;</span>,
+		   <span class="hljs-string">&#34;posts.published_at&#34;</span>).
+	   Joins(<span class="hljs-string">&#34;full join post_tags on posts.id = post_tags.post_id&#34;</span>).
+	   Joins(<span class="hljs-string">&#34;left join tags on post_tags.tag_id = tags.id&#34;</span>)
+
+   dbs = dbs.
+	   Where(
+		   dbs.Where(<span class="hljs-string">&#34;lower(posts.title) like ?&#34;</span>, wrappedKeyword).
+			   Or(<span class="hljs-string">&#34;lower(posts.content) like ?&#34;</span>, wrappedKeyword).
+			   Or(<span class="hljs-string">&#34;lower(tags.title) like ?&#34;</span>, wrappedKeyword),
+	   )
+
+   <span class="hljs-keyword">if</span> status != values.None {
+	   dbs = dbs.Where(<span class="hljs-string">&#34;posts.status = ?&#34;</span>, status)
+   }
+}</code></pre><p>And finally it worked! But at this point, I might as well use SQLC and write my own SQL doesn’t it?</p><h2>Conclusion</h2><p>I  really love what HTMX provides for my use case. It strikes very  nice  balance for someone that has background in Android and Backend  where a  lot of the knowledge in each of those domains helped me creates  an  interpretation of how to work with front end development <em>a la</em> hypermedia.</p><p>It  does however, still has a lot of kinks to be ironed out, and need a   strict and active discipline from the developer themselves to not fall   into the traps of declarative hell that is HTML templating.</p><p>There  is no handholding really, as a lot of the best practices are  not  defined and documented and people will need to draw the line  themselves  where and how to do things.</p><p>That’s it! Please give me feedback in  the form of email or reply to  any repost I made. I’m sorry I haven’t  made proper comment system yet  (and also sitemaps, RSS feeds,  newsletters… urgh…).</p><h2>Thanks!</h2><p><br></p>]]></content:encoded>
+      <author>M Wyndham</author>
+      <pubDate>Sat, 02 Mar 2024 22:22:44 +0700</pubDate>
+    </item>
+    <item>
+      <title>Personal Blog with HTMX + Go Part 1 - Golang Templating Setup</title>
+      <link>http://localhost:4040/personal-blog-with-htmx-go-part-golang-templating.html</link>
+      <description></description>
+      <content:encoded><![CDATA[<h2>Preface</h2><p>Recently, I just made a post where I announce that I’ve made a  personal blog from scratch using HTMX and Golang as the backbone of it,  skipping JavaScript Framework alltogether. You can read the <a href="https://mwyndham.dev/articles/i-made-this-website-using-htmx-go-in" rel="nofollow">blogpost here</a>.</p><p>This will be the part 1 of many on my <span class="font-semibold text-accent suggestion" data-type="mention" contenteditable="false">#HTMX</span> + <span class="font-semibold text-accent suggestion" data-type="mention" data-id="Go" contenteditable="false">#Go</span> journey, where it  will document my process on setting up HTMX first time for my personal  blog (which if you read this article in Medium, you can visit it <a href="https://mwyndham.dev" rel="nofollow">here</a>).</p><p>I wont be covering the process in detail as in tutorials, but more of  a journal where I document what I’m doing, what is my blockers, and how  I overcome (or side-step) it, along with various knick knacks I found  during  the process.</p><p>This series will skip a lot of basic stuff, so I don’t expect  complete newbie to follow along. Questions is greatly appreciated though  so don’t be shy to just hit me with it in the comment below!</p><h2>The Setting Up</h2><h3>Template Renderer</h3><p>First I need to make sure that I can serve HTML files using <a href="https://github.com/labstack/echo" rel="nofollow">Labstack Echo</a>, as it is my personal HTTP Router of choice. <a href="https://echo.labstack.com/docs/templates" rel="nofollow">If we follow the template section of Echo’s Guide</a>, we should provide some sort of “Template Renderer” which implement Echo’s own <code>Renderer</code> interface.</p><p>To do that, I came up with this:</p><pre class="mockup-code rounded-badge"><code><span class="hljs-keyword">type</span> Template <span class="hljs-keyword">struct</span> {
+	Templates *template.Template
+}
+
+<span class="hljs-function hljs-keyword">func</span><span class="hljs-function"> </span><span class="hljs-function hljs-params">(t *Template)</span> Render(w io.Writer, name <span class="hljs-type">string</span>, data <span class="hljs-keyword">interface</span>{}, c echo.Context) <span class="hljs-type">error</span> {
+	<span class="hljs-keyword">return</span> t.Templates.ExecuteTemplate(w, name, data)
+}
+
+<span class="hljs-function hljs-keyword">func</span><span class="hljs-function"> </span><span class="hljs-function hljs-title">NewTemplateRenderer</span><span class="hljs-function hljs-params">(e *echo.Echo, paths ...</span><span class="hljs-function hljs-params hljs-type">string</span><span class="hljs-function hljs-params">)</span> {
+	tmpl := &amp;template.Template{}
+	<span class="hljs-keyword">for</span> i := <span class="hljs-keyword">range</span> paths {
+		template.Must(tmpl.ParseGlob(paths[i]))
+	}
+	t := newTemplate(tmpl)
+	e.Renderer = t
+}
+<span class="hljs-function hljs-keyword">func</span><span class="hljs-function"> </span><span class="hljs-function hljs-title">newTemplate</span><span class="hljs-function hljs-params">(templates *template.Template)</span> echo.Renderer {
+	<span class="hljs-keyword">return</span> &amp;Template{
+		Templates: templates,
+	}
+}</code></pre><p>The idea with this template renderer is that I can supply variadics of <code>string</code> which represent’s the path where I put the <code>html</code> template files. This is necessary due to <code>template.ParseGlob</code> unable to recursively look for template files. <strong><em>Don’t forget that you should not import the </em></strong><code>html/template</code>!! but import <code>text/template</code> instead!</p><h3>Hello World</h3><p>Now we can test it by creating simple echo server and try to serve simple html file. Let’s start with the usual <code>Hello World</code>, by creating a new <code>index.html</code> file in <code>public</code> path:</p><pre class="mockup-code rounded-badge"><code><span class="xml">{{define &#34;index&#34;}}
+</span><span class="xml hljs-meta">&lt;!DOCTYPE </span><span class="xml hljs-meta hljs-keyword">html</span><span class="xml hljs-meta">&gt;</span><span class="xml">
+</span><span class="xml hljs-tag">&lt;</span><span class="xml hljs-tag hljs-name">html</span><span class="xml hljs-tag"> </span><span class="xml hljs-tag hljs-attr">lang</span><span class="xml hljs-tag">=</span><span class="xml hljs-tag hljs-string">&#34;en&#34;</span><span class="xml hljs-tag">&gt;</span><span class="xml">
+</span><span class="xml hljs-tag">&lt;</span><span class="xml hljs-tag hljs-name">head</span><span class="xml hljs-tag">&gt;</span><span class="xml">
+    </span><span class="xml hljs-tag">&lt;</span><span class="xml hljs-tag hljs-name">meta</span><span class="xml hljs-tag"> </span><span class="xml hljs-tag hljs-attr">charset</span><span class="xml hljs-tag">=</span><span class="xml hljs-tag hljs-string">&#34;UTF-8&#34;</span><span class="xml hljs-tag">&gt;</span><span class="xml">
+    </span><span class="xml hljs-tag">&lt;</span><span class="xml hljs-tag hljs-name">meta</span><span class="xml hljs-tag"> </span><span class="xml hljs-tag hljs-attr">name</span><span class="xml hljs-tag">=</span><span class="xml hljs-tag hljs-string">&#34;viewport&#34;</span><span class="xml hljs-tag"> </span><span class="xml hljs-tag hljs-attr">content</span><span class="xml hljs-tag">=</span><span class="xml hljs-tag hljs-string">&#34;width=device-width, initial-scale=1.0&#34;</span><span class="xml hljs-tag">&gt;</span><span class="xml">
+    </span><span class="xml hljs-tag">&lt;</span><span class="xml hljs-tag hljs-name">title</span><span class="xml hljs-tag">&gt;</span><span class="xml">Hello, World!</span><span class="xml hljs-tag">&lt;/</span><span class="xml hljs-tag hljs-name">title</span><span class="xml hljs-tag">&gt;</span><span class="xml">
+</span><span class="xml hljs-tag">&lt;/</span><span class="xml hljs-tag hljs-name">head</span><span class="xml hljs-tag">&gt;</span><span class="xml">
+</span><span class="xml hljs-tag">&lt;</span><span class="xml hljs-tag hljs-name">body</span><span class="xml hljs-tag">&gt;</span><span class="xml">
+    </span><span class="xml hljs-tag">&lt;</span><span class="xml hljs-tag hljs-name">p</span><span class="xml hljs-tag">&gt;</span><span class="xml">Hello, World!</span><span class="xml hljs-tag">&lt;/</span><span class="xml hljs-tag hljs-name">p</span><span class="xml hljs-tag">&gt;</span><span class="xml">
+</span><span class="xml hljs-tag">&lt;/</span><span class="xml hljs-tag hljs-name">body</span><span class="xml hljs-tag">&gt;</span><span class="xml">
+</span><span class="xml hljs-tag">&lt;/</span><span class="xml hljs-tag hljs-name">html</span><span class="xml hljs-tag">&gt;</span><span class="xml">
+{{end}}</span></code></pre><p>This is just simple html file. But notice the double curly braces (<code>{{}}</code>)  sandwiching the html file. This is the go templating tag. In the  example above, I simply define a new template with the name of <code>index</code> which I can access directly in go code later.</p><p>Now let’s create a simple echo server:</p><pre class="mockup-code rounded-badge"><code class="language-go">...
+<span class="hljs-function hljs-keyword">func</span><span class="hljs-function"> </span><span class="hljs-function hljs-title">main</span><span class="hljs-function hljs-params">()</span> {
+	e := echo.New()
+
+	<span class="hljs-comment">// Little bit of middlewares for housekeeping</span>
+	e.Pre(middleware.RemoveTrailingSlash())
+	e.Use(middleware.Recover())
+	e.Use(middleware.RateLimiter(middleware.NewRateLimiterMemoryStore(
+		rate.Limit(<span class="hljs-number">20</span>),
+	)))
+	
+	<span class="hljs-comment">//This will initiate our template renderer</span>
+	template.NewTemplateRenderer(e, <span class="hljs-string">&#34;public/*.html&#34;</span>)
+	
+	e.GET(<span class="hljs-string">&#34;/hello&#34;</span>, <span class="hljs-function hljs-keyword">func</span><span class="hljs-function hljs-params">(e echo.Context)</span> <span class="hljs-type">error</span> {
+		<span class="hljs-keyword">return</span> c.Render(http.StatusOK, <span class="hljs-string">&#34;index&#34;</span>, <span>nil</span>)
+	})
+
+	e.Logger.Fatal(e.Start(<span class="hljs-string">&#34;:4040&#34;</span>))
+}
+...</code></pre><p>This echo server will run in port <code>:4040</code> and will render any file <code>.html</code> that was located in the <code>public</code> directory. Then I also create a new endpoint <code>/hello</code> where it will serve the <code>index</code>. Run it and supposedly I should get this:</p><p><img class="max-h-96 mx-auto" src="https://mwyndham.dev/posts/media/6-j7vpsiyzlhnhjijs2uct-20240120134316.png" alt="img"><br></p><h3>Passing Value to Template</h3><p>Now I need to see whether I can pass dynamic values to the template.  That’s the point of templating after all. First, I need to modify the <code>index.html</code> code a little bit:</p><pre class="mockup-code rounded-badge"><code>...
+&lt;<span class="hljs-selector-tag">p</span>&gt;Hello, World!&lt;/<span class="hljs-selector-tag">p</span>&gt;
+&lt;<span class="hljs-selector-tag">p</span>&gt;Greetings, {{<span class="hljs-selector-class">.Name</span>}}!&lt;/<span class="hljs-selector-tag">p</span>&gt;
+...</code></pre><p>Once again the double curly braces. In this example I want to pass a value named <code>Name</code> into the html file. Then I need to modify my server a bit:</p><pre class="mockup-code rounded-badge"><code>...
+e.GET(<span class="hljs-string">&#34;/hello&#34;</span>, <span class="hljs-function hljs-keyword">func</span><span class="hljs-function hljs-params">(e echo.Context)</span> <span class="hljs-type">error</span> {
+	res := <span class="hljs-keyword">map</span>[<span class="hljs-type">string</span>]<span class="hljs-keyword">interface</span>{}{
+		<span class="hljs-string">&#34;Name&#34;</span>: <span class="hljs-string">&#34;Wyndham&#34;</span>,
+	}
+	<span class="hljs-keyword">return</span> c.Render(http.StatusOK, <span class="hljs-string">&#34;index&#34;</span>, res)
+})
+...</code></pre><p>This will make the renderer take the value of <code>res</code> as the root value, and will find any child value with the key of <code>Name</code>. It should then render the result like this:</p><p><img class="max-h-96 mx-auto" src="https://mwyndham.dev/posts/media/6-khxlczhdgnd620w4cbbj-20240120134435.png" alt="img"><br></p><h3>Nested Template and Passing Value Between Template</h3><p>Now the last part before we start dealing with HTMX is that whether I could nest another template into the <code>index</code> template. To do that, I created this simple template file named <code>name_card.html</code>:</p><pre class="mockup-code rounded-badge"><code class="language-html">{{define &#34;name_card&#34;}}
+&lt;<span class="hljs-selector-tag">div</span>&gt;
+	&lt;<span class="hljs-selector-tag">p</span>&gt;User Personal Information:&lt;/p&gt;
+	&lt;ol&gt;
+		&lt;li&gt;Name: {{<span class="hljs-selector-class">.Name</span>}}&lt;/<span class="hljs-selector-tag">li</span>&gt;
+		&lt;<span class="hljs-selector-tag">li</span>&gt;Phone: {{<span class="hljs-selector-class">.Phone</span>}}&lt;/<span class="hljs-selector-tag">li</span>&gt;
+		&lt;<span class="hljs-selector-tag">li</span>&gt;Email: {{<span class="hljs-selector-class">.Email</span>}}&lt;/<span class="hljs-selector-tag">li</span>&gt;
+	&lt;/<span class="hljs-selector-tag">ol</span>&gt;
+&lt;/<span class="hljs-selector-tag">div</span>&gt;
+{{end}}</code></pre><p>Then we need to modify the <code>index.html</code> another bit. First delete the greetings line, then add the following:</p><pre class="mockup-code rounded-badge"><code><span class="xml">...
+</span><span class="xml hljs-tag">&lt;</span><span class="xml hljs-tag hljs-name">p</span><span class="xml hljs-tag">&gt;</span><span class="xml">Hello, World!</span><span class="xml hljs-tag">&lt;/</span><span class="xml hljs-tag hljs-name">p</span><span class="xml hljs-tag">&gt;</span><span class="xml">
+</span><span class="xml hljs-comment">&lt;!-- Delete this line &lt;p&gt;Greetings, {{.Name}}!&lt;/p&gt; --&gt;</span><span class="xml">
+{{template &#34;name_card&#34; .}}
+...</span></code></pre><p>Then we need to once again modify our server:</p><pre class="mockup-code rounded-badge"><code>...
+e.GET(<span class="hljs-string">&#34;/hello&#34;</span>, <span class="hljs-function hljs-keyword">func</span><span class="hljs-function hljs-params">(e echo.Context)</span> <span class="hljs-type">error</span> {
+	res := <span class="hljs-keyword">map</span>[<span class="hljs-type">string</span>]<span class="hljs-keyword">interface</span>{}{
+		<span class="hljs-string">&#34;Name&#34;</span>: <span class="hljs-string">&#34;Wyndham&#34;</span>,
+		<span class="hljs-string">&#34;Phone&#34;</span>: <span class="hljs-string">&#34;8888888&#34;</span>,
+		<span class="hljs-string">&#34;Email&#34;</span>: <span class="hljs-string">&#34;skyscraper@gmail.com&#34;</span>,
+	}
+	<span class="hljs-keyword">return</span> c.Render(http.StatusOK, <span class="hljs-string">&#34;index&#34;</span>, res)
+})
+...</code></pre><p>Now if I’m right here, I should be able to  render the personal info like so. The logic here is that we’re passing a  map of interface with 3 key pair value containig <code>Name, Phone, Email</code>. And we’re accessing those in the <code>name_card</code> by using the double curly braces.</p><p>But to make sure that the <code>name_card</code> template receive the values, we need to pass the <code>res</code> values into them hence the extra <code>.</code> in the <code>{{template &#34;name_card&#34; .}}</code> inside the <code>index.html</code>.</p><p>And sure enough:<br><img class="max-h-96 mx-auto" src="https://mwyndham.dev/posts/media/6-sqmagks6feoppbf1dvxz-20240120134520.png" alt="img">We manage to nest multiple template file and pass around a variables  between them! Now that we’re done with the templating setup, let’s touch  HTMX a little bit.</p><h3>Using HTMX to Reveal a Contact Info</h3><p>I would create a simple view where It would list a name and a button  next to it to reveal the contact info. To do that, first I need to add  HTMX to this project. To make things simple, I would add it via CDN for  the moment:</p><pre class="mockup-code rounded-badge"><code><span class="xml hljs-tag">&lt;</span><span class="xml hljs-tag hljs-name">head</span><span class="xml hljs-tag">&gt;</span><span class="xml">
+    ...
+    </span><span class="xml hljs-tag">&lt;</span><span class="xml hljs-tag hljs-name">script</span><span class="xml hljs-tag"> </span><span class="xml hljs-tag hljs-attr">src</span><span class="xml hljs-tag">=</span><span class="xml hljs-tag hljs-string">&#34;https://unpkg.com/htmx.org@1.9.5&#34;</span><span class="xml hljs-tag"> </span><span class="xml hljs-tag hljs-attr">integrity</span><span class="xml hljs-tag">=</span><span class="xml hljs-tag hljs-string">&#34;sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO&#34;</span><span class="xml hljs-tag"> </span><span class="xml hljs-tag hljs-attr">crossorigin</span><span class="xml hljs-tag">=</span><span class="xml hljs-tag hljs-string">&#34;anonymous&#34;</span><span class="xml hljs-tag">&gt;</span><span class="xml hljs-tag">&lt;/</span><span class="xml hljs-tag hljs-name">script</span><span class="xml hljs-tag">&gt;</span><span class="xml">
+</span><span class="xml hljs-tag">&lt;/</span><span class="xml hljs-tag hljs-name">head</span><span class="xml hljs-tag">&gt;</span></code></pre><p>This will add the HTMX into our code via CDN. Now we need to modify our <code>index.html</code> once again to not directly reveal the user info:</p><pre class="mockup-code rounded-badge"><code><span class="xml">...
+</span><span class="xml hljs-tag">&lt;</span><span class="xml hljs-tag hljs-name">p</span><span class="xml hljs-tag">&gt;</span><span class="xml">Hello, World!</span><span class="xml hljs-tag">&lt;/</span><span class="xml hljs-tag hljs-name">p</span><span class="xml hljs-tag">&gt;</span><span class="xml">
+</span><span class="xml hljs-comment">&lt;!-- Delete this line {{template &#34;name_card&#34; .}} --&gt;</span><span class="xml">
+</span><span class="xml hljs-tag">&lt;</span><span class="xml hljs-tag hljs-name">div</span><span class="xml hljs-tag"> </span><span class="xml hljs-tag hljs-attr">id</span><span class="xml hljs-tag">=</span><span class="xml hljs-tag hljs-string">&#34;user-info&#34;</span><span class="xml hljs-tag">&gt;</span><span class="xml">
+	</span><span class="xml hljs-tag">&lt;</span><span class="xml hljs-tag hljs-name">p</span><span class="xml hljs-tag">&gt;</span><span class="xml">{{.Name}}</span><span class="xml hljs-tag">&lt;/</span><span class="xml hljs-tag hljs-name">p</span><span class="xml hljs-tag">&gt;</span><span class="xml">
+	</span><span class="xml hljs-tag">&lt;</span><span class="xml hljs-tag hljs-name">button</span><span class="xml hljs-tag"> </span><span class="xml hljs-tag hljs-attr">hx-get</span><span class="xml hljs-tag">=</span><span class="xml hljs-tag hljs-string">&#34;/get-info&#34;</span><span class="xml hljs-tag"> </span><span class="xml hljs-tag hljs-attr">hx-target</span><span class="xml hljs-tag">=</span><span class="xml hljs-tag hljs-string">&#34;#user-info&#34;</span><span class="xml hljs-tag"> </span><span class="xml hljs-tag hljs-attr">hx-swap</span><span class="xml hljs-tag">=</span><span class="xml hljs-tag hljs-string">&#34;innerHTML&#34;</span><span class="xml hljs-tag">&gt;</span><span class="xml">Reveal Info</span><span class="xml hljs-tag">&lt;/</span><span class="xml hljs-tag hljs-name">button</span><span class="xml hljs-tag">&gt;</span><span class="xml">
+</span><span class="xml hljs-tag">&lt;/</span><span class="xml hljs-tag hljs-name">div</span><span class="xml hljs-tag">&gt;</span><span class="xml">
+...</span></code></pre><p>This will basically set the UI to only reveal the name part, and setting up a button where it will hit the <code>/get-info</code> endpoint, and then target the <code>#user-info</code> element and swap the inner part of the target element (basically left the <code>&lt;div&gt;</code> alone and change everything inside the <code>&lt;div&gt;</code>).</p><p>Okay, that seems like a lot of jargon. I won’t explain it here as it  has been told better in the htmx webpage which you can access <a href="https://htmx.org" rel="nofollow">here</a>.  Now let’s move on by creating new endpoint handler in our server that should be able to handle the <code>/get-info</code> path:</p><pre class="mockup-code rounded-badge"><code>e.GET(<span class="hljs-string">&#34;/get-info&#34;</span>, <span class="hljs-function hljs-keyword">func</span><span class="hljs-function hljs-params">(c echo.Context)</span> <span class="hljs-type">error</span> {
+	res := <span class="hljs-keyword">map</span>[<span class="hljs-type">string</span>]<span class="hljs-keyword">interface</span>{}{
+		<span class="hljs-string">&#34;Name&#34;</span>: <span class="hljs-string">&#34;Wyndham&#34;</span>,
+		<span class="hljs-string">&#34;Phone&#34;</span>: <span class="hljs-string">&#34;8888888&#34;</span>,
+		<span class="hljs-string">&#34;Email&#34;</span>: <span class="hljs-string">&#34;skyscraper@gmail.com&#34;</span>,
+	}
+	<span class="hljs-keyword">return</span> c.Render(http.StatusOK, <span class="hljs-string">&#34;name_card&#34;</span>, res)
+})</code></pre><p>It is almost identical to the <code>/hello</code> ones but it has two major difference:</p><ol><li><p>change the path to <code>/get-info</code>, which is obvious.</p></li><li><p>change the target template to <code>name_card</code>.</p></li></ol><p>But wait! isn’t name card wasn’t a valid HTML file? it does not has <code>doctype</code>, it does not have header, etc. and Yes, you’re correct. But this is <strong>HTMX in action</strong>. It will not swap the whole page, but <strong>only the targeted part,</strong> in this case <code>user-info</code> element that we specify in the <code>index.html</code>.</p><p>Now, without further ado, let’s run the server and see what happened:</p><div><iframe class="mx-auto" src="https://www.youtube.com/embed/duSbzGXEvfQ" width="512" height="288"></iframe></div><p>Holly molly! that works! Now that we now HTMX works well with Go  Template, we can finally working on our blogging site. But  unfortunately, I won’t be covering it in this article. I would comeback  soon though, it won’t be long!</p><h2>Conclusion</h2><p>Thanks for reading this blogpost. The takeaway here is that Go  Template is very flexible to use and it also works well with HTMX, at  least in this small simple scope here. In the following blogpost we will  create a basic CRUD where we can store our articles in the DB and  access it in the browser.</p><p>A little bit spoiler though: I won’t be using that much HTMX in  there, or the after, and after that too. Turns out You don’t need that  much HTMX when it comes to blogging web. Shocking I know.  But we will  use it extensively when we came to the part where we create our  pagination, search, and reatime Markdown renderer.</p><p>So look forward to that! Thanks for reading!</p><p><br></p>]]></content:encoded>
+      <author>M Wyndham</author>
+      <pubDate>Sat, 02 Mar 2024 22:33:08 +0700</pubDate>
+    </item>
+    <item>
+      <title>Hello World!!</title>
+      <link>http://localhost:4040/hello-world.html</link>
+      <description></description>
+      <content:encoded><![CDATA[<h1>Hello World!</h1><p>This blog is 100% made without javascript code (sort of).</p><p>I made it using <strong>HTMX + Golang + Tailwind CSS</strong>, including this very blogpost. Behind locked door, there is pretty fancy markdown parser done in the backend in real time. You won’t see it though, which is a shame :&#39;)</p><p>See you in other articles in this blog!</p><h3>Thank you!</h3>]]></content:encoded>
+      <author>M Wyndham</author>
+      <pubDate>Sun, 03 Mar 2024 10:23:50 +0700</pubDate>
+    </item>
+    <item>
+      <title>Title</title>
+      <link>http://localhost:4040/title.html</link>
+      <description></description>
+      <content:encoded><![CDATA[<p>goes</p><h1>here</h1><p><span class="font-semibold text-accent suggestion" data-type="mention" data-id="Golang" contenteditable="false">#Golang</span> </p><p><br></p>]]></content:encoded>
+      <author>M Wyndham</author>
+      <pubDate>Sun, 03 Mar 2024 11:37:46 +0700</pubDate>
+    </item>
+    <item>
+      <title>Personal Blog With HTMX + Go Part 3 - Server Rendered Markdown</title>
+      <link>http://localhost:4040/personal-blog-with-htmx-go-part-server-rendered.html</link>
+      <description></description>
+      <content:encoded><![CDATA[<p>This article will cover part 3 of the <span class="font-semibold text-accent suggestion" data-type="mention" data-id="blogging" contenteditable="false">#blogging</span> Tutorial. This one is going to be long as we start deep-diving into making some interactive stuff with the help of <span class="font-semibold text-accent suggestion" data-type="mention" contenteditable="false">#HTMX.</span> If you need a refresher, you can read the first or the previous part.</p><p><span class="font-semibold text-accent suggestion" data-type="mention" data-id="Golang" contenteditable="false">#Golang</span> </p><h2>What We&#39;re Going to Do Today</h2><p>this time, we&#39;re about to make a fancy Markdown to HTML Renderer but on the server side. Why? First, it will be a good demonstration of making an interactive element using HTMX. Secondly, Why not? It&#39;s kinda cool, isn&#39;t it?</p><h2>Dependencies</h2><p>First, we need to sort out our dependency. We need to add a Markdown parser for Golang. </p><blockquote><p>What? Why not make your own parser?</p></blockquote><p>I know I know, maybe I oversell it a bit. Technically we can, but it will be quite an effort, especially for the coverage of a single blog post. But there&#39;s more reason for that.</p><p>HTML Sanitization is one thing, then there are many different flavors of markdown to support. It&#39;s also a bit out of scope because we&#39;re here to highlight how HTMX is useful for creating interactive apps. </p><p>Okay, now we need to add our dependency first. My Markdown parser of choice is <a href="https://github.com/yuin/goldmark" rel="nofollow">GoldMark</a>. It&#39;s fast and has quite an extensive amount of available extensions you might want. It also handles sanitization quite well for basic stuff. </p><p>Let&#39;s add our dependency to our Go project via:</p><pre class="mockup-code rounded-badge"><code class="language-bash">go get github.com/yuin/goldmark</code></pre><p><span class="font-semibold text-accent suggestion" data-type="mention" data-id="Goldmark" contenteditable="false">#Goldmark</span> also brings its extension called GFM (GitHub Flavored Markdown) and Typographer. We will need these two extensions to increase our markdown parsing capabilities. </p><p>GFM, as the name suggests, adds GitHub style Markdown tags, such as table, strike-through, and linkify. There&#39;s more to it, but you can read it yourself in the formal spec <a href="https://github.github.com/gfm" rel="nofollow">here</a>.</p><h2>Markdown parsing</h2><p>Next, we need to create a new file called <code>utils/markd/markd_parser.go</code> and set the content as follows:</p><pre class="mockup-code rounded-badge"><code class="language-go"><span class="hljs-keyword">package</span> markd
+<span class="hljs-keyword">import</span> (
+   <span class="hljs-string">&#34;bytes&#34;</span>
+   <span class="hljs-string">&#34;string&#34;</span>
+   <span class="hljs-string">&#34;github.com/yuin/goldmark&#34;</span>
+   <span class="hljs-string">&#34;github.com/yuin/goldmark/extension&#34;</span>
+   <span class="hljs-string">&#34;github.com/yuin/goldmark/parser&#34;</span>
+   <span class="hljs-string">&#34;github.com/yuin/goldmark/renderer/html&#34;</span>
+)
+
+<span class="hljs-keyword">var</span> mdParser goldmark.Markdown
+
+<span class="hljs-function hljs-keyword">func</span><span class="hljs-function"> </span><span class="hljs-function hljs-title">init</span><span class="hljs-function hljs-params">()</span> {
+   mdParser = goldmark.New(
+      goldmark.WithExtensions(
+         extension.GFM,
+         extension.Typographer,
+      ),
+      goldmark.WithParserOptions(
+         parser.WithAutoHeadingID(),
+      ),
+      goldmark.WithRendererOptions(
+         html.WithHardWraps(),
+      ),
+   )
+}</code></pre><p>Cool! Now we have created a simple markdown parsing client. Next, we need to add the public function that is accessible by other modules to parse the markdown into HTML:</p><pre class="mockup-code rounded-badge"><code class="language-go"><span class="hljs-function hljs-keyword">func</span><span class="hljs-function"> </span><span class="hljs-function hljs-title">ParseMD</span><span class="hljs-function hljs-params">(source </span><span class="hljs-function hljs-params hljs-type">string</span><span class="hljs-function hljs-params">)</span> (<span class="hljs-type">string</span>, <span class="hljs-type">error</span>) {
+   <span class="hljs-keyword">var</span> buf bytes.Buffer
+   <span class="hljs-keyword">if</span> err := mdParser.Convert([]<span class="hljs-type">byte</span>(source), &amp;buf); err != <span>nil</span> {
+      <span class="hljs-keyword">return</span> <span class="hljs-string">&#34;&#34;</span>, err
+   }
+   result := buf.String()
+   <span class="hljs-keyword">return</span> result, <span>nil</span>
+}</code></pre><p>The new addition is here!</p><h2>header</h2><h1>hhhhh</h1><h3>hhhh</h3><pre class="mockup-code rounded-badge"><code class="language-go"><span class="hljs-function hljs-keyword">func</span> 
+<br></code></pre><p><img class="max-h-96 mx-auto" src="http://localhost:4040/posts/media/0-IMG_1201-20240305181049.jpg"><br></p><pre class="mockup-code rounded-badge"><code class="language-js"><span class="hljs-keyword">const</span></code></pre><p><span class="font-semibold text-accent suggestion" data-type="mention" data-id="echo" contenteditable="false">#echo</span> <span class="font-semibold text-accent suggestion" data-type="mention" data-id="location" contenteditable="false">#location</span> </p><div hx-get="/dashboard/load-iframe?url=https%3A%2F%2Fwww.youtube-nocookie.com%2Fembed%2FLMTJPKD0lQw%3Fmodestbranding%3D1%26color%3Dwhite" hx-trigger="revealed" hx-swap="innerHTML"><iframe class="mx-auto" width="512" height="288"></iframe></div>]]></content:encoded>
+      <author>M Wyndham</author>
+      <pubDate>Mon, 04 Mar 2024 10:29:46 +0700</pubDate>
+    </item>
+    <item>
+      <title>title</title>
+      <link>http://localhost:4040/title.html</link>
+      <description></description>
+      <content:encoded><![CDATA[<div hx-get="/dashboard/load-iframe?url=https%3A%2F%2Fwww.youtube-nocookie.com%2Fembed%2FLMTJPKD0lQw%3Fmodestbranding%3D1%26color%3Dwhite" hx-trigger="load delay:3s" hx-swap="innerHTML"><iframe class="mx-auto max-w-[320px] md:max-w-[512px] max-h-[240px] md:max-h-[288px]" width="512" height="288"></iframe></div>]]></content:encoded>
+      <author>M Wyndham</author>
+      <pubDate>Sun, 10 Mar 2024 07:02:41 +0700</pubDate>
+    </item>
+  </channel>
+</rss>

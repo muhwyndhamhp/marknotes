@@ -21,6 +21,7 @@ import (
 	templates "github.com/muhwyndhamhp/marknotes/template"
 	"github.com/muhwyndhamhp/marknotes/utils/constants"
 	"github.com/muhwyndhamhp/marknotes/utils/errs"
+	"github.com/muhwyndhamhp/marknotes/utils/fileman"
 	"github.com/muhwyndhamhp/marknotes/utils/jwt"
 	"github.com/muhwyndhamhp/marknotes/utils/renderfile"
 	"github.com/muhwyndhamhp/marknotes/utils/sanitizations"
@@ -221,7 +222,7 @@ func (fe *DashboardFrontend) ArticlesPush(c echo.Context) error {
 		}()
 	} else {
 		go func() {
-			err := renderfile.DeleteFile(fmt.Sprintf("public/articles/%s.html", post.Slug))
+			err := fileman.DeleteFile(fmt.Sprintf("public/articles/%s.html", post.Slug))
 			if err != nil {
 				fmt.Println(err)
 			}
