@@ -30,7 +30,6 @@ func RenderPost(ctx context.Context, post *models.Post) {
 
 	bodyOpts := pub_variables.BodyOpts{
 		HeaderButtons: admin.AppendHeaderButtons(userID),
-		FooterButtons: admin.AppendFooterButtons(userID),
 		Component:     nil,
 		ExtraHeaders: []templ.Component{
 			pub.CannonicalRel(canonURL),

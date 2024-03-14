@@ -39,7 +39,6 @@ func (fe *AdminFrontend) Contact(c echo.Context) error {
 
 	bodyOpts := pub_variables.BodyOpts{
 		HeaderButtons: AppendHeaderButtons(userID),
-		FooterButtons: AppendFooterButtons(userID),
 		Component:     nil,
 	}
 
@@ -56,7 +55,6 @@ func (fe *AdminFrontend) Index(c echo.Context) error {
 
 	bodyOpts := pub_variables.BodyOpts{
 		HeaderButtons: AppendHeaderButtons(userID),
-		FooterButtons: AppendFooterButtons(userID),
 		Component:     nil,
 	}
 
@@ -68,7 +66,6 @@ func (fe *AdminFrontend) Index(c echo.Context) error {
 func (fe *AdminFrontend) Unauthorized(c echo.Context) error {
 	bodyOpts := pub_variables.BodyOpts{
 		HeaderButtons: AppendHeaderButtons(0),
-		FooterButtons: AppendFooterButtons(0),
 		Component:     nil,
 	}
 

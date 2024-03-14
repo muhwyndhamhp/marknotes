@@ -115,7 +115,6 @@ func (fe *PostFrontend) PostsIndex(c echo.Context) error {
 
 	bodyOpts := pub_variables.BodyOpts{
 		HeaderButtons: admin.AppendHeaderButtons(userID),
-		FooterButtons: admin.AppendFooterButtons(userID),
 		Component:     nil,
 	}
 
