@@ -4,7 +4,7 @@
     <link>https://mwyndham.dev</link>
     <description>my persona blog, contain my personal thought and learning experience</description>
     <managingEditor>business@mwyndham.dev (M Wyndham)</managingEditor>
-    <pubDate>Thu, 14 Mar 2024 11:17:24 +0700</pubDate>
+    <pubDate>Thu, 14 Mar 2024 11:49:39 +0700</pubDate>
     <item>
       <title>I Made This Website Using HTMX + Go in One Month, Here&#39;s What I Learned</title>
       <link>http://localhost:4040/i-made-this-website-using-htmx-go-in.html</link>
@@ -270,11 +270,11 @@ e.GET(<span class="hljs-string">&#34;/hello&#34;</span>, <span class="hljs-funct
     </item>
     <item>
       <title>title</title>
-      <link>http://localhost:4040/title.html</link>
+      <link>http://localhost:4040/title-1.html</link>
       <description></description>
-      <content:encoded><![CDATA[<div hx-get="/dashboard/load-iframe?url=https%3A%2F%2Fwww.youtube-nocookie.com%2Fembed%2FLMTJPKD0lQw%3Fmodestbranding%3D1%26color%3Dwhite" hx-trigger="load delay:3s" hx-swap="innerHTML"><iframe class="mx-auto max-w-[320px] md:max-w-[512px] max-h-[240px] md:max-h-[288px]" width="512" height="288"></iframe></div>]]></content:encoded>
+      <content:encoded><![CDATA[<p>body-0</p>]]></content:encoded>
       <author>M Wyndham</author>
-      <pubDate>Sun, 10 Mar 2024 07:02:41 +0700</pubDate>
+      <pubDate>Thu, 14 Mar 2024 11:49:15 +0700</pubDate>
     </item>
   </channel>
 </rss>

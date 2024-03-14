@@ -115,7 +115,7 @@ func redirectHTML() echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			requestedPath := c.Request().URL.Path
-			if strings.HasPrefix(requestedPath, "/articles") && !strings.HasSuffix(requestedPath, ".html") {
+			if strings.HasPrefix(requestedPath, "/articles/") && !strings.HasSuffix(requestedPath, ".html") {
 				newPath := requestedPath + ".html"
 				return c.Redirect(http.StatusMovedPermanently, newPath)
 			}
