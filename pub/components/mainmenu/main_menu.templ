@@ -2,6 +2,8 @@ package pub_mainmenu
 
 import "github.com/muhwyndhamhp/marknotes/pub/variables"
 import "github.com/muhwyndhamhp/marknotes/pub/base"
+import "fmt"
+import "github.com/muhwyndhamhp/marknotes/pub/assets"
 
 templ MainMenu(buttons []pub_variables.InlineButton) {
 	<header class="text-center">
@@ -27,7 +29,9 @@ templ buttonRows(buttons []pub_variables.InlineButton) {
 				@desktopMenu(buttons)
 			</ul>
 		</div>
-		<div class="navbar-end"></div>
+		<div class="navbar-end">
+			@themePicker(DefaultThemes)
+		</div>
 	</div>
 }
 
@@ -45,22 +49,49 @@ templ titleHome(isInline bool) {
 	</a>
 }
 
-templ themePicker() {
-	<li class="rounded-badge mx-2 hidden md:flex z-50">
-		<details class="rounded-badge">
-			<summary>Select Theme</summary>
-			<ul class="p-2">
-				<li class="my-1"><button data-set-theme="fantasy" data-act-class="ACTIVECLASS">Fantasy</button></li>
-				<li class="my-1"><button data-set-theme="light" data-act-class="ACTIVECLASS">Light</button></li>
-				<li class="my-1"><button data-set-theme="cupcake" data-act-class="ACTIVECLASS">Cupcake</button></li>
-				<li class="my-1"><button data-set-theme="wireframe" data-act-class="ACTIVECLASS">Wireframe</button></li>
-				<li class="my-1"><button data-set-theme="emerald" data-act-class="ACTIVECLASS">Emerald</button></li>
-				<li class="my-1"><button data-set-theme="dark" data-act-class="ACTIVECLASS">Dark</button></li>
-				<li class="my-1"><button data-set-theme="night" data-act-class="ACTIVECLASS">Night</button></li>
-				<li class="my-1"><button data-set-theme="forest" data-act-class="ACTIVECLASS">Forest</button></li>
-			</ul>
-		</details>
-	</li>
+func triggerTheme(theme string, isDark bool) string {
+	return fmt.Sprintf("on click window.setMkTheme('%s', %t)", theme, isDark)
+}
+
+templ themePicker(themes []ThemeOption) {
+	<div class="dropdown dropdown-end dropdown-hover">
+		<div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+			<label class="swap swap-rotate">
+				<input
+					id="dark-toggle"
+					type="checkbox"
+					_="on change(input) 
+               get the (checked of the closest <input/>) 
+               then log it then set enabled to it
+               js(enabled) 
+               window.toggleDarkMode(enabled); 
+               window.setMkTheme(null, !enabled); 
+               end"
+				/>
+				@pub_assets.Sun(20)
+				@pub_assets.Moon(20)
+			</label>
+		</div>
+		<ul
+			tabindex="0"
+			class="menu menu-xl md:menu-md menu-vertical dropdown-content z-[1] p-2 shadow bg-base-100 rounded-box w-96 md:w-48
+      max-h-72 overflow-scroll"
+		>
+			for _, theme := range themes {
+				<li
+					if theme.IsDark {
+						class="hidden dark:flex"
+					} else {
+						class="dark:hidden"
+					}
+				>
+					<button _={ triggerTheme(theme.Theme, theme.IsDark) }>
+						{ theme.Label }
+					</button>
+				</li>
+			}
+		</ul>
+	</div>
 }
 
 templ mobileMenu(buttons []pub_variables.InlineButton) {
@@ -68,7 +99,10 @@ templ mobileMenu(buttons []pub_variables.InlineButton) {
 		<div tabindex="0" role="button" class="btn btn-ghost btn-circle">
 			<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path></svg>
 		</div>
-		<ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+		<ul
+			tabindex="0"
+			class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-96"
+		>
 			for _, btn := range buttons {
 				<li>
 					<a

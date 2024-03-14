@@ -2,6 +2,7 @@ const defaultTheme = require('tailwindcss/defaultTheme')
 const plugin = require('tailwindcss/plugin');
 
 module.exports = {
+   darkMode: 'class',
   content: ["./pub/**/*.templ", "./src/**/*.js"],
   theme: {
     screens: {
@@ -13,7 +14,7 @@ module.exports = {
   plugins: [
     plugin(function({ addBase }) {
       addBase({
-         'html': { fontSize: "14px" },
+         'html': { fontSize: "16px" },
        })
      }),
      require('@tailwindcss/typography'),
@@ -23,34 +24,36 @@ module.exports = {
       themes:[
          "fantasy",
          "light",
+         "dark",
          "cupcake",
-         "wireframe",
-         "autumn",
+         "bumblebee",
          "emerald",
+         "corporate",
+         "synthwave",
          "retro",
          "cyberpunk",
-         "pastel",
-         "lemonade",
-         "cmyk",
-         {
-
-            mytheme: {
-
-               "primary": "#0e7490",
-               "secondary": "#0f766e",
-               "accent": "#e11d48",
-               "neutral": "#1f2937",
-               "base-100": "#f5efef",
-               "info": "#38bdf8",
-               "success": "#34d399",
-               "warning": "#fb923c",
-               "error": "#f87171",
-            }
-
-         },
-         "dark",
-         "night",
+         "valentine",
+         "halloween",
+         "garden",
          "forest",
+         "aqua",
+         "lofi",
+         "pastel",
+         "wireframe",
+         "black",
+         "luxury",
+         "dracula",
+         "cmyk",
+         "autumn",
+         "business",
+         "acid",
+         "lemonade",
+         "night",
+         "coffee",
+         "winter",
+         "dim",
+         "nord",
+         "sunset",
       ],
       darkTheme: "night",
    },

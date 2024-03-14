@@ -1,27 +1,46 @@
 const colorSchemeQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
-// Listen for changes in the color scheme preference
-colorSchemeQuery.addEventListener('change', (event) => {
-   setMkTheme(event.matches)
+colorSchemeQuery.addEventListener('change', (evt) => {
+   document.getElementById('dark-toggle').checked = !evt.matches
+   window.setMkTheme(null, null)
 });
 
 window.addEventListener('load', () => {
-   setMkTheme(colorSchemeQuery.matches)
+   document.getElementById('dark-toggle').checked = !colorSchemeQuery.matches
+   window.setMkTheme(null, null)
 });
 
-function setMkTheme(isDark, theme) {
-   if (isDark) {
-      theme = localStorage.getItem('mk-theme-dark')
-      if (theme === null) {
-         theme = 'night'
-         localStorage.setItem('mk-theme-dark', theme)
-      }
+window.toggleDarkMode = function(isChecked) {
+   if (!isChecked) {
+      document.documentElement.classList.add("dark")
+      document.documentElement.classList.remove("light")
    } else {
-      theme = localStorage.getItem('mk-theme-light')
-      if (theme === null) {
-         theme = 'fantasy'
-         localStorage.setItem('mk-theme-light', theme)
+      document.documentElement.classList.remove("dark")
+      document.documentElement.classList.add("light")
+   }
+}
+
+window.setMkTheme = function(theme, isDark) {
+   console.log(isDark)
+   if (isDark === null) {
+      isDark = colorSchemeQuery.matches
+   }
+   if (isDark) {
+      if (theme === null || theme === undefined) {
+         theme = localStorage.getItem('mk-theme-dark')
+         if (theme === null || theme === undefined) {
+            theme = 'night'
+         }
       }
+      localStorage.setItem('mk-theme-dark', theme)
+   } else {
+      if (theme === null || theme === undefined) {
+         theme = localStorage.getItem('mk-theme-light')
+         if (theme === null || theme === undefined) {
+            theme = 'fantasy'
+         }
+      }
+      localStorage.setItem('mk-theme-light', theme)
    }
 
    const baseElement = document.documentElement;
