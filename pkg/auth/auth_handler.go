@@ -34,7 +34,7 @@ type AuthService struct {
 	Repo           models.UserRepository
 }
 
-func NewAuthService(g *echo.Group,
+func NewAuthService(g *echo.Echo,
 	JWT jwt.Service,
 	AuthURL, AccessTokenURL,
 	ClientID, ClientSecret,

@@ -2,6 +2,7 @@ package dashboard
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"html/template"
@@ -19,6 +20,7 @@ import (
 	pub_dashboards_articles_new "github.com/muhwyndhamhp/marknotes/pub/pages/dashboards/articles/create"
 	pub_variables "github.com/muhwyndhamhp/marknotes/pub/variables"
 	templates "github.com/muhwyndhamhp/marknotes/template"
+	"github.com/muhwyndhamhp/marknotes/utils/auth"
 	"github.com/muhwyndhamhp/marknotes/utils/constants"
 	"github.com/muhwyndhamhp/marknotes/utils/errs"
 	"github.com/muhwyndhamhp/marknotes/utils/fileman"
@@ -78,6 +80,15 @@ func (fe *DashboardFrontend) ArticlesNew(c echo.Context) error {
 
 func (fe *DashboardFrontend) Articles(c echo.Context) error {
 	ctx := c.Request().Context()
+
+	fmt.Println("Articles")
+	ses, err := auth.GetSession(c)
+	if err != nil {
+		return err
+	}
+	js, _ := json.Marshal(ses)
+	fmt.Println(string(js))
+
 	page, _ := strconv.Atoi(c.QueryParam(constants.PAGE))
 	pageSize, _ := strconv.Atoi(c.QueryParam(constants.PAGE_SIZE))
 	source := c.QueryParam(constants.TARGET_SOURCE)

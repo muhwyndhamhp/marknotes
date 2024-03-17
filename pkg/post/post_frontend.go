@@ -28,11 +28,9 @@ type PostFrontend struct {
 	bucket *cloudbucket.S3Client
 }
 
-func NewPostFrontend(g *echo.Group,
+func NewPostFrontend(g *echo.Echo,
 	repo models.PostRepository,
 	bucket *cloudbucket.S3Client,
-	htmxMid echo.MiddlewareFunc,
-	authMid echo.MiddlewareFunc,
 	authDescribeMid echo.MiddlewareFunc,
 	byIDMiddleware echo.MiddlewareFunc,
 ) {

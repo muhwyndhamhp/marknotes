@@ -21,6 +21,7 @@ import (
 	"github.com/muhwyndhamhp/marknotes/pkg/tag"
 	_tagRepo "github.com/muhwyndhamhp/marknotes/pkg/tag/repository"
 	"github.com/muhwyndhamhp/marknotes/template"
+	clerkAuth "github.com/muhwyndhamhp/marknotes/utils/auth"
 	"github.com/muhwyndhamhp/marknotes/utils/cloudbucket"
 	"github.com/muhwyndhamhp/marknotes/utils/jwt"
 	"github.com/muhwyndhamhp/marknotes/utils/renderfile"
@@ -45,13 +46,10 @@ func main() {
 
 	template.NewTemplateRenderer(e)
 
-	adminGroup := e.Group("")
-
 	bucket := cloudbucket.NewS3Client()
 	postRepo := _postRepo.NewPostRepository(db.GetLibSQLDB())
 	userRepo := _userRepo.NewUserRepository(db.GetLibSQLDB())
 	tagRepo := _tagRepo.NewTagRepository(db.GetLibSQLDB())
-	htmxMid := middlewares.HTMXRequest()
 
 	ctx := context.Background()
 	err := rss.GenerateRSS(ctx, postRepo)
@@ -60,16 +58,21 @@ func main() {
 	}
 	e.File("/rss.xml", "public/assets/rss.xml")
 
+	clerkAuth.RegisterClient("")
+
 	service := jwt.Service{SecretKey: []byte(config.Get(config.JWT_SECRET))}
-	authMid := service.AuthMiddleware()
+	authMid := clerkAuth.SessionRedirectMiddleware()
 	authDescMid := service.AuthDescribeMiddleware()
 	byIDMid := middlewares.ByIDMiddleware()
 
-	admin.NewAdminFrontend(adminGroup, postRepo, authDescMid)
-	post.NewPostFrontend(adminGroup, postRepo, bucket, htmxMid, authMid, authDescMid, byIDMid)
-	dashboard.NewDashboardFrontend(adminGroup, postRepo, tagRepo, htmxMid, authMid, authDescMid, byIDMid)
-	tag.NewTagFrontend(adminGroup, tagRepo, authMid)
-	auth.NewAuthService(adminGroup, service, config.Get(config.OAUTH_AUTHORIZE_URL),
+	clerkSession := clerkAuth.WithHeaderAuth()
+	e.Use(clerkSession)
+
+	admin.NewAdminFrontend(e, postRepo, authDescMid)
+	post.NewPostFrontend(e, postRepo, bucket, authDescMid, byIDMid)
+	dashboard.NewDashboardFrontend(e, postRepo, tagRepo, authMid, clerkSession)
+	tag.NewTagFrontend(e, tagRepo)
+	auth.NewAuthService(e, service, config.Get(config.OAUTH_AUTHORIZE_URL),
 		config.Get(config.OAUTH_ACCESSTOKEN_URL),
 		config.Get(config.OAUTH_CLIENTID),
 		config.Get(config.OAUTH_SECRET),

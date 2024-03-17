@@ -1,0 +1,24 @@
+package pub_dashboard_login
+
+import "github.com/muhwyndhamhp/marknotes/pub/pages/dashboards"
+import "github.com/muhwyndhamhp/marknotes/pub/variables"
+
+type LoginVM struct {
+	Opts pub_variables.DashboardOpts
+}
+
+templ Login(vm *LoginVM) {
+	@pub_dashboard.Dashboard(pub_variables.DashboardOpts{
+		Nav:         vm.Opts.Nav,
+		BreadCrumbs: vm.Opts.BreadCrumbs,
+		Comp:        login(),
+	})
+}
+
+templ login() {
+	<script async crossorigin="anonymous" data-clerk-publishable-key="pk_test_bGFyZ2UtY2FtZWwtODkuY2xlcmsuYWNjb3VudHMuZGV2JA" onload="window.Clerk.load()" src="https://large-camel-89.clerk.accounts.dev/npm/@clerk/clerk-js@4/dist/clerk.browser.js" type="text/javascript">
+    </script>
+	<div class="w-full flex flex-col h-full" _="on load wait 2s then js() window.Clerk.openSignIn() end end">
+		<span class="loading loading-infinity loading-lg mx-auto my-auto"></span>
+	</div>
+}

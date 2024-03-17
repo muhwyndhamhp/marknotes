@@ -19,7 +19,10 @@ window.initialState = function() {
       darkToggle.checked = !colorSchemeQuery.matches
    }
 
-   window.toggleDarkMode(darkToggle.checked)
+   if (darkToggle) {
+      window.toggleDarkMode(darkToggle.checked)
+   }
+
    window.setMkTheme(null, null)
 }
 

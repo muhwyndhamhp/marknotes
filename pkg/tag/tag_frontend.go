@@ -18,13 +18,13 @@ type TagFrontend struct {
 	repo models.TagRepository
 }
 
-func NewTagFrontend(g *echo.Group, repo models.TagRepository, authMid echo.MiddlewareFunc) {
+func NewTagFrontend(g *echo.Echo, repo models.TagRepository) {
 	fe := &TagFrontend{
 		repo: repo,
 	}
 
-	g.POST("/tags/find-or-create", fe.TagsFindOrCreate, authMid)
-	g.GET("/tags/remove", fe.TagsRemove, authMid)
+	g.POST("/tags/find-or-create", fe.TagsFindOrCreate)
+	g.GET("/tags/remove", fe.TagsRemove)
 }
 
 func (ge *TagFrontend) TagsRemove(c echo.Context) error {

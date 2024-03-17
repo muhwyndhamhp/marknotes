@@ -20,7 +20,7 @@ type AdminFrontend struct {
 }
 
 func NewAdminFrontend(
-	g *echo.Group,
+	g *echo.Echo,
 	repo models.PostRepository,
 	authDescMid echo.MiddlewareFunc,
 ) {
