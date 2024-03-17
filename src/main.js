@@ -1,14 +1,27 @@
 const colorSchemeQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
-colorSchemeQuery.addEventListener('change', (evt) => {
-   document.getElementById('dark-toggle').checked = !evt.matches
-   window.setMkTheme(null, null)
+colorSchemeQuery.addEventListener('change', () => {
+   window.initialState()
 });
 
+
 window.addEventListener('load', () => {
-   document.getElementById('dark-toggle').checked = !colorSchemeQuery.matches
-   window.setMkTheme(null, null)
+   window.initialState()
 });
+
+window.initialState = function() {
+   const darkToggle = document.getElementById('dark-toggle')
+   if (darkToggle) {
+      darkToggle.checked = !colorSchemeQuery.matches
+   }
+   const darkToggleMobile = document.getElementById('dark-toggle-mobile')
+   if (darkToggleMobile) {
+      darkToggle.checked = !colorSchemeQuery.matches
+   }
+
+   window.toggleDarkMode(darkToggle.checked)
+   window.setMkTheme(null, null)
+}
 
 window.toggleDarkMode = function(isChecked) {
    if (!isChecked) {
