@@ -14,8 +14,13 @@ module.exports = {
   plugins: [
     plugin(function({ addBase }) {
       addBase({
-         'html': { fontSize: "16px" },
-       })
+        'html': {
+          fontSize: "16px", // Default font size, which is typically 16px
+          '@screen md': {
+            fontSize: "14px", // Font size on medium (md) breakpoint, which is typically 14px
+          },
+        },
+      })
      }),
      require('@tailwindcss/typography'),
      require("daisyui")
