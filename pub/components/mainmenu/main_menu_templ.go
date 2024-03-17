@@ -105,11 +105,11 @@ func buttonRows(buttons []pub_variables.InlineButton) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = themePicker(DefaultThemes).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = themePickerMobile(DefaultThemes).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = themePickerMobile(DefaultThemes).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = themePicker(DefaultThemes).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -180,7 +180,7 @@ func themePickerMobile(themes []ThemeOption) templ.Component {
 			templ_7745c5c3_Var5 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"dropdown dropdown-end dropdown-hover md:hidden\"><div tabindex=\"0\" role=\"button\" class=\"btn btn-ghost btn-circle\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"dropdown dropdown-end md:hidden\"><div tabindex=\"0\" role=\"button\" class=\"btn btn-ghost btn-circle\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -258,7 +258,7 @@ func themePicker(themes []ThemeOption) templ.Component {
 			templ_7745c5c3_Var7 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"dropdown dropdown-end dropdown-hover hidden md:flex\"><div tabindex=\"0\" role=\"button\" class=\"btn btn-ghost btn-circle\"><label class=\"swap swap-rotate\"><input id=\"dark-toggle\" type=\"checkbox\" _=\"\n               on change(input) \n               get the (checked of the closest &lt;input/&gt;) \n               then log it then set enabled to it\n               js(enabled) \n               window.toggleDarkMode(enabled); \n               window.setMkTheme(null, !enabled); \n               end\n               end\n\n               on load js() window.initialState() end end\n               \">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"dropdown dropdown-end dropdown-hover hidden md:block\"><div tabindex=\"0\" role=\"button\" class=\"btn btn-ghost btn-circle\"><label class=\"swap swap-rotate\"><input id=\"dark-toggle\" type=\"checkbox\" _=\"\n               on change(input) \n               get the (checked of the closest &lt;input/&gt;) \n               then log it then set enabled to it\n               js(enabled) \n               window.toggleDarkMode(enabled); \n               window.setMkTheme(null, !enabled); \n               end\n               end\n\n               on load js() window.initialState() end end\n               \">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

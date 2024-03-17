@@ -30,8 +30,8 @@ templ buttonRows(buttons []pub_variables.InlineButton) {
 			</ul>
 		</div>
 		<div class="navbar-end">
-			@themePicker(DefaultThemes)
 			@themePickerMobile(DefaultThemes)
+			@themePicker(DefaultThemes)
 		</div>
 	</div>
 }
@@ -55,7 +55,7 @@ func triggerTheme(theme string, isDark bool) string {
 }
 
 templ themePickerMobile(themes []ThemeOption) {
-	<div class="dropdown dropdown-end dropdown-hover md:hidden">
+	<div class="dropdown dropdown-end md:hidden">
 		<div tabindex="0" role="button" class="btn btn-ghost btn-circle">
 			@pub_assets.Theme(20)
 		</div>
@@ -83,7 +83,7 @@ templ themePickerMobile(themes []ThemeOption) {
 }
 
 templ themePicker(themes []ThemeOption) {
-	<div class="dropdown dropdown-end dropdown-hover hidden md:flex">
+	<div class="dropdown dropdown-end dropdown-hover hidden md:block">
 		<div tabindex="0" role="button" class="btn btn-ghost btn-circle">
 			<label class="swap swap-rotate">
 				<input
