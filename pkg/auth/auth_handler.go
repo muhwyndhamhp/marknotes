@@ -8,7 +8,11 @@ import (
 	"time"
 
 	"github.com/labstack/echo/v4"
+	"github.com/muhwyndhamhp/marknotes/pkg/admin"
 	"github.com/muhwyndhamhp/marknotes/pkg/models"
+	pub_login "github.com/muhwyndhamhp/marknotes/pub/pages/login"
+	pub_variables "github.com/muhwyndhamhp/marknotes/pub/variables"
+	"github.com/muhwyndhamhp/marknotes/template"
 	"github.com/muhwyndhamhp/marknotes/utils/jwt"
 
 	"github.com/gorilla/csrf"
@@ -52,6 +56,7 @@ func NewAuthService(g *echo.Group,
 	}
 
 	g.GET("/login", handler.Login)
+	g.GET("/login-github", handler.LoginGithub)
 	g.GET("/callback", handler.Callback)
 	g.GET("/logout", handler.Logout)
 }
@@ -102,7 +107,7 @@ func (h *AuthService) Callback(c echo.Context) error {
 	return c.Redirect(http.StatusFound, "/articles")
 }
 
-func (h *AuthService) Login(c echo.Context) error {
+func (h *AuthService) LoginGithub(c echo.Context) error {
 	token := csrf.Token(c.Request())
 
 	params := url.Values{
@@ -125,7 +130,49 @@ func (h *AuthService) Login(c echo.Context) error {
 		HttpOnly: true,
 	}
 	c.SetCookie(cookie)
+
+	fmt.Printf("Redirecting to %s\n\n", u.String())
+
 	return c.Redirect(http.StatusFound, u.String())
+}
+
+func (h *AuthService) Login(c echo.Context) error {
+	token := csrf.Token(c.Request())
+	fmt.Println("token", token)
+
+	params := url.Values{
+		"client_id":    []string{h.ClientID},
+		"redirect_uri": []string{h.RedirectURL},
+		"scope":        []string{"read:user,user:email"},
+		"state":        []string{token},
+	}
+
+	u, err := url.ParseRequestURI(h.AuthURL)
+	if err != nil {
+		return err
+	}
+	u.RawQuery = params.Encode()
+
+	cookie := &http.Cookie{
+		Name:     "csrf_token",
+		Value:    token,
+		Expires:  time.Now().Add(1 * time.Minute),
+		HttpOnly: true,
+	}
+	c.SetCookie(cookie)
+
+	bodyOpts := pub_variables.BodyOpts{
+		HeaderButtons: admin.AppendHeaderButtons(0),
+		Component:     nil,
+	}
+	loginVM := pub_login.LoginVM{
+		Body:          bodyOpts,
+		LoginRedirect: "/login-github",
+	}
+
+	login := pub_login.Login(&loginVM)
+
+	return template.AssertRender(c, http.StatusOK, login)
 }
 
 type user struct {

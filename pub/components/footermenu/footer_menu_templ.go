@@ -35,7 +35,7 @@ func FooterMenu(buttons []pub_variables.InlineButton) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<p class=\"font-bold\">Marknotes by Wyndham<br></p><p>Copyright © 2024 - All right reserved</p></aside><nav><div class=\"grid grid-flow-col gap-4\"><a href=\"https://twitter.com/muhwyndham\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<p class=\"font-bold footer footer-center\">Marknotes by Wyndham<br></p><p>Copyright © 2024 - All right reserved</p></aside><nav><div class=\"grid grid-flow-col gap-4\"><a href=\"https://twitter.com/muhwyndham\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

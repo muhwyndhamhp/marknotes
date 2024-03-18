@@ -1,0 +1,38 @@
+package pub_login
+
+import "github.com/muhwyndhamhp/marknotes/pub/variables"
+import "github.com/muhwyndhamhp/marknotes/pub"
+import "github.com/muhwyndhamhp/marknotes/pub/assets"
+
+type LoginVM struct {
+	Body          pub_variables.BodyOpts
+	LoginRedirect string
+}
+
+templ Login(vm *LoginVM) {
+	@pub.Body(pub_variables.BodyOpts{
+		HeaderButtons: vm.Body.HeaderButtons,
+		FooterButtons: vm.Body.FooterButtons,
+		ExtraHeaders:  vm.Body.ExtraHeaders,
+		Component:     login(vm.LoginRedirect),
+	})
+}
+
+templ login(redirectGithub string) {
+	<div class="w-full my-32">
+		<div class="card shrink-0 mx-auto max-w-sm shadow-2xl bg-base-100">
+			<form class="card-body">
+				<div class="form-control">
+					<div class="mx-auto m-6 w-full footer footer-center">
+						@pub_assets.Note(32)
+						<h1 class="text-2xl font-bold">Login</h1>
+					</div>
+					<a class="btn btn-primary" href={ templ.SafeURL(redirectGithub) }>
+						@pub_assets.Github()
+						Login With Github
+					</a>
+				</div>
+			</form>
+		</div>
+	</div>
+}

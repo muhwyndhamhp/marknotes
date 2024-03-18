@@ -23,22 +23,22 @@ func NewDashboardFrontend(
 
 	g.GET("/dashboard", func(c echo.Context) error {
 		return c.Redirect(301, "/dashboard/articles")
-	}, authMid)
-	g.GET("/dashboard/articles", fe.Articles, authMid)
-	g.POST("/dashboard/articles/push", fe.ArticlesPush, authMid)
-	g.GET("/dashboard/articles/new", fe.ArticlesNew, authMid)
+	}, authDescribeMid, authMid)
+	g.GET("/dashboard/articles", fe.Articles, authDescribeMid, authMid)
+	g.POST("/dashboard/articles/push", fe.ArticlesPush, authDescribeMid, authMid)
+	g.GET("/dashboard/articles/new", fe.ArticlesNew, authDescribeMid, authMid)
 	g.GET("/dashboard/articles/:id", func(c echo.Context) error {
 		return c.Redirect(301, "/dashboard/articles/"+c.Param("id")+"/edit")
-	}, authMid)
-	g.GET("/dashboard/articles/:id/edit", fe.ArticlesEdit, authMid)
-	g.GET("/dashboard/profile", fe.Profile, authMid)
-	g.GET("/dashboard/editor", fe.Editor, authMid)
-	g.GET("/dashboard/tags", fe.Tags, authMid)
+	}, authDescribeMid, authMid)
+	g.GET("/dashboard/articles/:id/edit", fe.ArticlesEdit, authDescribeMid, authMid)
+	g.GET("/dashboard/profile", fe.Profile, authDescribeMid, authMid)
+	g.GET("/dashboard/editor", fe.Editor, authDescribeMid, authMid)
+	g.GET("/dashboard/tags", fe.Tags, authDescribeMid, authMid)
 	g.GET("/dismiss", func(c echo.Context) error {
 		// return empty html
 		return c.HTML(200, "")
 	})
-	g.GET("/dashboard/load-iframe", fe.LoadIframe, authMid)
+	g.GET("/dashboard/load-iframe", fe.LoadIframe, authDescribeMid, authMid)
 }
 
 type ArticlesCreateRequest struct {
