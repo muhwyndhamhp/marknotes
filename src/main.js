@@ -10,17 +10,21 @@ document.body.addEventListener('htmx:afterRequest', function (event) {
       if (event.detail.target.id === 'admin-root') {
          localStorage.setItem('failed-hx-req', event.detail.xhr.responseURL)
       }
-      window.location.reload()
+
+      window.Clerk.handleUnauthenticated().then(window.navigateFailedReq())
    }
 })
 
 
-window.addEventListener('load', () => {
-   if (localStorage.getItem('failed-hx-req')) {
-      console.log('trying to reload failed request')
+window.navigateFailedReq = function() {
       const failedReq = localStorage.getItem('failed-hx-req')
       localStorage.removeItem('failed-hx-req')
       window.location.href = failedReq
+}
+
+window.addEventListener('load', () => {
+   if (localStorage.getItem('failed-hx-req')) {
+      window.navigateFailedReq()
    }
 
    window.initialState()

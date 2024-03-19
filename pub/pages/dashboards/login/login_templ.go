@@ -12,7 +12,6 @@ import "bytes"
 
 import "github.com/muhwyndhamhp/marknotes/pub/pages/dashboards"
 import "github.com/muhwyndhamhp/marknotes/pub/variables"
-import "github.com/muhwyndhamhp/marknotes/config"
 
 type LoginVM struct {
 	Opts pub_variables.DashboardOpts
@@ -59,23 +58,7 @@ func login() templ.Component {
 			templ_7745c5c3_Var2 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<script async crossorigin=\"anonymous\" data-clerk-publishable-key=\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(config.Get(config.CLERK_PUBLISHABLE)))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" onload=\"window.Clerk.load()\" src=\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(config.Get(config.CLERK_SRC_URL)))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" type=\"text/javascript\">\n    </script><div class=\"w-full flex flex-col h-full mt-96\" _=\"on load wait 2s then call window.Clerk.openSignIn() end\"><span class=\"loading loading-infinity loading-lg mx-auto my-auto\"></span></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"w-full flex flex-col h-full mt-96\" _=\"on load wait 2s then call window.Clerk.openSignIn() end\"><span class=\"loading loading-infinity loading-lg mx-auto my-auto\"></span></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
