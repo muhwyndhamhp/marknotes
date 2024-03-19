@@ -1,0 +1,22 @@
+package pub_dashboard_login
+
+import "github.com/muhwyndhamhp/marknotes/pub/pages/dashboards"
+import "github.com/muhwyndhamhp/marknotes/pub/variables"
+
+type LoginVM struct {
+	Opts pub_variables.DashboardOpts
+}
+
+templ Login(vm *LoginVM) {
+	@pub_dashboard.Dashboard(pub_variables.DashboardOpts{
+		Nav:         vm.Opts.Nav,
+		BreadCrumbs: vm.Opts.BreadCrumbs,
+		Comp:        login(),
+	})
+}
+
+templ login() {
+	<div class="w-full flex flex-col h-full mt-96" _="on load wait 2s then call window.Clerk.openSignIn() end">
+		<span class="loading loading-infinity loading-lg mx-auto my-auto"></span>
+	</div>
+}

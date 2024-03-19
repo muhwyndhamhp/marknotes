@@ -21,4 +21,5 @@ type UserRepository interface {
 	GetByOauthID(ctx context.Context, id string) (*User, error)
 	Get(ctx context.Context, funcs ...scopes.QueryScope) ([]User, error)
 	Delete(ctx context.Context, id uint) error
+	GetCache(ctx context.Context, email string) *User
 }

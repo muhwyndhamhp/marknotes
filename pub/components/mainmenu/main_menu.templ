@@ -2,8 +2,7 @@ package pub_mainmenu
 
 import "github.com/muhwyndhamhp/marknotes/pub/variables"
 import "github.com/muhwyndhamhp/marknotes/pub/base"
-import "fmt"
-import "github.com/muhwyndhamhp/marknotes/pub/assets"
+import "github.com/muhwyndhamhp/marknotes/pub/components/themepicker"
 
 templ MainMenu(buttons []pub_variables.InlineButton) {
 	<header class="text-center">
@@ -30,8 +29,8 @@ templ buttonRows(buttons []pub_variables.InlineButton) {
 			</ul>
 		</div>
 		<div class="navbar-end">
-			@themePickerMobile(DefaultThemes)
-			@themePicker(DefaultThemes)
+			@pub_themepicker.ThemePickerMobile(pub_themepicker.DefaultThemes)
+			@pub_themepicker.ThemePicker(pub_themepicker.DefaultThemes)
 		</div>
 	</div>
 }
@@ -48,85 +47,6 @@ templ titleHome(isInline bool) {
 			mwyndham.dev
 		</h1>
 	</a>
-}
-
-func triggerTheme(theme string, isDark bool) string {
-	return fmt.Sprintf("on click window.setMkTheme('%s', %t)", theme, isDark)
-}
-
-templ themePickerMobile(themes []ThemeOption) {
-	<div class="dropdown dropdown-end md:hidden">
-		<div tabindex="0" role="button" class="btn btn-ghost btn-circle">
-			@pub_assets.Theme(20)
-		</div>
-		<ul
-			tabindex="0"
-			class="menu menu-xl md:menu-md menu-vertical dropdown-content z-[1] p-2 shadow bg-base-100 rounded-box
-         w-72 md:w-48
-      max-h-72 overflow-scroll"
-		>
-			for _, theme := range themes {
-				<li
-					if theme.IsDark {
-						class="hidden dark:flex"
-					} else {
-						class="dark:hidden"
-					}
-				>
-					<button _={ triggerTheme(theme.Theme, theme.IsDark) }>
-						{ theme.Label }
-					</button>
-				</li>
-			}
-		</ul>
-	</div>
-}
-
-templ themePicker(themes []ThemeOption) {
-	<div class="dropdown dropdown-end dropdown-hover hidden md:block">
-		<div tabindex="0" role="button" class="btn btn-ghost btn-circle">
-			<label class="swap swap-rotate">
-				<input
-					id="dark-toggle"
-					type="checkbox"
-					_="
-               on change(input) 
-               get the (checked of the closest <input/>) 
-               then log it then set enabled to it
-               js(enabled) 
-               window.toggleDarkMode(enabled); 
-               window.setMkTheme(null, !enabled); 
-               end
-               end
-
-               on load js() window.initialState() end end
-               "
-				/>
-				@pub_assets.Sun(20)
-				@pub_assets.Moon(20)
-			</label>
-		</div>
-		<ul
-			tabindex="0"
-			class="menu menu-xl md:menu-md menu-vertical dropdown-content z-[1] p-2 shadow bg-base-100 rounded-box
-         w-72 md:w-48
-      max-h-72 overflow-scroll"
-		>
-			for _, theme := range themes {
-				<li
-					if theme.IsDark {
-						class="hidden dark:flex"
-					} else {
-						class="dark:hidden"
-					}
-				>
-					<button _={ triggerTheme(theme.Theme, theme.IsDark) }>
-						{ theme.Label }
-					</button>
-				</li>
-			}
-		</ul>
-	</div>
 }
 
 templ mobileMenu(buttons []pub_variables.InlineButton) {

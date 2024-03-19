@@ -52,7 +52,6 @@ func NewAuthService(g *echo.Group,
 	}
 
 	g.GET("/login", handler.Login)
-	g.GET("/callback", handler.Callback)
 	g.GET("/logout", handler.Logout)
 }
 
