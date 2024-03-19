@@ -67,7 +67,15 @@ func login() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" onload=\"window.Clerk.load()\" src=\"https://large-camel-89.clerk.accounts.dev/npm/@clerk/clerk-js@4/dist/clerk.browser.js\" type=\"text/javascript\">\n    </script><div class=\"w-full flex flex-col h-full\" _=\"on load wait 2s then call window.Clerk.openSignIn() end\"><span class=\"loading loading-infinity loading-lg mx-auto my-auto\"></span></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" onload=\"window.Clerk.load()\" src=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(config.Get(config.CLERK_SRC_URL)))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" type=\"text/javascript\">\n    </script><div class=\"w-full flex flex-col h-full mt-96\" _=\"on load wait 2s then call window.Clerk.openSignIn() end\"><span class=\"loading loading-infinity loading-lg mx-auto my-auto\"></span></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

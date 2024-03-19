@@ -17,9 +17,9 @@ templ Login(vm *LoginVM) {
 }
 
 templ login() {
-	<script async crossorigin="anonymous" data-clerk-publishable-key={ config.Get(config.CLERK_PUBLISHABLE) } onload="window.Clerk.load()" src="https://large-camel-89.clerk.accounts.dev/npm/@clerk/clerk-js@4/dist/clerk.browser.js" type="text/javascript">
+	<script async crossorigin="anonymous" data-clerk-publishable-key={ config.Get(config.CLERK_PUBLISHABLE) } onload="window.Clerk.load()" src={ config.Get(config.CLERK_SRC_URL) } type="text/javascript">
     </script>
-	<div class="w-full flex flex-col h-full" _="on load wait 2s then call window.Clerk.openSignIn() end">
+	<div class="w-full flex flex-col h-full mt-96" _="on load wait 2s then call window.Clerk.openSignIn() end">
 		<span class="loading loading-infinity loading-lg mx-auto my-auto"></span>
 	</div>
 }
