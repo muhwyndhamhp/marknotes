@@ -1,4 +1,4 @@
-package pub_mainmenu
+package pub_themepicker
 
 type ThemeOption struct {
 	Label  string

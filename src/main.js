@@ -4,8 +4,25 @@ colorSchemeQuery.addEventListener('change', () => {
    window.initialState()
 });
 
+document.body.addEventListener('htmx:afterRequest', function (event) {
+   if (event.detail.xhr.status === 401) {
+      event.detail.xhr
+      if (event.detail.target.id === 'admin-root') {
+         localStorage.setItem('failed-hx-req', event.detail.xhr.responseURL)
+      }
+      window.location.reload()
+   }
+})
+
 
 window.addEventListener('load', () => {
+   if (localStorage.getItem('failed-hx-req')) {
+      console.log('trying to reload failed request')
+      const failedReq = localStorage.getItem('failed-hx-req')
+      localStorage.removeItem('failed-hx-req')
+      window.location.href = failedReq
+   }
+
    window.initialState()
 });
 
