@@ -13,7 +13,24 @@ type repository struct {
 	db *gorm.DB
 }
 
-// GetByOauthID implements models.UserRepository.
+var userCache = map[string]models.User{}
+
+func (r *repository) GetCache(ctx context.Context, email string) *models.User {
+	u, ok := userCache[email]
+
+	if !ok {
+		usrs, _ := r.Get(ctx, scopes.Where("email = ?", email))
+		for _, usr := range usrs {
+			userCache[usr.Email] = usr
+		}
+		u, ok = userCache[email]
+		if !ok {
+			return nil
+		}
+	}
+
+	return &u
+}
 
 func (r *repository) Delete(ctx context.Context, id uint) error {
 	if err := r.db.Delete(&models.User{}, id).Error; err != nil {
@@ -33,6 +50,7 @@ func (r *repository) Get(ctx context.Context, funcs ...scopes.QueryScope) ([]mod
 	if err != nil {
 		return nil, err
 	}
+
 	return res, nil
 }
 

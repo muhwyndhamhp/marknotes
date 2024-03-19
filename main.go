@@ -21,6 +21,7 @@ import (
 	"github.com/muhwyndhamhp/marknotes/pkg/tag"
 	_tagRepo "github.com/muhwyndhamhp/marknotes/pkg/tag/repository"
 	"github.com/muhwyndhamhp/marknotes/template"
+	"github.com/muhwyndhamhp/marknotes/utils/clerkauth"
 	"github.com/muhwyndhamhp/marknotes/utils/cloudbucket"
 	"github.com/muhwyndhamhp/marknotes/utils/jwt"
 	"github.com/muhwyndhamhp/marknotes/utils/renderfile"
@@ -31,7 +32,10 @@ import (
 // nolint: typecheck
 func main() {
 	e := echo.New()
-	routing.SetupRouter(e)
+
+	clerkClient := clerkauth.NewClient(config.Get(config.CLERK_SECRET))
+
+	routing.SetupRouter(e, clerkClient.Clerk)
 
 	e.Use(redirectHTML())
 	e.Use(middlewares.SetCachePolicy())
@@ -61,7 +65,7 @@ func main() {
 	e.File("/rss.xml", "public/assets/rss.xml")
 
 	service := jwt.Service{SecretKey: []byte(config.Get(config.JWT_SECRET))}
-	authMid := service.AuthMiddleware()
+	authMid := clerkClient.AuthMiddleware(userRepo)
 	authDescMid := service.AuthDescribeMiddleware()
 	byIDMid := middlewares.ByIDMiddleware()
 
@@ -77,8 +81,13 @@ func main() {
 		userRepo)
 
 	go func() {
+		if config.Get(config.ENV) == "dev" {
+			return
+		}
+
 		migration.Migrate(db.GetLibSQLDB())
 	}()
+
 	go func() {
 		if config.Get(config.ENV) == "dev" {
 			return
