@@ -38,7 +38,7 @@ func main() {
 	routing.SetupRouter(e, clerkClient.Clerk)
 
 	e.Use(redirectHTML())
-	e.Use(middlewares.SetCachePolicy())
+	// e.Use(middlewares.SetCachePolicy())
 	e.Static("/dist", "dist")
 	e.Static("/assets", "public/assets")
 	e.Static("/articles", "public/articles")

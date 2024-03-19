@@ -14,6 +14,8 @@ type Client struct {
 	Clerk clerk.Client
 }
 
+var sessionCache = map[string]bool{}
+
 func NewClient(secret string) *Client {
 	cl, err := clerk.NewClient(secret)
 	if err != nil {
@@ -29,7 +31,15 @@ func (cl *Client) AuthMiddleware(userRepo models.UserRepository) echo.Middleware
 		return func(c echo.Context) error {
 			session, ok := clerk.SessionFromContext(c.Request().Context())
 			if !ok {
+				for k := range sessionCache {
+					delete(sessionCache, k)
+				}
+
 				return c.Redirect(http.StatusFound, "/dashboard/login")
+			}
+
+			if valid, ok := sessionCache[session.SessionID]; ok && valid {
+				return next(c)
 			}
 
 			u, err := cl.GetUser(session)
@@ -45,6 +55,8 @@ func (cl *Client) AuthMiddleware(userRepo models.UserRepository) echo.Middleware
 				}
 				return c.Redirect(http.StatusFound, "/dashboard/login")
 			}
+
+			sessionCache[session.SessionID] = true
 
 			return next(c)
 		}
