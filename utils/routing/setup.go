@@ -23,7 +23,7 @@ func SetupRouter(e *echo.Echo, clerkClient clerk.Client) {
 		rate.Limit(20),
 	)))
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{"*://localhost:*", "*://www.github.com", "*://github.com", "*.fly.dev", "*://mwyndham.dev", "unpkg.com", "cdn.jsdelivr.net", "static.cloudflare.com", "static.cloudflareinsights.com", "github.com"},
+		AllowOrigins: []string{"*://localhost:*", "*://www.github.com", "*://github.com", "*.fly.dev", "*://mwyndham.dev", "unpkg.com", "cdn.jsdelivr.net", "static.cloudflare.com", "static.cloudflareinsights.com", "github.com", "*.mwyndham.dev"},
 	}))
 
 	sessionMid := echo.WrapMiddleware(clerk.WithSessionV2(clerkClient, clerk.WithLeeway(10*time.Second)))

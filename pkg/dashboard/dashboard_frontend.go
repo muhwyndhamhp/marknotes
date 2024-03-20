@@ -3,23 +3,28 @@ package dashboard
 import (
 	"github.com/labstack/echo/v4"
 	"github.com/muhwyndhamhp/marknotes/pkg/models"
+	"github.com/muhwyndhamhp/marknotes/utils/clerkauth"
 )
 
 type DashboardFrontend struct {
-	PostRepo models.PostRepository
-	TagRepo  models.TagRepository
+	PostRepo    models.PostRepository
+	TagRepo     models.TagRepository
+	UserRepo    models.UserRepository
+	ClerkClient *clerkauth.Client
 }
 
 func NewDashboardFrontend(
 	g *echo.Group,
 	PostRepo models.PostRepository,
+	UserRepo models.UserRepository,
 	TagRepo models.TagRepository,
+	ClerkClient *clerkauth.Client,
 	htmxMid echo.MiddlewareFunc,
 	authMid echo.MiddlewareFunc,
 	authDescribeMid echo.MiddlewareFunc,
 	byIDMiddleware echo.MiddlewareFunc,
 ) {
-	fe := &DashboardFrontend{PostRepo, TagRepo}
+	fe := &DashboardFrontend{PostRepo, TagRepo, UserRepo, ClerkClient}
 
 	g.GET("/dashboard", func(c echo.Context) error {
 		return c.Redirect(301, "/dashboard/articles")

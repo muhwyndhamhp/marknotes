@@ -27,8 +27,13 @@ templ submitButton(existingID uint) {
 		<button
 			class="btn btn-primary btn-lg flex-grow join-item"
 			hx-post={ fmt.Sprintf("/dashboard/articles/push?status=published&existingID=%d", existingID) }
-			hx-target="#dashboard-content"
-			hx-swap="afterend"
+			if existingID != 0 {
+				hx-target="#dashboard-content"
+				hx-swap="afterend"
+			} else {
+				hx-target="#admin-root"
+				hx-swap="outerHTML"
+			}
 			hx-vals="js:{content_json: window.editor.getJSON()}"
 			hx-indicator="#global-progress"
 		>
@@ -37,8 +42,13 @@ templ submitButton(existingID uint) {
 		<button
 			class="btn btn-secondary btn-lg flex-grow join-item"
 			hx-post={ fmt.Sprintf("/dashboard/articles/push?status=draft&existingID=%d", existingID) }
-			hx-target="#dashboard-content"
-			hx-swap="afterend"
+			if existingID != 0 {
+				hx-target="#dashboard-content"
+				hx-swap="afterend"
+			} else {
+				hx-target="#admin-root"
+				hx-swap="outerHTML"
+			}
 			hx-vals="js:{content_json: window.editor.getJSON()}"
 		>
 			Save Draft
