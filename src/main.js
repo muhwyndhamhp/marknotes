@@ -15,7 +15,6 @@ document.body.addEventListener('htmx:afterRequest', function (event) {
    }
 })
 
-
 window.navigateFailedReq = function() {
       const failedReq = localStorage.getItem('failed-hx-req')
       localStorage.removeItem('failed-hx-req')

@@ -2,7 +2,6 @@ package dashboard
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"html/template"
 	"net/http"
@@ -22,7 +21,6 @@ import (
 	"github.com/muhwyndhamhp/marknotes/utils/constants"
 	"github.com/muhwyndhamhp/marknotes/utils/errs"
 	"github.com/muhwyndhamhp/marknotes/utils/fileman"
-	"github.com/muhwyndhamhp/marknotes/utils/jwt"
 	"github.com/muhwyndhamhp/marknotes/utils/renderfile"
 	"github.com/muhwyndhamhp/marknotes/utils/rss"
 	"github.com/muhwyndhamhp/marknotes/utils/sanitizations"
@@ -126,11 +124,6 @@ func (fe *DashboardFrontend) Articles(c echo.Context) error {
 }
 
 func (fe *DashboardFrontend) ArticlesPush(c echo.Context) error {
-	claims, _ := c.Get(jwt.AuthClaimKey).(*jwt.Claims)
-	if claims == nil {
-		return c.JSON(http.StatusBadRequest, errors.New("claim is empty"))
-	}
-
 	ctx := c.Request().Context()
 
 	status := values.PostStatus(c.QueryParam("status"))
@@ -177,11 +170,18 @@ func (fe *DashboardFrontend) ArticlesPush(c echo.Context) error {
 
 	post := tern.Struct(xp, &models.Post{})
 
+	usr, err := fe.ClerkClient.GetUserFromSession(c, fe.UserRepo)
+	if err != nil {
+		fmt.Println(err)
+		fail := pub_alert.AlertFailure("Failed to save post:", err.Error())
+		return templates.AssertRender(c, http.StatusOK, fail)
+	}
+
 	post.Title = req.Title
 	post.Content = req.ContentJSON
 	post.EncodedContent = template.HTML(sanitizedHTML)
 	post.Status = status
-	post.UserID = claims.UserID
+	post.UserID = usr.ID
 	post.Slug = slug
 	if status == values.Published && post.PublishedAt.IsZero() {
 		now := time.Now()
@@ -241,7 +241,26 @@ func (fe *DashboardFrontend) ArticlesPush(c echo.Context) error {
 		}()
 	}
 
-	success := pub_alert.AlertSuccess("Post has been saved successfully")
+	if existingID != 0 {
+		success := pub_alert.AlertSuccess("Post has been saved successfully")
 
-	return templates.AssertRender(c, http.StatusOK, success)
+		return templates.AssertRender(c, http.StatusOK, success)
+	} else {
+		opts := pub_variables.DashboardOpts{
+			Nav:         nav(0),
+			BreadCrumbs: fe.Breadcrumbs(fmt.Sprintf("dashboard/articles/%d/edit", post.ID)),
+		}
+
+		baseURL := strings.Split(config.Get(config.OAUTH_URL), "/callback")[0]
+		uploadURL := fmt.Sprintf("%s/posts/%d/media/upload", baseURL, post.ID)
+		vm := pub_dashboards_articles_new.NewVM{
+			Opts:      opts,
+			UploadURL: uploadURL,
+			Post:      post,
+		}
+		articlesNew := pub_dashboards_articles_new.New(vm)
+
+		c.Response().Header().Set("HX-Replace-Url", fmt.Sprintf("/dashboard/articles/%d/edit", post.ID))
+		return templates.AssertRender(c, http.StatusOK, articlesNew)
+	}
 }
