@@ -9,7 +9,6 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/muhwyndhamhp/marknotes/config"
 	"github.com/muhwyndhamhp/marknotes/db"
-	"github.com/muhwyndhamhp/marknotes/db/migration"
 	"github.com/muhwyndhamhp/marknotes/middlewares"
 	"github.com/muhwyndhamhp/marknotes/pkg/admin"
 	"github.com/muhwyndhamhp/marknotes/pkg/auth"
@@ -79,14 +78,6 @@ func main() {
 		config.Get(config.OAUTH_SECRET),
 		config.Get(config.OAUTH_URL),
 		userRepo)
-
-	go func() {
-		if config.Get(config.ENV) == "dev" {
-			return
-		}
-
-		migration.Migrate(db.GetLibSQLDB())
-	}()
 
 	go func() {
 		if config.Get(config.ENV) == "dev" {

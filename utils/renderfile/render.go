@@ -3,7 +3,9 @@ package renderfile
 import (
 	"context"
 	"fmt"
+	"os"
 	"strings"
+	"time"
 
 	"github.com/a-h/templ"
 	"github.com/muhwyndhamhp/marknotes/config"
@@ -49,7 +51,21 @@ func RenderPost(ctx context.Context, post *models.Post) {
 }
 
 func RenderPosts(ctx context.Context, repo models.PostRepository) {
-	err := fileman.DeletAllFiles("public/articles")
+	// check last_render.txt, read the content as time format RFC3339.
+	// If more than 6 hours, then continue
+	// if less than 6 hours, then return
+	lastRender, _ := os.ReadFile("public/articles/last_render.txt")
+
+	lastRenderTime, err := time.Parse(time.RFC3339, string(lastRender))
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	if time.Since(lastRenderTime).Hours() < 6 {
+		return
+	}
+
+	err = fileman.DeletAllFiles("public/articles")
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -61,5 +77,11 @@ func RenderPosts(ctx context.Context, repo models.PostRepository) {
 
 	for _, post := range posts {
 		RenderPost(ctx, &post)
+	}
+
+	// write current time to last_render.txt
+	err = os.WriteFile("public/articles/last_render.txt", []byte(time.Now().Format(time.RFC3339)), 0o755)
+	if err != nil {
+		fmt.Println(err)
 	}
 }
