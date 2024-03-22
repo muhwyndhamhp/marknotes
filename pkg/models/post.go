@@ -19,6 +19,7 @@ type Post struct {
 	gorm.Model
 	Title          string
 	Abstract       string
+	HeaderImageURL string
 	Content        string
 	EncodedContent template.HTML
 	Status         values.PostStatus `gorm:"index"`
