@@ -129,37 +129,3 @@ window.editor.view.dom.addEventListener('paste', async (event)  =>{
    // }
 
 })
-
-window.allowDrop = function (ev) {
-   ev.preventDefault()
-}
-
-window.upload = function(ev, url) {
-   ev.preventDefault()
-
-   if(ev.dataTransfer.files.length === 0) {
-      return
-   }
-
-   file = ev.dataTransfer.files[0]
-
-   Swal.showLoading()
-
-   const formData = new FormData()
-   formData.append("file", file)
-
-   fetch(url, {
-      method: "POST",
-      body: formData,
-      contentType: "multipart/form-data"
-   }).then((response) => {
-      return response.text()
-   }).then(window.afterUpload);
-}
-
-window.afterUpload = function(rawData) {
-   data = JSON.parse(rawData)
-   editor.chain().focus().setImage({ src: data.data.url }).run()
-   Swal.close()
-}
-

@@ -183,6 +183,7 @@ func (fe *DashboardFrontend) ArticlesPush(c echo.Context) error {
 	post.Status = status
 	post.UserID = usr.ID
 	post.Slug = slug
+	post.HeaderImageURL = req.HeaderImageURL
 	if status == values.Published && post.PublishedAt.IsZero() {
 		now := time.Now()
 		post.PublishedAt = now

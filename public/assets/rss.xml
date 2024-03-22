@@ -4,7 +4,7 @@
     <link>https://mwyndham.dev</link>
     <description>my persona blog, contain my personal thought and learning experience</description>
     <managingEditor>business@mwyndham.dev (M Wyndham)</managingEditor>
-    <pubDate>Tue, 19 Mar 2024 22:07:16 +0700</pubDate>
+    <pubDate>Fri, 22 Mar 2024 22:26:38 +0700</pubDate>
     <item>
       <title>I Made This Website Using HTMX + Go in One Month, Here&#39;s What I Learned</title>
       <link>http://localhost:4040/i-made-this-website-using-htmx-go-in.html</link>
@@ -277,3 +277,4 @@ e.GET(<span class="hljs-string">&#34;/hello&#34;</span>, <span class="hljs-funct
       <pubDate>Thu, 14 Mar 2024 11:49:15 +0700</pubDate>
     </item>
   </channel>
+</rss>

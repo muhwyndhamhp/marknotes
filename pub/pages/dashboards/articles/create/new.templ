@@ -18,7 +18,7 @@ templ New(vm NewVM) {
 		Nav:               vm.Opts.Nav,
 		AdditionalHeaders: vm.Opts.AdditionalHeaders,
 		BreadCrumbs:       vm.Opts.BreadCrumbs,
-		Comp:              new(vm.UploadURL, vm.Post),
+		Comp:              new(vm.Post, vm.UploadURL),
 	})
 }
 
@@ -56,18 +56,71 @@ templ submitButton(existingID uint) {
 	</div>
 }
 
-templ new(uploadURL string, existingPost *models.Post) {
+templ new(existingPost *models.Post, uploadURL string) {
 	<div class="w-full h-full">
 		<br/>
 		<div class="flex flex-col justify-center items-center">
 			<form id="form-post" class="w-full md:max-w-3xl lg:max-w-4xl">
+				@uploadHeaderImage()
+				<div
+					id="header-image-base"
+					class="w-full h-56 card bg-base-100/40 outline-dashed outline-secondary"
+					_={ fmt.Sprintf(`
+                  on dragover
+                     halt the event
+                     then remove .outline-secondary from me 
+                     then remove .text-primary from the first <h1/> in me
+                  end
+
+                  on dragleave
+                     add .outline-secondary to me 
+                     then add .text-primary to the first <h1/> in me
+                  end
+
+                  on drop
+                     remove .outline-secondary from me 
+                     then remove .text-primary from the first <h1/> in me
+                     then call window.headerUpload(event, '%s')
+                     js(it) 
+                        return JSON.parse(it).data.url 
+                     end 
+                     then set the @src of the first <img/> in me to it
+                     then set the @value of #header_image_url to it
+                     then remove .hidden from the first <img/> in me
+                     then add .hidden to the first <h1/> in me
+                     then Swal.close()
+                  end
+               `, uploadURL) }
+				>
+					if existingPost.HeaderImageURL != "" {
+						<img
+							src={ existingPost.HeaderImageURL }
+							class="w-full h-full object-cover"
+						/>
+						<h1
+							class="text-2xl font-bold text-center mx-auto my-auto text-primary hidden"
+						>
+							Drop Header Image Here...
+						</h1>
+					} else {
+						<img
+							src="/assets/img/placeholder.jpg"
+							class="w-full h-full object-cover hidden"
+						/>
+						<h1
+							class="text-2xl font-bold text-center mx-auto my-auto text-primary"
+						>
+							Drop Header Image Here...
+						</h1>
+					}
+				</div>
 				<textarea
 					placeholder="Blog title goes here..."
 					class="text-2xl md:text-4xl textarea textarea-xs textarea-ghost font-extrabold
                resize-y
                align-middle
                text-justify placeholder:text-2xl placeholder:font-normal border-transparent w-full p-6
-               mt-0 focus:outline-none min-h-1"
+               mt-4 focus:outline-none min-h-1 bg-base-100 rounded-b-none rounded-t-box"
 					type="text"
 					name="title"
 					rows="2"
@@ -76,6 +129,16 @@ templ new(uploadURL string, existingPost *models.Post) {
 						{ existingPost.Title }
 					}
 				</textarea>
+				<div
+					_={ fmt.Sprintf(
+               "on load or htmx:swap set window.content to %s then trigger loadEditor",
+               tern.Struct(existingPost, &models.Post{}).Content,
+               ) }
+					class="w-full md:max-w-3xl lg:max-w-4xl min-h-96 bg-base-100 p-6 shadow-2xl rounded-t-none rounded-b-box"
+					hx-get="/dashboard/editor"
+					hx-trigger="loadEditor"
+					hx-swap="outerHTML"
+				></div>
 				<br/>
 				<textarea
 					class="hidden"
@@ -88,6 +151,15 @@ templ new(uploadURL string, existingPost *models.Post) {
 				></textarea>
 				<input
 					class="hidden"
+					name="header_image_url"
+					type="text"
+					id="header_image_url"
+					if existingPost != nil {
+						value={ existingPost.HeaderImageURL }
+					}
+				/>
+				<input
+					class="hidden"
 					name="tags"
 					type="text"
 					id="tags"
@@ -96,16 +168,6 @@ templ new(uploadURL string, existingPost *models.Post) {
 					}
 				/>
 				<br/>
-				<div
-					_={ fmt.Sprintf(
-               "on load or htmx:swap set window.content to %s then trigger loadEditor",
-               tern.Struct(existingPost, &models.Post{}).Content,
-               ) }
-					class="card w-full md:max-w-3xl lg:max-w-4xl min-h-96 bg-base-100 p-6 shadow-2xl"
-					hx-get="/dashboard/editor"
-					hx-trigger="loadEditor"
-					hx-swap="outerHTML"
-				></div>
 				@submitButton(tern.Struct(existingPost, &models.Post{}).ID)
 			</form>
 		</div>
@@ -120,4 +182,30 @@ func TagsToCommaSeparated(tags []*models.Tag) string {
 		tagNames = append(tagNames, tag.Title)
 	}
 	return strings.Join(tagNames, ",")
+}
+
+templ uploadHeaderImage() {
+	<script type="text/javascript">
+      window.headerUpload = async function(ev, url) {
+         ev.preventDefault()
+         if(ev.dataTransfer.files.length === 0) {
+            return
+         }
+
+         file = ev.dataTransfer.files[0]
+
+         Swal.showLoading()
+
+         const formData = new FormData()
+         formData.append("file", file)
+
+         let res = fetch(url, {
+            method: "POST",
+            body: formData,
+            contentType: "multipart/form-data"
+         })
+         .then((response) => {return response.text()});
+         return res
+      }
+   </script>
 }

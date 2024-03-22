@@ -44,15 +44,15 @@ templ ThemePicker(themes []ThemeOption) {
 					type="checkbox"
 					_="
                on change(input) 
-               get the (checked of the closest <input/>) 
-               then log it then set enabled to it
-               js(enabled) 
-               window.toggleDarkMode(enabled); 
-               window.setMkTheme(null, !enabled); 
-               end
+                  get the (checked of the closest <input/>) 
+               then
+                  js(it) 
+                     window.toggleDarkMode(it); 
+                     window.setMkTheme(null, !it); 
+                  end
                end
 
-               on load js() window.initialState() end end
+               on load call window.initialState() end
                "
 				/>
 				@pub_assets.Sun(20)

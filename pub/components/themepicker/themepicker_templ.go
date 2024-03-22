@@ -108,7 +108,7 @@ func ThemePicker(themes []ThemeOption) templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"dropdown dropdown-end dropdown-hover hidden md:block\"><div tabindex=\"0\" role=\"button\" class=\"btn btn-ghost btn-circle\"><label class=\"swap swap-rotate\"><input id=\"dark-toggle\" type=\"checkbox\" _=\"\n               on change(input) \n               get the (checked of the closest &lt;input/&gt;) \n               then log it then set enabled to it\n               js(enabled) \n               window.toggleDarkMode(enabled); \n               window.setMkTheme(null, !enabled); \n               end\n               end\n\n               on load js() window.initialState() end end\n               \">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"dropdown dropdown-end dropdown-hover hidden md:block\"><div tabindex=\"0\" role=\"button\" class=\"btn btn-ghost btn-circle\"><label class=\"swap swap-rotate\"><input id=\"dark-toggle\" type=\"checkbox\" _=\"\n               on change(input) \n                  get the (checked of the closest &lt;input/&gt;) \n               then\n                  js(it) \n                     window.toggleDarkMode(it); \n                     window.setMkTheme(null, !it); \n                  end\n               end\n\n               on load call window.initialState() end\n               \">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

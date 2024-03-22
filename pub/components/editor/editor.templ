@@ -9,13 +9,51 @@ templ Editor(uploadURL string) {
 	} else {
 		<script src="/dist/editor.js"></script>
 	}
+	@uploadScript()
 	<div
 		_={ fmt.Sprintf(`
-            on drop call window.upload(event, "%s")
-            on dragover call window.allowDrop(event)
+            on drop 
+               call window.upload(event, "%s") 
+            then 
+               js(it)
+                  url = JSON.parse(it).data.url
+                  editor.chain().focus().setImage({ src: url }).run()
+                  Swal.close()
+               end
+            end
+
+            on dragover 
+               halt the event
+            end
             `, 
             uploadURL) }
 		id="code-editor"
-		class="tiptap card w-full md:max-w-3xl lg:max-w-4xl min-h-96 bg-base-100 p-6 shadow-2xl"
+		class="tiptap w-full md:max-w-3xl lg:max-w-4xl min-h-96 bg-base-100 p-6 shadow-2xl rounded-t-none rounded-b-box"
 	></div>
+}
+
+templ uploadScript() {
+	<script type="text/javascript">
+      window.upload = async function(ev, url) {
+         ev.preventDefault()
+         if(ev.dataTransfer.files.length === 0) {
+            return
+         }
+
+         file = ev.dataTransfer.files[0]
+
+         Swal.showLoading()
+
+         const formData = new FormData()
+         formData.append("file", file)
+
+         let res = fetch(url, {
+            method: "POST",
+            body: formData,
+            contentType: "multipart/form-data"
+         })
+         .then((response) => {return response.text()});
+         return res
+      }
+   </script>
 }
