@@ -40,7 +40,7 @@ func New(vm NewVM) templ.Component {
 			Nav:               vm.Opts.Nav,
 			AdditionalHeaders: vm.Opts.AdditionalHeaders,
 			BreadCrumbs:       vm.Opts.BreadCrumbs,
-			Comp:              new(vm.UploadURL, vm.Post),
+			Comp:              new(vm.Post, vm.UploadURL),
 		}).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -122,7 +122,7 @@ func submitButton(existingID uint) templ.Component {
 	})
 }
 
-func new(uploadURL string, existingPost *models.Post) templ.Component {
+func new(existingPost *models.Post, uploadURL string) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -135,7 +135,71 @@ func new(uploadURL string, existingPost *models.Post) templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"w-full h-full\"><br><div class=\"flex flex-col justify-center items-center\"><form id=\"form-post\" class=\"w-full md:max-w-3xl lg:max-w-4xl\"><textarea placeholder=\"Blog title goes here...\" class=\"text-2xl md:text-4xl textarea textarea-xs textarea-ghost font-extrabold\n               resize-y\n               align-middle\n               text-justify placeholder:text-2xl placeholder:font-normal border-transparent w-full p-6\n               mt-0 focus:outline-none min-h-1\" type=\"text\" name=\"title\" rows=\"2\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"w-full h-full\"><br><div class=\"flex flex-col justify-center items-center\"><form id=\"form-post\" class=\"w-full md:max-w-3xl lg:max-w-4xl\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = uploadHeaderImage().Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"header-image-base\" class=\"w-full h-56 card bg-base-100/40 outline-dashed outline-secondary\" _=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(fmt.Sprintf(`
+                  on dragover
+                     halt the event
+                     then remove .outline-secondary from me 
+                     then remove .text-primary from the first <h1/> in me
+                  end
+
+                  on dragleave
+                     add .outline-secondary to me 
+                     then add .text-primary to the first <h1/> in me
+                  end
+
+                  on drop
+                     remove .outline-secondary from me 
+                     then remove .text-primary from the first <h1/> in me
+                     then call window.headerUpload(event, '%s')
+                     js(it) 
+                        return JSON.parse(it).data.url 
+                     end 
+                     then set the @src of the first <img/> in me to it
+                     then set the @value of #header_image_url to it
+                     then remove .hidden from the first <img/> in me
+                     then add .hidden to the first <h1/> in me
+                     then Swal.close()
+                  end
+               `, uploadURL)))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		if existingPost.HeaderImageURL != "" {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<img src=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(existingPost.HeaderImageURL))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"w-full h-full object-cover\"><h1 class=\"text-2xl font-bold text-center mx-auto my-auto text-primary hidden\">Drop Header Image Here...</h1>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		} else {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<img src=\"/assets/img/placeholder.jpg\" class=\"w-full h-full object-cover hidden\"><h1 class=\"text-2xl font-bold text-center mx-auto my-auto text-primary\">Drop Header Image Here...</h1>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><textarea placeholder=\"Blog title goes here...\" class=\"text-2xl md:text-4xl textarea textarea-xs textarea-ghost font-extrabold\n               resize-y\n               align-middle\n               text-justify placeholder:text-2xl placeholder:font-normal border-transparent w-full p-6\n               mt-4 focus:outline-none min-h-1 bg-base-100 rounded-b-none rounded-t-box\" type=\"text\" name=\"title\" rows=\"2\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -143,14 +207,25 @@ func new(uploadURL string, existingPost *models.Post) templ.Component {
 			var templ_7745c5c3_Var4 string
 			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(existingPost.Title)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/pages/dashboards/articles/create/new.templ`, Line: 75, Col: 26}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/pages/dashboards/articles/create/new.templ`, Line: 128, Col: 26}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</textarea><br><textarea class=\"hidden\" name=\"content\" type=\"text\" id=\"content\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</textarea><div _=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(fmt.Sprintf(
+			"on load or htmx:swap set window.content to %s then trigger loadEditor",
+			tern.Struct(existingPost, &models.Post{}).Content,
+		)))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"w-full md:max-w-3xl lg:max-w-4xl min-h-96 bg-base-100 p-6 shadow-2xl rounded-t-none rounded-b-box\" hx-get=\"/dashboard/editor\" hx-trigger=\"loadEditor\" hx-swap=\"outerHTML\"></div><br><textarea class=\"hidden\" name=\"content\" type=\"text\" id=\"content\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -168,7 +243,25 @@ func new(uploadURL string, existingPost *models.Post) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("></textarea> <input class=\"hidden\" name=\"tags\" type=\"text\" id=\"tags\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("></textarea> <input class=\"hidden\" name=\"header_image_url\" type=\"text\" id=\"header_image_url\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		if existingPost != nil {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" value=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(existingPost.HeaderImageURL))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("> <input class=\"hidden\" name=\"tags\" type=\"text\" id=\"tags\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -186,18 +279,7 @@ func new(uploadURL string, existingPost *models.Post) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("><br><div _=\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(fmt.Sprintf(
-			"on load or htmx:swap set window.content to %s then trigger loadEditor",
-			tern.Struct(existingPost, &models.Post{}).Content,
-		)))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"card w-full md:max-w-3xl lg:max-w-4xl min-h-96 bg-base-100 p-6 shadow-2xl\" hx-get=\"/dashboard/editor\" hx-trigger=\"loadEditor\" hx-swap=\"outerHTML\"></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("><br>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -222,4 +304,28 @@ func TagsToCommaSeparated(tags []*models.Tag) string {
 		tagNames = append(tagNames, tag.Title)
 	}
 	return strings.Join(tagNames, ",")
+}
+
+func uploadHeaderImage() templ.Component {
+	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
+		if !templ_7745c5c3_IsBuffer {
+			templ_7745c5c3_Buffer = templ.GetBuffer()
+			defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
+		}
+		ctx = templ.InitializeContext(ctx)
+		templ_7745c5c3_Var5 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var5 == nil {
+			templ_7745c5c3_Var5 = templ.NopComponent
+		}
+		ctx = templ.ClearChildren(ctx)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<script type=\"text/javascript\">\n      window.headerUpload = async function(ev, url) {\n         ev.preventDefault()\n         if(ev.dataTransfer.files.length === 0) {\n            return\n         }\n\n         file = ev.dataTransfer.files[0]\n\n         Swal.showLoading()\n\n         const formData = new FormData()\n         formData.append(\"file\", file)\n\n         let res = fetch(url, {\n            method: \"POST\",\n            body: formData,\n            contentType: \"multipart/form-data\"\n         })\n         .then((response) => {return response.text()});\n         return res\n      }\n   </script>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		if !templ_7745c5c3_IsBuffer {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteTo(templ_7745c5c3_W)
+		}
+		return templ_7745c5c3_Err
+	})
 }

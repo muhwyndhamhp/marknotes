@@ -3,6 +3,7 @@ package pub_mainmenu
 import "github.com/muhwyndhamhp/marknotes/pub/variables"
 import "github.com/muhwyndhamhp/marknotes/pub/base"
 import "github.com/muhwyndhamhp/marknotes/pub/components/themepicker"
+import "github.com/muhwyndhamhp/marknotes/pub/assets"
 
 templ MainMenu(buttons []pub_variables.InlineButton) {
 	<header class="text-center">
@@ -52,7 +53,7 @@ templ titleHome(isInline bool) {
 templ mobileMenu(buttons []pub_variables.InlineButton) {
 	<div class="dropdown md:hidden">
 		<div tabindex="0" role="button" class="btn btn-ghost btn-circle">
-			<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path></svg>
+			@pub_assets.Menu()
 		</div>
 		<ul
 			tabindex="0"
