@@ -180,7 +180,7 @@ func new(existingPost *models.Post, uploadURL string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		if existingPost.HeaderImageURL != "" {
+		if existingPost != nil && existingPost.HeaderImageURL != "" {
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<img src=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err

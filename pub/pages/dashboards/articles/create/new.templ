@@ -92,7 +92,7 @@ templ new(existingPost *models.Post, uploadURL string) {
                   end
                `, uploadURL) }
 				>
-					if existingPost.HeaderImageURL != "" {
+					if existingPost != nil && existingPost.HeaderImageURL != "" {
 						<img
 							src={ existingPost.HeaderImageURL }
 							class="w-full h-full object-cover"
