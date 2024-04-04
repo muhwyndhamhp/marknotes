@@ -17,7 +17,6 @@ import (
 	"github.com/muhwyndhamhp/marknotes/pkg/post"
 	_postRepo "github.com/muhwyndhamhp/marknotes/pkg/post/repository"
 	"github.com/muhwyndhamhp/marknotes/pkg/site"
-	"github.com/muhwyndhamhp/marknotes/pkg/tag"
 	_tagRepo "github.com/muhwyndhamhp/marknotes/pkg/tag/repository"
 	"github.com/muhwyndhamhp/marknotes/template"
 	"github.com/muhwyndhamhp/marknotes/utils/clerkauth"
@@ -40,7 +39,7 @@ func main() {
 	// e.Use(middlewares.SetCachePolicy())
 	e.Static("/dist", "dist")
 	e.Static("/assets", "public/assets")
-	e.Static("/articles", "public/articles")
+	e.Static("/articles", config.Get(config.POST_RENDER_PATH))
 
 	e.Static("/public/sitemap", "public/sitemap")
 	e.File("/robots.txt", "public/assets/robots.txt")
@@ -71,7 +70,6 @@ func main() {
 	admin.NewAdminFrontend(adminGroup, postRepo, authDescMid)
 	post.NewPostFrontend(adminGroup, postRepo, bucket, htmxMid, authMid, authDescMid, byIDMid)
 	dashboard.NewDashboardFrontend(adminGroup, postRepo, userRepo, tagRepo, clerkClient, htmxMid, authMid, authDescMid, byIDMid)
-	tag.NewTagFrontend(adminGroup, tagRepo, authMid)
 	auth.NewAuthService(adminGroup, service, config.Get(config.OAUTH_AUTHORIZE_URL),
 		config.Get(config.OAUTH_ACCESSTOKEN_URL),
 		config.Get(config.OAUTH_CLIENTID),
@@ -79,6 +77,7 @@ func main() {
 		config.Get(config.OAUTH_URL),
 		userRepo)
 
+	// go migration.Migrate(db.GetLibSQLDB())
 	go func() {
 		if config.Get(config.ENV) == "dev" {
 			return

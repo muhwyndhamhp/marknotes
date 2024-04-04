@@ -11,7 +11,11 @@ document.body.addEventListener('htmx:afterRequest', function (event) {
          localStorage.setItem('failed-hx-req', event.detail.xhr.responseURL)
       }
 
-      window.Clerk.handleUnauthenticated().then(window.navigateFailedReq())
+     if (window.Clerk) {
+        window.Clerk.handleUnauthenticated().then(window.navigateFailedReq())
+     } else {
+       window.location.reload()
+     }
    }
 })
 

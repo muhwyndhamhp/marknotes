@@ -192,6 +192,7 @@ func (fe *DashboardFrontend) ArticlesPush(c echo.Context) error {
 	tags := strings.Split(req.Tags, ",")
 	post.Tags = []*models.Tag{}
 
+	tagLiteral := ""
 	for i := range tags {
 		if tags[i] == "" {
 			continue
@@ -215,7 +216,9 @@ func (fe *DashboardFrontend) ArticlesPush(c echo.Context) error {
 		}
 
 		post.Tags = append(post.Tags, &vTag)
+		tagLiteral += vTag.Title + ","
 	}
+	post.TagsLiteral = tagLiteral
 
 	err = fe.PostRepo.Upsert(ctx, post)
 	if err != nil {
@@ -235,7 +238,7 @@ func (fe *DashboardFrontend) ArticlesPush(c echo.Context) error {
 		}()
 	} else {
 		go func() {
-			err := fileman.DeleteFile(fmt.Sprintf("public/articles/%s.html", post.Slug))
+			err := fileman.DeleteFile(fmt.Sprintf(config.Get(config.POST_RENDER_PATH)+"/%s.html", post.Slug))
 			if err != nil {
 				fmt.Println(err)
 			}

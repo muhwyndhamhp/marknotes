@@ -15,6 +15,7 @@ func PostIndexedOnly() QueryScope {
 			"created_at", "published_at",
 			"updated_at", "user_id",
 			"status", "slug",
+			"tags_literal",
 		)
 	}
 }

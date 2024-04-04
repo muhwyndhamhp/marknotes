@@ -31,6 +31,7 @@ const (
 	CLERK_SECRET            = "CLERK_SECRET"
 	CLERK_PUBLISHABLE       = "CLERK_PUBLISHABLE"
 	CLERK_SRC_URL           = "CLERK_SRC_URL"
+	POST_RENDER_PATH        = "POST_RENDER_PATH"
 )
 
 func init() {

@@ -2,6 +2,7 @@ package pub_postlist
 
 import "github.com/muhwyndhamhp/marknotes/pkg/models"
 import "fmt"
+import "strings"
 
 templ PostList(posts []models.Post) {
 	for i := range posts {
@@ -45,27 +46,15 @@ templ PostMetadata(post models.Post) {
 	</p>
 	<p class={ "text-sm text-accent font-semibold my-3", templ.KV("text-center", post.FormMeta["CenterAlign"] == true) }></p>
 	<div id="tag-flex" class="w-12/12 -ms-1 flex flex-row flex-wrap">
-		for i := range post.Tags {
-			<div class="badge badge-outline badge-primary mx-1 my-2">{ post.Tags[i].Title }</div>
+		for _, tagLit:= range renderTagsLiteral(post.TagsLiteral) {
+			if tagLit != "" {
+				<div class="badge badge-outline badge-primary mx-1 my-2">{ tagLit }</div>
+			}
 		}
 	</div>
 }
 
-templ TagItem(tag *models.Tag) {
-	<div
-		class="mx-1 mt-2 basis-auto rounded-xl bg-rose-50 px-2 pb-1 pt-1 text-xs ring-1 ring-rose-900/10 dark:bg-slate-700 dark:text-slate-100"
-		if tag.FormMeta["IsEditable"] == true {
-			hx-get="/tags/remove"
-			hx-swap="outerHTML"
-		}
-	>
-		<input
-			type="checkbox"
-			name="tags"
-			value={ fmt.Sprintf("%d", tag.ID) }
-			class="hidden w-0"
-			checked="true"
-		/>
-		<span>{ tag.Title }</span>
-	</div>
+func renderTagsLiteral(literals string) []string {
+	tags := strings.Split(literals, ",")
+	return tags
 }

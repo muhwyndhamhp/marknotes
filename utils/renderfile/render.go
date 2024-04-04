@@ -40,11 +40,11 @@ func RenderPost(ctx context.Context, post *models.Post) {
 
 	postDetail := pub_post_detail.PostDetail(bodyOpts, *post)
 
-	if err := fileman.CheckDir("public/articles"); err != nil {
+	if err := fileman.CheckDir(config.Get(config.POST_RENDER_PATH) + ""); err != nil {
 		fmt.Println(err)
 	}
 
-	err := template.RenderPost(postDetail, "public/articles", post.Slug, post.ID)
+	err := template.RenderPost(postDetail, config.Get(config.POST_RENDER_PATH)+"", post.Slug, post.ID)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -54,18 +54,18 @@ func RenderPosts(ctx context.Context, repo models.PostRepository) {
 	// check last_render.txt, read the content as time format RFC3339.
 	// If more than 6 hours, then continue
 	// if less than 6 hours, then return
-	// lastRender, _ := os.ReadFile("public/articles/last_render.txt")
-	//
-	// lastRenderTime, err := time.Parse(time.RFC3339, string(lastRender))
-	// if err != nil {
-	// 	fmt.Println(err)
-	// }
-	//
-	// if time.Since(lastRenderTime).Hours() < 6 {
-	// 	return
-	// }
+	lastRender, _ := os.ReadFile(config.Get(config.POST_RENDER_PATH) + "/last_render.txt")
 
-	err := fileman.DeletAllFiles("public/articles")
+	lastRenderTime, err := time.Parse(time.RFC3339, string(lastRender))
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	if time.Since(lastRenderTime).Hours() < 6 {
+		return
+	}
+
+	err = fileman.DeletAllFiles(config.Get(config.POST_RENDER_PATH) + "")
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -80,7 +80,7 @@ func RenderPosts(ctx context.Context, repo models.PostRepository) {
 	}
 
 	// write current time to last_render.txt
-	err = os.WriteFile("public/articles/last_render.txt", []byte(time.Now().Format(time.RFC3339)), 0o755)
+	err = os.WriteFile(config.Get(config.POST_RENDER_PATH)+"/last_render.txt", []byte(time.Now().Format(time.RFC3339)), 0o755)
 	if err != nil {
 		fmt.Println(err)
 	}

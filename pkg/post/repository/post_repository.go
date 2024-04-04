@@ -45,7 +45,6 @@ func (r *repository) Get(ctx context.Context, funcs ...scopes.QueryScope) ([]mod
 	if err := r.db.WithContext(ctx).
 		Session(&gorm.Session{SkipDefaultTransaction: true}).
 		Scopes(scopes...).
-		Preload("Tags").
 		Find(&res).
 		Error; err != nil {
 		return nil, err
