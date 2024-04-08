@@ -47,15 +47,21 @@ func NewS3Client() *S3Client {
 	return &S3Client{client}
 }
 
-func (c *S3Client) UploadStatic(ctx context.Context, filename string, contentType string) (string, error) {
+func (c *S3Client) UploadStatic(ctx context.Context, filename, exludePrefix string, contentType string) (string, error) {
 	file, err := os.Open(filename)
 	if err != nil {
 		return "", err
 	}
 
+	key := file.Name()
+	if exludePrefix != "" {
+		// remove the prefix from the key using match substring
+		key = strings.SplitAfter(key, exludePrefix)[1]
+	}
+
 	_, err = c.client.PutObject(ctx, &s3.PutObjectInput{
 		Bucket:      aws.String(defaultBucketName),
-		Key:         aws.String(file.Name()),
+		Key:         aws.String(key),
 		Body:        file,
 		ContentType: aws.String(contentType),
 	})

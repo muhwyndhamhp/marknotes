@@ -8,6 +8,12 @@ import (
 	"gorm.io/gorm"
 )
 
+func Preload(query string, args ...interface{}) QueryScope {
+	return func(db *gorm.DB) *gorm.DB {
+		return db.Preload(query, args...)
+	}
+}
+
 func Where(statement string, params ...interface{}) QueryScope {
 	return func(db *gorm.DB) *gorm.DB {
 		return db.Where(statement, params...)

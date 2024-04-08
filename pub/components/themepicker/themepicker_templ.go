@@ -38,7 +38,7 @@ func ThemePickerMobile(themes []ThemeOption) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><ul tabindex=\"0\" class=\"menu menu-xl md:menu-md menu-vertical dropdown-content z-[1] p-2 shadow bg-base-100 rounded-box\n         w-72 md:w-48\n      max-h-72 overflow-scroll\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><ul tabindex=\"0\" class=\"menu menu-xl md:menu-md menu-vertical dropdown-content z-[3] p-2 shadow bg-base-100 rounded-box\n         w-72 md:w-48\n      max-h-72 overflow-scroll\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -120,7 +120,7 @@ func ThemePicker(themes []ThemeOption) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</label></div><ul tabindex=\"0\" class=\"menu menu-xl md:menu-md menu-vertical dropdown-content z-[1] p-2 shadow bg-base-100 rounded-box\n         w-72 md:w-48\n      max-h-72 overflow-scroll\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</label></div><ul tabindex=\"0\" class=\"menu menu-xl md:menu-md menu-vertical dropdown-content z-[3] p-2 shadow bg-base-100 rounded-box\n         w-72 md:w-48\n      max-h-72 overflow-scroll\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

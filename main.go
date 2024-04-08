@@ -5,7 +5,9 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
+	"time"
 
+	"github.com/clerkinc/clerk-sdk-go/clerk"
 	"github.com/labstack/echo/v4"
 	"github.com/muhwyndhamhp/marknotes/config"
 	"github.com/muhwyndhamhp/marknotes/db"
@@ -64,12 +66,12 @@ func main() {
 
 	service := jwt.Service{SecretKey: []byte(config.Get(config.JWT_SECRET))}
 	authMid := clerkClient.AuthMiddleware(userRepo)
-	authDescMid := service.AuthDescribeMiddleware()
+	authDescMid := echo.WrapMiddleware(clerk.WithSessionV2(clerkClient.Clerk, clerk.WithLeeway(10*time.Second)))
 	byIDMid := middlewares.ByIDMiddleware()
 
 	admin.NewAdminFrontend(adminGroup, postRepo, authDescMid)
 	post.NewPostFrontend(adminGroup, postRepo, bucket, htmxMid, authMid, authDescMid, byIDMid)
-	dashboard.NewDashboardFrontend(adminGroup, postRepo, userRepo, tagRepo, clerkClient, htmxMid, authMid, authDescMid, byIDMid)
+	dashboard.NewDashboardFrontend(adminGroup, postRepo, userRepo, tagRepo, clerkClient, htmxMid, authMid, authDescMid, byIDMid, bucket)
 	auth.NewAuthService(adminGroup, service, config.Get(config.OAUTH_AUTHORIZE_URL),
 		config.Get(config.OAUTH_ACCESSTOKEN_URL),
 		config.Get(config.OAUTH_CLIENTID),
@@ -84,24 +86,24 @@ func main() {
 		}
 
 		ctx := context.Background()
-		_, err := bucket.UploadStatic(ctx, "dist/tailwind.css", "text/css")
+		_, err := bucket.UploadStatic(ctx, "dist/tailwind.css", "", "text/css")
 		if err != nil {
 			e.Logger.Fatal(err)
 		}
 
-		_, err = bucket.UploadStatic(ctx, "dist/main.js", "text/javascript")
+		_, err = bucket.UploadStatic(ctx, "dist/main.js", "", "text/javascript")
 		if err != nil {
 			e.Logger.Fatal(err)
 		}
 
-		_, err = bucket.UploadStatic(ctx, "dist/editor.js", "text/javascript")
+		_, err = bucket.UploadStatic(ctx, "dist/editor.js", "", "text/javascript")
 		if err != nil {
 			e.Logger.Fatal(err)
 		}
 	}()
 
 	go func() {
-		renderfile.RenderPosts(context.Background(), postRepo)
+		renderfile.RenderPosts(context.Background(), postRepo, bucket)
 		if config.Get(config.ENV) != "dev" {
 			site.PingSitemap(postRepo)
 		}

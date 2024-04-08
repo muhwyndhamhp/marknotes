@@ -46,19 +46,19 @@ func AssertRenderLog(c echo.Context, statusCode int, component templ.Component) 
 	return c.Render(statusCode, "templ-log", component)
 }
 
-func RenderPost(component templ.Component, path, slug string, id uint) error {
+func RenderPost(component templ.Component, path, slug string, id uint) (*os.File, error) {
 	file, err := os.Create(fmt.Sprintf("%s/%s.html", path, slug))
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	defer file.Close()
 
 	err = component.Render(context.Background(), file)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	return nil
+	return file, nil
 }
 
 type writer struct {

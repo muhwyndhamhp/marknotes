@@ -4,7 +4,7 @@
     <link>https://mwyndham.dev</link>
     <description>my persona blog, contain my personal thought and learning experience</description>
     <managingEditor>business@mwyndham.dev (M Wyndham)</managingEditor>
-    <pubDate>Thu, 04 Apr 2024 11:19:47 +0700</pubDate>
+    <pubDate>Sun, 07 Apr 2024 15:32:20 +0700</pubDate>
     <item>
       <title>I Made This Website Using HTMX + Go in One Month, Here&#39;s What I Learned</title>
       <link>http://localhost:4040/i-made-this-website-using-htmx-go-in.html</link>
@@ -231,7 +231,7 @@ e.GET(<span class="hljs-string">&#34;/hello&#34;</span>, <span class="hljs-funct
       <title>Personal Blog With HTMX + Go Part 3 - Server Rendered Markdown</title>
       <link>http://localhost:4040/personal-blog-with-htmx-go-part-server-rendered.html</link>
       <description></description>
-      <content:encoded><![CDATA[<p>This article will cover part 3 of the <span class="font-semibold text-accent suggestion" data-type="mention" data-id="blogging" contenteditable="false">#blogging</span> Tutorial. This one is going to be long as we start deep-diving into making some interactive stuff with the help of <span class="font-semibold text-accent suggestion" data-type="mention" contenteditable="false">#HTMX.</span> If you need a refresher, you can read the first or the previous part.</p><p><span class="font-semibold text-accent suggestion" data-type="mention" data-id="Golang" contenteditable="false">#Golang</span> </p><h2>What We&#39;re Going to Do Today</h2><p>this time, we&#39;re about to make a fancy Markdown to HTML Renderer but on the server side. Why? First, it will be a good demonstration of making an interactive element using HTMX. Secondly, Why not? It&#39;s kinda cool, isn&#39;t it?</p><h2>Dependencies</h2><p>First, we need to sort out our dependency. We need to add a Markdown parser for Golang. </p><blockquote><p>What? Why not make your own parser?</p></blockquote><p>I know I know, maybe I oversell it a bit. Technically we can, but it will be quite an effort, especially for the coverage of a single blog post. But there&#39;s more reason for that.</p><p>HTML Sanitization is one thing, then there are many different flavors of markdown to support. It&#39;s also a bit out of scope because we&#39;re here to highlight how HTMX is useful for creating interactive apps. </p><p>Okay, now we need to add our dependency first. My Markdown parser of choice is <a href="https://github.com/yuin/goldmark" rel="nofollow">GoldMark</a>. It&#39;s fast and has quite an extensive amount of available extensions you might want. It also handles sanitization quite well for basic stuff. </p><p>Let&#39;s add our dependency to our Go project via:</p><pre class="mockup-code rounded-badge"><code class="language-bash">go get github.com/yuin/goldmark</code></pre><p><span class="font-semibold text-accent suggestion" data-type="mention" data-id="Goldmark" contenteditable="false">#Goldmark</span> also brings its extension called GFM (GitHub Flavored Markdown) and Typographer. We will need these two extensions to increase our markdown parsing capabilities. </p><p>GFM, as the name suggests, adds GitHub style Markdown tags, such as table, strike-through, and linkify. There&#39;s more to it, but you can read it yourself in the formal spec <a href="https://github.github.com/gfm" rel="nofollow">here</a>.</p><h2>Markdown parsing</h2><p>Next, we need to create a new file called <code>utils/markd/markd_parser.go</code> and set the content as follows:</p><pre class="mockup-code rounded-badge"><code class="language-go"><span class="hljs-keyword">package</span> markd
+      <content:encoded><![CDATA[<p>This article will cover part 3 of the <span class="font-semibold text-primary/150 suggestion underline decoration-primary decoration-2" data-type="mention" data-id="blogging" contenteditable="false">#blogging</span> Tutorial. This one is going to be long as we start deep-diving into making some interactive stuff with the help of <span class="font-semibold text-primary/150 suggestion underline decoration-primary decoration-2" data-type="mention" contenteditable="false">#HTMX.</span> If you need a refresher, you can read the first or the previous part.</p><p><span class="font-semibold text-primary/150 suggestion underline decoration-primary decoration-2" data-type="mention" data-id="Golang" contenteditable="false">#Golang</span> </p><h2>What We&#39;re Going to Do Today</h2><p>this time, we&#39;re about to make a fancy Markdown to HTML Renderer but on the server side. Why? First, it will be a good demonstration of making an interactive element using HTMX. Secondly, Why not? It&#39;s kinda cool, isn&#39;t it?</p><h2>Dependencies</h2><p>First, we need to sort out our dependency. We need to add a Markdown parser for Golang. </p><blockquote><p>What? Why not make your own parser?</p></blockquote><p>I know I know, maybe I oversell it a bit. Technically we can, but it will be quite an effort, especially for the coverage of a single blog post. But there&#39;s more reason for that.</p><p>HTML Sanitization is one thing, then there are many different flavors of markdown to support. It&#39;s also a bit out of scope because we&#39;re here to highlight how HTMX is useful for creating interactive apps. </p><p>Okay, now we need to add our dependency first. My Markdown parser of choice is <a href="https://github.com/yuin/goldmark" rel="nofollow">GoldMark</a>. It&#39;s fast and has quite an extensive amount of available extensions you might want. It also handles sanitization quite well for basic stuff. </p><p>Let&#39;s add our dependency to our Go project via:</p><pre class="mockup-code rounded-badge"><code class="language-bash">go get github.com/yuin/goldmark</code></pre><p><span class="font-semibold text-primary/150 suggestion underline decoration-primary decoration-2" data-type="mention" data-id="Goldmark" contenteditable="false">#Goldmark</span> also brings its extension called GFM (GitHub Flavored Markdown) and Typographer. We will need these two extensions to increase our markdown parsing capabilities. </p><p>GFM, as the name suggests, adds GitHub style Markdown tags, such as table, strike-through, and linkify. There&#39;s more to it, but you can read it yourself in the formal spec <a href="https://github.github.com/gfm" rel="nofollow">here</a>.</p><h2>Markdown parsing</h2><p>Next, we need to create a new file called <code>utils/markd/markd_parser.go</code> and set the content as follows:</p><pre class="mockup-code rounded-badge"><code class="language-go"><span class="hljs-keyword">package</span> markd
 <span class="hljs-keyword">import</span> (
    <span class="hljs-string">&#34;bytes&#34;</span>
    <span class="hljs-string">&#34;string&#34;</span>
@@ -264,7 +264,7 @@ e.GET(<span class="hljs-string">&#34;/hello&#34;</span>, <span class="hljs-funct
    result := buf.String()
    <span class="hljs-keyword">return</span> result, <span>nil</span>
 }</code></pre><p>The new addition is here!</p><h2>header</h2><h1>hhhhh</h1><h3>hhhh</h3><pre class="mockup-code rounded-badge"><code class="language-go"><span class="hljs-function hljs-keyword">func</span> 
-<br></code></pre><p><img class="max-h-96 mx-auto" src="http://localhost:4040/posts/media/0-IMG_1201-20240305181049.jpg"><br></p><pre class="mockup-code rounded-badge"><code class="language-js"><span class="hljs-keyword">const</span></code></pre><p><span class="font-semibold text-accent suggestion" data-type="mention" data-id="echo" contenteditable="false">#echo</span> <span class="font-semibold text-accent suggestion" data-type="mention" data-id="location" contenteditable="false">#location</span> </p><div hx-get="/dashboard/load-iframe?url=https%3A%2F%2Fwww.youtube-nocookie.com%2Fembed%2FLMTJPKD0lQw%3Fmodestbranding%3D1%26color%3Dwhite" hx-trigger="load delay:3s" hx-swap="innerHTML"><iframe class="mx-auto max-w-[320px] md:max-w-[512px] max-h-[240px] md:max-h-[288px]" width="512" height="288"></iframe></div>]]></content:encoded>
+<br></code></pre><p><img class="max-h-96 mx-auto" src="http://localhost:4040/posts/media/0-IMG_1201-20240305181049.jpg"><br></p><pre class="mockup-code rounded-badge"><code class="language-js"><span class="hljs-keyword">const</span></code></pre><p><span class="font-semibold text-primary/150 suggestion underline decoration-primary decoration-2" data-type="mention" data-id="echo" contenteditable="false">#echo</span> <span class="font-semibold text-primary/150 suggestion underline decoration-primary decoration-2" data-type="mention" data-id="location" contenteditable="false">#location</span> </p><div hx-get="http://localhost:4040/dashboard/load-iframe?url=https%3A%2F%2Fwww.youtube-nocookie.com%2Fembed%2F3cMcTCf4xVo%3Fmodestbranding%3D1%26color%3Dwhite" hx-trigger="load delay:3s" hx-swap="innerHTML"><iframe class="mx-auto max-w-[320px] md:max-w-[512px] max-h-[240px] md:max-h-[288px]" width="640" height="480"></iframe></div>]]></content:encoded>
       <author>M Wyndham</author>
       <pubDate>Mon, 04 Mar 2024 10:29:46 +0700</pubDate>
     </item>
@@ -275,6 +275,30 @@ e.GET(<span class="hljs-string">&#34;/hello&#34;</span>, <span class="hljs-funct
       <content:encoded><![CDATA[<p>body-0</p><p><br></p><p><span class="font-semibold text-accent suggestion" data-type="mention" data-id="title-2" contenteditable="false">#title-2</span> </p>]]></content:encoded>
       <author>M Wyndham</author>
       <pubDate>Thu, 14 Mar 2024 11:49:15 +0700</pubDate>
+    </item>
+    <item>
+      <title>Title </title>
+      <link>http://localhost:4040/title.html</link>
+      <description></description>
+      <content:encoded><![CDATA[<p>Body</p>]]></content:encoded>
+      <author>M Wyndham</author>
+      <pubDate>Thu, 04 Apr 2024 14:46:05 +0700</pubDate>
+    </item>
+    <item>
+      <title>Title</title>
+      <link>http://localhost:4040/title-3.html</link>
+      <description></description>
+      <content:encoded><![CDATA[<p>Body</p>]]></content:encoded>
+      <author>M Wyndham</author>
+      <pubDate>Fri, 05 Apr 2024 10:47:16 +0700</pubDate>
+    </item>
+    <item>
+      <title>title</title>
+      <link>http://localhost:4040/title-3.html</link>
+      <description></description>
+      <content:encoded><![CDATA[<p><span class="font-semibold text-primary/150 suggestion underline decoration-primary decoration-2" data-type="mention" data-id="Golang" contenteditable="false">#Golang</span> <span class="font-semibold text-primary/150 suggestion underline decoration-primary decoration-2" data-type="mention" data-id="HTML/Template" contenteditable="false">#HTML/Template</span> <strong>bold </strong><em>italic </em><strong><em>bold italic. </em></strong></p><p><strong>bold</strong> <em>italic</em>.</p><p><br></p>]]></content:encoded>
+      <author>M Wyndham</author>
+      <pubDate>Sat, 06 Apr 2024 16:48:18 +0700</pubDate>
     </item>
   </channel>
 </rss>

@@ -17,6 +17,7 @@ require (
 	github.com/golang-jwt/jwt/v5 v5.0.0
 	github.com/gorilla/csrf v1.7.1
 	github.com/gorilla/feeds v1.1.2
+	github.com/h2non/bimg v1.1.9
 	github.com/joho/godotenv v1.5.1
 	github.com/labstack/echo/v4 v4.11.1
 	github.com/renxzen/gorm-libsql v0.0.0-20240301223231-6621a843345a

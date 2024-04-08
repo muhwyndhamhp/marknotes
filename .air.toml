@@ -1,4 +1,3 @@
-
 [build]
 pre_cmd = [
   "./node_modules/.bin/esbuild ./src/*.js --bundle --outdir=dist --target=chrome58,firefox57,safari11",

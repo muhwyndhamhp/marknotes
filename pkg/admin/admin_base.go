@@ -1,31 +1,41 @@
 package admin
 
-import pub_variables "github.com/muhwyndhamhp/marknotes/pub/variables"
+import (
+	"strings"
+
+	"github.com/muhwyndhamhp/marknotes/config"
+	pub_variables "github.com/muhwyndhamhp/marknotes/pub/variables"
+)
 
 type AuthNeed string
 
 func AppendHeaderButtons(userID uint) []pub_variables.InlineButton {
+	baseURL := strings.Split(config.Get(config.OAUTH_URL), "/callback")[0]
+
 	return []pub_variables.InlineButton{
 		{
-			AnchorUrl: "/articles",
+			AnchorUrl: baseURL + "/articles",
 			Label:     "Articles",
 			AuthRule:  pub_variables.AlwaysMode,
 			UserID:    userID,
 			IsBoosted: true,
+			BaseURL:   baseURL,
 		},
 		{
-			AnchorUrl: "/resume",
+			AnchorUrl: baseURL + "/resume",
 			Label:     "Resume",
 			AuthRule:  pub_variables.AlwaysMode,
 			UserID:    userID,
 			IsBoosted: true,
+			BaseURL:   baseURL,
 		},
 		{
-			AnchorUrl: "/dashboard",
+			AnchorUrl: baseURL + "/dashboard",
 			Label:     "Dashboard",
 			AuthRule:  pub_variables.AlwaysMode,
 			UserID:    userID,
 			IsBoosted: true,
+			BaseURL:   baseURL,
 		},
 	}
 }

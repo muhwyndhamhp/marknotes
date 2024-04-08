@@ -196,7 +196,7 @@ export const Youtube = Node.create({
          'div',
          { 
             'data-youtube-video': '',
-               'hx-get': '/dashboard/load-iframe?url=' + encodeURIComponent(embedUrl),
+               'hx-get': window.baseURL + '/dashboard/load-iframe?url=' + encodeURIComponent(embedUrl),
                'hx-trigger': 'load delay:3s',
                'hx-swap': 'innerHTML'
          },

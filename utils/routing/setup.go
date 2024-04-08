@@ -2,7 +2,6 @@ package routing
 
 import (
 	"net/http"
-	"time"
 
 	"github.com/apsystole/log"
 	"github.com/clerkinc/clerk-sdk-go/clerk"
@@ -25,9 +24,6 @@ func SetupRouter(e *echo.Echo, clerkClient clerk.Client) {
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowOrigins: []string{"*://localhost:*", "*://www.github.com", "*://github.com", "*.fly.dev", "*://mwyndham.dev", "unpkg.com", "cdn.jsdelivr.net", "static.cloudflare.com", "static.cloudflareinsights.com", "github.com", "*.mwyndham.dev"},
 	}))
-
-	sessionMid := echo.WrapMiddleware(clerk.WithSessionV2(clerkClient, clerk.WithLeeway(10*time.Second)))
-	e.Use(sessionMid)
 
 	e.Validator = &validate.CustomValidator{
 		Validator: validator.New(),

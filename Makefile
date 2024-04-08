@@ -24,7 +24,7 @@ run:
 	@air -c .air.toml --build.cmd "go build -ldflags \"$(LDFLAGS)\" -o ./tmp/main ."
 
 build:
-	@CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "$(LDFLAGS)" -o main main.go
+	@CGO_ENABLED=1 GOOS=linux GOARCH=arm64 go build -ldflags "$(LDFLAGS)" -o main main.go
 
 minify-tw:
 	@npx tailwindcss -i ./src/main.css -o ./dist/tailwind.css --minify
@@ -37,3 +37,15 @@ deploy:
 	@npx tailwindcss -i ./src/main.css -o ./dist/tailwind.css --minify
 	@./node_modules/.bin/esbuild ./src/*.js --bundle --minify --outdir=dist --target=chrome58,firefox57,safari11
 	@flyctl deploy
+
+build-img-local:
+	@docker build -t marknotes-local -f Local.Dockerfile --progress=plain . 
+
+build-img:
+	@docker build -t marknotes -f Dockerfile .
+
+run-docker:
+	@templ generate 
+	@npx tailwindcss -i ./src/main.css -o ./dist/tailwind.css --minify
+	@./node_modules/.bin/esbuild ./src/*.js --bundle --minify --outdir=dist --target=chrome58,firefox57,safari11
+	@docker run -p 4001:4040 marknotes-local 

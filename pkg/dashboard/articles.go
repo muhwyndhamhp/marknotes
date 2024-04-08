@@ -50,6 +50,7 @@ func (fe *DashboardFrontend) ArticlesEdit(c echo.Context) error {
 		Opts:      opts,
 		UploadURL: uploadURL,
 		Post:      post,
+		BaseURL:   baseURL,
 	}
 	articlesNew := pub_dashboards_articles_new.New(vm)
 
@@ -68,6 +69,7 @@ func (fe *DashboardFrontend) ArticlesNew(c echo.Context) error {
 	vm := pub_dashboards_articles_new.NewVM{
 		Opts:      opts,
 		UploadURL: uploadURL,
+		BaseURL:   baseURL,
 	}
 	articlesNew := pub_dashboards_articles_new.New(vm)
 
@@ -229,7 +231,7 @@ func (fe *DashboardFrontend) ArticlesPush(c echo.Context) error {
 	if status == values.Published {
 		go func() {
 			ctx := context.Background()
-			renderfile.RenderPost(ctx, post)
+			renderfile.RenderPost(ctx, post, fe.Bucket)
 
 			err := rss.GenerateRSS(ctx, fe.PostRepo)
 			if err != nil {
@@ -261,6 +263,7 @@ func (fe *DashboardFrontend) ArticlesPush(c echo.Context) error {
 			Opts:      opts,
 			UploadURL: uploadURL,
 			Post:      post,
+			BaseURL:   baseURL,
 		}
 		articlesNew := pub_dashboards_articles_new.New(vm)
 

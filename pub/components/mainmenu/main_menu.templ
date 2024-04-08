@@ -9,7 +9,7 @@ templ MainMenu(buttons []pub_variables.InlineButton) {
 	<header class="text-center">
 		<div class="w-full flex-row justify-center">
 			@buttonRows(buttons)
-			@titleHome(false)
+			@titleHome(false, buttons[0].BaseURL)
 		</div>
 	</header>
 }
@@ -24,7 +24,7 @@ templ buttonRows(buttons []pub_variables.InlineButton) {
 		<div class="navbar-center flex">
 			<ul class="menu menu-horizontal px-1">
 				<li class="md:hidden">
-					@titleHome(true)
+					@titleHome(true, buttons[0].BaseURL)
 				</li>
 				@desktopMenu(buttons)
 			</ul>
@@ -36,8 +36,8 @@ templ buttonRows(buttons []pub_variables.InlineButton) {
 	</div>
 }
 
-templ titleHome(isInline bool) {
-	<a hx-boost="true" href="/">
+templ titleHome(isInline bool, baseURL string) {
+	<a hx-boost="true" href={ templ.SafeURL(baseURL) }>
 		<h1
 			if !isInline {
 				class="mt-16 mb-6 text-4xl text-info font-extrabold hidden md:flex justify-center"
@@ -57,7 +57,7 @@ templ mobileMenu(buttons []pub_variables.InlineButton) {
 		</div>
 		<ul
 			tabindex="0"
-			class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-72"
+			class="menu menu-sm dropdown-content mt-3 z-[3] p-2 shadow bg-base-100 rounded-box w-72"
 		>
 			for _, btn := range buttons {
 				<li>

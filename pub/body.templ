@@ -3,6 +3,7 @@ package pub
 import "github.com/muhwyndhamhp/marknotes/pub/components/mainmenu"
 import "github.com/muhwyndhamhp/marknotes/pub/components/footermenu"
 import "github.com/muhwyndhamhp/marknotes/pub/variables"
+import "github.com/muhwyndhamhp/marknotes/config"
 
 templ Body(opts pub_variables.BodyOpts) {
 	<!DOCTYPE html>
@@ -16,6 +17,8 @@ templ Body(opts pub_variables.BodyOpts) {
 		</head>
 		<body id="admin-root" class="bg-base-100 dark:bg-base-300">
 			<script async src="https://unpkg.com/hyperscript.org@0.9.11"></script>
+			<script async crossorigin="anonymous" data-clerk-publishable-key={ config.Get(config.CLERK_PUBLISHABLE) } onload="window.Clerk.load()" src={ config.Get(config.CLERK_SRC_URL) } type="text/javascript">
+    </script>
 			@Background()
 			<div class="relative flex flex-col justify-center overflow-hidden">
 				@pub_mainmenu.MainMenu(opts.HeaderButtons)
