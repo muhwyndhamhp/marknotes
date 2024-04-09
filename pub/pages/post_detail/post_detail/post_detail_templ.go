@@ -67,7 +67,7 @@ func postDetail(post models.Post) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		if post.HeaderImageURL != "" {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"w-full h-full backdrop-brightness-[.35] backdrop-blur-[1px] absolute card rounded-none\n        md:rounded-box z-[1]\"></div><img class=\"card absolute w-full h-full object-cover rounded-none md:rounded-box\" src=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"w-full h-full backdrop-brightness-[.35] backdrop-blur-[1px] absolute card rounded-none\n        md:rounded-box z-[1]\"></div><img fetchpriority=\"high\" class=\"card absolute w-full h-full object-cover rounded-none md:rounded-box\" src=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

@@ -26,14 +26,8 @@ run:
 build:
 	@CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "$(LDFLAGS)" -o main main.go
 
-minify-tw:
-	@npx tailwindcss -i ./src/main.css -o ./dist/tailwind.css --minify
-
-minify-es:
-	@./node_modules/.bin/esbuild ./src/*.js --bundle --minify --outdir=dist --target=chrome58,firefox57,safari11
-
 deploy:
 	@templ generate 
-	@npx tailwindcss -i ./src/main.css -o ./dist/tailwind.css --minify
-	@./node_modules/.bin/esbuild ./src/*.js --bundle --minify --outdir=dist --target=chrome58,firefox57,safari11
+	@bunx tailwindcss -i ./src/main.css -o ./dist/tailwind.css --minify
+	@bun run build
 	@flyctl deploy

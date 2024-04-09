@@ -4,7 +4,7 @@
     <link>https://mwyndham.dev</link>
     <description>my persona blog, contain my personal thought and learning experience</description>
     <managingEditor>business@mwyndham.dev (M Wyndham)</managingEditor>
-    <pubDate>Sun, 07 Apr 2024 15:32:20 +0700</pubDate>
+    <pubDate>Tue, 09 Apr 2024 19:19:27 +0700</pubDate>
     <item>
       <title>I Made This Website Using HTMX + Go in One Month, Here&#39;s What I Learned</title>
       <link>http://localhost:4040/i-made-this-website-using-htmx-go-in.html</link>
@@ -264,7 +264,7 @@ e.GET(<span class="hljs-string">&#34;/hello&#34;</span>, <span class="hljs-funct
    result := buf.String()
    <span class="hljs-keyword">return</span> result, <span>nil</span>
 }</code></pre><p>The new addition is here!</p><h2>header</h2><h1>hhhhh</h1><h3>hhhh</h3><pre class="mockup-code rounded-badge"><code class="language-go"><span class="hljs-function hljs-keyword">func</span> 
-<br></code></pre><p><img class="max-h-96 mx-auto" src="http://localhost:4040/posts/media/0-IMG_1201-20240305181049.jpg"><br></p><pre class="mockup-code rounded-badge"><code class="language-js"><span class="hljs-keyword">const</span></code></pre><p><span class="font-semibold text-primary/150 suggestion underline decoration-primary decoration-2" data-type="mention" data-id="echo" contenteditable="false">#echo</span> <span class="font-semibold text-primary/150 suggestion underline decoration-primary decoration-2" data-type="mention" data-id="location" contenteditable="false">#location</span> </p><div hx-get="http://localhost:4040/dashboard/load-iframe?url=https%3A%2F%2Fwww.youtube-nocookie.com%2Fembed%2F3cMcTCf4xVo%3Fmodestbranding%3D1%26color%3Dwhite" hx-trigger="load delay:3s" hx-swap="innerHTML"><iframe class="mx-auto max-w-[320px] md:max-w-[512px] max-h-[240px] md:max-h-[288px]" width="640" height="480"></iframe></div>]]></content:encoded>
+<br></code></pre><p><img class="max-h-96 mx-auto" src="http://localhost:4040/posts/media/0-IMG_1201-20240305181049.jpg"><br></p><pre class="mockup-code rounded-badge"><code class="language-js"><span class="hljs-keyword">const</span></code></pre><p><span class="font-semibold text-primary/150 suggestion underline decoration-primary decoration-2" data-type="mention" data-id="echo" contenteditable="false">#echo</span> <span class="font-semibold text-primary/150 suggestion underline decoration-primary decoration-2" data-type="mention" data-id="location" contenteditable="false">#location</span> </p><p><img class="max-h-96 mx-auto" src="https://resource.mwyndham.dev/0-dsdsds-20240409104440.png"><img class="max-h-96 mx-auto" src="https://resource.mwyndham.dev/0-cat-20240409104446.gif"><img class="max-h-96 mx-auto" src="https://resource.mwyndham.dev/0-a-20240409104451.png"><br></p><div hx-get="http://localhost:4040/dashboard/load-iframe?url=https%3A%2F%2Fwww.youtube-nocookie.com%2Fembed%2F3cMcTCf4xVo%3Fmodestbranding%3D1%26color%3Dwhite" hx-trigger="load delay:3s" hx-swap="innerHTML"><iframe class="mx-auto max-w-[320px] md:max-w-[512px] max-h-[240px] md:max-h-[288px]" width="640" height="480"></iframe></div><p>Hi Hiring Managers, Engineers, or People from Tailwind Labs!</p><p>I hope this pitch finds you well!</p><h3>Introduction!</h3><p>My name is <strong>Wyndham</strong>, a Software Engineer with 6 Years of Experience in Android Development, Backend, and lately for the web. And I&#39;m going to try to pitch myself for the <strong>Design Engineer </strong>position at Tailwind Labs with this article.</p><p>To be very honest, I&#39;m barely qualified for the position. But I&#39;m going to try anyway and see whether my luck will guide me here or not.</p><p><br></p><p>lsdjaldjal;dadas;ldjlasjdasljd</p><p>sdajldkajdakljdsl</p><p>sdaldjalkdjlad</p><p>dajdajdslkajsdlasjdlkajdjsadklsdaksdjalkjdlkasd</p><p><br></p><p>djaklsdjalsdjasdlaskdjad</p><p>djaskldjaldjasd</p><p>sdjakldjaklsdjlaksd</p><p>daksdjalkdjasdklad</p><p>asjdasldjasdkskdjskdjsjdalskdjalskdjaldjasdlajdkladjladjladjsadkladjald</p><p>djalsjdaldkadlakdjalkdjalsjdklasjdlajladkaldjaslkdsadkas</p><p>daklsdjksdaklsdjkladjlakdjklasdjlakjdlkajdlalskdjalsdkajlsdjald</p><p>dklajdaldjaldjasldjalksdjasldkajdljasldjlasdjasdkjalsdjaslkdjaldjaldlakdjlakdjadjlakdjaldjaldjofurnuirn;fvadivafvona;lvnaovnjavnalnsvakljlsdjflalskfmaklsfnjdsanfjad;slfkjaslf;jlasdfjlafjlsakfjkladfkasdfjdksnvlkdnsvjdnfl;jlsadfjls;fjasljflaksjvklnvlnv,.xmnzvcnv;ajfngjnl;sjdfljaslfjaausdnvsa;vsjvklsvjlskdvn,mcnv,xcnvfn;alkvn;djvljfddklsna;lvnm,cvn,mcnvmx;nva;sdjfdkljkalsfdlsdjflkasfjklsadnmv,cnxvxvzx.mv,cnjkfnjnfjfkjkdsf</p>]]></content:encoded>
       <author>M Wyndham</author>
       <pubDate>Mon, 04 Mar 2024 10:29:46 +0700</pubDate>
     </item>
@@ -299,6 +299,14 @@ e.GET(<span class="hljs-string">&#34;/hello&#34;</span>, <span class="hljs-funct
       <content:encoded><![CDATA[<p><span class="font-semibold text-primary/150 suggestion underline decoration-primary decoration-2" data-type="mention" data-id="Golang" contenteditable="false">#Golang</span> <span class="font-semibold text-primary/150 suggestion underline decoration-primary decoration-2" data-type="mention" data-id="HTML/Template" contenteditable="false">#HTML/Template</span> <strong>bold </strong><em>italic </em><strong><em>bold italic. </em></strong></p><p><strong>bold</strong> <em>italic</em>.</p><p><br></p>]]></content:encoded>
       <author>M Wyndham</author>
       <pubDate>Sat, 06 Apr 2024 16:48:18 +0700</pubDate>
+    </item>
+    <item>
+      <title>title</title>
+      <link>http://localhost:4040/title-3.html</link>
+      <description></description>
+      <content:encoded><![CDATA[<p><img class="max-h-96 mx-auto" src="https://resource.mwyndham.dev/0-aaaa-20240409084840.gif"><br></p>]]></content:encoded>
+      <author>M Wyndham</author>
+      <pubDate>Tue, 09 Apr 2024 08:48:46 +0700</pubDate>
     </item>
   </channel>
 </rss>

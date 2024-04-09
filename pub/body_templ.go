@@ -13,7 +13,6 @@ import "bytes"
 import "github.com/muhwyndhamhp/marknotes/pub/components/mainmenu"
 import "github.com/muhwyndhamhp/marknotes/pub/components/footermenu"
 import "github.com/muhwyndhamhp/marknotes/pub/variables"
-import "github.com/muhwyndhamhp/marknotes/config"
 
 func Body(opts pub_variables.BodyOpts) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
@@ -42,23 +41,7 @@ func Body(opts pub_variables.BodyOpts) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<title>mwyndham.dev</title></head><body id=\"admin-root\" class=\"bg-base-100 dark:bg-base-300\"><script async src=\"https://unpkg.com/hyperscript.org@0.9.11\"></script><script async crossorigin=\"anonymous\" data-clerk-publishable-key=\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(config.Get(config.CLERK_PUBLISHABLE)))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" onload=\"window.Clerk.load()\" src=\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(config.Get(config.CLERK_SRC_URL)))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" type=\"text/javascript\">\n    </script>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<title>mwyndham.dev</title></head><body id=\"admin-root\" class=\"bg-base-100 dark:bg-base-300\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

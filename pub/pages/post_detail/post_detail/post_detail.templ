@@ -24,7 +24,7 @@ templ postDetail(post models.Post) {
 					class="w-full h-full backdrop-brightness-[.35] backdrop-blur-[1px] absolute card rounded-none
         md:rounded-box z-[1]"
 				></div>
-				<img class="card absolute w-full h-full object-cover rounded-none md:rounded-box" src={ post.HeaderImageURL } alt="Cover Image"/>
+				<img fetchpriority="high" class="card absolute w-full h-full object-cover rounded-none md:rounded-box" src={ post.HeaderImageURL } alt="Cover Image"/>
 			}
 		</div>
 	</div>

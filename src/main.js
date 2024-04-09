@@ -1,37 +1,18 @@
+import _hyperscript from 'hyperscript.org';
+
+_hyperscript.browserInit()
+
 const colorSchemeQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
 colorSchemeQuery.addEventListener('change', () => {
    window.initialState()
 });
 
-document.body.addEventListener('htmx:afterRequest', function (event) {
-   if (event.detail.xhr.status === 401) {
-      event.detail.xhr
-      if (event.detail.target.id === 'admin-root') {
-         localStorage.setItem('failed-hx-req', event.detail.xhr.responseURL)
-      }
-
-     if (window.Clerk) {
-        window.Clerk.handleUnauthenticated().then(window.navigateFailedReq())
-     } else {
-       window.location.reload()
-     }
-   }
-})
-
-
-window.navigateFailedReq = function() {
-      const failedReq = localStorage.getItem('failed-hx-req')
-      localStorage.removeItem('failed-hx-req')
-      window.location.href = failedReq
-}
-
 window.addEventListener('load', () => {
-   if (localStorage.getItem('failed-hx-req')) {
-      window.navigateFailedReq()
-   }
-
-   window.initialState()
+  if (localStorage.getItem('failed-hx-req')) {
+    window.navigateFailedReq()
+  }
+  window.initialState()
 });
 
 window.initialState = function() {

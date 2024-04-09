@@ -13,16 +13,18 @@ import (
 	"github.com/aws/aws-sdk-go-v2/credentials"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 	goconf "github.com/muhwyndhamhp/marknotes/config"
+	"github.com/muhwyndhamhp/marknotes/utils/imageprocessing"
 	"github.com/muhwyndhamhp/marknotes/utils/storage"
 )
 
 type S3Client struct {
 	client *s3.Client
+	iproc  *imageprocessing.Client
 }
 
 const defaultBucketName = "mwyndham-dev"
 
-func NewS3Client() *S3Client {
+func NewS3Client(iproc *imageprocessing.Client) *S3Client {
 	accountId := goconf.Get(goconf.CF_ACCOUNT_ID)
 	accessKeyId := goconf.Get(goconf.CF_R2_ACCESS_KEY_ID)
 	accessKeySecret := goconf.Get(goconf.CF_R2_SECRET_ACCESS_KEY)
@@ -44,7 +46,7 @@ func NewS3Client() *S3Client {
 
 	client := s3.NewFromConfig(cfg)
 
-	return &S3Client{client}
+	return &S3Client{client, iproc}
 }
 
 func (c *S3Client) UploadStatic(ctx context.Context, filename, exludePrefix string, contentType string) (string, error) {
@@ -72,22 +74,32 @@ func (c *S3Client) UploadStatic(ctx context.Context, filename, exludePrefix stri
 }
 
 func (c *S3Client) UploadMedia(ctx context.Context, f *multipart.FileHeader, prefix string, contentType string) (string, error) {
-	file, err := f.Open()
-	if err != nil {
-		return "", err
-	}
-
-	defer file.Close()
-
 	fname := strings.ReplaceAll(f.Filename, " ", "_")
 	name := fmt.Sprintf("%s-%s", prefix, storage.AppendTimestamp(fname))
-
-	_, err = c.client.PutObject(ctx, &s3.PutObjectInput{
+	obj := &s3.PutObjectInput{
 		Bucket:      aws.String(defaultBucketName),
 		Key:         aws.String(name),
-		Body:        file,
 		ContentType: aws.String(contentType),
-	})
+	}
+
+	if contentType != "image/gif" {
+		r, size, err := c.iproc.ResizeImage(f)
+		if err != nil {
+			return "", err
+		}
+		intSize := int64(size)
+
+		obj.Body = r
+		obj.ContentLength = &intSize
+		obj.ContentType = aws.String("image/jpeg")
+	} else {
+		file, err := f.Open()
+		if err != nil {
+			return "", err
+		}
+		obj.Body = file
+	}
+	_, err := c.client.PutObject(ctx, obj)
 	if err != nil {
 		return "", err
 	}

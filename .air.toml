@@ -1,8 +1,8 @@
 [build]
 pre_cmd = [
-  "./node_modules/.bin/esbuild ./src/*.js --bundle --outdir=dist --target=chrome58,firefox57,safari11",
+  "bun run dev",
   "templ generate",
-  "npx tailwindcss -i ./src/main.css -o ./dist/tailwind.css"
+  "bunx tailwindcss -i ./src/main.css -o ./dist/tailwind.css"
 ]
 # It's not necessary to trigger build each time file changes if it's too frequent.
 delay = 1000
@@ -11,7 +11,7 @@ delay = 1000
 kill_delay = 10
 
 include_ext = ["templ", "go", "js", "css"]
-exclude_dir = ["postgres", "vendor", "misc", "terraform", "dist"]
+exclude_dir = ["postgres", "vendor", "misc", "terraform", "dist", "node_modules"]
 exclude_regex = ["_templ\\.go"]
 
 [log]

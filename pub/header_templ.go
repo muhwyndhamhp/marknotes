@@ -25,17 +25,17 @@ func Header() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<meta charset=\"UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE-edge\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><script src=\"https://unpkg.com/htmx.org@1.9.9\"></script>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<meta charset=\"UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE-edge\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		if config.Get(config.ENV) != "dev" {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<script async src=\"https://resource.mwyndham.dev/dist/main.js\"></script> <link rel=\"stylesheet\" href=\"https://resource.mwyndham.dev/dist/tailwind.css\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<script src=\"https://resource.mwyndham.dev/dist/htmx.js\"></script> <script async src=\"https://resource.mwyndham.dev/dist/main.js\"></script> <script async src=\"https://resource.mwyndham.dev/dist/auth.js\"></script> <link rel=\"stylesheet\" href=\"https://resource.mwyndham.dev/dist/tailwind.css\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		} else {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<script async src=\"/dist/main.js\"></script> <link rel=\"stylesheet\" href=\"/dist/tailwind.css\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<script src=\"/dist/htmx.js\"></script> <script async src=\"/dist/main.js\"></script> <script async src=\"/dist/auth.js\"></script> <link rel=\"stylesheet\" href=\"/dist/tailwind.css\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

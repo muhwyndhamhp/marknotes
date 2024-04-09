@@ -23,6 +23,7 @@ import (
 	"github.com/muhwyndhamhp/marknotes/template"
 	"github.com/muhwyndhamhp/marknotes/utils/clerkauth"
 	"github.com/muhwyndhamhp/marknotes/utils/cloudbucket"
+	"github.com/muhwyndhamhp/marknotes/utils/imageprocessing"
 	"github.com/muhwyndhamhp/marknotes/utils/jwt"
 	"github.com/muhwyndhamhp/marknotes/utils/renderfile"
 	"github.com/muhwyndhamhp/marknotes/utils/routing"
@@ -51,7 +52,8 @@ func main() {
 
 	adminGroup := e.Group("")
 
-	bucket := cloudbucket.NewS3Client()
+	iproc := imageprocessing.NewClient()
+	bucket := cloudbucket.NewS3Client(iproc)
 	postRepo := _postRepo.NewPostRepository(db.GetLibSQLDB())
 	userRepo := _userRepo.NewUserRepository(db.GetLibSQLDB())
 	tagRepo := _tagRepo.NewTagRepository(db.GetLibSQLDB())
@@ -66,8 +68,13 @@ func main() {
 
 	service := jwt.Service{SecretKey: []byte(config.Get(config.JWT_SECRET))}
 	authMid := clerkClient.AuthMiddleware(userRepo)
-	authDescMid := echo.WrapMiddleware(clerk.WithSessionV2(clerkClient.Clerk, clerk.WithLeeway(10*time.Second)))
+	authDescMid := echo.WrapMiddleware(clerk.WithSessionV2(clerkClient.Clerk, clerk.WithLeeway(60*time.Second)))
 	byIDMid := middlewares.ByIDMiddleware()
+
+	e.GET("/touch", func(c echo.Context) error {
+		fmt.Println("touched")
+		return c.String(http.StatusOK, "OK")
+	}, authDescMid, authMid)
 
 	admin.NewAdminFrontend(adminGroup, postRepo, authDescMid)
 	post.NewPostFrontend(adminGroup, postRepo, bucket, htmxMid, authMid, authDescMid, byIDMid)
@@ -92,6 +99,16 @@ func main() {
 		}
 
 		_, err = bucket.UploadStatic(ctx, "dist/main.js", "", "text/javascript")
+		if err != nil {
+			e.Logger.Fatal(err)
+		}
+
+		_, err = bucket.UploadStatic(ctx, "dist/htmx.js", "", "text/javascript")
+		if err != nil {
+			e.Logger.Fatal(err)
+		}
+
+		_, err = bucket.UploadStatic(ctx, "dist/auth.js", "", "text/javascript")
 		if err != nil {
 			e.Logger.Fatal(err)
 		}

@@ -13,6 +13,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/credentials v1.17.7
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.51.4
 	github.com/clerkinc/clerk-sdk-go v1.49.0
+	github.com/disintegration/imaging v1.6.2
 	github.com/go-playground/validator/v10 v10.15.1
 	github.com/golang-jwt/jwt/v5 v5.0.0
 	github.com/gorilla/csrf v1.7.1
@@ -48,6 +49,7 @@ require (
 	github.com/libsql/sqlite-antlr4-parser v0.0.0-20230802215326-5cb5bb604475 // indirect
 	github.com/tursodatabase/libsql-client-go v0.0.0-20240220085343-4ae0eb9d0898 // indirect
 	golang.org/x/exp v0.0.0-20220722155223-a9213eeb770e // indirect
+	golang.org/x/image v0.0.0-20191009234506-e7c1f5e7dbb8 // indirect
 	nhooyr.io/websocket v1.8.7 // indirect
 )
 

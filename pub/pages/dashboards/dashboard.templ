@@ -3,7 +3,6 @@ package pub_dashboard
 import "github.com/muhwyndhamhp/marknotes/pub"
 import "github.com/muhwyndhamhp/marknotes/pub/variables"
 import "github.com/muhwyndhamhp/marknotes/pub/components/themepicker"
-import "github.com/muhwyndhamhp/marknotes/config"
 
 templ Dashboard(opts pub_variables.DashboardOpts) {
 	<!DOCTYPE html>
@@ -17,9 +16,6 @@ templ Dashboard(opts pub_variables.DashboardOpts) {
 		</head>
 		<body id="admin-root" class="bg-base-100">
 			<script async src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-			<script async src="https://unpkg.com/hyperscript.org@0.9.11"></script>
-			<script async crossorigin="anonymous" data-clerk-publishable-key={ config.Get(config.CLERK_PUBLISHABLE) } onload="window.Clerk.load()" src={ config.Get(config.CLERK_SRC_URL) } type="text/javascript">
-    </script>
 			@pub.Background()
 			<progress id="global-progress" class="htmx-indicator progress w-full top-0 fixed z-30"></progress>
 			@drawer(opts.Nav, opts.BreadCrumbs, opts.Comp, opts.NavItems...)
