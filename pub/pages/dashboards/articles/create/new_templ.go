@@ -187,6 +187,7 @@ func new(existingPost *models.Post, baseURL, uploadURL string) templ.Component {
                      end 
                      then set the @src of the first <img/> in me to it
                      then set the @value of #header_image_url to it
+                     then set the @alt of #header_image_url to "Blogpost Header Image"
                      then remove .hidden from the first <div/> in me
                      then add .hidden to the first <h1/> in me
                      then add .outline-transparent to me
@@ -262,7 +263,7 @@ func new(existingPost *models.Post, baseURL, uploadURL string) templ.Component {
 			var templ_7745c5c3_Var7 string
 			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(existingPost.Title)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/pages/dashboards/articles/create/new.templ`, Line: 149, Col: 26}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/pages/dashboards/articles/create/new.templ`, Line: 150, Col: 26}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 			if templ_7745c5c3_Err != nil {

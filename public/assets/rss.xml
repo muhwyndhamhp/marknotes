@@ -4,7 +4,7 @@
     <link>https://mwyndham.dev</link>
     <description>my persona blog, contain my personal thought and learning experience</description>
     <managingEditor>business@mwyndham.dev (M Wyndham)</managingEditor>
-    <pubDate>Tue, 09 Apr 2024 19:19:27 +0700</pubDate>
+    <pubDate>Thu, 11 Apr 2024 08:50:37 +0700</pubDate>
     <item>
       <title>I Made This Website Using HTMX + Go in One Month, Here&#39;s What I Learned</title>
       <link>http://localhost:4040/i-made-this-website-using-htmx-go-in.html</link>
@@ -307,6 +307,14 @@ e.GET(<span class="hljs-string">&#34;/hello&#34;</span>, <span class="hljs-funct
       <content:encoded><![CDATA[<p><img class="max-h-96 mx-auto" src="https://resource.mwyndham.dev/0-aaaa-20240409084840.gif"><br></p>]]></content:encoded>
       <author>M Wyndham</author>
       <pubDate>Tue, 09 Apr 2024 08:48:46 +0700</pubDate>
+    </item>
+    <item>
+      <title>Example of a blog with images and label</title>
+      <link>http://localhost:4040/example-of-a-blog-with-images-and-label.html</link>
+      <description></description>
+      <content:encoded><![CDATA[<p><img class="max-h-96 mx-auto" src="https://resource.mwyndham.dev/0-111-20240410085138.jpg" alt="alt 1"><img class="max-h-96 mx-auto" src="https://resource.mwyndham.dev/0-1111-20240410085147.jpg" alt="alt 2"><br></p><div hx-get="http://localhost:4040/dashboard/load-iframe?url=https%3A%2F%2Fwww.youtube-nocookie.com%2Fembed%2FezjDNGUB-eQ%3Fmodestbranding%3D1%26color%3Dwhite" hx-trigger="load delay:3s" hx-swap="innerHTML" title="YouTube video preview"><iframe class="mx-auto max-w-[320px] md:max-w-[512px] max-h-[240px] md:max-h-[288px]" width="640" height="480" title="YouTube Video Playback"></iframe></div>]]></content:encoded>
+      <author>M Wyndham</author>
+      <pubDate>Wed, 10 Apr 2024 08:53:03 +0700</pubDate>
     </item>
   </channel>
 </rss>

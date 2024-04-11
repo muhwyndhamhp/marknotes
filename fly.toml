@@ -21,3 +21,4 @@ primary_region = "sin"
 [mount]
   source = "marknotes_data"
   destination = "/store"
+  initial_size = "1gb"

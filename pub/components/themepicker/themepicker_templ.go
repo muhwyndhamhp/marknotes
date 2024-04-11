@@ -30,7 +30,7 @@ func ThemePickerMobile(themes []ThemeOption) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"dropdown dropdown-end md:hidden\"><div tabindex=\"0\" role=\"button\" class=\"btn btn-ghost btn-circle\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"dropdown dropdown-end md:hidden\"><div tabindex=\"0\" role=\"button\" class=\"btn btn-ghost btn-circle\" aria-labelledby=\"themeLabelMobile\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -38,7 +38,7 @@ func ThemePickerMobile(themes []ThemeOption) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><ul tabindex=\"0\" class=\"menu menu-xl md:menu-md menu-vertical dropdown-content z-[3] p-2 shadow bg-base-100 rounded-box\n         w-72 md:w-48\n      max-h-72 overflow-scroll\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"themeLabelMobile\" class=\"hidden\">Theme Picker Button for Mobile Devices</div></div><ul tabindex=\"0\" class=\"menu menu-xl md:menu-md menu-vertical dropdown-content z-[3] p-2 shadow bg-base-100 rounded-box w-72 md:w-48 max-h-72 overflow-scroll\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -73,7 +73,7 @@ func ThemePickerMobile(themes []ThemeOption) templ.Component {
 			var templ_7745c5c3_Var2 string
 			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(theme.Label)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/components/themepicker/themepicker.templ`, Line: 29, Col: 19}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/components/themepicker/themepicker.templ`, Line: 28, Col: 19}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 			if templ_7745c5c3_Err != nil {
@@ -108,7 +108,7 @@ func ThemePicker(themes []ThemeOption) templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"dropdown dropdown-end dropdown-hover hidden md:block\"><div tabindex=\"0\" role=\"button\" class=\"btn btn-ghost btn-circle\"><label class=\"swap swap-rotate\"><input id=\"dark-toggle\" type=\"checkbox\" _=\"\n               on change(input) \n                  get the (checked of the closest &lt;input/&gt;) \n               then\n                  js(it) \n                     window.toggleDarkMode(it); \n                     window.setMkTheme(null, !it); \n                  end\n               end\n\n               on load call window.initialState() end\n               \">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"dropdown dropdown-end dropdown-hover hidden md:block\"><div tabindex=\"0\" role=\"button\" class=\"btn btn-ghost btn-circle\" aria-labelledby=\"themeLabel\"><label class=\"swap swap-rotate\"><input id=\"dark-toggle\" type=\"checkbox\" _=\"\n               on change(input) \n                  get the (checked of the closest &lt;input/&gt;) \n               then\n                  js(it) \n                     window.toggleDarkMode(it); \n                     window.setMkTheme(null, !it); \n                  end\n               end\n\n               on load call window.initialState() end\n               \">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -120,7 +120,7 @@ func ThemePicker(themes []ThemeOption) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</label></div><ul tabindex=\"0\" class=\"menu menu-xl md:menu-md menu-vertical dropdown-content z-[3] p-2 shadow bg-base-100 rounded-box\n         w-72 md:w-48\n      max-h-72 overflow-scroll\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"themeLabel\" class=\"hidden\">Theme Darkmode Toggle and Selection</div></label></div><ul tabindex=\"0\" class=\"menu menu-xl md:menu-md menu-vertical dropdown-content z-[3] p-2 shadow bg-base-100 rounded-box\n         w-72 md:w-48\n      max-h-72 overflow-scroll\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

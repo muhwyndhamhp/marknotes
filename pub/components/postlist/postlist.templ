@@ -25,6 +25,7 @@ templ PostItem(post models.Post) {
 					<a
 						hx-boost="true"
 						hx-swap="outerHTML"
+						aria-label={ post.Title }
 						if post.Slug == "" {
 							href={ templ.SafeURL(fmt.Sprintf("/posts/%d", post.ID)) }
 						} else {

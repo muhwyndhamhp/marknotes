@@ -77,7 +77,7 @@ func RenderPosts(ctx context.Context, repo models.PostRepository, bucket *cloudb
 		fmt.Println(err)
 	}
 
-	if time.Since(lastRenderTime).Hours() < 6 && config.Get(config.ENV) != "dev" {
+	if time.Since(lastRenderTime).Hours() < 1 && config.Get(config.ENV) != "dev" {
 		return
 	}
 

@@ -48,7 +48,7 @@ window.setMkTheme = function(theme, isDark) {
       if (theme === null || theme === undefined) {
          theme = localStorage.getItem('mk-theme-dark')
          if (theme === null || theme === undefined) {
-            theme = 'night'
+            theme = 'sunset'
          }
       }
       localStorage.setItem('mk-theme-dark', theme)
@@ -56,7 +56,7 @@ window.setMkTheme = function(theme, isDark) {
       if (theme === null || theme === undefined) {
          theme = localStorage.getItem('mk-theme-light')
          if (theme === null || theme === undefined) {
-            theme = 'fantasy'
+            theme = 'autumn'
          }
       }
       localStorage.setItem('mk-theme-light', theme)

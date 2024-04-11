@@ -37,7 +37,7 @@ code {
 .hljs-name,
 .hljs-selector-id,
 .hljs-selector-class {
-    @apply text-teal-400;
+    @apply text-yellow-400;
 }
 
 .hljs-number,
@@ -53,7 +53,7 @@ code {
 .hljs-string,
 .hljs-symbol,
 .hljs-bullet {
-    @apply text-green-300;
+    @apply text-green-200;
 }
 
 .hljs-title,
@@ -63,7 +63,7 @@ code {
 
 .hljs-keyword,
 .hljs-selector-tag {
-    @apply text-cyan-400;
+    @apply text-cyan-200;
 }
 
 .hljs-emphasis {

@@ -27,6 +27,7 @@ module.exports = {
   ],
    daisyui: {
       themes:[
+         "autumn",
          "fantasy",
          "light",
          "dark",
@@ -49,7 +50,6 @@ module.exports = {
          "luxury",
          "dracula",
          "cmyk",
-         "autumn",
          "business",
          "acid",
          "lemonade",
@@ -60,6 +60,6 @@ module.exports = {
          "nord",
          "sunset",
       ],
-      darkTheme: "night",
+      darkTheme: "sunset",
    },
 }

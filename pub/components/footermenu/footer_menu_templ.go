@@ -35,7 +35,7 @@ func FooterMenu(buttons []pub_variables.InlineButton) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<p class=\"font-bold\">Marknotes by Wyndham<br></p><p>Copyright © 2024 - All right reserved</p></aside><nav><div class=\"grid grid-flow-col gap-4\"><a href=\"https://twitter.com/muhwyndham\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<p class=\"font-bold\">Marknotes by Wyndham<br></p><p>Copyright © 2024 - All right reserved</p></aside><nav><div class=\"grid grid-flow-col gap-4\"><a href=\"https://twitter.com/muhwyndham\" aria-label=\"Link to Twitter\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -43,7 +43,7 @@ func FooterMenu(buttons []pub_variables.InlineButton) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</a> <a href=\"https://www.youtube.com/channel/UCPmxWqF9kzhe-VrOylqH2AA\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</a> <a href=\"https://www.youtube.com/channel/UCPmxWqF9kzhe-VrOylqH2AA\" aria-label=\"Link to Youtube\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -51,7 +51,7 @@ func FooterMenu(buttons []pub_variables.InlineButton) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</a> <a href=\"https://github.com/muhwyndhamhp\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</a> <a href=\"https://github.com/muhwyndhamhp\" aria-label=\"Link to Github\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -59,7 +59,7 @@ func FooterMenu(buttons []pub_variables.InlineButton) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</a> <a href=\"https://mwyndham.medium.com\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</a> <a href=\"https://mwyndham.medium.com\" aria-label=\"Link to Medium\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -67,7 +67,7 @@ func FooterMenu(buttons []pub_variables.InlineButton) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</a> <a href=\"https://www.linkedin.com/in/m-wyndham-haryata-permana-b43ab2134/\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</a> <a href=\"https://www.linkedin.com/in/m-wyndham-haryata-permana-b43ab2134/\" aria-label=\"Link to LinkedIn\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -75,7 +75,7 @@ func FooterMenu(buttons []pub_variables.InlineButton) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</a> <a href=\"https://mwyndham.dev/rss.xml\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</a> <a href=\"https://mwyndham.dev/rss.xml\" aria-label=\"Link to RSS\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

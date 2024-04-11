@@ -37,7 +37,7 @@ templ buttonRows(buttons []pub_variables.InlineButton) {
 }
 
 templ titleHome(isInline bool, baseURL string) {
-	<a hx-boost="true" href={ templ.SafeURL(baseURL) }>
+	<a hx-boost="true" href={ templ.SafeURL(baseURL) } aria-label="Link to Homepage">
 		<h1
 			if !isInline {
 				class="mt-16 mb-6 text-4xl text-info font-extrabold hidden md:flex justify-center"
@@ -52,8 +52,9 @@ templ titleHome(isInline bool, baseURL string) {
 
 templ mobileMenu(buttons []pub_variables.InlineButton) {
 	<div class="dropdown md:hidden">
-		<div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+		<div tabindex="0" role="button" class="btn btn-ghost btn-circle" aria-labelledby="mainMenuLabel">
 			@pub_assets.Menu()
+			<div id="mainMenuLabel" class="hidden">Main Menu Button for Mobile Devices</div>
 		</div>
 		<ul
 			tabindex="0"
@@ -62,6 +63,7 @@ templ mobileMenu(buttons []pub_variables.InlineButton) {
 			for _, btn := range buttons {
 				<li>
 					<a
+						aria-label={ btn.Label }
 						if btn.IsBoosted {
 							hx-boost="true"
 						} else {
