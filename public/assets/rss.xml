@@ -4,7 +4,7 @@
     <link>https://mwyndham.dev</link>
     <description>my persona blog, contain my personal thought and learning experience</description>
     <managingEditor>business@mwyndham.dev (M Wyndham)</managingEditor>
-    <pubDate>Thu, 11 Apr 2024 08:50:37 +0700</pubDate>
+    <pubDate>Sun, 14 Apr 2024 10:37:25 +0700</pubDate>
     <item>
       <title>I Made This Website Using HTMX + Go in One Month, Here&#39;s What I Learned</title>
       <link>http://localhost:4040/i-made-this-website-using-htmx-go-in.html</link>
@@ -315,6 +315,14 @@ e.GET(<span class="hljs-string">&#34;/hello&#34;</span>, <span class="hljs-funct
       <content:encoded><![CDATA[<p><img class="max-h-96 mx-auto" src="https://resource.mwyndham.dev/0-111-20240410085138.jpg" alt="alt 1"><img class="max-h-96 mx-auto" src="https://resource.mwyndham.dev/0-1111-20240410085147.jpg" alt="alt 2"><br></p><div hx-get="http://localhost:4040/dashboard/load-iframe?url=https%3A%2F%2Fwww.youtube-nocookie.com%2Fembed%2FezjDNGUB-eQ%3Fmodestbranding%3D1%26color%3Dwhite" hx-trigger="load delay:3s" hx-swap="innerHTML" title="YouTube video preview"><iframe class="mx-auto max-w-[320px] md:max-w-[512px] max-h-[240px] md:max-h-[288px]" width="640" height="480" title="YouTube Video Playback"></iframe></div>]]></content:encoded>
       <author>M Wyndham</author>
       <pubDate>Wed, 10 Apr 2024 08:53:03 +0700</pubDate>
+    </item>
+    <item>
+      <title>title goes here</title>
+      <link>http://localhost:4040/title-goes-here.html</link>
+      <description></description>
+      <content:encoded><![CDATA[<p>This is happening in not real time. Is it working correctly? yes it seems. </p><p>then what happened if we add title. </p><p><br></p><p>typing here does not feels right. or is it?</p><p>every 1,2,3,4,5,6,7,8,89,9,1,2,393,304,494,439</p><p>1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,</p><p><br></p><p><img class="max-h-96 mx-auto" src="https://resource.mwyndham.dev/0-photo_2023-03-19_10.40.43-20240414103648.jpeg" alt="steam deck"><br></p><p>dskskdjskdjskdjsk</p>]]></content:encoded>
+      <author>M Wyndham</author>
+      <pubDate>Sun, 14 Apr 2024 10:37:11 +0700</pubDate>
     </item>
   </channel>
 </rss>

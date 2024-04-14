@@ -67,7 +67,7 @@ func submitButton(existingID uint) templ.Component {
 			templ_7745c5c3_Var2 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"w-full flex flex-row justify-between py-6 join join-horizontal\"><button class=\"btn btn-primary btn-lg flex-grow join-item\" hx-post=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"w-full flex flex-row justify-between py-6 join join-horizontal\"><button id=\"publish-button\" class=\"btn btn-primary btn-lg flex-grow join-item\" hx-post=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -90,7 +90,7 @@ func submitButton(existingID uint) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" hx-vals=\"js:{content_json: window.editor.getJSON()}\" hx-indicator=\"#global-progress\">Publish</button> <button class=\"btn btn-secondary btn-lg flex-grow join-item\" hx-post=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" hx-vals=\"js:{content_json: window.editor.getJSON()}\" hx-indicator=\"#global-progress\">Publish</button> <button id=\"draft-button\" class=\"btn btn-secondary btn-lg flex-grow join-item\" hx-post=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -169,22 +169,22 @@ func new(existingPost *models.Post, baseURL, uploadURL string) templ.Component {
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(fmt.Sprintf(`
                   on dragover
                      halt the event
-                     then remove .outline-secondary from me 
+                     then remove .outline-secondary from me
                      then remove .text-primary from the first <h1/> in me
                   end
 
                   on dragleave
-                     add .outline-secondary to me 
+                     add .outline-secondary to me
                      then add .text-primary to the first <h1/> in me
                   end
 
                   on drop
-                     remove .outline-secondary from me 
+                     remove .outline-secondary from me
                      then remove .text-primary from the first <h1/> in me
                      then call window.headerUpload(event, '%s')
-                     js(it) 
-                        return JSON.parse(it).data.url 
-                     end 
+                     js(it)
+                        return JSON.parse(it).data.url
+                     end
                      then set the @src of the first <img/> in me to it
                      then set the @value of #header_image_url to it
                      then set the @alt of #header_image_url to "Blogpost Header Image"
@@ -218,7 +218,7 @@ func new(existingPost *models.Post, baseURL, uploadURL string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><div class=\"btn btn-circle btn-neutral absolute top-2 right-2\" _=\"\n            on click \n               halt the event\n               then set the @value of #header_image_url to &#39;&#39;\n               then add .hidden to the closest parent &lt;div/&gt;\n               then remove .hidden from the first &lt;h1/&gt; in #header-image-base\n               then remove .outline-transparent from #header-image-base\n            end\n            \">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><div class=\"btn btn-circle btn-neutral absolute top-2 right-2\" _=\"\n            on click\n               halt the event\n               then set the @value of #header_image_url to &#39;&#39;\n               then add .hidden to the closest parent &lt;div/&gt;\n               then remove .hidden from the first &lt;h1/&gt; in #header-image-base\n               then remove .outline-transparent from #header-image-base\n            end\n            \">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -255,7 +255,7 @@ func new(existingPost *models.Post, baseURL, uploadURL string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">Drop Header Image Here...</h1></div><textarea placeholder=\"Blog title goes here...\" class=\"text-2xl md:text-4xl textarea textarea-xs textarea-ghost font-extrabold\n               resize-y\n               align-middle\n               text-justify placeholder:text-2xl placeholder:font-normal border-transparent w-full p-6\n               mt-4 focus:outline-none min-h-1 bg-base-100 rounded-b-none rounded-t-box\" type=\"text\" name=\"title\" rows=\"2\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">Drop Header Image Here...</h1></div><textarea placeholder=\"Blog title goes here...\" class=\"text-2xl md:text-4xl textarea textarea-xs textarea-ghost font-extrabold\n               resize-y\n               align-middle\n               text-justify placeholder:text-2xl placeholder:font-normal border-transparent w-full p-6\n               mt-4 focus:outline-none min-h-1 bg-base-100 rounded-b-none rounded-t-box\" type=\"text\" name=\"title\" id=\"blog-title\" rows=\"2\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -263,7 +263,7 @@ func new(existingPost *models.Post, baseURL, uploadURL string) templ.Component {
 			var templ_7745c5c3_Var7 string
 			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(existingPost.Title)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/pages/dashboards/articles/create/new.templ`, Line: 150, Col: 26}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/pages/dashboards/articles/create/new.templ`, Line: 153, Col: 26}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 			if templ_7745c5c3_Err != nil {
@@ -328,6 +328,24 @@ func new(existingPost *models.Post, baseURL, uploadURL string) templ.Component {
 				return templ_7745c5c3_Err
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(TagsToCommaSeparated(existingPost.Tags)))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("> <input class=\"hidden\" name=\"status\" type=\"text\" id=\"status\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		if existingPost != nil {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" value=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(existingPost.Status)))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
