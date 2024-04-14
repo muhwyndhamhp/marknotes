@@ -2,6 +2,7 @@ package pub_dashboards_articles
 
 import "github.com/muhwyndhamhp/marknotes/pub/variables"
 import "github.com/muhwyndhamhp/marknotes/pkg/models"
+import "github.com/muhwyndhamhp/marknotes/pub/assets"
 import "github.com/muhwyndhamhp/marknotes/pub/pages/dashboards"
 import "fmt"
 
@@ -121,7 +122,7 @@ templ articleTable(posts []models.Post, attrs templ.Attributes) {
 					<th>Title</th>
 					<th>Created At</th>
 					<th>Status</th>
-					<th></th>
+					<th>Actions</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -147,6 +148,22 @@ templ articleRow(post models.Post) {
 					templ.KV("badge-accent text-accent-content", post.Status == "draft"),
 				}
 			>{ string(post.Status) }</div>
+		</th>
+		<th>
+			<div class="dropdown dropdown-end">
+				<div tabindex="0" role="button" class="btn btn-ghost">
+					@pub_assets.Setting(6)
+				</div>
+				<ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+					<li
+						hx-target="closest tr"
+						hx-swap="outerHTML"
+						hx-put={ fmt.Sprintf("/dashboard/articles/%d/delete", post.ID) }
+					><span>Delete</span></li>
+					<li><a href={ templ.SafeURL(fmt.Sprintf("/dashboard/articles/%d/export/html", post.ID)) }>Export (HTML)</a></li>
+					<li><a href={ templ.SafeURL(fmt.Sprintf("/dashboard/articles/%d/export/json", post.ID)) }>Export (JSON)</a></li>
+				</ul>
+			</div>
 		</th>
 	</tr>
 }

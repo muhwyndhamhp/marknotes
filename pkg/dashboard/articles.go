@@ -271,3 +271,22 @@ func (fe *DashboardFrontend) ArticlesPush(c echo.Context) error {
 		return templates.AssertRender(c, http.StatusOK, articlesNew)
 	}
 }
+
+func (fe *DashboardFrontend) ArticlesDelete(c echo.Context) error {
+	ctx := c.Request().Context()
+	id, _ := strconv.Atoi(c.Param("id"))
+
+	err := fe.PostRepo.Delete(ctx, uint(id))
+	if err != nil {
+		return err
+	}
+
+	go func() {
+		err := rss.GenerateRSS(ctx, fe.PostRepo)
+		if err != nil {
+			fmt.Println(err)
+		}
+	}()
+
+	return templates.RenderEmpty(c)
+}

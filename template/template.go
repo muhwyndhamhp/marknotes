@@ -42,6 +42,10 @@ func AssertRender(c echo.Context, statusCode int, component templ.Component) err
 	return c.Render(statusCode, "templ", component)
 }
 
+func RenderEmpty(c echo.Context) error {
+	return c.HTML(200, "")
+}
+
 func AssertRenderLog(c echo.Context, statusCode int, component templ.Component) error {
 	return c.Render(statusCode, "templ-log", component)
 }

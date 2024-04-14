@@ -108,7 +108,7 @@ const debouncePush = debounce(() => {
 
     document.getElementById('draft-button').click()
   }
-}, 2_000) // 2000 miliseconds = 2 second
+}, 2_000) // 20 second
 
 function debounce(callback, delay) {
   let timerID;

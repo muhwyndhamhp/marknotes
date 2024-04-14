@@ -39,9 +39,12 @@ func NewDashboardFrontend(
 		return c.Redirect(301, "/dashboard/articles/"+c.Param("id")+"/edit")
 	}, authDescribeMid, authMid)
 	g.GET("/dashboard/articles/:id/edit", fe.ArticlesEdit, authDescribeMid, authMid)
+	g.PUT("/dashboard/articles/:id/delete", fe.ArticlesDelete, authDescribeMid, authMid)
 	g.GET("/dashboard/profile", fe.Profile, authDescribeMid, authMid)
 	g.GET("/dashboard/editor", fe.Editor, authDescribeMid, authMid)
 	g.GET("/dashboard/tags", fe.Tags, authDescribeMid, authMid)
+	g.GET("/dashboard/articles/:id/export/html", fe.ExportHTML, authDescribeMid, authMid)
+	g.GET("/dashboard/articles/:id/export/json", fe.ExportJSON, authDescribeMid, authMid)
 	g.GET("/dismiss", func(c echo.Context) error {
 		// return empty html
 		return c.HTML(200, "")
