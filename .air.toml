@@ -2,7 +2,7 @@
 pre_cmd = [
   "bun run dev",
   "templ generate",
-  "bunx tailwindcss -i ./src/main.css -o ./dist/tailwind.css"
+  "bun run build:tailwind"
 ]
 # It's not necessary to trigger build each time file changes if it's too frequent.
 delay = 1000

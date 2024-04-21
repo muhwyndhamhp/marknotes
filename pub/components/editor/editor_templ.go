@@ -67,6 +67,7 @@ func Editor(uploadURL string) templ.Component {
                 editor.chain().focus().setImage({ 
                   src: url, 
                   alt: document.querySelector("#imageAltDialog input").value,
+                  loading: "lazy",
                 })
                 .run()
                 window.uploadEvt = null

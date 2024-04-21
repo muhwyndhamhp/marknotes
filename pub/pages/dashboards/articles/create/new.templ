@@ -246,7 +246,7 @@ templ uploadHeaderImage() {
          const formData = new FormData()
          formData.append("file", file)
 
-         let res = fetch(url, {
+         let res = fetch(url + "?size=600", {
             method: "POST",
             body: formData,
             contentType: "multipart/form-data"

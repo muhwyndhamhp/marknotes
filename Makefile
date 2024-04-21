@@ -28,6 +28,6 @@ build:
 
 deploy:
 	@templ generate 
-	@bunx tailwindcss -i ./src/main.css -o ./dist/tailwind.css --minify
+	@bun run build:tailwind
 	@bun run build
 	@flyctl deploy

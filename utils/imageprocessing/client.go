@@ -5,6 +5,7 @@ import (
 	"mime/multipart"
 
 	"github.com/disintegration/imaging"
+	"github.com/muhwyndhamhp/marknotes/utils/tern"
 )
 
 type Client struct{}
@@ -13,7 +14,7 @@ func NewClient() *Client {
 	return &Client{}
 }
 
-func (cl *Client) ResizeImage(file *multipart.FileHeader) (*bytes.Reader, int, error) {
+func (cl *Client) ResizeImage(file *multipart.FileHeader, size int) (*bytes.Reader, int, error) {
 	reader, err := file.Open()
 	if err != nil {
 		return nil, -1, err
@@ -26,7 +27,7 @@ func (cl *Client) ResizeImage(file *multipart.FileHeader) (*bytes.Reader, int, e
 		return nil, -1, err
 	}
 
-	dstImage800 := imaging.Resize(src, 1200, 0, imaging.Lanczos)
+	dstImage800 := imaging.Resize(src, tern.Int(size, 1200), 0, imaging.Lanczos)
 
 	var b []byte
 	w := bytes.NewBuffer(b)

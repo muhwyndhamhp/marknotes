@@ -68,6 +68,9 @@ func (fe *PostFrontend) PostMediaUpload(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	ctx := c.Request().Context()
 
+	imgSize := c.QueryParam("size")
+	size, _ := strconv.Atoi(imgSize)
+
 	f, err := c.FormFile("file")
 	if err != nil {
 		return err
@@ -78,7 +81,7 @@ func (fe *PostFrontend) PostMediaUpload(c echo.Context) error {
 		return resp.HTTPBadRequest(c, "NOT_SUPPORTED", "file type not supported")
 	}
 
-	url, err := fe.bucket.UploadMedia(ctx, f, fmt.Sprintf("%d", id), ct)
+	url, err := fe.bucket.UploadMedia(ctx, f, fmt.Sprintf("%d", id), ct, size)
 	if err != nil {
 		return err
 	}

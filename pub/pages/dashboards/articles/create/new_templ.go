@@ -406,7 +406,7 @@ func uploadHeaderImage() templ.Component {
 			templ_7745c5c3_Var8 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<script type=\"text/javascript\">\n      window.headerUpload = async function(ev, url) {\n         ev.preventDefault()\n         if(ev.dataTransfer.files.length === 0) {\n            return\n         }\n\n         file = ev.dataTransfer.files[0]\n\n         Swal.showLoading()\n\n         const formData = new FormData()\n         formData.append(\"file\", file)\n\n         let res = fetch(url, {\n            method: \"POST\",\n            body: formData,\n            contentType: \"multipart/form-data\"\n         })\n         .then((response) => {return response.text()});\n         return res\n      }\n   </script>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<script type=\"text/javascript\">\n      window.headerUpload = async function(ev, url) {\n         ev.preventDefault()\n         if(ev.dataTransfer.files.length === 0) {\n            return\n         }\n\n         file = ev.dataTransfer.files[0]\n\n         Swal.showLoading()\n\n         const formData = new FormData()\n         formData.append(\"file\", file)\n\n         let res = fetch(url + \"?size=600\", {\n            method: \"POST\",\n            body: formData,\n            contentType: \"multipart/form-data\"\n         })\n         .then((response) => {return response.text()});\n         return res\n      }\n   </script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

@@ -39,7 +39,8 @@ export const editor = new Editor({
     Image.configure({
       inline: true,
       HTMLAttributes: {
-        class: 'max-h-96 mx-auto'
+        class: 'max-h-96 mx-auto',
+        loading: 'lazy',
       }
     }), 
     Link.configure({

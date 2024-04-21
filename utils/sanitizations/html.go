@@ -25,6 +25,7 @@ func SanitizeHtml(escapedHTML string) string {
 			)).
 		OnElements("span", "code", "pre")
 
+	p.AllowAttrs("loading").OnElements("img")
 	p.AllowAttrs("hx-get").OnElements("div")
 	p.AllowAttrs("hx-swap").OnElements("div")
 	p.AllowAttrs("hx-trigger").OnElements("div")

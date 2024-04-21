@@ -73,7 +73,7 @@ func (c *S3Client) UploadStatic(ctx context.Context, filename, exludePrefix stri
 	return fmt.Sprintf("https://resource.mwyndham.dev/%s", file.Name()), nil
 }
 
-func (c *S3Client) UploadMedia(ctx context.Context, f *multipart.FileHeader, prefix string, contentType string) (string, error) {
+func (c *S3Client) UploadMedia(ctx context.Context, f *multipart.FileHeader, prefix string, contentType string, size int) (string, error) {
 	fname := strings.ReplaceAll(f.Filename, " ", "_")
 	name := fmt.Sprintf("%s-%s", prefix, storage.AppendTimestamp(fname))
 	obj := &s3.PutObjectInput{
@@ -83,7 +83,7 @@ func (c *S3Client) UploadMedia(ctx context.Context, f *multipart.FileHeader, pre
 	}
 
 	if contentType != "image/gif" {
-		r, size, err := c.iproc.ResizeImage(f)
+		r, size, err := c.iproc.ResizeImage(f, size)
 		if err != nil {
 			return "", err
 		}
