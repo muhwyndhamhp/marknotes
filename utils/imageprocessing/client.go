@@ -2,9 +2,13 @@ package imageprocessing
 
 import (
 	"bytes"
+	"image/jpeg"
+	"log"
 	"mime/multipart"
 
 	"github.com/disintegration/imaging"
+	"github.com/kolesa-team/go-webp/encoder"
+	"github.com/kolesa-team/go-webp/webp"
 	"github.com/muhwyndhamhp/marknotes/utils/tern"
 )
 
@@ -37,6 +41,25 @@ func (cl *Client) ResizeImage(file *multipart.FileHeader, size int) (*bytes.Read
 	}
 
 	r := bytes.NewReader(w.Bytes())
+
+	options, err := encoder.NewLossyEncoderOptions(encoder.PresetDefault, 75)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	img, err := jpeg.Decode(r)
+	if err != nil {
+		return nil, -1, err
+	}
+
+	var o []byte
+	wo := bytes.NewBuffer(o)
+	err = webp.Encode(wo, img, options)
+	if err != nil {
+		return nil, -1, err
+	}
+
+	r = bytes.NewReader(wo.Bytes())
 
 	return r, int(r.Size()), nil
 }

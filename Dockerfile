@@ -1,6 +1,6 @@
 FROM golang:1.22-alpine3.19 as builder
 
-RUN apk update && apk add git make bash
+RUN apk update && apk add git make bash musl-dev gcc libwebp-dev
 
 WORKDIR /app
 
@@ -14,6 +14,8 @@ RUN make build
 FROM alpine:latest
 
 WORKDIR /app
+
+RUN apk update && apk add libwebp
 
 COPY --from=builder /app/main /app/
 COPY --from=builder /app/public /app/public

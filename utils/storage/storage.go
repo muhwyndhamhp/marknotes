@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/muhwyndhamhp/marknotes/config"
+	"github.com/muhwyndhamhp/marknotes/utils/tern"
 )
 
 func ServeFile(filename string) (string, error) {
@@ -21,10 +22,10 @@ func ServeFile(filename string) (string, error) {
 	return filePath, nil
 }
 
-func AppendTimestamp(fileName string) string {
+func AppendTimestamp(fileName, newExt string) string {
 	extension := filepath.Ext(fileName)
 	name := fileName[0 : len(fileName)-len(extension)]
-	fileName = fmt.Sprintf("%s-%s%s", name, time.Now().Format("20060102150405"), extension)
+	fileName = fmt.Sprintf("%s-%s%s", name, time.Now().Format("20060102150405"), tern.String(newExt, extension))
 	return fileName
 }
 

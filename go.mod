@@ -20,6 +20,7 @@ require (
 	github.com/gorilla/feeds v1.1.2
 	github.com/h2non/bimg v1.1.9
 	github.com/joho/godotenv v1.5.1
+	github.com/kolesa-team/go-webp v1.0.4
 	github.com/labstack/echo/v4 v4.11.1
 	github.com/renxzen/gorm-libsql v0.0.0-20240301223231-6621a843345a
 	golang.org/x/time v0.3.0
@@ -49,7 +50,7 @@ require (
 	github.com/libsql/sqlite-antlr4-parser v0.0.0-20230802215326-5cb5bb604475 // indirect
 	github.com/tursodatabase/libsql-client-go v0.0.0-20240220085343-4ae0eb9d0898 // indirect
 	golang.org/x/exp v0.0.0-20220722155223-a9213eeb770e // indirect
-	golang.org/x/image v0.0.0-20191009234506-e7c1f5e7dbb8 // indirect
+	golang.org/x/image v0.0.0-20210628002857-a66eb6448b8d // indirect
 	nhooyr.io/websocket v1.8.7 // indirect
 )
 

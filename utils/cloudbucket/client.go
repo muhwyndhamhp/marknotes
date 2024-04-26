@@ -75,10 +75,9 @@ func (c *S3Client) UploadStatic(ctx context.Context, filename, exludePrefix stri
 
 func (c *S3Client) UploadMedia(ctx context.Context, f *multipart.FileHeader, prefix string, contentType string, size int) (string, error) {
 	fname := strings.ReplaceAll(f.Filename, " ", "_")
-	name := fmt.Sprintf("%s-%s", prefix, storage.AppendTimestamp(fname))
+	name := ""
 	obj := &s3.PutObjectInput{
 		Bucket:      aws.String(defaultBucketName),
-		Key:         aws.String(name),
 		ContentType: aws.String(contentType),
 	}
 
@@ -89,10 +88,14 @@ func (c *S3Client) UploadMedia(ctx context.Context, f *multipart.FileHeader, pre
 		}
 		intSize := int64(size)
 
+		name = fmt.Sprintf("%s-%s", prefix, storage.AppendTimestamp(fname, ".webp"))
+		obj.Key = aws.String(name)
 		obj.Body = r
 		obj.ContentLength = &intSize
-		obj.ContentType = aws.String("image/jpeg")
+		obj.ContentType = aws.String("image/webp")
 	} else {
+		name = fmt.Sprintf("%s-%s", prefix, storage.AppendTimestamp(fname, ""))
+		obj.Key = aws.String(name)
 		file, err := f.Open()
 		if err != nil {
 			return "", err
