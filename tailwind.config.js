@@ -2,7 +2,7 @@ const defaultTheme = require('tailwindcss/defaultTheme')
 const plugin = require('tailwindcss/plugin');
 
 module.exports = {
-   darkMode: 'class',
+  darkMode: 'class',
   content: ["./pub/**/*.templ", "./src/**/*.js"],
   theme: {
     screens: {
@@ -23,41 +23,11 @@ module.exports = {
       })
      }),
      require('@tailwindcss/typography'),
-     require("daisyui")
+     require('daisyui')
   ],
    daisyui: {
       themes:[
          "autumn",
-         "fantasy",
-         "light",
-         "dark",
-         "cupcake",
-         "bumblebee",
-         "emerald",
-         "corporate",
-         "synthwave",
-         "retro",
-         "cyberpunk",
-         "valentine",
-         "halloween",
-         "garden",
-         "forest",
-         "aqua",
-         "lofi",
-         "pastel",
-         "wireframe",
-         "black",
-         "luxury",
-         "dracula",
-         "cmyk",
-         "business",
-         "acid",
-         "lemonade",
-         "night",
-         "coffee",
-         "winter",
-         "dim",
-         "nord",
          "sunset",
       ],
       darkTheme: "sunset",

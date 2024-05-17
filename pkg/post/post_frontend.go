@@ -135,7 +135,7 @@ func (fe *PostFrontend) GetPostByID(c echo.Context) error {
 		return err
 	}
 
-	return c.Redirect(http.StatusFound, fmt.Sprintf("/articles/%s", post.Slug))
+	return c.Redirect(http.StatusFound, fmt.Sprintf("/articles/%s.html", post.Slug))
 }
 
 func (fe *PostFrontend) PostsGet(c echo.Context) error {
