@@ -7,6 +7,10 @@ https://github.com/muhwyndhamhp/marknotes/assets/34619560/97c67728-ffb4-4aea-98f
 
 
 
+## Where to see it?
+Currently used by me as my personal blog, you can see it at https://mwyndham.dev/
+
+## Features
 All of the features include:
 - WYSIWYG Editor w/ Markdown Keybinding (Support most Markdown formatting)
 - Drag and Drop Image Upload
