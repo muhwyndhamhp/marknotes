@@ -19,28 +19,26 @@ templ PostItem(post models.Post) {
 			hx-swap="afterend"
 		}
 	>
-		<div class="px-auto relative mx-auto w-full bg-base-100 md:card shadow-xl self-center  p-6 md:mx-auto md:my-4 md:max-w-3xl md:px-0 lg:max-w-4xl">
-			<div class="mx-4">
-				<h2 class="text-2xl font-extrabold hover:text-accent">
-					<a
-						hx-boost="true"
-						hx-swap="outerHTML"
-						aria-label={ post.Title }
-						if post.Slug == "" {
-							href={ templ.SafeURL(fmt.Sprintf("/posts/%d", post.ID)) }
-						} else {
-							href={ templ.SafeURL(fmt.Sprintf("/articles/%s.html", post.Slug)) }
-						}
-					>{ post.Title }</a>
-				</h2>
-				@PostMetadata(post)
-			</div>
+		<div class="md:px-4 py-3 md:mb-6">
+			<h2 class="text-2xl font-extrabold hover:text-accent">
+				<a
+					hx-boost="true"
+					hx-swap="outerHTML"
+					aria-label={ post.Title }
+					if post.Slug == "" {
+						href={ templ.SafeURL(fmt.Sprintf("/posts/%d", post.ID)) }
+					} else {
+						href={ templ.SafeURL(fmt.Sprintf("/articles/%s.html", post.Slug)) }
+					}
+				>{ post.Title }</a>
+			</h2>
+			@PostMetadata(post)
 		</div>
 	</div>
 }
 
 templ PostMetadata(post models.Post) {
-	<p class={ "font-mono text-sm mt-2 text-accent", templ.KV("text-center", post.FormMeta["CenterAlign"] == true) }>
+	<p class={ "font-mono text-sm mt-2 text-accent brightness-90 dark:text-accent", templ.KV("text-center", post.FormMeta["CenterAlign"] == true) }>
 		Created: { post.CreatedAt.Format("Jan, 02 2006") } | 
 		Updated: { post.UpdatedAt.Format("Jan, 02 2006") } | 
 		Published: { post.PublishedAt.Format("Jan, 02 2006") }
@@ -49,7 +47,7 @@ templ PostMetadata(post models.Post) {
 	<div id="tag-flex" class="w-12/12 -ms-1 flex flex-row flex-wrap">
 		for _, tagLit:= range renderTagsLiteral(post.TagsLiteral) {
 			if tagLit != "" {
-				<div class="badge badge-outline badge-primary mx-1 my-2">{ tagLit }</div>
+				<div class="badge badge-outline badge-primary brightness-90 mx-1 my-2">{ tagLit }</div>
 			}
 		}
 	</div>

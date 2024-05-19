@@ -31,6 +31,7 @@ func Index(body pub_variables.BodyOpts) templ.Component {
 			HeaderButtons: body.HeaderButtons,
 			FooterButtons: body.FooterButtons,
 			Component:     index(),
+			HideTitle:     body.HideTitle,
 		}).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -63,7 +64,7 @@ func index() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<br><h2 class=\"py-4 font-semibold text-lg px-4\">Latest Articles</h2></div><div id=\"admin-content\"><div hx-get=\"/posts?page=1&amp;pageSize=5&amp;status=published&amp;sortBy=published_at&amp;loadNext=false\" hx-trigger=\"load\"></div></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<br><div class=\"card card-body bg-base-100 md:card mt-6\"><div id=\"admin-content\"><div hx-get=\"/posts?page=1&amp;pageSize=5&amp;status=published&amp;sortBy=published_at&amp;loadNext=false\" hx-trigger=\"load\"></div></div></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

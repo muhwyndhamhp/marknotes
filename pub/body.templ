@@ -17,7 +17,7 @@ templ Body(opts pub_variables.BodyOpts) {
 		<body id="admin-root" class="bg-base-100 dark:bg-base-300">
 			@Background()
 			<div class="relative flex flex-col justify-center overflow-hidden">
-				@pub_mainmenu.MainMenu(opts.HeaderButtons)
+				@pub_mainmenu.MainMenu(opts.HeaderButtons, !opts.HideTitle)
 				<br/>
 				<div class="min-h-screen">
 					@opts.Component

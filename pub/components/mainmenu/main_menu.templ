@@ -5,11 +5,11 @@ import "github.com/muhwyndhamhp/marknotes/pub/base"
 import "github.com/muhwyndhamhp/marknotes/pub/components/themepicker"
 import "github.com/muhwyndhamhp/marknotes/pub/assets"
 
-templ MainMenu(buttons []pub_variables.InlineButton) {
+templ MainMenu(buttons []pub_variables.InlineButton, showTitle bool) {
 	<header class="text-center">
 		<div class="w-full flex-row justify-center">
 			@buttonRows(buttons)
-			@titleHome(false, buttons[0].BaseURL)
+			@titleHome(false, showTitle, buttons[0].BaseURL)
 		</div>
 	</header>
 }
@@ -24,25 +24,31 @@ templ buttonRows(buttons []pub_variables.InlineButton) {
 		<div class="navbar-center flex">
 			<ul class="menu menu-horizontal px-1">
 				<li class="md:hidden">
-					@titleHome(true, buttons[0].BaseURL)
+					@titleHome(true, true, buttons[0].BaseURL)
 				</li>
 				@desktopMenu(buttons)
 			</ul>
 		</div>
 		<div class="navbar-end">
-			@pub_themepicker.ThemePickerMobile(pub_themepicker.DefaultThemes)
 			@pub_themepicker.ThemePicker(pub_themepicker.DefaultThemes)
 		</div>
 	</div>
 }
 
-templ titleHome(isInline bool, baseURL string) {
-	<a hx-boost="true" href={ templ.SafeURL(baseURL) } aria-label="Link to Homepage">
+templ titleHome(isInline, showTitle bool, baseURL string) {
+	<a
+		hx-boost="true"
+		href={ templ.SafeURL(baseURL) }
+		aria-label="Link to Homepage"
+		if !showTitle && !isInline {
+			class="hidden"
+		}
+	>
 		<h1
 			if !isInline {
-				class="mt-16 mb-6 text-4xl text-info font-extrabold hidden md:flex justify-center"
+				class="mt-16 mb-6 text-4xl font-extrabold hidden md:flex justify-center"
 			} else {
-				class="text-2xl text-info font-extrabold"
+				class="text-2xl font-extrabold"
 			}
 		>
 			mwyndham.dev

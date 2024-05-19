@@ -38,7 +38,7 @@ templ postDetail(post models.Post) {
 
 templ TitleGroup(post models.Post) {
 	<div
-		class={ "mt-2 mx-8 grow align-middle flex flex-col z-[2] pt-8 pb-20",  templ.KV("invert dark:invert-0",
+		class={ "mt-2 mx-8 grow align-middle flex flex-col z-[2] pt-8 pb-20",  templ.KV("text-gray-100 dark:text-base-content dark:invert-0",
   post.HeaderImageURL != "") }
 	>
 		<h1 class="text-2xl md:text-4xl font-extrabold">{ post.Title }</h1>

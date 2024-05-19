@@ -53,7 +53,7 @@ func Body(opts pub_variables.BodyOpts) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = pub_mainmenu.MainMenu(opts.HeaderButtons).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = pub_mainmenu.MainMenu(opts.HeaderButtons, !opts.HideTitle).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

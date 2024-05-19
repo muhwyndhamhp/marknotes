@@ -15,7 +15,7 @@ import "github.com/muhwyndhamhp/marknotes/pub/base"
 import "github.com/muhwyndhamhp/marknotes/pub/components/themepicker"
 import "github.com/muhwyndhamhp/marknotes/pub/assets"
 
-func MainMenu(buttons []pub_variables.InlineButton) templ.Component {
+func MainMenu(buttons []pub_variables.InlineButton, showTitle bool) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -36,7 +36,7 @@ func MainMenu(buttons []pub_variables.InlineButton) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = titleHome(false, buttons[0].BaseURL).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = titleHome(false, showTitle, buttons[0].BaseURL).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -89,7 +89,7 @@ func buttonRows(buttons []pub_variables.InlineButton) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = titleHome(true, buttons[0].BaseURL).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = titleHome(true, true, buttons[0].BaseURL).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -102,10 +102,6 @@ func buttonRows(buttons []pub_variables.InlineButton) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</ul></div><div class=\"navbar-end\">")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = pub_themepicker.ThemePickerMobile(pub_themepicker.DefaultThemes).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -124,7 +120,7 @@ func buttonRows(buttons []pub_variables.InlineButton) templ.Component {
 	})
 }
 
-func titleHome(isInline bool, baseURL string) templ.Component {
+func titleHome(isInline, showTitle bool, baseURL string) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -146,17 +142,27 @@ func titleHome(isInline bool, baseURL string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" aria-label=\"Link to Homepage\"><h1")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" aria-label=\"Link to Homepage\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		if !showTitle && !isInline {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" class=\"hidden\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("><h1")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		if !isInline {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" class=\"mt-16 mb-6 text-4xl text-info font-extrabold hidden md:flex justify-center\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" class=\"mt-16 mb-6 text-4xl font-extrabold hidden md:flex justify-center\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		} else {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" class=\"text-2xl text-info font-extrabold\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" class=\"text-2xl font-extrabold\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -248,7 +254,7 @@ func mobileMenu(buttons []pub_variables.InlineButton) templ.Component {
 			var templ_7745c5c3_Var8 string
 			templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(btn.Label)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/components/mainmenu/main_menu.templ`, Line: 78, Col: 17}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/components/mainmenu/main_menu.templ`, Line: 84, Col: 17}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 			if templ_7745c5c3_Err != nil {
@@ -326,7 +332,7 @@ func desktopMenu(buttons []pub_variables.InlineButton) templ.Component {
 			var templ_7745c5c3_Var11 string
 			templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(btn.Label)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/components/mainmenu/main_menu.templ`, Line: 102, Col: 15}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/components/mainmenu/main_menu.templ`, Line: 108, Col: 15}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 			if templ_7745c5c3_Err != nil {

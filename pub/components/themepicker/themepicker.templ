@@ -7,41 +7,13 @@ func triggerTheme(theme string, isDark bool) string {
 	return fmt.Sprintf("on click window.setMkTheme('%s', %t)", theme, isDark)
 }
 
-templ ThemePickerMobile(themes []ThemeOption) {
-	<div class="dropdown dropdown-end md:hidden">
-		<div tabindex="0" role="button" class="btn btn-ghost btn-circle" aria-labelledby="themeLabelMobile">
-			@pub_assets.Theme(20)
-			<div id="themeLabelMobile" class="hidden">Theme Picker Button for Mobile Devices</div>
-		</div>
-		<ul
-			tabindex="0"
-			class="menu menu-xl md:menu-md menu-vertical dropdown-content z-[3] p-2 shadow bg-base-100 rounded-box w-72 md:w-48 max-h-72 overflow-scroll"
-		>
-			for _, theme := range themes {
-				<li
-					if theme.IsDark {
-						class="hidden dark:flex"
-					} else {
-						class="dark:hidden"
-					}
-				>
-					<button _={ triggerTheme(theme.Theme, theme.IsDark) }>
-						{ theme.Label }
-					</button>
-				</li>
-			}
-		</ul>
-	</div>
-}
-
 templ ThemePicker(themes []ThemeOption) {
-	<div class="dropdown dropdown-end dropdown-hover hidden md:block">
-		<div tabindex="0" role="button" class="btn btn-ghost btn-circle" aria-labelledby="themeLabel">
-			<label class="swap swap-rotate">
-				<input
-					id="dark-toggle"
-					type="checkbox"
-					_="
+	<div role="button" class="btn btn-ghost btn-circle" aria-labelledby="themeLabel">
+		<label class="swap swap-rotate">
+			<input
+				id="dark-toggle"
+				type="checkbox"
+				_="
                on change(input) 
                   get the (checked of the closest <input/>) 
                then
@@ -53,31 +25,10 @@ templ ThemePicker(themes []ThemeOption) {
 
                on load call window.initialState() end
                "
-				/>
-				@pub_assets.Sun(20)
-				@pub_assets.Moon(20)
-				<div id="themeLabel" class="hidden">Theme Darkmode Toggle and Selection</div>
-			</label>
-		</div>
-		<ul
-			tabindex="0"
-			class="menu menu-xl md:menu-md menu-vertical dropdown-content z-[3] p-2 shadow bg-base-100 rounded-box
-         w-72 md:w-48
-      max-h-72 overflow-scroll"
-		>
-			for _, theme := range themes {
-				<li
-					if theme.IsDark {
-						class="hidden dark:flex"
-					} else {
-						class="dark:hidden"
-					}
-				>
-					<button _={ triggerTheme(theme.Theme, theme.IsDark) }>
-						{ theme.Label }
-					</button>
-				</li>
-			}
-		</ul>
+			/>
+			@pub_assets.Sun(20)
+			@pub_assets.Moon(20)
+			<div id="themeLabel" class="hidden">Theme Darkmode Toggle and Selection</div>
+		</label>
 	</div>
 }

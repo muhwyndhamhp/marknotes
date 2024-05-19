@@ -16,20 +16,18 @@ window.addEventListener('load', () => {
 });
 
 window.initialState = function() {
+  console.log(localStorage.getItem('dark-mode'))
+
    const darkToggle = document.getElementById('dark-toggle')
    if (darkToggle) {
-      darkToggle.checked = !colorSchemeQuery.matches
-   }
-   const darkToggleMobile = document.getElementById('dark-toggle-mobile')
-   if (darkToggleMobile) {
-      darkToggle.checked = !colorSchemeQuery.matches
+     darkToggle.checked = !(localStorage.getItem('dark-mode') === 'true') && !colorSchemeQuery.matches
    }
 
-   window.toggleDarkMode(darkToggle.checked)
-   window.setMkTheme(null, null)
+   window.toggleDarkMode(darkToggle.checked, darkToggle.checked === !colorSchemeQuery.matches)
+   window.setMkTheme(null, !darkToggle.checked)
 }
 
-window.toggleDarkMode = function(isChecked) {
+window.toggleDarkMode = function(isChecked, save = true) {
    if (!isChecked) {
       document.documentElement.classList.add("dark")
       document.documentElement.classList.remove("light")
@@ -37,6 +35,12 @@ window.toggleDarkMode = function(isChecked) {
       document.documentElement.classList.remove("dark")
       document.documentElement.classList.add("light")
    }
+
+  if (save && (isChecked === !colorSchemeQuery.matches)) {
+    localStorage.removeItem('dark-mode')
+  } else if (save){
+    localStorage.setItem('dark-mode', !isChecked)
+  }
 }
 
 window.setMkTheme = function(theme, isDark) {
@@ -56,7 +60,7 @@ window.setMkTheme = function(theme, isDark) {
       if (theme === null || theme === undefined) {
          theme = localStorage.getItem('mk-theme-light')
          if (theme === null || theme === undefined) {
-            theme = 'autumn'
+            theme = 'cupcake'
          }
       }
       localStorage.setItem('mk-theme-light', theme)

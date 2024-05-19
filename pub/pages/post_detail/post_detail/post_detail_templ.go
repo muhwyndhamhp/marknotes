@@ -112,7 +112,7 @@ func TitleGroup(post models.Post) templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		var templ_7745c5c3_Var4 = []any{"mt-2 mx-8 grow align-middle flex flex-col z-[2] pt-8 pb-20", templ.KV("invert dark:invert-0",
+		var templ_7745c5c3_Var4 = []any{"mt-2 mx-8 grow align-middle flex flex-col z-[2] pt-8 pb-20", templ.KV("text-gray-100 dark:text-base-content dark:invert-0",
 			post.HeaderImageURL != "")}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var4...)
 		if templ_7745c5c3_Err != nil {

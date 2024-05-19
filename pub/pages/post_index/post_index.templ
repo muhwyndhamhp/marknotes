@@ -8,18 +8,20 @@ import "github.com/muhwyndhamhp/marknotes/pub"
 
 templ PostIndex(body pub_variables.BodyOpts, posts []models.Post, search pub_variables.SearchBar) {
 	@pub.Body(pub_variables.BodyOpts{
-       HeaderButtons: body.HeaderButtons,
-       FooterButtons: body.FooterButtons,
-       Component: postIndex(posts, search),
-       })
+		HeaderButtons: body.HeaderButtons,
+		FooterButtons: body.FooterButtons,
+		Component:     postIndex(posts, search),
+	})
 }
 
 templ postIndex(posts []models.Post, search pub_variables.SearchBar) {
-	<div id="admin-content" class="flex flex-col">
-		@pub_searchbar.SearchBar(search)
+	<div id="admin-content" class="flex flex-col mt-8">
 		if len(posts) > 0 {
-			<div id="post-list">
-				@pub_postlist.PostList(posts)
+			<div class="bg-base-100 card w-full md:mx-auto md:max-w-3xl lg:max-w-4xl px-6 py-4">
+				@pub_searchbar.SearchBar(search)
+				<div id="post-list" class="mt-4">
+					@pub_postlist.PostList(posts)
+				</div>
 			</div>
 		}
 	</div>

@@ -56,6 +56,7 @@ func (fe *AdminFrontend) Index(c echo.Context) error {
 	bodyOpts := pub_variables.BodyOpts{
 		HeaderButtons: AppendHeaderButtons(userID),
 		Component:     nil,
+		HideTitle:     true,
 	}
 
 	index := pub_index.Index(bodyOpts)

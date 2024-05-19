@@ -7,4 +7,5 @@ type BodyOpts struct {
 	FooterButtons []InlineButton
 	Component     templ.Component
 	ExtraHeaders  []templ.Component
+	HideTitle     bool
 }
