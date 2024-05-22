@@ -10,8 +10,6 @@ import "context"
 import "io"
 import "bytes"
 
-import "github.com/muhwyndhamhp/marknotes/config"
-
 func Header() templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
@@ -25,22 +23,7 @@ func Header() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<meta charset=\"UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE-edge\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		if config.Get(config.ENV) != "dev" {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<script src=\"https://resource.mwyndham.dev/dist/htmx.js\"></script> <script async src=\"https://resource.mwyndham.dev/dist/main.js\"></script> <script async src=\"https://resource.mwyndham.dev/dist/auth.js\"></script> <link rel=\"stylesheet\" href=\"https://resource.mwyndham.dev/dist/tailwind.css\">")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-		} else {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<script src=\"/dist/htmx.js\"></script> <script async src=\"/dist/main.js\"></script> <script async src=\"/dist/auth.js\"></script> <link rel=\"stylesheet\" href=\"/dist/tailwind.css\">")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<link rel=\"icon\" type=\"image/x-icon\" href=\"/assets/favicon.ico\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<meta charset=\"UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE-edge\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><script src=\"/dist/htmx.js\"></script><script async src=\"/dist/main.js\"></script><script async src=\"/dist/auth.js\"></script><link rel=\"stylesheet\" href=\"/dist/tailwind.css\"><link rel=\"icon\" type=\"image/x-icon\" href=\"/assets/favicon.ico\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

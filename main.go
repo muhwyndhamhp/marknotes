@@ -70,15 +70,16 @@ func main() {
 	authMid := clerkClient.AuthMiddleware(userRepo)
 	authDescMid := echo.WrapMiddleware(clerk.WithSessionV2(clerkClient.Clerk, clerk.WithLeeway(60*time.Second)))
 	byIDMid := middlewares.ByIDMiddleware()
+	cacheControlMid := middlewares.SetCachePolicy()
 
 	e.GET("/touch", func(c echo.Context) error {
 		fmt.Println("touched")
 		return c.String(http.StatusOK, "OK")
 	}, authDescMid, authMid)
 
-	admin.NewAdminFrontend(adminGroup, postRepo, authDescMid)
-	post.NewPostFrontend(adminGroup, postRepo, bucket, htmxMid, authMid, authDescMid, byIDMid)
-	dashboard.NewDashboardFrontend(adminGroup, postRepo, userRepo, tagRepo, clerkClient, htmxMid, authMid, authDescMid, byIDMid, bucket)
+	admin.NewAdminFrontend(adminGroup, postRepo, authDescMid, cacheControlMid)
+	post.NewPostFrontend(adminGroup, postRepo, bucket, htmxMid, authMid, authDescMid, byIDMid, cacheControlMid)
+	dashboard.NewDashboardFrontend(adminGroup, postRepo, userRepo, tagRepo, clerkClient, htmxMid, authMid, authDescMid, byIDMid, bucket, cacheControlMid)
 	auth.NewAuthService(adminGroup, service, config.Get(config.OAUTH_AUTHORIZE_URL),
 		config.Get(config.OAUTH_ACCESSTOKEN_URL),
 		config.Get(config.OAUTH_CLIENTID),

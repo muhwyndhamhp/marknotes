@@ -8,8 +8,8 @@ type ThemeOption struct {
 
 var DefaultThemes = []ThemeOption{
 	{
-		Label:  "Autumn",
-		Theme:  "autumn",
+		Label:  "Cupcake",
+		Theme:  "cupcake",
 		IsDark: false,
 	},
 	{

@@ -35,6 +35,7 @@ func NewPostFrontend(g *echo.Group,
 	authMid echo.MiddlewareFunc,
 	authDescribeMid echo.MiddlewareFunc,
 	byIDMiddleware echo.MiddlewareFunc,
+	cacheControlMid echo.MiddlewareFunc,
 ) {
 	fe := &PostFrontend{
 		repo:   repo,
@@ -51,7 +52,7 @@ func NewPostFrontend(g *echo.Group,
 	g.GET("/posts/media/:filename", fe.PostMediaGet)
 
 	// Alias `articles` for `posts`
-	g.GET("/articles", fe.PostsIndex, authDescribeMid)
+	g.GET("/articles", fe.PostsIndex, authDescribeMid, cacheControlMid)
 }
 
 func (fe *PostFrontend) PostMediaGet(c echo.Context) error {

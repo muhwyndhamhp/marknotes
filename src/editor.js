@@ -73,7 +73,6 @@ export const editor = new Editor({
 
   onUpdate: ({ editor }) => {
     const encodedContent = document.getElementById('code-editor').children[0].innerHTML
-    console.log(encodedContent)
     document.getElementById('content').value = encodedContent
 
     const tags = editor.getJSON().content
@@ -126,9 +125,7 @@ window.editor = editor
 window.editor.view.dom.addEventListener('paste', async (event)  =>{
   const clipboardData = event.clipboardData || window.clipboardData
   const pastedContent = clipboardData.getData('text/html')
-  const imageData = clipboardData.getData('image')
-
-  console.log(imageData)
+  // const imageData = clipboardData.getData('image')
 
   if (pastedContent !== undefined && pastedContent !== "" && window.editor.isEmpty) {
     event.preventDefault()

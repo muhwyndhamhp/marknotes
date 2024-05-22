@@ -26,6 +26,7 @@ func NewDashboardFrontend(
 	authDescribeMid echo.MiddlewareFunc,
 	byIDMiddleware echo.MiddlewareFunc,
 	bucket *cloudbucket.S3Client,
+	cacheControlMid echo.MiddlewareFunc,
 ) {
 	fe := &DashboardFrontend{PostRepo, TagRepo, UserRepo, ClerkClient, bucket}
 
@@ -34,7 +35,7 @@ func NewDashboardFrontend(
 	}, authDescribeMid, authMid)
 	g.GET("/dashboard/articles", fe.Articles, authDescribeMid, authMid)
 	g.POST("/dashboard/articles/push", fe.ArticlesPush, authDescribeMid, authMid)
-	g.GET("/dashboard/articles/new", fe.ArticlesNew, authDescribeMid, authMid)
+	g.GET("/dashboard/articles/new", fe.ArticlesNew, authDescribeMid, authMid, cacheControlMid)
 	g.GET("/dashboard/articles/:id", func(c echo.Context) error {
 		return c.Redirect(301, "/dashboard/articles/"+c.Param("id")+"/edit")
 	}, authDescribeMid, authMid)

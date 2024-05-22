@@ -236,7 +236,7 @@ func MarkdownBody(content template.HTML) templ.Component {
 			templ_7745c5c3_Var10 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<article class=\"caret-rose-800 w-full mx-auto prose prose-slate lg:prose-xl md:prose-lg dark:prose-invert prose-pre:bg-slate-900 prose-pre:w-full prose-pre:text-white focus:outline-none prose-em:text-secondary prose-strong:text-primary prose-strong:font-extrabold prose-a:font-extrabold prose-a:text-accent\" id=\"preview\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<article class=\"caret-rose-800 w-full mx-auto prose prose-slate lg:prose-xl md:prose-lg dark:prose-invert prose-pre:bg-slate-900 prose-pre:w-full prose-pre:text-white focus:outline-none prose-em:text-secondary prose-strong:text-primary prose-strong:font-extrabold prose-a:font-extrabold prose-a:text-accent prose-a:brightness-90 prose-strong:brightness-50 prose-em:brightness-50 dark:prose-a:brightness-100 dark:prose-strong:brightness-100 dark:prose-em:brightness-100\" id=\"preview\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

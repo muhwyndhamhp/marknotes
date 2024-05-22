@@ -23,15 +23,16 @@ func NewAdminFrontend(
 	g *echo.Group,
 	repo models.PostRepository,
 	authDescMid echo.MiddlewareFunc,
+	cacheControlMid echo.MiddlewareFunc,
 ) {
 	fe := &AdminFrontend{
 		repo: repo,
 	}
 
-	g.GET("", fe.Index, authDescMid)
-	g.GET("/unauthorized", fe.Unauthorized)
-	g.GET("/resume", fe.Resume)
-	g.GET("/contact", fe.Contact, authDescMid)
+	g.GET("", fe.Index, authDescMid, cacheControlMid)
+	g.GET("/unauthorized", fe.Unauthorized, cacheControlMid)
+	g.GET("/resume", fe.Resume, cacheControlMid)
+	g.GET("/contact", fe.Contact, authDescMid, cacheControlMid)
 }
 
 func (fe *AdminFrontend) Contact(c echo.Context) error {
