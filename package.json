@@ -30,7 +30,9 @@
     "htmx.org": "^1.9.11",
     "hyperscript.org": "^0.9.12",
     "lowlight": "^3.1.0",
+    "markdown-it-mark": "^4.0.0",
     "postcss": "^8.4.38",
-    "tippy.js": "^6.3.7"
+    "tippy.js": "^6.3.7",
+    "tiptap-markdown": "^0.8.10"
   }
 }

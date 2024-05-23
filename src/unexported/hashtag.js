@@ -1,7 +1,17 @@
 import Mention from '@tiptap/extension-mention'
 import tippy from 'tippy.js'
 
-export const HashTag = Mention.configure({
+export const HashTag = Mention.extend({
+  addStorage() {
+    return  {
+      markdown: {
+        serialize(state, node) {
+          state.write(`<u>**#${node.attrs.id}**</u>`)
+        }
+      }
+    }
+  }
+}).configure({
    renderHTML({ options, node}) {
       return [
          "span",

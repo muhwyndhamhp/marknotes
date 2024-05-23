@@ -155,6 +155,7 @@ func (fe *DashboardFrontend) ArticlesPush(c echo.Context) error {
 		fail := pub_alert.AlertFailure("Failed to save post:", err.Error())
 		return templates.AssertRender(c, http.StatusOK, fail)
 	}
+
 	sanitizedHTML := sanitizations.SanitizeHtml(req.Content)
 
 	slug, err := strman.GenerateSlug(req.Title)
@@ -186,6 +187,7 @@ func (fe *DashboardFrontend) ArticlesPush(c echo.Context) error {
 	post.UserID = usr.ID
 	post.Slug = slug
 	post.HeaderImageURL = req.HeaderImageURL
+	post.MarkdownContent = req.MarkdownContent
 	if status == values.Published && post.PublishedAt.IsZero() {
 		now := time.Now()
 		post.PublishedAt = now
@@ -232,8 +234,12 @@ func (fe *DashboardFrontend) ArticlesPush(c echo.Context) error {
 		go func() {
 			ctx := context.Background()
 			renderfile.RenderPost(ctx, post, fe.Bucket)
+			err := renderfile.RenderMarkdown(post)
+			if err != nil {
+				fmt.Println(err)
+			}
 
-			err := rss.GenerateRSS(ctx, fe.PostRepo)
+			err = rss.GenerateRSS(ctx, fe.PostRepo)
 			if err != nil {
 				fmt.Println(err)
 			}

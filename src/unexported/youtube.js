@@ -120,6 +120,41 @@ export const Youtube = Node.create({
     return this.options.inline ? 'inline' : 'block';
   },
   draggable: true,
+  addStorage() {
+    console.log(this.options)
+    console.log(this.options.HTMLAttributes.src)
+
+    return {
+      markdown: {
+        serialize(state, node){
+          const embedUrl = getEmbedUrlFromYoutubeUrl({
+            url: node.attrs.src,
+            allowFullscreen: this.options.allowFullscreen,
+            autoplay: this.options.autoplay,
+            ccLanguage: this.options.ccLanguage,
+            ccLoadPolicy: this.options.ccLoadPolicy,
+            controls: this.options.controls,
+            disableKBcontrols: this.options.disableKBcontrols,
+            enableIFrameApi: this.options.enableIFrameApi,
+            endTime: this.options.endTime,
+            interfaceLanguage: this.options.interfaceLanguage,
+            ivLoadPolicy: this.options.ivLoadPolicy,
+            loop: this.options.loop,
+            modestBranding: this.options.modestBranding,
+            nocookie: this.options.nocookie,
+            origin: this.options.origin,
+            playlist: this.options.playlist,
+            progressBarColor: this.options.progressBarColor,
+            startAt: 0,
+          });
+          state.write(`![YouTube Video](${embedUrl})\n`)
+        },
+        parse: {
+
+        }
+      }
+    }
+  },
   addAttributes() {
     return {
       src: {

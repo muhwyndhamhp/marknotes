@@ -37,7 +37,10 @@ templ submitButton(existingID uint) {
 				hx-target="#admin-root"
 				hx-swap="outerHTML"
 			}
-			hx-vals="js:{content_json: window.editor.getJSON()}"
+			hx-vals="js:{
+        content_json: window.editor.getJSON(),
+        markdown_content: editor.storage.markdown.getMarkdown()
+        }"
 			hx-indicator="#global-progress"
 		>
 			Publish
@@ -53,7 +56,10 @@ templ submitButton(existingID uint) {
 				hx-target="#admin-root"
 				hx-swap="outerHTML"
 			}
-			hx-vals="js:{content_json: window.editor.getJSON()}"
+			hx-vals="js:{
+        content_json: window.editor.getJSON(),
+        markdown_content: editor.storage.markdown.getMarkdown()
+        }"
 		>
 			Save Draft
 		</button>

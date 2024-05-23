@@ -55,9 +55,10 @@ func NewDashboardFrontend(
 }
 
 type ArticlesCreateRequest struct {
-	Title          string `json:"title" validate:"required" form:"title"`
-	Content        string `json:"content" validate:"required" form:"content"`
-	Tags           string `json:"tags" form:"tags"`
-	ContentJSON    string `json:"content_json" form:"content_json" validate:"required"`
-	HeaderImageURL string `json:"header_image_url" form:"header_image_url"`
+	Title           string `json:"title" validate:"required" form:"title"`
+	Content         string `json:"content" validate:"required" form:"content"`
+	Tags            string `json:"tags" form:"tags"`
+	ContentJSON     string `json:"content_json" form:"content_json" validate:"required"`
+	HeaderImageURL  string `json:"header_image_url" form:"header_image_url"`
+	MarkdownContent string `json:"markdown_content" form:"markdown_content"`
 }

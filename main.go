@@ -121,10 +121,13 @@ func main() {
 	}()
 
 	go func() {
-		renderfile.RenderPosts(context.Background(), postRepo, bucket)
+		ctx := context.Background()
+		renderfile.RenderPosts(ctx, postRepo, bucket)
 		if config.Get(config.ENV) != "dev" {
 			site.PingSitemap(postRepo)
 		}
+
+		renderfile.RenderMarkdowns(ctx, postRepo)
 	}()
 
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%s", config.Get(config.APP_PORT))))

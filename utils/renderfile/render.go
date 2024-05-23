@@ -96,7 +96,11 @@ func RenderPosts(ctx context.Context, repo models.PostRepository, bucket *cloudb
 	}
 
 	// write current time to last_render.txt
-	err = os.WriteFile(config.Get(config.POST_RENDER_PATH)+"/last_render.txt", []byte(time.Now().Format(time.RFC3339)), 0o755)
+	err = os.WriteFile(
+		config.Get(config.POST_RENDER_PATH)+"/last_render.txt",
+		[]byte(time.Now().Format(time.RFC3339)),
+		0o755,
+	)
 	if err != nil {
 		fmt.Println(err)
 	}

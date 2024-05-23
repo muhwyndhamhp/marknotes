@@ -7,6 +7,7 @@ import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import Image from '@tiptap/extension-image'
 import Link from '@tiptap/extension-link'
 import Placeholder from '@tiptap/extension-placeholder'
+import { Markdown } from 'tiptap-markdown'
 
 const lowlight = require('./unexported/lowlight.js').lowlight;
 const hashtag = require('./unexported/hashtag.js').HashTag;
@@ -18,6 +19,7 @@ const yt = require('./unexported/youtube.js').Youtube
 export const editor = new Editor({
   element: document.querySelector('#code-editor'),
   extensions: [
+    Markdown,
     Color.configure({ types: [TextStyle.name, ListItem.name] }),
     TextStyle.configure({ types: [ListItem.name] }),
     StarterKit.configure({
