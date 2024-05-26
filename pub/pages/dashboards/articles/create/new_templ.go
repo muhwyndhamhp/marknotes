@@ -67,7 +67,7 @@ func submitButton(existingID uint) templ.Component {
 			templ_7745c5c3_Var2 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"w-full flex flex-row justify-between py-6 join join-horizontal\"><button id=\"publish-button\" class=\"btn btn-primary btn-lg flex-grow join-item\" hx-post=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-col sm:flex-row md:flex-col justify-center px-12 pb-6 w-full items-center\"><button id=\"publish-button\" class=\"btn btn-primary mt-3 md:max-w-72 lg:max-w-64 xl:max-w-72 btn-wide mx-3 md:mx-0\" hx-post=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -90,7 +90,7 @@ func submitButton(existingID uint) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" hx-vals=\"js:{\n        content_json: window.editor.getJSON(),\n        markdown_content: editor.storage.markdown.getMarkdown()\n        }\" hx-indicator=\"#global-progress\">Publish</button> <button id=\"draft-button\" class=\"btn btn-secondary btn-lg flex-grow join-item\" hx-post=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" hx-vals=\"js:{\n        content_json: window.editor.getJSON(),\n        markdown_content: editor.storage.markdown.getMarkdown()\n        }\" hx-indicator=\"#global-progress\">Publish</button> <button id=\"draft-button\" class=\"btn btn-secondary mt-3 md:max-w-72 lg:max-w-64 xl:max-w-72 btn-wide mx-3 md:mx-0\" hx-post=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -113,7 +113,7 @@ func submitButton(existingID uint) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" hx-vals=\"js:{\n        content_json: window.editor.getJSON(),\n        markdown_content: editor.storage.markdown.getMarkdown()\n        }\">Save Draft</button></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" hx-vals=\"js:{\n        content_json: window.editor.getJSON(),\n        markdown_content: editor.storage.markdown.getMarkdown()\n        }\" hx-indicator=\"#global-progress\">Save Draft</button></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -137,7 +137,7 @@ func new(existingPost *models.Post, baseURL, uploadURL string) templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"mt-6 w-full h-full flex flex-col md:flex-row-reverse max-w-screen-itn2 mx-auto\"><div class=\"box-border\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form id=\"form-post\" class=\"mt-6 w-full h-full flex flex-col md:flex-row-reverse max-w-screen-itn2\"><div class=\"flex flex-col\"><div class=\"box-border\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -155,7 +155,15 @@ func new(existingPost *models.Post, baseURL, uploadURL string) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("></div><div class=\"flex flex-col items-start w-full md:ps-8\"><form id=\"form-post\" class=\"w-full md:max-w-xl itn:max-w-2xl itn2:max-w-3xl xl:max-w-4xl\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("></div><div class=\"box-border\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = submitButton(tern.Struct(existingPost, &models.Post{}).ID).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div><div class=\"flex flex-col items-start w-full md:ps-8\"><div class=\"w-full md:max-w-xl itn:max-w-2xl itn2:max-w-3xl xl:max-w-4xl\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -281,7 +289,7 @@ func new(existingPost *models.Post, baseURL, uploadURL string) templ.Component {
 			var templ_7745c5c3_Var7 string
 			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(existingPost.Title)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/pages/dashboards/articles/create/new.templ`, Line: 166, Col: 26}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/pages/dashboards/articles/create/new.templ`, Line: 172, Col: 26}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 			if templ_7745c5c3_Err != nil {
@@ -372,15 +380,7 @@ func new(existingPost *models.Post, baseURL, uploadURL string) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("><br>")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = submitButton(tern.Struct(existingPost, &models.Post{}).ID).Render(ctx, templ_7745c5c3_Buffer)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</form></div><br><div class=\"h-20\"></div></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("><br></div></div><br><div class=\"h-20\"></div></form>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

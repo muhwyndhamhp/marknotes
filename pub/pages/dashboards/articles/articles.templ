@@ -58,6 +58,7 @@ templ createArticleButton(path string) {
 		hx-get={ path }
 		hx-target="#admin-root"
 		hx-push-url="true"
+		hx-indicator="#global-progress"
 		class="btn btn-primary mt-5 md:mt-0 flex-initial"
 	>
 		Create
@@ -76,6 +77,7 @@ templ pagination(vm pub_variables.DropdownVM, attrs templ.Attributes) {
 				class={ "join-item btn btn-md btn-ghost", templ.KV("btn-active", i == vm.Selected) }
 				hx-get={ vm.Items[i].Path }
 				hx-push-url="true"
+				hx-indicator="#global-progress"
 			>
 				{ vm.Items[i].Label }
 			</button>
@@ -97,6 +99,7 @@ templ pageSize(vm pub_variables.DropdownVM, attrs templ.Attributes) {
 						_={ fmt.Sprintf("on click put %s into previous <div/>", vm.Items[i].Label) }
 						hx-get={ vm.Items[i].Path }
 						hx-push-url="true"
+						hx-indicator="#global-progress"
 					>
 						<a>{ vm.Items[i].Label }</a>
 					</li>
@@ -138,7 +141,13 @@ templ articleRow(post models.Post, flipDropdown bool) {
 	<tr class="h-16">
 		<th></th>
 		<th class="font-normal">{ fmt.Sprintf("%d", post.ID) }</th>
-		<th><a hx-boost="true" href={ templ.SafeURL(fmt.Sprintf("/dashboard/articles/%d/edit", post.ID)) }>{ post.Title }</a></th>
+		<th>
+			<a
+				hx-boost="true"
+				href={ templ.SafeURL(fmt.Sprintf("/dashboard/articles/%d/edit", post.ID)) }
+				hx-indicator="#global-progress"
+			>{ post.Title }</a>
+		</th>
 		<th class="font-normal">{ post.CreatedAt.Format("Jan, 02 2006 15:04:05") }</th>
 		<th>
 			<div
@@ -156,6 +165,7 @@ templ articleRow(post models.Post, flipDropdown bool) {
 				</div>
 				<ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
 					<li
+						hx-indicator="#global-progress"
 						hx-target="closest tr"
 						hx-swap="outerHTML"
 						hx-put={ fmt.Sprintf("/dashboard/articles/%d/delete", post.ID) }
