@@ -23,6 +23,20 @@ func (fe DashboardFrontend) ExportHTML(c echo.Context) error {
 	return c.Attachment(fp, post.Slug+".html")
 }
 
+func (fe DashboardFrontend) ExportMarkdown(c echo.Context) error {
+	ctx := c.Request().Context()
+	id, _ := strconv.Atoi(c.Param("id"))
+
+	post, err := fe.PostRepo.GetByID(ctx, uint(id))
+	if err != nil {
+		return err
+	}
+
+	fp := filepath.Join(config.Get(config.POST_RENDER_PATH), "markdowns", post.Slug+".md")
+
+	return c.Attachment(fp, post.Slug+".md")
+}
+
 func (fe DashboardFrontend) ExportJSON(c echo.Context) error {
 	ctx := c.Request().Context()
 	id, _ := strconv.Atoi(c.Param("id"))

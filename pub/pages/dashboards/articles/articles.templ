@@ -127,7 +127,7 @@ templ articleTable(posts []models.Post, attrs templ.Attributes) {
 			</thead>
 			<tbody>
 				for i := range posts {
-					@articleRow(posts[i], i >= len(posts)-2)
+					@articleRow(posts[i], i >= len(posts)-3)
 				}
 			</tbody>
 		</table>
@@ -160,8 +160,11 @@ templ articleRow(post models.Post, flipDropdown bool) {
 						hx-swap="outerHTML"
 						hx-put={ fmt.Sprintf("/dashboard/articles/%d/delete", post.ID) }
 					><span>Delete</span></li>
-					<li><a href={ templ.SafeURL(fmt.Sprintf("/dashboard/articles/%d/export/html", post.ID)) }>Export (HTML)</a></li>
-					<li><a href={ templ.SafeURL(fmt.Sprintf("/dashboard/articles/%d/export/json", post.ID)) }>Export (JSON)</a></li>
+					if post.Status != "draft" {
+						<li><a href={ templ.SafeURL(fmt.Sprintf("/dashboard/articles/%d/export/html", post.ID)) }>Export (HTML)</a></li>
+						<li><a href={ templ.SafeURL(fmt.Sprintf("/dashboard/articles/%d/export/json", post.ID)) }>Export (JSON)</a></li>
+						<li><a href={ templ.SafeURL(fmt.Sprintf("/dashboard/articles/%d/export/markdown", post.ID)) }>Export (Markdown)</a></li>
+					}
 				</ul>
 			</div>
 		</th>

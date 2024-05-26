@@ -49,6 +49,7 @@ func NewDashboardFrontend(
 	g.GET("/dashboard/tags", fe.Tags, authDescribeMid, authMid)
 	g.GET("/dashboard/articles/:id/export/html", fe.ExportHTML, authDescribeMid, authMid)
 	g.GET("/dashboard/articles/:id/export/json", fe.ExportJSON, authDescribeMid, authMid)
+	g.GET("/dashboard/articles/:id/export/markdown", fe.ExportMarkdown, authDescribeMid, authMid)
 	g.GET("/dismiss", func(c echo.Context) error {
 		// return empty html
 		return c.HTML(200, "")
