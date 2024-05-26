@@ -111,7 +111,7 @@ templ articleTable(posts []models.Post, attrs templ.Attributes) {
 	<div
 		id="article-table"
 		{ attrs... }
-		class="card overflow-x-auto bg-base-100"
+		class="card overflow-x-auto bg-base-100 overflow-y-hidden"
 	>
 		<table class="table">
 			<!-- head -->
@@ -127,14 +127,14 @@ templ articleTable(posts []models.Post, attrs templ.Attributes) {
 			</thead>
 			<tbody>
 				for i := range posts {
-					@articleRow(posts[i])
+					@articleRow(posts[i], i >= len(posts)-2)
 				}
 			</tbody>
 		</table>
 	</div>
 }
 
-templ articleRow(post models.Post) {
+templ articleRow(post models.Post, flipDropdown bool) {
 	<tr class="h-16">
 		<th></th>
 		<th class="font-normal">{ fmt.Sprintf("%d", post.ID) }</th>
@@ -150,7 +150,7 @@ templ articleRow(post models.Post) {
 			>{ string(post.Status) }</div>
 		</th>
 		<th>
-			<div class="dropdown dropdown-end">
+			<div class={ "dropdown dropdown-end", templ.KV("dropdown-top", flipDropdown) }>
 				<div tabindex="0" role="button" class="btn btn-ghost">
 					@pub_assets.Setting(6)
 				</div>
