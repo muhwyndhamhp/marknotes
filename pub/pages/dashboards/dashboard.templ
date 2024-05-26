@@ -43,7 +43,11 @@ templ drawer(items []pub_variables.DrawerMenu, breadcrumbs []pub_variables.Bread
 					<ul>
 						for i := range breadcrumbs {
 							<li>
-								<a hx-boost="true" href={ breadcrumbs[i].URL }>{ breadcrumbs[i].Label }</a>
+								<a
+									hx-indicator="#global-progress"
+									hx-boost="true"
+									href={ breadcrumbs[i].URL }
+								>{ breadcrumbs[i].Label }</a>
 							</li>
 						}
 					</ul>

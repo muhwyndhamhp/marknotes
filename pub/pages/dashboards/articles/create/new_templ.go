@@ -308,7 +308,7 @@ func new(existingPost *models.Post, baseURL, uploadURL string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"w-full md:max-w-xl itn:max-w-2xl itn2:max-w-3xl xl:max-w-4xl min-h-96 bg-base-100 p-6 shadow-2xl rounded-t-none rounded-b-box\" hx-get=\"/dashboard/editor\" hx-trigger=\"loadEditor\" hx-swap=\"outerHTML\"></div><br><textarea class=\"hidden\" name=\"content\" type=\"text\" id=\"content\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"w-full md:max-w-xl itn:max-w-2xl itn2:max-w-3xl xl:max-w-4xl min-h-96 bg-base-100 p-6 shadow-2xl rounded-t-none rounded-b-box\" hx-get=\"/dashboard/editor\" hx-trigger=\"loadEditor\" hx-swap=\"outerHTML\" hx-indicator=\"#global-progress\"></div><br><textarea class=\"hidden\" name=\"content\" type=\"text\" id=\"content\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

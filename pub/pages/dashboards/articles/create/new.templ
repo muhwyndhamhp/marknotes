@@ -183,6 +183,7 @@ templ new(existingPost *models.Post, baseURL, uploadURL string) {
 					hx-get="/dashboard/editor"
 					hx-trigger="loadEditor"
 					hx-swap="outerHTML"
+					hx-indicator="#global-progress"
 				></div>
 				<br/>
 				<textarea
