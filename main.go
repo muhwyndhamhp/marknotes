@@ -9,6 +9,7 @@ import (
 
 	"github.com/clerkinc/clerk-sdk-go/clerk"
 	"github.com/labstack/echo/v4"
+	"github.com/muhwyndhamhp/marknotes/analytics"
 	"github.com/muhwyndhamhp/marknotes/config"
 	"github.com/muhwyndhamhp/marknotes/db"
 	"github.com/muhwyndhamhp/marknotes/middlewares"
@@ -16,6 +17,7 @@ import (
 	"github.com/muhwyndhamhp/marknotes/pkg/auth"
 	_userRepo "github.com/muhwyndhamhp/marknotes/pkg/auth/repository"
 	"github.com/muhwyndhamhp/marknotes/pkg/dashboard"
+	"github.com/muhwyndhamhp/marknotes/pkg/models"
 	"github.com/muhwyndhamhp/marknotes/pkg/post"
 	_postRepo "github.com/muhwyndhamhp/marknotes/pkg/post/repository"
 	"github.com/muhwyndhamhp/marknotes/pkg/site"
@@ -59,6 +61,13 @@ func main() {
 	tagRepo := _tagRepo.NewTagRepository(db.GetLibSQLDB())
 	htmxMid := middlewares.HTMXRequest()
 
+	analyticsClient := analytics.NewClient(
+		config.Get(config.CF_ACCOUNT_ID),
+		config.Get(config.CF_SERVICE_ID),
+		config.Get(config.CF_ANALYTICS_GQL_API_KEY),
+		config.Get(config.CF_ANALYTICS_EMAIL),
+	)
+
 	ctx := context.Background()
 	err := rss.GenerateRSS(ctx, postRepo)
 	if err != nil {
@@ -73,13 +82,12 @@ func main() {
 	cacheControlMid := middlewares.SetCachePolicy()
 
 	e.GET("/touch", func(c echo.Context) error {
-		fmt.Println("touched")
 		return c.String(http.StatusOK, "OK")
 	}, authDescMid, authMid)
 
 	admin.NewAdminFrontend(adminGroup, postRepo, authDescMid, cacheControlMid)
 	post.NewPostFrontend(adminGroup, postRepo, bucket, htmxMid, authMid, authDescMid, byIDMid, cacheControlMid)
-	dashboard.NewDashboardFrontend(adminGroup, postRepo, userRepo, tagRepo, clerkClient, htmxMid, authMid, authDescMid, byIDMid, bucket, cacheControlMid)
+	dashboard.NewDashboardFrontend(adminGroup, db.GetLibSQLDB(), postRepo, userRepo, tagRepo, clerkClient, htmxMid, authMid, authDescMid, byIDMid, bucket, cacheControlMid)
 	auth.NewAuthService(adminGroup, service, config.Get(config.OAUTH_AUTHORIZE_URL),
 		config.Get(config.OAUTH_ACCESSTOKEN_URL),
 		config.Get(config.OAUTH_CLIENTID),
@@ -87,14 +95,13 @@ func main() {
 		config.Get(config.OAUTH_URL),
 		userRepo)
 
-	// go migration.Migrate(db.GetLibSQLDB())
 	go func() {
 		if config.Get(config.ENV) == "dev" {
 			return
 		}
 
 		ctx := context.Background()
-		_, err := bucket.UploadStatic(ctx, "dist/tailwind.css", "", "text/css")
+		_, err := bucket.UploadStatic(ctx, "dist/tailwind_v2.0.0.css", "", "text/css")
 		if err != nil {
 			e.Logger.Fatal(err)
 		}
@@ -128,6 +135,18 @@ func main() {
 		}
 
 		renderfile.RenderMarkdowns(ctx, postRepo)
+	}()
+
+	go func() {
+		for {
+			ctx, cancel := context.WithCancel(context.Background())
+			if err := models.CacheAnalytics(ctx, db.GetLibSQLDB(), analyticsClient); err != nil {
+				e.Logger.Error(err)
+			}
+
+			time.Sleep(15 * time.Minute)
+			cancel()
+		}
 	}()
 
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%s", config.Get(config.APP_PORT))))

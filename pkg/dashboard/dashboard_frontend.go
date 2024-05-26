@@ -5,9 +5,11 @@ import (
 	"github.com/muhwyndhamhp/marknotes/pkg/models"
 	"github.com/muhwyndhamhp/marknotes/utils/clerkauth"
 	"github.com/muhwyndhamhp/marknotes/utils/cloudbucket"
+	"gorm.io/gorm"
 )
 
 type DashboardFrontend struct {
+	DB          *gorm.DB
 	PostRepo    models.PostRepository
 	TagRepo     models.TagRepository
 	UserRepo    models.UserRepository
@@ -17,6 +19,7 @@ type DashboardFrontend struct {
 
 func NewDashboardFrontend(
 	g *echo.Group,
+	db *gorm.DB,
 	PostRepo models.PostRepository,
 	UserRepo models.UserRepository,
 	TagRepo models.TagRepository,
@@ -28,7 +31,7 @@ func NewDashboardFrontend(
 	bucket *cloudbucket.S3Client,
 	cacheControlMid echo.MiddlewareFunc,
 ) {
-	fe := &DashboardFrontend{PostRepo, TagRepo, UserRepo, ClerkClient, bucket}
+	fe := &DashboardFrontend{db, PostRepo, TagRepo, UserRepo, ClerkClient, bucket}
 
 	g.GET("/dashboard", func(c echo.Context) error {
 		return c.Redirect(301, "/dashboard/articles")
@@ -52,6 +55,7 @@ func NewDashboardFrontend(
 	})
 	g.GET("/dashboard/load-iframe", fe.LoadIframe)
 	g.GET("/dashboard/login", fe.Login)
+	g.GET("/dashboard/analytics/:slug", fe.Analytics, authDescribeMid, authMid)
 }
 
 type ArticlesCreateRequest struct {

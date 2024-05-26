@@ -137,7 +137,25 @@ func new(existingPost *models.Post, baseURL, uploadURL string) templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"w-full h-full\"><br><div class=\"flex flex-col justify-center items-center\"><form id=\"form-post\" class=\"w-full md:max-w-3xl lg:max-w-4xl\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"mt-6 w-full h-full flex flex-col md:flex-row-reverse max-w-screen-itn2 mx-auto\"><div class=\"box-border\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		if existingPost != nil {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" hx-get=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString("/dashboard/analytics/" + existingPost.Slug))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-swap=\"innerHTML\" hx-trigger=\"load\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("></div><div class=\"flex flex-col items-start w-full md:ps-8\"><form id=\"form-post\" class=\"w-full md:max-w-xl itn:max-w-2xl itn2:max-w-3xl xl:max-w-4xl\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -263,7 +281,7 @@ func new(existingPost *models.Post, baseURL, uploadURL string) templ.Component {
 			var templ_7745c5c3_Var7 string
 			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(existingPost.Title)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/pages/dashboards/articles/create/new.templ`, Line: 159, Col: 26}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/pages/dashboards/articles/create/new.templ`, Line: 166, Col: 26}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 			if templ_7745c5c3_Err != nil {
@@ -282,7 +300,7 @@ func new(existingPost *models.Post, baseURL, uploadURL string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"w-full md:max-w-3xl lg:max-w-4xl min-h-96 bg-base-100 p-6 shadow-2xl rounded-t-none rounded-b-box\" hx-get=\"/dashboard/editor\" hx-trigger=\"loadEditor\" hx-swap=\"outerHTML\"></div><br><textarea class=\"hidden\" name=\"content\" type=\"text\" id=\"content\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"w-full md:max-w-xl itn:max-w-2xl itn2:max-w-3xl xl:max-w-4xl min-h-96 bg-base-100 p-6 shadow-2xl rounded-t-none rounded-b-box\" hx-get=\"/dashboard/editor\" hx-trigger=\"loadEditor\" hx-swap=\"outerHTML\"></div><br><textarea class=\"hidden\" name=\"content\" type=\"text\" id=\"content\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

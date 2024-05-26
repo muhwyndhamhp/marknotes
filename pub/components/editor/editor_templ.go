@@ -55,7 +55,7 @@ func Editor(uploadURL string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" id=\"code-editor\" class=\"tiptap w-full md:max-w-3xl lg:max-w-4xl min-h-96 bg-base-100 p-6 shadow-2xl rounded-t-none rounded-b-box\"></div><dialog id=\"imageAltDialog\" class=\"modal\"><div class=\"modal-box flex flex-col\"><h3 class=\"font-bold text-lg\">Almost There!</h3><p class=\"py-4\">It's important for us to provide accessibility information, so please do enter the alt text below to help screen reader.</p><form method=\"dialog\"><input type=\"text\" placeholder=\"Type alt text here\" class=\"input input-bordered w-full max-w-xs mt-4\"><div class=\"modal-action\"><button class=\"btn\" _=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" id=\"code-editor\" class=\"tiptap w-full min-h-96 bg-base-100 p-6 shadow-2xl rounded-t-none rounded-b-box\"></div><dialog id=\"imageAltDialog\" class=\"modal\"><div class=\"modal-box flex flex-col\"><h3 class=\"font-bold text-lg\">Almost There!</h3><p class=\"py-4\">It's important for us to provide accessibility information, so please do enter the alt text below to help screen reader.</p><form method=\"dialog\"><input type=\"text\" placeholder=\"Type alt text here\" class=\"input input-bordered w-full max-w-xs mt-4\"><div class=\"modal-action\"><button class=\"btn\" _=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

@@ -38,7 +38,7 @@ templ drawer(items []pub_variables.DrawerMenu, breadcrumbs []pub_variables.Bread
 		<input id="my-drawer" type="checkbox" class="drawer-toggle"/>
 		<div class="drawer-content">
 			@navBar(navItems...)
-			<div class="flex flex-col items-center justify-center pt-6">
+			<div class="flex flex-col items-center justify-center pt-6 lg:pt-0">
 				<div class="text-sm breadcrumbs px-3 md:px-10 w-full">
 					<ul>
 						for i := range breadcrumbs {
@@ -57,8 +57,8 @@ templ drawer(items []pub_variables.DrawerMenu, breadcrumbs []pub_variables.Bread
 		<div class="divider"></div>
 		<div class="drawer-side">
 			<label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
-			<ul class="menu px-4 w-72 min-h-full text-base-content bg-base-100">
-				<div class="navbar sticky w-64 top-0">
+			<ul class="menu px-4 w-56 min-h-full text-base-content bg-base-100">
+				<div class="navbar sticky w-44 top-0">
 					<div class="">
 						@title()
 					</div>
@@ -72,7 +72,19 @@ templ drawer(items []pub_variables.DrawerMenu, breadcrumbs []pub_variables.Bread
 }
 
 templ navBar(elems ...templ.Component) {
-	<div class="navbar sticky top-0 z-20 bg-base-100 lg:bg-transparent">
+	<script>
+  document.addEventListener('scroll', function(e){ 
+    console.log("scrolling")
+    if (window.pageYOffset>0) {
+      console.log("with offset")
+      document.getElementById('top-navbar').classList.remove('lg:bg-transparent');
+    } else {
+      console.log("no offset")
+      document.getElementById('top-navbar').classList.add('lg:bg-transparent');
+    }
+  }, true);
+  </script>
+	<div id="top-navbar" class="navbar sticky top-0 z-20 bg-base-100 lg:bg-transparent">
 		<div class="flex-none">
 			<label hx-boost="false" for="my-drawer" class="btn btn-square btn-ghost drawer-button lg:hidden">
 				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-5 h-5 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
@@ -92,7 +104,7 @@ templ navBar(elems ...templ.Component) {
 
 templ title() {
 	<div class="flex-1">
-		<a class="btn btn-ghost text-xl">Marknotes CMS</a>
+		<a class="btn btn-ghost text-l">Marknotes CMS</a>
 	</div>
 }
 

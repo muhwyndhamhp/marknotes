@@ -52,3 +52,18 @@ func ConvertStructToJSONB(value interface{}) (JSONB, error) {
 
 	return result, nil
 }
+
+func ConvertJSONBToStruct[T interface{}](value JSONB) (T, error) {
+	var result T
+	js, err := json.Marshal(value)
+	if err != nil {
+		return *new(T), errs.Wrap(err)
+	}
+
+	err = json.Unmarshal(js, &result)
+	if err != nil {
+		return *new(T), errs.Wrap(err)
+	}
+
+	return result, nil
+}

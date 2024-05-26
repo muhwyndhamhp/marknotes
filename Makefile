@@ -28,6 +28,6 @@ build:
 
 deploy:
 	@templ generate 
-	@bun run build:tailwind
 	@bun run build
+	@bun run build:tailwind
 	@flyctl deploy

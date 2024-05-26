@@ -23,7 +23,9 @@ require (
 	github.com/joho/godotenv v1.5.1
 	github.com/kolesa-team/go-webp v1.0.4
 	github.com/labstack/echo/v4 v4.11.1
+	github.com/machinebox/graphql v0.2.2
 	github.com/renxzen/gorm-libsql v0.0.0-20240301223231-6621a843345a
+	golang.org/x/sync v0.7.0
 	golang.org/x/time v0.3.0
 	gorm.io/gorm v1.25.7-0.20240204074919-46816ad31dde
 )
@@ -52,6 +54,7 @@ require (
 	github.com/klauspost/compress v1.15.15 // indirect
 	github.com/libsql/sqlite-antlr4-parser v0.0.0-20230802215326-5cb5bb604475 // indirect
 	github.com/lucasb-eyer/go-colorful v1.2.0 // indirect
+	github.com/matryer/is v1.4.1 // indirect
 	github.com/mattn/go-localereader v0.0.1 // indirect
 	github.com/mattn/go-runewidth v0.0.15 // indirect
 	github.com/muesli/ansi v0.0.0-20230316100256-276c6243b2f6 // indirect
@@ -62,7 +65,6 @@ require (
 	github.com/tursodatabase/libsql-client-go v0.0.0-20240220085343-4ae0eb9d0898 // indirect
 	golang.org/x/exp v0.0.0-20220722155223-a9213eeb770e // indirect
 	golang.org/x/image v0.0.0-20210628002857-a66eb6448b8d // indirect
-	golang.org/x/sync v0.7.0 // indirect
 	golang.org/x/term v0.20.0 // indirect
 	nhooyr.io/websocket v1.8.7 // indirect
 )

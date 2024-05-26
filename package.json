@@ -2,7 +2,7 @@
   "scripts": {
     "dev": "node --env-file=.env dev.js",
     "build": "node --env-file=.env build.js",
-    "build:tailwind": "postcss ./src/main.css -o ./dist/tailwind.css"
+    "build:tailwind": "postcss ./src/main.css -o ./dist/tailwind_v2.0.0.css"
   },
   "devDependencies": {
     "daisyui": "^4.6.2",
