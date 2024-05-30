@@ -83,17 +83,13 @@ func (h *Home) RenderPage(style lipgloss.Style, sm base.ScreenMetadata) string {
 const intro = `
 Hello! 🖖 My name is Wyndham
 
-And I'm a Software Engineer that really into Pragmatic, Practical, 
-and Beautiful Code.
+And I'm a Software Engineer that really into Pragmatic, Practical, and Beautiful Code.
 
-My stack mostly consist of Android Development (Kotlin, Java), 
-Backend Development (Golang, Rails), 
-and Frontend Development (Plain HTML, CSS, JS).
+My stack mostly consist of Android Development (Kotlin, Java), Backend Development (Golang, Rails), and Frontend Development (Plain HTML, CSS, JS).
 
 More on my resume [r].
 
-Hit me up via Twitter [t], LinkedIn [l] or Email [e] 
-whenever you need help or just want to have some chit-chat!
+Hit me up via Twitter [t], LinkedIn [l] or Email [e] whenever you need help or just want to have some chit-chat!
 
 
 Latest Articles:`
