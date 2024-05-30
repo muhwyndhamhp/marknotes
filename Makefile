@@ -23,6 +23,9 @@ setup-local: tools
 run:
 	@air -c .air.toml --build.cmd "go build -ldflags \"$(LDFLAGS)\" -o ./tmp/main ."
 
+rsh:
+	@go run ./ssh/main.go
+
 build:
 	@CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -ldflags "$(LDFLAGS)" -o main main.go
 
