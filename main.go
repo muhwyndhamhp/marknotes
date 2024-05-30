@@ -87,7 +87,16 @@ func main() {
 
 	admin.NewAdminFrontend(adminGroup, postRepo, authDescMid, cacheControlMid)
 	post.NewPostFrontend(adminGroup, postRepo, bucket, htmxMid, authMid, authDescMid, byIDMid, cacheControlMid)
-	dashboard.NewDashboardFrontend(adminGroup, db.GetLibSQLDB(), postRepo, userRepo, tagRepo, clerkClient, htmxMid, authMid, authDescMid, byIDMid, bucket, cacheControlMid)
+	dashboard.NewDashboardFrontend(
+		adminGroup,
+		db.GetLibSQLDB(),
+		postRepo, userRepo, tagRepo,
+		clerkClient,
+		htmxMid, authMid, authDescMid, byIDMid,
+		bucket,
+		cacheControlMid,
+	)
+
 	auth.NewAuthService(adminGroup, service, config.Get(config.OAUTH_AUTHORIZE_URL),
 		config.Get(config.OAUTH_ACCESSTOKEN_URL),
 		config.Get(config.OAUTH_CLIENTID),
