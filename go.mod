@@ -15,6 +15,7 @@ require (
 	github.com/charmbracelet/bubbles v0.18.0
 	github.com/charmbracelet/bubbletea v0.26.2
 	github.com/charmbracelet/lipgloss v0.11.0
+	github.com/charmbracelet/ssh v0.0.0-20240401141849-854cddfa2917
 	github.com/charmbracelet/wish v1.4.0
 	github.com/clerkinc/clerk-sdk-go v1.49.0
 	github.com/disintegration/imaging v1.6.2
@@ -56,7 +57,6 @@ require (
 	github.com/aymerick/douceur v0.2.0 // indirect
 	github.com/charmbracelet/keygen v0.5.0 // indirect
 	github.com/charmbracelet/log v0.4.0 // indirect
-	github.com/charmbracelet/ssh v0.0.0-20240401141849-854cddfa2917 // indirect
 	github.com/charmbracelet/x/ansi v0.1.1 // indirect
 	github.com/charmbracelet/x/errors v0.0.0-20240117030013-d31dba354651 // indirect
 	github.com/charmbracelet/x/exp/term v0.0.0-20240328150354-ab9afc214dfd // indirect
