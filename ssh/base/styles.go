@@ -19,6 +19,11 @@ var (
 	special    = lipgloss.AdaptiveColor{Light: "#43BF6D", Dark: "#FF865B"}
 	background = lipgloss.AdaptiveColor{Light: "", Dark: "#191724"}
 
+	Subtle     = subtle
+	Highlight  = highlight
+	Special    = special
+	Background = background
+
 	divider = lipgloss.NewStyle().
 		SetString("•").
 		Padding(0, 1).

@@ -16,10 +16,22 @@ import (
 
 type Home struct {
 	PostRepo models.PostRepository
+	Posts    []models.Post
 }
 
 // MatchKeyAction implements base.Page.
 func (h *Home) MatchKeyAction(m base.Model, key string, sc base.ScreenMetadata) (base.Model, bool, tea.Cmd) {
+	for i := range h.Posts {
+		if key == fmt.Sprintf("%d", i+1) {
+			a := NewArticle(&h.Posts[i])
+			m.Content = a.RenderPage(m.Style, sc)
+
+			m.ActiveTab = -1
+			m.Page = a
+			return m, true, nil
+		}
+	}
+	// Handle own's page navigation
 	if key != h.GetAccessKey() && m.Content != "" {
 		return m, false, nil
 	}
@@ -53,12 +65,15 @@ func (h *Home) RenderPage(style lipgloss.Style, sm base.ScreenMetadata) string {
 		scopes.OrderBy("published_at", scopes.Descending),
 		scopes.Paginate(1, 5),
 		scopes.Where("status = ?", values.Published),
+		scopes.PostIndexedOnly(),
 	}
 
 	posts, err := h.PostRepo.Get(context.Background(), scopes...)
 	if err != nil {
 		panic(errs.Wrap(err))
 	}
+
+	h.Posts = posts
 
 	for i, post := range posts {
 		st := base.SubduedDescStyle.PaddingTop(1).Width(sm.Width - 2)
