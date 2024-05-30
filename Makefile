@@ -29,6 +29,9 @@ rsh:
 build:
 	@CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -ldflags "$(LDFLAGS)" -o main main.go
 
+build-ssh:
+	@CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -ldflags "$(LDFLAGS)" -o main-sh ssh/main.go
+
 deploy:
 	@templ generate 
 	@bun run build

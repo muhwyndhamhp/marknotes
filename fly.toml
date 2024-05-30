@@ -18,6 +18,15 @@ primary_region = "sin"
   min_machines_running = 1
   processes = ["app"]
 
+[[services]]
+  internal_port = 23234
+  protocol = "tcp"
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machine_running = 1
+  [[services.ports]]
+    port=23234
+  
 [mount]
   source = "marknotes_data"
   destination = "/store"

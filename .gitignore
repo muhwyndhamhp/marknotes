@@ -10,6 +10,8 @@ dist
 .ssh
 temp
 
+main-sh
+
 .DS_Store
 
 *.xml.gz
