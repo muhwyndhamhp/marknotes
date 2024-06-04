@@ -110,7 +110,7 @@ func main() {
 		}
 
 		ctx := context.Background()
-		_, err := bucket.UploadStatic(ctx, "dist/tailwind_v2.0.0.css", "", "text/css")
+		_, err := bucket.UploadStatic(ctx, "dist/tailwind_v4.css", "", "text/css")
 		if err != nil {
 			e.Logger.Fatal(err)
 		}

@@ -96,8 +96,18 @@ func (fe *DashboardFrontend) Articles(c echo.Context) error {
 	if err != nil {
 		return err
 	}
+
 	if len(posts) > 0 {
 		posts[len(posts)-1].AppendFormMeta(2, values.None, "", "")
+	}
+	if len(posts) <= 0 && page > 1 {
+		appendRoute := ""
+		if source == constants.TARGET_SOURCE_PARTIAL {
+			appendRoute = "&source=source-partial"
+		}
+		path := fmt.Sprintf("/dashboard/articles?page=%d&pageSize=%d%s", page-1, pageSize, appendRoute)
+		fmt.Println(path)
+		return c.Redirect(http.StatusFound, path)
 	}
 
 	opts := pub_variables.DashboardOpts{

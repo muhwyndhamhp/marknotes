@@ -121,9 +121,6 @@ export const Youtube = Node.create({
   },
   draggable: true,
   addStorage() {
-    console.log(this.options)
-    console.log(this.options.HTMLAttributes.src)
-
     return {
       markdown: {
         serialize(state, node){

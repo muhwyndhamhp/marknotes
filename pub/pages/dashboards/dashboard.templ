@@ -78,12 +78,9 @@ templ drawer(items []pub_variables.DrawerMenu, breadcrumbs []pub_variables.Bread
 templ navBar(elems ...templ.Component) {
 	<script>
   document.addEventListener('scroll', function(e){ 
-    console.log("scrolling")
     if (window.pageYOffset>0) {
-      console.log("with offset")
       document.getElementById('top-navbar').classList.remove('lg:bg-transparent');
     } else {
-      console.log("no offset")
       document.getElementById('top-navbar').classList.add('lg:bg-transparent');
     }
   }, true);
@@ -108,7 +105,7 @@ templ navBar(elems ...templ.Component) {
 
 templ title() {
 	<div class="flex-1">
-		<a class="btn btn-ghost text-l">Marknotes CMS</a>
+		<a class="font-bold md:ms-2">Marknotes CMS</a>
 	</div>
 }
 

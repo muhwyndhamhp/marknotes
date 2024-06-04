@@ -42,11 +42,11 @@ templ articles(posts []models.Post, pageSizes, pages pub_variables.DropdownVM, c
 				@createArticleButton(createPath)
 			</div>
 			<br/>
-			@articleTable(posts, templ.Attributes{})
-			<div class="w-full flex flex-row mt-5 justify-end">
+			<div class="w-full flex flex-row mb-5 justify-end">
 				@pageSize(pageSizes, templ.Attributes{})
 				@pagination(pages, templ.Attributes{})
 			</div>
+			@articleTable(posts, templ.Attributes{})
 		</div>
 		<br/>
 		<div class="h-20"></div>
@@ -99,6 +99,7 @@ templ pageSize(vm pub_variables.DropdownVM, attrs templ.Attributes) {
 						_={ fmt.Sprintf("on click put %s into previous <div/>", vm.Items[i].Label) }
 						hx-get={ vm.Items[i].Path }
 						hx-push-url="true"
+						hx-swap="outerHTML scroll:top"
 						hx-indicator="#global-progress"
 					>
 						<a>{ vm.Items[i].Label }</a>
@@ -167,7 +168,6 @@ templ articleRow(post models.Post, flipDropdown bool) {
 					<li
 						hx-indicator="#global-progress"
 						hx-target="closest tr"
-						hx-swap="outerHTML"
 						hx-put={ fmt.Sprintf("/dashboard/articles/%d/delete", post.ID) }
 					><span>Delete</span></li>
 					if post.Status != "draft" {
