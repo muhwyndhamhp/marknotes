@@ -4,7 +4,7 @@ import "github.com/a-h/templ"
 
 type DashboardOpts struct {
 	Nav               []DrawerMenu
-   BreadCrumbs       []Breadcrumb
+	BreadCrumbs       []Breadcrumb
 	Comp              templ.Component
 	AdditionalHeaders []string
 	NavItems          []templ.Component

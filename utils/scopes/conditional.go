@@ -8,6 +8,12 @@ import (
 	"gorm.io/gorm"
 )
 
+func WithID(id uint) QueryScope {
+	return func(db *gorm.DB) *gorm.DB {
+		return db.Where("id = ?", id)
+	}
+}
+
 func Preload(query string, args ...interface{}) QueryScope {
 	return func(db *gorm.DB) *gorm.DB {
 		return db.Preload(query, args...)

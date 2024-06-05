@@ -1,4 +1,4 @@
-package models
+package analytics
 
 import (
 	"context"
@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/muhwyndhamhp/marknotes/analytics"
+	"github.com/muhwyndhamhp/marknotes/pkg/models"
 	"github.com/muhwyndhamhp/marknotes/pkg/post/values"
 	"github.com/muhwyndhamhp/marknotes/utils/errs"
 	"github.com/muhwyndhamhp/marknotes/utils/typeext"
@@ -13,27 +14,10 @@ import (
 	"gorm.io/gorm"
 )
 
-type Analytics struct {
-	gorm.Model
-	CaptureDate time.Time
-	Path        string `gorm:"index"`
-	Data        typeext.JSONB
-}
-
-func GetLatest(slug string) func(*gorm.DB) *gorm.DB {
-	path := fmt.Sprintf("/articles/%s.html", slug)
-	return func(d *gorm.DB) *gorm.DB {
-		return d.
-			Where("path = ?", path).
-			Order("capture_date DESC").
-			Limit(1)
-	}
-}
-
 func CacheAnalytics(ctx context.Context, db *gorm.DB, c *analytics.Client) error {
 	var slugs []string
 	err := db.WithContext(ctx).
-		Model(&Post{}).
+		Model(&models.Post{}).
 		Where("status = ?", values.Published).
 		Pluck("slug", &slugs).
 		Error
@@ -55,7 +39,7 @@ func CacheAnalytics(ctx context.Context, db *gorm.DB, c *analytics.Client) error
 			if err != nil {
 				return errs.Wrap(err)
 			}
-			err = db.WithContext(egctx).Save(&Analytics{
+			err = db.WithContext(egctx).Save(&models.Analytics{
 				CaptureDate: time.Now(),
 				Path:        path,
 				Data:        bin,

@@ -32,7 +32,7 @@ func (fe *DashboardFrontend) Analytics(c echo.Context) error {
 		return c.HTML(http.StatusOK, "")
 	}
 
-	p, err := typeext.ConvertJSONBToStruct[analytics.AnalyticsResponse](data[0])
+	p, err := typeext.JSONBToStruct[analytics.AnalyticsResponse](data[0])
 	if err != nil {
 		fmt.Println(errs.Wrap(err))
 		return c.HTML(http.StatusOK, "")

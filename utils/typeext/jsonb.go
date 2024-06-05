@@ -38,7 +38,7 @@ func (m *JSONB) Scan(value interface{}) error {
 	return nil
 }
 
-func ConvertStructToJSONB(value interface{}) (JSONB, error) {
+func StructToJSONB(value interface{}) (JSONB, error) {
 	var result JSONB
 	js, err := json.Marshal(value)
 	if err != nil {
@@ -53,7 +53,7 @@ func ConvertStructToJSONB(value interface{}) (JSONB, error) {
 	return result, nil
 }
 
-func ConvertJSONBToStruct[T interface{}](value JSONB) (T, error) {
+func JSONBToStruct[T interface{}](value JSONB) (T, error) {
 	var result T
 	js, err := json.Marshal(value)
 	if err != nil {
