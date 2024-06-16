@@ -5,17 +5,16 @@ import (
 	"strings"
 
 	"github.com/muhwyndhamhp/marknotes/models"
-	"github.com/muhwyndhamhp/marknotes/utils/scopes"
 	"gorm.io/gorm"
 )
 
-func WithStatus(status models.PostStatus) scopes.QueryScope {
+func WithStatus(status models.PostStatus) func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
 		return db.Where("posts.status = ?", status)
 	}
 }
 
-func Shallow() scopes.QueryScope {
+func Shallow() func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
 		return db.Select(
 			"id", "title",
@@ -27,7 +26,7 @@ func Shallow() scopes.QueryScope {
 	}
 }
 
-func WithKeyword(keyword string) scopes.QueryScope {
+func WithKeyword(keyword string) func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
 		wrappedKeyword := fmt.Sprintf("%%%s%%", strings.ToLower(keyword))
 		dbs := db.Table("posts").

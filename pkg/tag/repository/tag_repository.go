@@ -2,10 +2,10 @@ package repository
 
 import (
 	"context"
+	"github.com/muhwyndhamhp/marknotes/db"
 
 	"github.com/muhwyndhamhp/marknotes/pkg/models"
 	"github.com/muhwyndhamhp/marknotes/utils/errs"
-	"github.com/muhwyndhamhp/marknotes/utils/scopes"
 	"gorm.io/gorm"
 )
 
@@ -22,9 +22,9 @@ func (r *repository) Delete(ctx context.Context, id uint) error {
 }
 
 // Get implements models.TagRepository.
-func (r *repository) Get(ctx context.Context, funcs ...scopes.QueryScope) ([]models.Tag, error) {
+func (r *repository) Get(ctx context.Context, funcs ...db.QueryScope) ([]models.Tag, error) {
 	var res []models.Tag
-	scopes := scopes.Unwrap(funcs...)
+	scopes := db.Unwrap(funcs...)
 	err := r.db.WithContext(ctx).
 		Session(&gorm.Session{SkipDefaultTransaction: true}).
 		Scopes(scopes...).

@@ -21,6 +21,10 @@ func init() {
 	sqldb = db
 }
 
+type DB struct {
+	gorm.DB
+}
+
 func GetLibSQLDB() *gorm.DB {
 	return sqldb
 }

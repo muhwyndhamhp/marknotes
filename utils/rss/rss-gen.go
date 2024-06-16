@@ -2,6 +2,7 @@ package rss
 
 import (
 	"context"
+	"github.com/muhwyndhamhp/marknotes/db"
 	"os"
 	"time"
 
@@ -10,11 +11,10 @@ import (
 	"github.com/muhwyndhamhp/marknotes/pkg/post/values"
 	"github.com/muhwyndhamhp/marknotes/utils/constants"
 	"github.com/muhwyndhamhp/marknotes/utils/fileman"
-	"github.com/muhwyndhamhp/marknotes/utils/scopes"
 )
 
 func GenerateRSS(ctx context.Context, repo models.PostRepository) error {
-	posts, err := repo.Get(ctx, scopes.Where("status = ?", values.Published))
+	posts, err := repo.Get(ctx, db.Where("status = ?", values.Published))
 	if err != nil {
 		return err
 	}

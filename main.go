@@ -30,6 +30,7 @@ import (
 	"github.com/muhwyndhamhp/marknotes/utils/renderfile"
 	"github.com/muhwyndhamhp/marknotes/utils/routing"
 	"github.com/muhwyndhamhp/marknotes/utils/rss"
+	_webDashboard "github.com/muhwyndhamhp/marknotes/web/routes/dashboard"
 )
 
 // nolint: typecheck
@@ -96,6 +97,8 @@ func main() {
 		bucket,
 		cacheControlMid,
 	)
+
+	_webDashboard.NewHandler(adminGroup, db.GetLibSQLDB(), authMid, authDescMid)
 
 	auth.NewAuthService(adminGroup, service, config.Get(config.OAUTH_AUTHORIZE_URL),
 		config.Get(config.OAUTH_ACCESSTOKEN_URL),

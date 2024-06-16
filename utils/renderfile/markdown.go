@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/muhwyndhamhp/marknotes/db"
 	"os"
 
 	"github.com/muhwyndhamhp/marknotes/config"
@@ -11,14 +12,13 @@ import (
 	"github.com/muhwyndhamhp/marknotes/pkg/post/values"
 	"github.com/muhwyndhamhp/marknotes/utils/errs"
 	"github.com/muhwyndhamhp/marknotes/utils/fileman"
-	"github.com/muhwyndhamhp/marknotes/utils/scopes"
 )
 
 func RenderMarkdowns(ctx context.Context, repo models.PostRepository) {
 	if err := fileman.CheckDir(config.Get(config.POST_RENDER_PATH) + "/markdowns"); err != nil {
 		fmt.Println(err)
 	}
-	posts, err := repo.Get(ctx, scopes.Where("status = ?", values.Published))
+	posts, err := repo.Get(ctx, db.Where("status = ?", values.Published))
 	if err != nil {
 		fmt.Println(err)
 	}

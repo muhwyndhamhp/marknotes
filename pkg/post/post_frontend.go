@@ -2,6 +2,7 @@ package post
 
 import (
 	"fmt"
+	"github.com/muhwyndhamhp/marknotes/db"
 	"net/http"
 	"strconv"
 
@@ -18,7 +19,6 @@ import (
 	"github.com/muhwyndhamhp/marknotes/utils/jwt"
 	"github.com/muhwyndhamhp/marknotes/utils/params"
 	"github.com/muhwyndhamhp/marknotes/utils/resp"
-	"github.com/muhwyndhamhp/marknotes/utils/scopes"
 	"github.com/muhwyndhamhp/marknotes/utils/storage"
 	"github.com/muhwyndhamhp/marknotes/utils/tern"
 )
@@ -98,10 +98,10 @@ func (fe *PostFrontend) PostsIndex(c echo.Context) error {
 	ctx := c.Request().Context()
 
 	posts, err := fe.repo.Get(ctx,
-		scopes.Paginate(1, 10),
-		scopes.OrderBy("published_at", scopes.Descending),
-		scopes.WithStatus(values.Published),
-		scopes.PostIndexedOnly(),
+		db.Paginate(1, 10),
+		db.OrderBy("published_at", db.Descending),
+		db.WithStatus(values.Published),
+		db.PostIndexedOnly(),
 	)
 	if err != nil {
 		return err
@@ -144,15 +144,15 @@ func (fe *PostFrontend) PostsGet(c echo.Context) error {
 	page, pageSize, sortBy, statusStr, keyword, loadNext := params.GetCommonParams(c)
 	status := values.PostStatus(statusStr)
 
-	scp := []scopes.QueryScope{
-		scopes.OrderBy(tern.String(sortBy, "created_at"), scopes.Descending),
-		scopes.Paginate(page, pageSize),
+	scp := []db.QueryScope{
+		db.OrderBy(tern.String(sortBy, "created_at"), db.Descending),
+		db.Paginate(page, pageSize),
 	}
 
 	if keyword != "" {
-		scp = append(scp, scopes.PostDeepMatch(keyword, status))
+		scp = append(scp, db.PostDeepMatch(keyword, status))
 	} else {
-		scp = append(scp, scopes.WithStatus(status))
+		scp = append(scp, db.WithStatus(status))
 	}
 
 	posts, err := fe.repo.Get(ctx, scp...)

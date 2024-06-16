@@ -3,6 +3,7 @@ package renderfile
 import (
 	"context"
 	"fmt"
+	"github.com/muhwyndhamhp/marknotes/db"
 	"os"
 	"strings"
 	"time"
@@ -18,7 +19,6 @@ import (
 	"github.com/muhwyndhamhp/marknotes/template"
 	"github.com/muhwyndhamhp/marknotes/utils/cloudbucket"
 	"github.com/muhwyndhamhp/marknotes/utils/fileman"
-	"github.com/muhwyndhamhp/marknotes/utils/scopes"
 )
 
 func RenderPost(ctx context.Context, post *models.Post, bucket *cloudbucket.S3Client) {
@@ -86,7 +86,7 @@ func RenderPosts(ctx context.Context, repo models.PostRepository, bucket *cloudb
 		fmt.Println(err)
 	}
 
-	posts, err := repo.Get(ctx, scopes.Where("status = ?", values.Published), scopes.Preload("Tags"))
+	posts, err := repo.Get(ctx, db.Where("status = ?", values.Published), db.Preload("Tags"))
 	if err != nil {
 		fmt.Println(err)
 	}

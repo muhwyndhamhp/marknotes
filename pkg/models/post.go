@@ -3,6 +3,7 @@ package models
 import (
 	"context"
 	"fmt"
+	"github.com/muhwyndhamhp/marknotes/db"
 	"html/template"
 	"net/url"
 	"strconv"
@@ -11,7 +12,6 @@ import (
 
 	"github.com/muhwyndhamhp/marknotes/config"
 	"github.com/muhwyndhamhp/marknotes/pkg/post/values"
-	"github.com/muhwyndhamhp/marknotes/utils/scopes"
 	"gorm.io/gorm"
 )
 
@@ -37,8 +37,8 @@ type Post struct {
 type PostRepository interface {
 	Upsert(ctx context.Context, value *Post) error
 	GetByID(ctx context.Context, id uint) (*Post, error)
-	Get(ctx context.Context, funcs ...scopes.QueryScope) ([]Post, error)
-	Count(ctx context.Context, funs ...scopes.QueryScope) int
+	Get(ctx context.Context, funcs ...db.QueryScope) ([]Post, error)
+	Count(ctx context.Context, funs ...db.QueryScope) int
 	Delete(ctx context.Context, id uint) error
 }
 

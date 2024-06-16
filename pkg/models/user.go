@@ -2,8 +2,8 @@ package models
 
 import (
 	"context"
+	"github.com/muhwyndhamhp/marknotes/db"
 
-	"github.com/muhwyndhamhp/marknotes/utils/scopes"
 	"gorm.io/gorm"
 )
 
@@ -19,7 +19,7 @@ type UserRepository interface {
 	Upsert(ctx context.Context, value *User) error
 	GetByID(ctx context.Context, id uint) (*User, error)
 	GetByOauthID(ctx context.Context, id string) (*User, error)
-	Get(ctx context.Context, funcs ...scopes.QueryScope) ([]User, error)
+	Get(ctx context.Context, funcs ...db.QueryScope) ([]User, error)
 	Delete(ctx context.Context, id uint) error
 	GetCache(ctx context.Context, email string) *User
 }

@@ -2,10 +2,10 @@ package repository
 
 import (
 	"context"
+	"github.com/muhwyndhamhp/marknotes/db"
 
 	"github.com/muhwyndhamhp/marknotes/pkg/models"
 	"github.com/muhwyndhamhp/marknotes/utils/errs"
-	"github.com/muhwyndhamhp/marknotes/utils/scopes"
 	"gorm.io/gorm"
 )
 
@@ -19,7 +19,7 @@ func (r *repository) GetCache(ctx context.Context, email string) *models.User {
 	u, ok := userCache[email]
 
 	if !ok {
-		usrs, _ := r.Get(ctx, scopes.Where("email = ?", email))
+		usrs, _ := r.Get(ctx, db.Where("email = ?", email))
 		for _, usr := range usrs {
 			userCache[usr.Email] = usr
 		}
@@ -39,9 +39,9 @@ func (r *repository) Delete(ctx context.Context, id uint) error {
 	return nil
 }
 
-func (r *repository) Get(ctx context.Context, funcs ...scopes.QueryScope) ([]models.User, error) {
+func (r *repository) Get(ctx context.Context, funcs ...db.QueryScope) ([]models.User, error) {
 	var res []models.User
-	scopes := scopes.Unwrap(funcs...)
+	scopes := db.Unwrap(funcs...)
 	err := r.db.WithContext(ctx).
 		Session(&gorm.Session{SkipDefaultTransaction: true}).
 		Scopes(scopes...).

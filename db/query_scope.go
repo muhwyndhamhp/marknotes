@@ -1,4 +1,4 @@
-package scopes
+package db
 
 import (
 	"unsafe"

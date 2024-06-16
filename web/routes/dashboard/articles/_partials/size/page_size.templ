@@ -1,0 +1,30 @@
+package size
+
+import "github.com/muhwyndhamhp/marknotes/pub/variables"
+import "fmt"
+
+templ PageSize(vm pub_variables.DropdownVM, attrs templ.Attributes) {
+	<div
+		id="page-sizes"
+		{ attrs... }
+		class="flex flex-row flex-auto"
+	>
+		<div class="dropdown dropdown-hover my-auto">
+			<div tabindex="0" role="button" class="btn btn-ghost m-1">{ vm.Items[vm.Selected].Label }</div>
+			<ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+				for i := range vm.Items {
+					<li
+						_={ fmt.Sprintf("on click put %s into previous <div/>", vm.Items[i].Label) }
+						hx-get={ vm.Items[i].Path }
+						hx-push-url="true"
+						hx-swap="outerHTML scroll:top"
+						hx-indicator="#global-progress"
+					>
+						<a>{ vm.Items[i].Label }</a>
+					</li>
+				}
+			</ul>
+		</div>
+		<p class="my-auto mx-3">Entries per Page</p>
+	</div>
+}

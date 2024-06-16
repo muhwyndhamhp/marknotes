@@ -3,10 +3,10 @@ package repository
 import (
 	"context"
 	"fmt"
+	"github.com/muhwyndhamhp/marknotes/db"
 
 	"github.com/muhwyndhamhp/marknotes/pkg/models"
 	"github.com/muhwyndhamhp/marknotes/utils/errs"
-	"github.com/muhwyndhamhp/marknotes/utils/scopes"
 	"gorm.io/gorm"
 )
 
@@ -15,8 +15,8 @@ type repository struct {
 }
 
 // Count implements models.PostRepository.
-func (r *repository) Count(ctx context.Context, funcs ...scopes.QueryScope) int {
-	scopes := scopes.Unwrap(funcs...)
+func (r *repository) Count(ctx context.Context, funcs ...db.QueryScope) int {
+	scopes := db.Unwrap(funcs...)
 	count := int64(0)
 	if err := r.db.WithContext(ctx).
 		Model(&models.Post{}).
@@ -39,9 +39,9 @@ func (r *repository) Delete(ctx context.Context, id uint) error {
 	return nil
 }
 
-func (r *repository) Get(ctx context.Context, funcs ...scopes.QueryScope) ([]models.Post, error) {
+func (r *repository) Get(ctx context.Context, funcs ...db.QueryScope) ([]models.Post, error) {
 	var res []models.Post
-	scopes := scopes.Unwrap(funcs...)
+	scopes := db.Unwrap(funcs...)
 	if err := r.db.WithContext(ctx).
 		Session(&gorm.Session{SkipDefaultTransaction: true}).
 		Scopes(scopes...).

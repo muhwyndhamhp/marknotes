@@ -1,0 +1,22 @@
+package page
+
+import "github.com/muhwyndhamhp/marknotes/pub/variables"
+
+templ Pagination(vm pub_variables.DropdownVM, attrs templ.Attributes) {
+	<div
+		id="pages"
+		{ attrs... }
+		class="join flex-initial"
+	>
+		for i := range vm.Items {
+			<button
+				class={ "join-item btn btn-md btn-ghost", templ.KV("btn-active", i == vm.Selected) }
+				hx-get={ vm.Items[i].Path }
+				hx-push-url="true"
+				hx-indicator="#global-progress"
+			>
+				{ vm.Items[i].Label }
+			</button>
+		}
+	</div>
+}

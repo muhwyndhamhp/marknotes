@@ -3,6 +3,7 @@ package dashboard
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/muhwyndhamhp/marknotes/db"
 	"net/http"
 	"strings"
 
@@ -10,7 +11,6 @@ import (
 	"github.com/muhwyndhamhp/marknotes/pkg/models"
 	pub_tagsuggest "github.com/muhwyndhamhp/marknotes/pub/components/tagsuggest"
 	templates "github.com/muhwyndhamhp/marknotes/template"
-	"github.com/muhwyndhamhp/marknotes/utils/scopes"
 )
 
 func (fe *DashboardFrontend) Tags(c echo.Context) error {
@@ -23,8 +23,8 @@ func (fe *DashboardFrontend) Tags(c echo.Context) error {
 
 	tags, err := fe.TagRepo.Get(
 		ctx,
-		scopes.Where("slug LIKE ?", fmt.Sprintf("%%%s%%", tagSlug)),
-		scopes.Paginate(1, 5),
+		db.Where("slug LIKE ?", fmt.Sprintf("%%%s%%", tagSlug)),
+		db.Paginate(1, 5),
 	)
 	if err != nil {
 		return err
