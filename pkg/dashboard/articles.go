@@ -55,25 +55,6 @@ func (fe *DashboardFrontend) ArticlesEdit(c echo.Context) error {
 	return templates.AssertRender(c, http.StatusOK, articlesNew)
 }
 
-func (fe *DashboardFrontend) ArticlesNew(c echo.Context) error {
-	opts := pub_variables.DashboardOpts{
-		Nav:         nav(0),
-		BreadCrumbs: fe.Breadcrumbs("dashboard/articles/new"),
-	}
-
-	baseURL := strings.Split(config.Get(config.OAUTH_URL), "/callback")[0]
-	uploadURL := fmt.Sprintf("%s/posts/%d/media/upload", baseURL, 0)
-
-	vm := pub_dashboards_articles_new.NewVM{
-		Opts:      opts,
-		UploadURL: uploadURL,
-		BaseURL:   baseURL,
-	}
-	articlesNew := pub_dashboards_articles_new.New(vm)
-
-	return templates.AssertRender(c, http.StatusOK, articlesNew)
-}
-
 func (fe *DashboardFrontend) ArticlesPush(c echo.Context) error {
 	ctx := c.Request().Context()
 

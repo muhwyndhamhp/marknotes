@@ -33,11 +33,7 @@ func NewDashboardFrontend(
 ) {
 	fe := &DashboardFrontend{db, PostRepo, TagRepo, UserRepo, ClerkClient, bucket}
 
-	g.GET("/dashboard", func(c echo.Context) error {
-		return c.Redirect(301, "/dashboard/articles")
-	}, authDescribeMid, authMid)
 	g.POST("/dashboard/articles/push", fe.ArticlesPush, authDescribeMid, authMid)
-	g.GET("/dashboard/articles/new", fe.ArticlesNew, authDescribeMid, authMid, cacheControlMid)
 	g.GET("/dashboard/articles/:id", func(c echo.Context) error {
 		return c.Redirect(301, "/dashboard/articles/"+c.Param("id")+"/edit")
 	}, authDescribeMid, authMid)

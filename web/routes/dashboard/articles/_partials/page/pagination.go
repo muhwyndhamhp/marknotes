@@ -5,8 +5,8 @@ import (
 	pub_variables "github.com/muhwyndhamhp/marknotes/pub/variables"
 )
 
-func PageDropdown(page, pageSize, count int) pub_variables.DropdownVM {
-	arrays := []pub_variables.DropdownItem{}
+func Buttons(page, pageSize, count int) pub_variables.DropdownVM {
+	var arrays []pub_variables.DropdownItem
 	item := 0
 	for i := 0; (i)*pageSize <= count; i++ {
 		currentPage := i + 1

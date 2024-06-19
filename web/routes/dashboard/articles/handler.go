@@ -6,6 +6,7 @@ import (
 	"github.com/muhwyndhamhp/marknotes/web/routes/dashboard/_partials/sidebar"
 	"github.com/muhwyndhamhp/marknotes/web/routes/dashboard/articles/_partials/page"
 	"github.com/muhwyndhamhp/marknotes/web/routes/dashboard/articles/_partials/size"
+	new2 "github.com/muhwyndhamhp/marknotes/web/routes/dashboard/articles/new"
 	"net/http"
 	"strconv"
 
@@ -22,7 +23,8 @@ import (
 )
 
 type Handler struct {
-	DB *gorm.DB
+	DB         *gorm.DB
+	NewHandler *new2.Handler
 }
 
 func NewHandler(
@@ -31,7 +33,9 @@ func NewHandler(
 	authMid echo.MiddlewareFunc,
 	authDescribeMid echo.MiddlewareFunc,
 ) *Handler {
-	fe := &Handler{db}
+	path := "/articles"
+	groupArticles := g.Group(path)
+	fe := &Handler{db, new2.CreateHandler(groupArticles, db, authMid, authDescribeMid)}
 	g.GET("/articles", fe.Index, authDescribeMid, authMid)
 
 	return fe
@@ -47,26 +51,22 @@ func (h *Handler) Index(c echo.Context) error {
 
 	partial := source == constants.TARGET_SOURCE_PARTIAL && hxRequest
 
-	// count := fe.PostRepo.Count(ctx)
-
 	var count int64
 	h.DB.WithContext(ctx).
 		Model(&models.Post{}).
 		Count(&count)
 
 	var posts []models.Post
-	err := h.DB.WithContext(ctx).Scopes(
-		db.Paginate(p, ps),
-		db.OrderBy("created_at", db.Descending),
-		post.Shallow(),
-	).Find(&posts).Error
-	if err != nil {
+	if err := h.DB.WithContext(ctx).
+		Scopes(
+			db.Paginate(p, ps),
+			db.OrderBy("created_at", db.Descending),
+			post.Shallow(),
+		).
+		Find(&posts).Error; err != nil {
 		return errs.Wrap(err)
 	}
 
-	// if len(posts) > 0 {
-	// 	posts[len(posts)-1].AppendFormMeta(2, values.None, "", "")
-	// }
 	if len(posts) <= 0 && p > 1 {
 		appendRoute := ""
 		if source == constants.TARGET_SOURCE_PARTIAL {
@@ -82,8 +82,8 @@ func (h *Handler) Index(c echo.Context) error {
 		BreadCrumbs: breadcrumb.Breadcrumbs("dashboard/articles"),
 	}
 
-	pageSizes := size.SizeDropdown(p, ps)
-	pages := page.PageDropdown(tern.Int(p, 1), tern.Int(ps, 10), int(count))
+	pageSizes := size.Dropdown(p, ps)
+	pages := page.Buttons(tern.Int(p, 1), tern.Int(ps, 10), int(count))
 	articleVM := ArticlesVM{
 		Opts:       opts,
 		Posts:      posts,

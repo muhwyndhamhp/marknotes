@@ -2,15 +2,15 @@ package size
 
 import (
 	"fmt"
-	pub_variables "github.com/muhwyndhamhp/marknotes/pub/variables"
+	pubvariables "github.com/muhwyndhamhp/marknotes/pub/variables"
 )
 
-func SizeDropdown(page, pageSize int) pub_variables.DropdownVM {
-	arrays := []pub_variables.DropdownItem{}
+func Dropdown(page, pageSize int) pubvariables.DropdownVM {
+	var arrays []pubvariables.DropdownItem
 	item := 0
 	for i := range []int{0, 1, 2} {
 		size := (i + 1) * 10
-		arrays = append(arrays, pub_variables.DropdownItem{
+		arrays = append(arrays, pubvariables.DropdownItem{
 			Label:  fmt.Sprintf("%d", size),
 			Path:   fmt.Sprintf("/dashboard/articles?page=%d&pageSize=%d&source=source-partial", page, size),
 			Target: "#articles",
@@ -19,7 +19,7 @@ func SizeDropdown(page, pageSize int) pub_variables.DropdownVM {
 			item = i
 		}
 	}
-	return pub_variables.DropdownVM{
+	return pubvariables.DropdownVM{
 		Items:    arrays,
 		Selected: item,
 	}

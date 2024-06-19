@@ -16,12 +16,12 @@ func Nav(indexSelected int) []pub_variables.DrawerMenu {
 			IsActive:  false,
 			IsBoosted: true,
 		},
-		{
-			Label:     "Logout",
-			URL:       "/logout",
-			IsActive:  false,
-			IsBoosted: false,
-		},
+		//{
+		//	Label:     "Logout",
+		//	URL:       "/logout",
+		//	IsActive:  false,
+		//	IsBoosted: false,
+		//},
 	}
 
 	lists[indexSelected].IsActive = true
