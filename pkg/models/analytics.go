@@ -20,6 +20,11 @@ type Analytics struct {
 	Data        typeext.JSONB
 }
 
+type AnalyticsRepository interface {
+	CacheAnalytics(ctx context.Context, c *analytics.Client) error
+	GetLatest(ctx context.Context) (*Analytics, error)
+}
+
 func GetLatest(slug string) func(*gorm.DB) *gorm.DB {
 	path := fmt.Sprintf("/articles/%s.html", slug)
 	return func(d *gorm.DB) *gorm.DB {

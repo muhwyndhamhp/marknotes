@@ -3,6 +3,7 @@ package renderfile
 import (
 	"context"
 	"fmt"
+	"github.com/muhwyndhamhp/marknotes/internal"
 	"os"
 	"strings"
 	"time"
@@ -16,12 +17,19 @@ import (
 	pub_post_detail "github.com/muhwyndhamhp/marknotes/pub/pages/post_detail/post_detail"
 	pub_variables "github.com/muhwyndhamhp/marknotes/pub/variables"
 	"github.com/muhwyndhamhp/marknotes/template"
-	"github.com/muhwyndhamhp/marknotes/utils/cloudbucket"
 	"github.com/muhwyndhamhp/marknotes/utils/fileman"
 	"github.com/muhwyndhamhp/marknotes/utils/scopes"
 )
 
-func RenderPost(ctx context.Context, post *models.Post, bucket *cloudbucket.S3Client) {
+type RenderClient struct {
+	App *internal.Application
+}
+
+func NewRenderClient(app *internal.Application) *RenderClient {
+	return &RenderClient{App: app}
+}
+
+func (r *RenderClient) RenderPost(ctx context.Context, post *models.Post) {
 	userID := uint(0)
 
 	post.FormMeta = map[string]interface{}{
@@ -59,14 +67,14 @@ func RenderPost(ctx context.Context, post *models.Post, bucket *cloudbucket.S3Cl
 		prefix = "/store/"
 	}
 
-	_, err = bucket.UploadStatic(ctx, file.Name(), prefix, "text/html")
+	_, err = r.App.Bucket.UploadStatic(ctx, file.Name(), prefix, "text/html")
 	if err != nil {
 		fmt.Println(err)
 	}
 	// }
 }
 
-func RenderPosts(ctx context.Context, repo models.PostRepository, bucket *cloudbucket.S3Client) {
+func (r *RenderClient) RenderPosts(ctx context.Context) {
 	// check last_render.txt, read the content as time format RFC3339.
 	// If more than 6 hours, then continue
 	// if less than 6 hours, then return
@@ -81,18 +89,18 @@ func RenderPosts(ctx context.Context, repo models.PostRepository, bucket *cloudb
 		return
 	}
 
-	err = fileman.DeletAllFiles(config.Get(config.POST_RENDER_PATH) + "")
+	err = fileman.DeleteAllFiles(config.Get(config.POST_RENDER_PATH) + "")
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	posts, err := repo.Get(ctx, scopes.Where("status = ?", values.Published), scopes.Preload("Tags"))
+	posts, err := r.App.PostRepository.Get(ctx, scopes.Where("status = ?", values.Published), scopes.Preload("Tags"))
 	if err != nil {
 		fmt.Println(err)
 	}
 
 	for _, post := range posts {
-		RenderPost(ctx, &post, bucket)
+		r.RenderPost(ctx, &post)
 	}
 
 	// write current time to last_render.txt

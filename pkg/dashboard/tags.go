@@ -21,7 +21,7 @@ func (fe *DashboardFrontend) Tags(c echo.Context) error {
 	tagName := strings.ToLower(strings.TrimSpace(tagQuery))
 	tagSlug := strings.ReplaceAll(tagName, " ", "-")
 
-	tags, err := fe.TagRepo.Get(
+	tags, err := fe.App.TagRepository.Get(
 		ctx,
 		scopes.Where("slug LIKE ?", fmt.Sprintf("%%%s%%", tagSlug)),
 		scopes.Paginate(1, 5),

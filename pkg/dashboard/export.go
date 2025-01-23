@@ -13,7 +13,7 @@ func (fe DashboardFrontend) ExportHTML(c echo.Context) error {
 	ctx := c.Request().Context()
 	id, _ := strconv.Atoi(c.Param("id"))
 
-	post, err := fe.PostRepo.GetByID(ctx, uint(id))
+	post, err := fe.App.PostRepository.GetByID(ctx, uint(id))
 	if err != nil {
 		return err
 	}
@@ -27,7 +27,7 @@ func (fe DashboardFrontend) ExportMarkdown(c echo.Context) error {
 	ctx := c.Request().Context()
 	id, _ := strconv.Atoi(c.Param("id"))
 
-	post, err := fe.PostRepo.GetByID(ctx, uint(id))
+	post, err := fe.App.PostRepository.GetByID(ctx, uint(id))
 	if err != nil {
 		return err
 	}
@@ -41,7 +41,7 @@ func (fe DashboardFrontend) ExportJSON(c echo.Context) error {
 	ctx := c.Request().Context()
 	id, _ := strconv.Atoi(c.Param("id"))
 
-	post, err := fe.PostRepo.GetByID(ctx, uint(id))
+	post, err := fe.App.PostRepository.GetByID(ctx, uint(id))
 	if err != nil {
 		return err
 	}

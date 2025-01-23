@@ -21,7 +21,7 @@ func (fe *DashboardFrontend) Analytics(c echo.Context) error {
 	}
 
 	var data []typeext.JSONB
-	err := fe.DB.
+	err := fe.App.DB.
 		WithContext(c.Request().Context()).
 		Model(&models.Analytics{}).
 		Scopes(models.GetLatest(slug)).

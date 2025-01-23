@@ -21,7 +21,6 @@ import (
 	"github.com/muhwyndhamhp/marknotes/utils/constants"
 	"github.com/muhwyndhamhp/marknotes/utils/errs"
 	"github.com/muhwyndhamhp/marknotes/utils/fileman"
-	"github.com/muhwyndhamhp/marknotes/utils/renderfile"
 	"github.com/muhwyndhamhp/marknotes/utils/rss"
 	"github.com/muhwyndhamhp/marknotes/utils/sanitizations"
 	"github.com/muhwyndhamhp/marknotes/utils/scopes"
@@ -33,7 +32,7 @@ func (fe *DashboardFrontend) ArticlesEdit(c echo.Context) error {
 	ctx := c.Request().Context()
 	id, _ := strconv.Atoi(c.Param("id"))
 
-	post, err := fe.PostRepo.GetByID(ctx, uint(id))
+	post, err := fe.App.PostRepository.GetByID(ctx, uint(id))
 	if err != nil {
 		return err
 	}
@@ -86,9 +85,9 @@ func (fe *DashboardFrontend) Articles(c echo.Context) error {
 
 	partial := source == constants.TARGET_SOURCE_PARTIAL && hx_request
 
-	count := fe.PostRepo.Count(ctx)
+	count := fe.App.PostRepository.Count(ctx)
 
-	posts, err := fe.PostRepo.Get(ctx,
+	posts, err := fe.App.PostRepository.Get(ctx,
 		scopes.Paginate(page, pageSize),
 		scopes.OrderBy("created_at", scopes.Descending),
 		scopes.PostIndexedOnly(),
@@ -146,7 +145,7 @@ func (fe *DashboardFrontend) ArticlesPush(c echo.Context) error {
 	existingID, _ := strconv.Atoi(c.QueryParam("existingID"))
 	var xp *models.Post
 	if existingID != 0 {
-		p, err := fe.PostRepo.GetByID(ctx, uint(existingID))
+		p, err := fe.App.PostRepository.GetByID(ctx, uint(existingID))
 		if err != nil {
 			return errs.Wrap(err)
 		}
@@ -175,7 +174,7 @@ func (fe *DashboardFrontend) ArticlesPush(c echo.Context) error {
 		return templates.AssertRender(c, http.StatusOK, fail)
 	}
 
-	count := fe.PostRepo.Count(ctx, scopes.Where("slug = ?", slug))
+	count := fe.App.PostRepository.Count(ctx, scopes.Where("slug = ?", slug))
 	if count > 0 && xp == nil {
 		fmt.Println(count)
 		slug = fmt.Sprintf("%s-%d", slug, count)
@@ -183,7 +182,7 @@ func (fe *DashboardFrontend) ArticlesPush(c echo.Context) error {
 
 	post := tern.Struct(xp, &models.Post{})
 
-	usr, err := fe.ClerkClient.GetUserFromSession(c, fe.UserRepo)
+	usr, err := fe.App.ClerkClient.GetUserFromSession(c)
 	if err != nil {
 		fmt.Println(err)
 		fail := pub_alert.AlertFailure("Failed to save post:", err.Error())
@@ -213,7 +212,7 @@ func (fe *DashboardFrontend) ArticlesPush(c echo.Context) error {
 		}
 		tagName := strings.ToLower(strings.TrimSpace(tags[i]))
 		tagSlug := strings.ReplaceAll(tagName, " ", "-")
-		res, _ := fe.TagRepo.Get(ctx, scopes.Where("slug = ?", tagSlug))
+		res, _ := fe.App.TagRepository.Get(ctx, scopes.Where("slug = ?", tagSlug))
 		var vTag models.Tag
 		if len(res) != 0 {
 			vTag = res[0]
@@ -222,7 +221,7 @@ func (fe *DashboardFrontend) ArticlesPush(c echo.Context) error {
 				Slug:  tagSlug,
 				Title: tags[i],
 			}
-			err := fe.TagRepo.Upsert(c.Request().Context(), &tag)
+			err := fe.App.TagRepository.Upsert(c.Request().Context(), &tag)
 			if err != nil {
 				return errs.Wrap(err)
 			}
@@ -234,7 +233,7 @@ func (fe *DashboardFrontend) ArticlesPush(c echo.Context) error {
 	}
 	post.TagsLiteral = tagLiteral
 
-	err = fe.PostRepo.Upsert(ctx, post)
+	err = fe.App.PostRepository.Upsert(ctx, post)
 	if err != nil {
 		fail := pub_alert.AlertFailure("Failed to save post:", err.Error())
 		return templates.AssertRender(c, http.StatusOK, fail)
@@ -243,13 +242,13 @@ func (fe *DashboardFrontend) ArticlesPush(c echo.Context) error {
 	if status == values.Published {
 		go func() {
 			ctx := context.Background()
-			renderfile.RenderPost(ctx, post, fe.Bucket)
-			err := renderfile.RenderMarkdown(post)
+			fe.App.RenderClient.RenderPost(ctx, post)
+			err := fe.App.RenderClient.RenderMarkdown(post)
 			if err != nil {
 				fmt.Println(err)
 			}
 
-			err = rss.GenerateRSS(ctx, fe.PostRepo)
+			err = rss.GenerateRSS(ctx, fe.App.PostRepository)
 			if err != nil {
 				fmt.Println(err)
 			}
@@ -292,13 +291,13 @@ func (fe *DashboardFrontend) ArticlesDelete(c echo.Context) error {
 	ctx := c.Request().Context()
 	id, _ := strconv.Atoi(c.Param("id"))
 
-	err := fe.PostRepo.Delete(ctx, uint(id))
+	err := fe.App.PostRepository.Delete(ctx, uint(id))
 	if err != nil {
 		return err
 	}
 
 	go func() {
-		err := rss.GenerateRSS(ctx, fe.PostRepo)
+		err := rss.GenerateRSS(ctx, fe.App.PostRepository)
 		if err != nil {
 			fmt.Println(err)
 		}

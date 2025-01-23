@@ -1,0 +1,33 @@
+package internal
+
+import (
+	"github.com/labstack/echo/v4"
+	"github.com/muhwyndhamhp/marknotes/analytics"
+	"github.com/muhwyndhamhp/marknotes/pkg/models"
+	"github.com/muhwyndhamhp/marknotes/utils/clerkauth"
+	"github.com/muhwyndhamhp/marknotes/utils/cloudbucket"
+	"github.com/muhwyndhamhp/marknotes/utils/renderfile"
+	"gorm.io/gorm"
+)
+
+type Application struct {
+	// Repositories
+	UserRepository      models.UserRepository
+	PostRepository      models.PostRepository
+	TagRepository       models.TagRepository
+	AnalyticsRepository models.AnalyticsRepository
+
+	// Internal Plumbings and Clients
+	DB              *gorm.DB
+	ClerkClient     *clerkauth.Client
+	Bucket          *cloudbucket.S3Client
+	RenderClient    *renderfile.RenderClient
+	AnalyticsClient *analytics.Client
+
+	// Middlewares
+	RequireAuthWare     echo.MiddlewareFunc
+	DescribeAuthWare    echo.MiddlewareFunc
+	CacheControlWare    echo.MiddlewareFunc
+	GetIdParamWare      echo.MiddlewareFunc
+	FromHTMXRequestWare echo.MiddlewareFunc
+}

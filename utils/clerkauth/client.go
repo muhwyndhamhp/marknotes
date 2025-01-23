@@ -2,6 +2,7 @@ package clerkauth
 
 import (
 	"errors"
+	"github.com/muhwyndhamhp/marknotes/internal"
 	"net/http"
 
 	"github.com/apsystole/log"
@@ -13,21 +14,22 @@ import (
 
 type Client struct {
 	Clerk clerk.Client
+	App   *internal.Application
 }
 
 var sessionCache = map[string]bool{}
 
-func NewClient(secret string) *Client {
+func NewClient(secret string, app *internal.Application) *Client {
 	cl, err := clerk.NewClient(secret)
 	if err != nil {
 		panic(err)
 	}
 
-	return &Client{Clerk: cl}
+	return &Client{cl, app}
 }
 
 // echo middleware to bounce unautorized access to login page
-func (cl *Client) AuthMiddleware(userRepo models.UserRepository) echo.MiddlewareFunc {
+func (cl *Client) AuthMiddleware() echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			session, ok := clerk.SessionFromContext(c.Request().Context())
@@ -48,7 +50,7 @@ func (cl *Client) AuthMiddleware(userRepo models.UserRepository) echo.Middleware
 				return c.Redirect(http.StatusFound, "/dashboard/login")
 			}
 
-			usr := userRepo.GetCache(c.Request().Context(), u.EmailAddresses[0].EmailAddress)
+			usr := cl.App.UserRepository.GetCache(c.Request().Context(), u.EmailAddresses[0].EmailAddress)
 			if usr == nil {
 				_, err = cl.Clerk.Sessions().Revoke(session.SessionID)
 				if err != nil {
@@ -64,7 +66,7 @@ func (cl *Client) AuthMiddleware(userRepo models.UserRepository) echo.Middleware
 	}
 }
 
-func (cl *Client) GetUserFromSession(c echo.Context, userRepo models.UserRepository) (*models.User, error) {
+func (cl *Client) GetUserFromSession(c echo.Context) (*models.User, error) {
 	session, ok := clerk.SessionFromContext(c.Request().Context())
 	if !ok {
 		return nil, errors.New("session not found")
@@ -75,7 +77,7 @@ func (cl *Client) GetUserFromSession(c echo.Context, userRepo models.UserReposit
 		return nil, err
 	}
 
-	usr := userRepo.GetCache(c.Request().Context(), u.EmailAddresses[0].EmailAddress)
+	usr := cl.App.UserRepository.GetCache(c.Request().Context(), u.EmailAddresses[0].EmailAddress)
 	if usr == nil {
 		return nil, errors.New("user not found")
 	}
