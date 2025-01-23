@@ -3,11 +3,11 @@ package dashboard
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/muhwyndhamhp/marknotes/internal"
 	"net/http"
 	"strings"
 
 	"github.com/labstack/echo/v4"
-	"github.com/muhwyndhamhp/marknotes/pkg/models"
 	pub_tagsuggest "github.com/muhwyndhamhp/marknotes/pub/components/tagsuggest"
 	templates "github.com/muhwyndhamhp/marknotes/template"
 	"github.com/muhwyndhamhp/marknotes/utils/scopes"
@@ -30,7 +30,7 @@ func (fe *DashboardFrontend) Tags(c echo.Context) error {
 		return err
 	}
 	if len(tags) == 0 {
-		tags = append(tags, models.Tag{
+		tags = append(tags, internal.Tag{
 			Slug:  tagSlug,
 			Title: tagQuery,
 		})

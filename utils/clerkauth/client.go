@@ -8,7 +8,6 @@ import (
 	"github.com/apsystole/log"
 	"github.com/clerkinc/clerk-sdk-go/clerk"
 	"github.com/labstack/echo/v4"
-	"github.com/muhwyndhamhp/marknotes/pkg/models"
 	"github.com/muhwyndhamhp/marknotes/utils/errs"
 )
 
@@ -66,7 +65,7 @@ func (cl *Client) AuthMiddleware() echo.MiddlewareFunc {
 	}
 }
 
-func (cl *Client) GetUserFromSession(c echo.Context) (*models.User, error) {
+func (cl *Client) GetUserFromSession(c echo.Context) (*internal.User, error) {
 	session, ok := clerk.SessionFromContext(c.Request().Context())
 	if !ok {
 		return nil, errors.New("session not found")

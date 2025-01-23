@@ -3,8 +3,8 @@ package repository
 import (
 	"context"
 	"fmt"
+	"github.com/muhwyndhamhp/marknotes/internal"
 
-	"github.com/muhwyndhamhp/marknotes/pkg/models"
 	"github.com/muhwyndhamhp/marknotes/utils/errs"
 	"github.com/muhwyndhamhp/marknotes/utils/scopes"
 	"gorm.io/gorm"
@@ -19,7 +19,7 @@ func (r *repository) Count(ctx context.Context, funcs ...scopes.QueryScope) int 
 	scopes := scopes.Unwrap(funcs...)
 	count := int64(0)
 	if err := r.db.WithContext(ctx).
-		Model(&models.Post{}).
+		Model(&internal.Post{}).
 		Session(&gorm.Session{SkipDefaultTransaction: true}).
 		Scopes(scopes...).
 		Count(&count).
@@ -32,15 +32,15 @@ func (r *repository) Count(ctx context.Context, funcs ...scopes.QueryScope) int 
 
 // Delete implements models.PostRepository.
 func (r *repository) Delete(ctx context.Context, id uint) error {
-	if err := r.db.Delete(&models.Post{}, id).Error; err != nil {
+	if err := r.db.Delete(&internal.Post{}, id).Error; err != nil {
 		return err
 	}
 
 	return nil
 }
 
-func (r *repository) Get(ctx context.Context, funcs ...scopes.QueryScope) ([]models.Post, error) {
-	var res []models.Post
+func (r *repository) Get(ctx context.Context, funcs ...scopes.QueryScope) ([]internal.Post, error) {
+	var res []internal.Post
 	scopes := scopes.Unwrap(funcs...)
 	if err := r.db.WithContext(ctx).
 		Session(&gorm.Session{SkipDefaultTransaction: true}).
@@ -52,8 +52,8 @@ func (r *repository) Get(ctx context.Context, funcs ...scopes.QueryScope) ([]mod
 	return res, nil
 }
 
-func (r *repository) GetByID(ctx context.Context, id uint) (*models.Post, error) {
-	var res models.Post
+func (r *repository) GetByID(ctx context.Context, id uint) (*internal.Post, error) {
+	var res internal.Post
 	if err := r.db.WithContext(ctx).
 		Session(&gorm.Session{SkipDefaultTransaction: true}).
 		Preload("Tags").
@@ -65,7 +65,7 @@ func (r *repository) GetByID(ctx context.Context, id uint) (*models.Post, error)
 	return &res, nil
 }
 
-func (r *repository) Upsert(ctx context.Context, value *models.Post) error {
+func (r *repository) Upsert(ctx context.Context, value *internal.Post) error {
 	if trxErr := r.db.Transaction(func(tx *gorm.DB) error {
 		if err := r.db.
 			WithContext(ctx).
@@ -92,7 +92,7 @@ func (r *repository) Upsert(ctx context.Context, value *models.Post) error {
 	return nil
 }
 
-func NewPostRepository(db *gorm.DB) models.PostRepository {
+func NewPostRepository(db *gorm.DB) internal.PostRepository {
 	return &repository{
 		db: db,
 	}

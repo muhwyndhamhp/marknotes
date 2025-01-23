@@ -2,13 +2,13 @@ package post
 
 import (
 	"fmt"
+	"github.com/muhwyndhamhp/marknotes/internal"
 	"net/http"
 	"strconv"
 
 	"github.com/labstack/echo/v4"
 	"github.com/muhwyndhamhp/marknotes/middlewares"
 	"github.com/muhwyndhamhp/marknotes/pkg/admin"
-	"github.com/muhwyndhamhp/marknotes/pkg/models"
 	"github.com/muhwyndhamhp/marknotes/pkg/post/values"
 	pub_postlist "github.com/muhwyndhamhp/marknotes/pub/components/postlist"
 	pub_post_index "github.com/muhwyndhamhp/marknotes/pub/pages/post_index"
@@ -24,12 +24,12 @@ import (
 )
 
 type PostFrontend struct {
-	repo   models.PostRepository
+	repo   internal.PostRepository
 	bucket *cloudbucket.S3Client
 }
 
 func NewPostFrontend(g *echo.Group,
-	repo models.PostRepository,
+	repo internal.PostRepository,
 	bucket *cloudbucket.S3Client,
 	htmxMid echo.MiddlewareFunc,
 	authMid echo.MiddlewareFunc,

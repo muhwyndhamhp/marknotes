@@ -2,11 +2,11 @@ package dashboard
 
 import (
 	"fmt"
+	"github.com/muhwyndhamhp/marknotes/internal"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
 	"github.com/muhwyndhamhp/marknotes/analytics"
-	"github.com/muhwyndhamhp/marknotes/pkg/models"
 	pub_dashboard_analytics "github.com/muhwyndhamhp/marknotes/pub/pages/dashboards/analytics"
 	"github.com/muhwyndhamhp/marknotes/template"
 	"github.com/muhwyndhamhp/marknotes/utils/errs"
@@ -23,8 +23,8 @@ func (fe *DashboardFrontend) Analytics(c echo.Context) error {
 	var data []typeext.JSONB
 	err := fe.App.DB.
 		WithContext(c.Request().Context()).
-		Model(&models.Analytics{}).
-		Scopes(models.GetLatest(slug)).
+		Model(&internal.Analytics{}).
+		Scopes(internal.GetLatest(slug)).
 		Pluck("data", &data).
 		Error
 	if err != nil {

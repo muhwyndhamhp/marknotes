@@ -3,7 +3,6 @@ package internal
 import (
 	"github.com/labstack/echo/v4"
 	"github.com/muhwyndhamhp/marknotes/analytics"
-	"github.com/muhwyndhamhp/marknotes/pkg/models"
 	"github.com/muhwyndhamhp/marknotes/utils/clerkauth"
 	"github.com/muhwyndhamhp/marknotes/utils/cloudbucket"
 	"github.com/muhwyndhamhp/marknotes/utils/renderfile"
@@ -12,10 +11,10 @@ import (
 
 type Application struct {
 	// Repositories
-	UserRepository      models.UserRepository
-	PostRepository      models.PostRepository
-	TagRepository       models.TagRepository
-	AnalyticsRepository models.AnalyticsRepository
+	UserRepository      UserRepository
+	PostRepository      PostRepository
+	TagRepository       TagRepository
+	AnalyticsRepository AnalyticsRepository
 
 	// Internal Plumbings and Clients
 	DB              *gorm.DB

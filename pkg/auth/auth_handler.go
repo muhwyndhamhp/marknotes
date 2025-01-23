@@ -3,12 +3,12 @@ package auth
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/muhwyndhamhp/marknotes/internal"
 	"net/http"
 	"net/url"
 	"time"
 
 	"github.com/labstack/echo/v4"
-	"github.com/muhwyndhamhp/marknotes/pkg/models"
 	"github.com/muhwyndhamhp/marknotes/utils/jwt"
 
 	"github.com/gorilla/csrf"
@@ -31,7 +31,7 @@ type AuthService struct {
 	ClientID       string
 	ClientSecret   string
 	RedirectURL    string
-	Repo           models.UserRepository
+	Repo           internal.UserRepository
 }
 
 func NewAuthService(g *echo.Group,
@@ -39,7 +39,7 @@ func NewAuthService(g *echo.Group,
 	AuthURL, AccessTokenURL,
 	ClientID, ClientSecret,
 	RedirectURL string,
-	Repo models.UserRepository,
+	Repo internal.UserRepository,
 ) {
 	handler := &AuthService{
 		JWT:            JWT,

@@ -2,8 +2,8 @@ package comment
 
 import (
 	"context"
+	"github.com/muhwyndhamhp/marknotes/internal"
 
-	"github.com/muhwyndhamhp/marknotes/pkg/models"
 	"github.com/muhwyndhamhp/marknotes/utils/errs"
 	"gorm.io/gorm"
 )
@@ -14,7 +14,7 @@ type repository struct {
 
 func (r *repository) BlockCommenter(ctx context.Context, commenterID uint) error {
 	err := r.db.
-		Model(&models.Commenter{}).
+		Model(&internal.Commenter{}).
 		Where("commenter_id =?", commenterID).
 		Update("is_blocked", true).
 		Error
@@ -25,14 +25,14 @@ func (r *repository) BlockCommenter(ctx context.Context, commenterID uint) error
 }
 
 func (r *repository) DeleteComment(ctx context.Context, commentID uint) error {
-	err := r.db.Delete(&models.Comment{}, commentID).Error
+	err := r.db.Delete(&internal.Comment{}, commentID).Error
 	if err != nil {
 		return errs.Wrap(err)
 	}
 	return nil
 }
 
-func (r *repository) CreateComment(ctx context.Context, comment *models.Comment) error {
+func (r *repository) CreateComment(ctx context.Context, comment *internal.Comment) error {
 	err := r.db.Create(comment).Error
 	if err != nil {
 		return errs.Wrap(err)
@@ -40,7 +40,7 @@ func (r *repository) CreateComment(ctx context.Context, comment *models.Comment)
 	return nil
 }
 
-func (r *repository) CreateCommenter(ctx context.Context, commenter *models.Commenter) error {
+func (r *repository) CreateCommenter(ctx context.Context, commenter *internal.Commenter) error {
 	err := r.db.Create(commenter).Error
 	if err != nil {
 		return errs.Wrap(err)
@@ -48,8 +48,8 @@ func (r *repository) CreateCommenter(ctx context.Context, commenter *models.Comm
 	return nil
 }
 
-func (r *repository) FindCommentByPostID(ctx context.Context, postID int) ([]models.Comment, error) {
-	var res []models.Comment
+func (r *repository) FindCommentByPostID(ctx context.Context, postID int) ([]internal.Comment, error) {
+	var res []internal.Comment
 	err := r.db.Where("post_id =?", postID).Find(&res).Error
 	if err != nil {
 		return nil, errs.Wrap(err)
@@ -57,7 +57,7 @@ func (r *repository) FindCommentByPostID(ctx context.Context, postID int) ([]mod
 	return res, nil
 }
 
-func NewCommentRepository(db *gorm.DB) models.CommenterRepository {
+func NewCommentRepository(db *gorm.DB) internal.CommenterRepository {
 	return &repository{
 		db: db,
 	}

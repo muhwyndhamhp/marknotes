@@ -2,6 +2,7 @@ package pages
 
 import (
 	"fmt"
+	"github.com/muhwyndhamhp/marknotes/internal"
 	"os"
 	"strings"
 
@@ -9,12 +10,11 @@ import (
 	"github.com/charmbracelet/glamour"
 	"github.com/charmbracelet/lipgloss"
 	"github.com/muhwyndhamhp/marknotes/config"
-	"github.com/muhwyndhamhp/marknotes/pkg/models"
 	"github.com/muhwyndhamhp/marknotes/ssh/base"
 )
 
 type Article struct {
-	Post *models.Post
+	Post *internal.Post
 }
 
 // GetAccessKey implements base.Page.
@@ -64,7 +64,7 @@ func (a *Article) RenderPage(style lipgloss.Style, screenMeta base.ScreenMetadat
 	return doc.String()
 }
 
-func NewArticle(post *models.Post) base.Page {
+func NewArticle(post *internal.Post) base.Page {
 	return &Article{post}
 }
 

@@ -4,10 +4,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/muhwyndhamhp/marknotes/internal"
 	"os"
 
 	"github.com/muhwyndhamhp/marknotes/config"
-	"github.com/muhwyndhamhp/marknotes/pkg/models"
 	"github.com/muhwyndhamhp/marknotes/pkg/post/values"
 	"github.com/muhwyndhamhp/marknotes/utils/errs"
 	"github.com/muhwyndhamhp/marknotes/utils/fileman"
@@ -31,7 +31,7 @@ func (r *RenderClient) RenderMarkdowns(ctx context.Context) {
 	}
 }
 
-func (r *RenderClient) RenderMarkdown(post *models.Post) error {
+func (r *RenderClient) RenderMarkdown(post *internal.Post) error {
 	if post.MarkdownContent == "" {
 		return errors.New("post content is empty")
 	}

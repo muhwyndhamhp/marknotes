@@ -3,6 +3,7 @@ package dashboard
 import (
 	"context"
 	"fmt"
+	"github.com/muhwyndhamhp/marknotes/internal"
 	"html/template"
 	"net/http"
 	"strconv"
@@ -11,7 +12,6 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/muhwyndhamhp/marknotes/config"
-	"github.com/muhwyndhamhp/marknotes/pkg/models"
 	"github.com/muhwyndhamhp/marknotes/pkg/post/values"
 	pub_alert "github.com/muhwyndhamhp/marknotes/pub/components/alert"
 	pub_dashboards_articles "github.com/muhwyndhamhp/marknotes/pub/pages/dashboards/articles"
@@ -143,7 +143,7 @@ func (fe *DashboardFrontend) ArticlesPush(c echo.Context) error {
 	}
 
 	existingID, _ := strconv.Atoi(c.QueryParam("existingID"))
-	var xp *models.Post
+	var xp *internal.Post
 	if existingID != 0 {
 		p, err := fe.App.PostRepository.GetByID(ctx, uint(existingID))
 		if err != nil {
@@ -180,7 +180,7 @@ func (fe *DashboardFrontend) ArticlesPush(c echo.Context) error {
 		slug = fmt.Sprintf("%s-%d", slug, count)
 	}
 
-	post := tern.Struct(xp, &models.Post{})
+	post := tern.Struct(xp, &internal.Post{})
 
 	usr, err := fe.App.ClerkClient.GetUserFromSession(c)
 	if err != nil {
@@ -203,7 +203,7 @@ func (fe *DashboardFrontend) ArticlesPush(c echo.Context) error {
 	}
 
 	tags := strings.Split(req.Tags, ",")
-	post.Tags = []*models.Tag{}
+	post.Tags = []*internal.Tag{}
 
 	tagLiteral := ""
 	for i := range tags {
@@ -213,11 +213,11 @@ func (fe *DashboardFrontend) ArticlesPush(c echo.Context) error {
 		tagName := strings.ToLower(strings.TrimSpace(tags[i]))
 		tagSlug := strings.ReplaceAll(tagName, " ", "-")
 		res, _ := fe.App.TagRepository.Get(ctx, scopes.Where("slug = ?", tagSlug))
-		var vTag models.Tag
+		var vTag internal.Tag
 		if len(res) != 0 {
 			vTag = res[0]
 		} else {
-			tag := models.Tag{
+			tag := internal.Tag{
 				Slug:  tagSlug,
 				Title: tags[i],
 			}

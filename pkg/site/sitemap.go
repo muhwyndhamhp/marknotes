@@ -3,19 +3,19 @@ package site
 import (
 	"context"
 	"fmt"
+	"github.com/muhwyndhamhp/marknotes/internal"
 	"log"
 	"os"
 	"time"
 
 	"github.com/StudioSol/sitemap"
-	"github.com/muhwyndhamhp/marknotes/pkg/models"
 )
 
 const (
 	BaseUrl = "https://mwyndham.dev/"
 )
 
-func PingSitemap(postRepo models.PostRepository) {
+func PingSitemap(postRepo internal.PostRepository) {
 	ctx := context.Background()
 	lastMod := time.Now()
 	pg := sitemap.NewSitemapGroup("post", false)

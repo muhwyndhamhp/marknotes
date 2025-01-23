@@ -2,11 +2,11 @@ package admin
 
 import (
 	"fmt"
+	"github.com/muhwyndhamhp/marknotes/internal"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
 	"github.com/muhwyndhamhp/marknotes/config"
-	"github.com/muhwyndhamhp/marknotes/pkg/models"
 	pub_contact "github.com/muhwyndhamhp/marknotes/pub/pages/contact"
 	pub_index "github.com/muhwyndhamhp/marknotes/pub/pages/index"
 	pub_unauthorized "github.com/muhwyndhamhp/marknotes/pub/pages/unauthorized"
@@ -16,12 +16,12 @@ import (
 )
 
 type AdminFrontend struct {
-	repo models.PostRepository
+	repo internal.PostRepository
 }
 
 func NewAdminFrontend(
 	g *echo.Group,
-	repo models.PostRepository,
+	repo internal.PostRepository,
 	authDescMid echo.MiddlewareFunc,
 	cacheControlMid echo.MiddlewareFunc,
 ) {

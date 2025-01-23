@@ -3,11 +3,11 @@ package pages
 import (
 	"context"
 	"fmt"
+	"github.com/muhwyndhamhp/marknotes/internal"
 	"strings"
 
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
-	"github.com/muhwyndhamhp/marknotes/pkg/models"
 	"github.com/muhwyndhamhp/marknotes/pkg/post/values"
 	"github.com/muhwyndhamhp/marknotes/ssh/base"
 	"github.com/muhwyndhamhp/marknotes/utils/errs"
@@ -15,8 +15,8 @@ import (
 )
 
 type Home struct {
-	PostRepo models.PostRepository
-	Posts    []models.Post
+	PostRepo internal.PostRepository
+	Posts    []internal.Post
 }
 
 // MatchKeyAction implements base.Page.
@@ -51,7 +51,7 @@ func (h *Home) GetName() string {
 	return "Home"
 }
 
-func NewHome(postRepo models.PostRepository) base.Page {
+func NewHome(postRepo internal.PostRepository) base.Page {
 	return &Home{PostRepo: postRepo}
 }
 

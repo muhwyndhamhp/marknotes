@@ -11,7 +11,6 @@ import (
 	"github.com/a-h/templ"
 	"github.com/muhwyndhamhp/marknotes/config"
 	"github.com/muhwyndhamhp/marknotes/pkg/admin"
-	"github.com/muhwyndhamhp/marknotes/pkg/models"
 	"github.com/muhwyndhamhp/marknotes/pkg/post/values"
 	"github.com/muhwyndhamhp/marknotes/pub"
 	pub_post_detail "github.com/muhwyndhamhp/marknotes/pub/pages/post_detail/post_detail"
@@ -29,7 +28,7 @@ func NewRenderClient(app *internal.Application) *RenderClient {
 	return &RenderClient{App: app}
 }
 
-func (r *RenderClient) RenderPost(ctx context.Context, post *models.Post) {
+func (r *RenderClient) RenderPost(ctx context.Context, post *internal.Post) {
 	userID := uint(0)
 
 	post.FormMeta = map[string]interface{}{

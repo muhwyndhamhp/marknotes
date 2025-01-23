@@ -2,8 +2,8 @@ package repository
 
 import (
 	"context"
+	"github.com/muhwyndhamhp/marknotes/internal"
 
-	"github.com/muhwyndhamhp/marknotes/pkg/models"
 	"github.com/muhwyndhamhp/marknotes/utils/errs"
 	"github.com/muhwyndhamhp/marknotes/utils/scopes"
 	"gorm.io/gorm"
@@ -15,15 +15,15 @@ type repository struct {
 
 // Delete implements models.TagRepository.
 func (r *repository) Delete(ctx context.Context, id uint) error {
-	if err := r.db.Delete(&models.User{}, id).Error; err != nil {
+	if err := r.db.Delete(&internal.User{}, id).Error; err != nil {
 		return err
 	}
 	return nil
 }
 
 // Get implements models.TagRepository.
-func (r *repository) Get(ctx context.Context, funcs ...scopes.QueryScope) ([]models.Tag, error) {
-	var res []models.Tag
+func (r *repository) Get(ctx context.Context, funcs ...scopes.QueryScope) ([]internal.Tag, error) {
+	var res []internal.Tag
 	scopes := scopes.Unwrap(funcs...)
 	err := r.db.WithContext(ctx).
 		Session(&gorm.Session{SkipDefaultTransaction: true}).
@@ -37,8 +37,8 @@ func (r *repository) Get(ctx context.Context, funcs ...scopes.QueryScope) ([]mod
 }
 
 // GetByID implements models.TagRepository.
-func (r *repository) GetByID(ctx context.Context, id uint) (*models.Tag, error) {
-	var res models.Tag
+func (r *repository) GetByID(ctx context.Context, id uint) (*internal.Tag, error) {
+	var res internal.Tag
 	if err := r.db.WithContext(ctx).
 		Session(&gorm.Session{SkipDefaultTransaction: true}).
 		First(&res, id).
@@ -49,14 +49,14 @@ func (r *repository) GetByID(ctx context.Context, id uint) (*models.Tag, error) 
 }
 
 // Upsert implements models.TagRepository.
-func (r *repository) Upsert(ctx context.Context, value *models.Tag) error {
+func (r *repository) Upsert(ctx context.Context, value *internal.Tag) error {
 	if err := r.db.WithContext(ctx).Save(value).Error; err != nil {
 		return err
 	}
 	return nil
 }
 
-func NewTagRepository(db *gorm.DB) models.TagRepository {
+func NewTagRepository(db *gorm.DB) internal.TagRepository {
 	return &repository{
 		db: db,
 	}
