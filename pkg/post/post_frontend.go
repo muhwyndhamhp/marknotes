@@ -3,11 +3,11 @@ package post
 import (
 	"fmt"
 	"github.com/muhwyndhamhp/marknotes/internal"
+	"github.com/muhwyndhamhp/marknotes/internal/middlewares"
 	"net/http"
 	"strconv"
 
 	"github.com/labstack/echo/v4"
-	"github.com/muhwyndhamhp/marknotes/middlewares"
 	"github.com/muhwyndhamhp/marknotes/pkg/admin"
 	"github.com/muhwyndhamhp/marknotes/pkg/post/values"
 	pub_postlist "github.com/muhwyndhamhp/marknotes/pub/components/postlist"

@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/muhwyndhamhp/marknotes/internal"
+	middlewares2 "github.com/muhwyndhamhp/marknotes/internal/middlewares"
 	"net/http"
 	"strings"
 	"time"
@@ -13,7 +14,6 @@ import (
 	"github.com/muhwyndhamhp/marknotes/analytics"
 	"github.com/muhwyndhamhp/marknotes/config"
 	"github.com/muhwyndhamhp/marknotes/db"
-	"github.com/muhwyndhamhp/marknotes/middlewares"
 	"github.com/muhwyndhamhp/marknotes/pkg/admin"
 	"github.com/muhwyndhamhp/marknotes/pkg/auth"
 	_userRepo "github.com/muhwyndhamhp/marknotes/pkg/auth/repository"
@@ -155,9 +155,9 @@ func bootstrap() *internal.Application {
 
 	app.RequireAuthWare = app.ClerkClient.AuthMiddleware()
 	app.DescribeAuthWare = echo.WrapMiddleware(clerk.WithSessionV2(app.ClerkClient.Clerk, clerk.WithLeeway(60*time.Second)))
-	app.CacheControlWare = middlewares.SetCachePolicy()
-	app.GetIdParamWare = middlewares.ByIDMiddleware()
-	app.FromHTMXRequestWare = middlewares.HTMXRequest()
+	app.CacheControlWare = middlewares2.SetCachePolicy()
+	app.GetIdParamWare = middlewares2.ByIDMiddleware()
+	app.FromHTMXRequestWare = middlewares2.HTMXRequest()
 
 	app.ClerkClient = clerkauth.NewClient(config.Get(config.CLERK_SECRET), app)
 
