@@ -2,14 +2,13 @@ package dashboard
 
 import (
 	"fmt"
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/dashboard/partials"
 	"net/http"
 	"strings"
 
 	"github.com/a-h/templ"
 	"github.com/labstack/echo/v4"
 	"github.com/muhwyndhamhp/marknotes/config"
-	pub_editor "github.com/muhwyndhamhp/marknotes/pub/components/editor"
-	pub_iframe "github.com/muhwyndhamhp/marknotes/pub/components/iframe"
 	pub_variables "github.com/muhwyndhamhp/marknotes/pub/variables"
 	templates "github.com/muhwyndhamhp/marknotes/template"
 	"golang.org/x/text/cases"
@@ -20,7 +19,7 @@ func (fe *handler) Editor(c echo.Context) error {
 	baseURL := strings.Split(config.Get(config.OAUTH_URL), "/callback")[0]
 	uploadURL := fmt.Sprintf("%s/posts/%d/media/upload", baseURL, 0)
 
-	dashboard := pub_editor.Editor(uploadURL)
+	dashboard := partials.Editor(uploadURL)
 
 	return templates.AssertRender(c, http.StatusOK, dashboard)
 }
@@ -28,7 +27,7 @@ func (fe *handler) Editor(c echo.Context) error {
 func (fe *handler) LoadIframe(c echo.Context) error {
 	url := c.QueryParam("url")
 
-	iframe := pub_iframe.Iframe(url)
+	iframe := partials.Iframe(url)
 
 	return templates.AssertRender(c, http.StatusOK, iframe)
 }

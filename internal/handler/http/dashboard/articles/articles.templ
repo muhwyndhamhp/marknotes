@@ -3,8 +3,8 @@ package articles
 import (
 	"fmt"
 	"github.com/muhwyndhamhp/marknotes/internal"
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/dashboard/common"
 	pub_assets "github.com/muhwyndhamhp/marknotes/pub/assets"
-	pub_dashboard "github.com/muhwyndhamhp/marknotes/pub/pages/dashboards"
 	pub_variables "github.com/muhwyndhamhp/marknotes/pub/variables"
 )
 
@@ -17,7 +17,7 @@ type ArticlesViewModel struct {
 }
 
 templ Articles(vm ArticlesViewModel) {
-	@pub_dashboard.Dashboard(pub_variables.DashboardOpts{
+	@common.Dashboard(pub_variables.DashboardOpts{
 		Nav:         vm.Opts.Nav,
 		BreadCrumbs: vm.Opts.BreadCrumbs,
 		Comp:        articles(vm.Posts, vm.PageSizes, vm.Pages, vm.CreatePath),

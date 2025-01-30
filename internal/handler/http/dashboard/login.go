@@ -1,10 +1,10 @@
 package dashboard
 
 import (
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/dashboard/login"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
-	pub_dashboard_login "github.com/muhwyndhamhp/marknotes/pub/pages/dashboards/login"
 	pub_variables "github.com/muhwyndhamhp/marknotes/pub/variables"
 	"github.com/muhwyndhamhp/marknotes/template"
 )
@@ -15,11 +15,11 @@ func (fe *handler) Login(c echo.Context) error {
 		BreadCrumbs: fe.Breadcrumbs("dashboard/articles"),
 	}
 
-	loginVM := pub_dashboard_login.LoginVM{
+	loginVM := login.LoginViewModel{
 		Opts: opts,
 	}
 
-	login := pub_dashboard_login.Login(&loginVM)
+	l := login.Login(&loginVM)
 
-	return template.AssertRender(c, http.StatusOK, login)
+	return template.AssertRender(c, http.StatusOK, l)
 }

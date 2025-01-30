@@ -1,14 +1,16 @@
-package pub_dashboard_login
+package login
 
-import "github.com/muhwyndhamhp/marknotes/pub/pages/dashboards"
-import "github.com/muhwyndhamhp/marknotes/pub/variables"
+import (
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/dashboard/common"
+	pub_variables "github.com/muhwyndhamhp/marknotes/pub/variables"
+)
 
-type LoginVM struct {
+type LoginViewModel struct {
 	Opts pub_variables.DashboardOpts
 }
 
-templ Login(vm *LoginVM) {
-	@pub_dashboard.Dashboard(pub_variables.DashboardOpts{
+templ Login(vm *LoginViewModel) {
+	@common.Dashboard(pub_variables.DashboardOpts{
 		Nav:         vm.Opts.Nav,
 		BreadCrumbs: vm.Opts.BreadCrumbs,
 		Comp:        login(),

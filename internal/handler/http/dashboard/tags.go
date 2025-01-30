@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/labstack/echo/v4"
-	pub_tagsuggest "github.com/muhwyndhamhp/marknotes/pub/components/tagsuggest"
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/dashboard/tags"
 	templates "github.com/muhwyndhamhp/marknotes/template"
 	"github.com/muhwyndhamhp/marknotes/utils/scopes"
 )
@@ -21,7 +21,7 @@ func (fe *handler) Tags(c echo.Context) error {
 	tagName := strings.ToLower(strings.TrimSpace(tagQuery))
 	tagSlug := strings.ReplaceAll(tagName, " ", "-")
 
-	tags, err := fe.App.TagRepository.Get(
+	tl, err := fe.App.TagRepository.Get(
 		ctx,
 		scopes.Where("slug LIKE ?", fmt.Sprintf("%%%s%%", tagSlug)),
 		scopes.Paginate(1, 5),
@@ -29,22 +29,22 @@ func (fe *handler) Tags(c echo.Context) error {
 	if err != nil {
 		return err
 	}
-	if len(tags) == 0 {
-		tags = append(tags, internal.Tag{
+	if len(tl) == 0 {
+		tl = append(tl, internal.Tag{
 			Slug:  tagSlug,
 			Title: tagQuery,
 		})
 	}
 
 	var tagTs []string
-	for i := range tags {
-		tagTs = append(tagTs, tags[i].Title)
+	for i := range tl {
+		tagTs = append(tagTs, tl[i].Title)
 	}
 
 	js, _ := json.Marshal(tagTs)
 	c.Response().Header().Set("X-Tags", string(js))
 
-	tagSuggest := pub_tagsuggest.TagSuggest(tags)
+	tagSuggest := tags.TagSuggest(tl)
 
 	return templates.AssertRender(c, http.StatusOK, tagSuggest)
 }
