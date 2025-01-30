@@ -8,10 +8,12 @@ package pub_tagsuggest
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "github.com/muhwyndhamhp/marknotes/pkg/models"
-import "fmt"
+import (
+	"fmt"
+	"github.com/muhwyndhamhp/marknotes/internal"
+)
 
-func TagSuggest(tags []models.Tag) templ.Component {
+func TagSuggest(tags []internal.Tag) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -53,7 +55,7 @@ func TagSuggest(tags []models.Tag) templ.Component {
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("tag-suggest-%d", i))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/components/tagsuggest/tagsuggest.templ`, Line: 10, Col: 44}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/components/tagsuggest/tagsuggest.templ`, Line: 12, Col: 44}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -79,7 +81,7 @@ func TagSuggest(tags []models.Tag) templ.Component {
 			var templ_7745c5c3_Var5 string
 			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(tag.Title)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/components/tagsuggest/tagsuggest.templ`, Line: 10, Col: 95}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pub/components/tagsuggest/tagsuggest.templ`, Line: 12, Col: 95}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {

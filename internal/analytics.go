@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"github.com/muhwyndhamhp/marknotes/analytics"
-	"github.com/muhwyndhamhp/marknotes/pkg/post/values"
 	"github.com/muhwyndhamhp/marknotes/utils/errs"
 	"github.com/muhwyndhamhp/marknotes/utils/typeext"
 	"golang.org/x/sync/errgroup"
@@ -39,7 +38,7 @@ func CacheAnalytics(ctx context.Context, db *gorm.DB, c *analytics.Client) error
 	var slugs []string
 	err := db.WithContext(ctx).
 		Model(&Post{}).
-		Where("status = ?", values.Published).
+		Where("status = ?", PostStatusPublished).
 		Pluck("slug", &slugs).
 		Error
 	if err != nil {

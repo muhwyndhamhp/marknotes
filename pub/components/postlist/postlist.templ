@@ -1,16 +1,18 @@
 package pub_postlist
 
-import "github.com/muhwyndhamhp/marknotes/pkg/models"
-import "fmt"
-import "strings"
+import (
+	"fmt"
+	"github.com/muhwyndhamhp/marknotes/internal"
+	"strings"
+)
 
-templ PostList(posts []models.Post) {
+templ PostList(posts []internal.Post) {
 	for i := range posts {
 		@PostItem(posts[i])
 	}
 }
 
-templ PostItem(post models.Post) {
+templ PostItem(post internal.Post) {
 	<div
 		class="bg-transparent"
 		if post.FormMeta["IsLastItem"] == true {
@@ -37,7 +39,7 @@ templ PostItem(post models.Post) {
 	</div>
 }
 
-templ PostMetadata(post models.Post) {
+templ PostMetadata(post internal.Post) {
 	<p class={ "font-mono text-sm mt-2 text-accent brightness-90 dark:text-accent", templ.KV("text-center", post.FormMeta["CenterAlign"] == true) }>
 		Created: { post.CreatedAt.Format("Jan, 02 2006") } | 
 		Updated: { post.UpdatedAt.Format("Jan, 02 2006") } | 

@@ -7,14 +7,13 @@ import (
 	"time"
 
 	"github.com/gorilla/feeds"
-	"github.com/muhwyndhamhp/marknotes/pkg/post/values"
 	"github.com/muhwyndhamhp/marknotes/utils/constants"
 	"github.com/muhwyndhamhp/marknotes/utils/fileman"
 	"github.com/muhwyndhamhp/marknotes/utils/scopes"
 )
 
 func GenerateRSS(ctx context.Context, repo internal.PostRepository) error {
-	posts, err := repo.Get(ctx, scopes.Where("status = ?", values.Published))
+	posts, err := repo.Get(ctx, scopes.Where("status = ?", internal.PostStatusPublished))
 	if err != nil {
 		return err
 	}

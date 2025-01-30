@@ -3,9 +3,7 @@ package internal
 import (
 	"github.com/labstack/echo/v4"
 	"github.com/muhwyndhamhp/marknotes/analytics"
-	"github.com/muhwyndhamhp/marknotes/utils/clerkauth"
 	"github.com/muhwyndhamhp/marknotes/utils/cloudbucket"
-	"github.com/muhwyndhamhp/marknotes/utils/renderfile"
 	"gorm.io/gorm"
 )
 
@@ -18,9 +16,9 @@ type Application struct {
 
 	// Internal Plumbings and Clients
 	DB              *gorm.DB
-	ClerkClient     *clerkauth.Client
+	ClerkClient     ClerkClient
 	Bucket          *cloudbucket.S3Client
-	RenderClient    *renderfile.RenderClient
+	RenderClient    RenderFile
 	AnalyticsClient *analytics.Client
 
 	// Middlewares

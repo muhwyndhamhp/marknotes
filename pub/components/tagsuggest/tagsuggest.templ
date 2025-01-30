@@ -1,9 +1,11 @@
 package pub_tagsuggest
 
-import "github.com/muhwyndhamhp/marknotes/pkg/models"
-import "fmt"
+import (
+	"fmt"
+	"github.com/muhwyndhamhp/marknotes/internal"
+)
 
-templ TagSuggest(tags []models.Tag) {
+templ TagSuggest(tags []internal.Tag) {
 	<ul class="menu m-6 bg-base-200 rounded-box min-w-52">
 		for i, tag := range tags {
 			<li class="text-lg text-base-content">

@@ -8,13 +8,15 @@ package pub_post_index
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "github.com/muhwyndhamhp/marknotes/pub/variables"
-import "github.com/muhwyndhamhp/marknotes/pkg/models"
-import "github.com/muhwyndhamhp/marknotes/pub/components/searchbar"
-import "github.com/muhwyndhamhp/marknotes/pub/components/postlist"
-import "github.com/muhwyndhamhp/marknotes/pub"
+import (
+	"github.com/muhwyndhamhp/marknotes/internal"
+	"github.com/muhwyndhamhp/marknotes/pub"
+	pub_postlist "github.com/muhwyndhamhp/marknotes/pub/components/postlist"
+	pub_searchbar "github.com/muhwyndhamhp/marknotes/pub/components/searchbar"
+	pub_variables "github.com/muhwyndhamhp/marknotes/pub/variables"
+)
 
-func PostIndex(body pub_variables.BodyOpts, posts []models.Post, search pub_variables.SearchBar) templ.Component {
+func PostIndex(body pub_variables.BodyOpts, posts []internal.Post, search pub_variables.SearchBar) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -47,7 +49,7 @@ func PostIndex(body pub_variables.BodyOpts, posts []models.Post, search pub_vari
 	})
 }
 
-func postIndex(posts []models.Post, search pub_variables.SearchBar) templ.Component {
+func postIndex(posts []internal.Post, search pub_variables.SearchBar) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {

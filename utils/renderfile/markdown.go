@@ -8,7 +8,6 @@ import (
 	"os"
 
 	"github.com/muhwyndhamhp/marknotes/config"
-	"github.com/muhwyndhamhp/marknotes/pkg/post/values"
 	"github.com/muhwyndhamhp/marknotes/utils/errs"
 	"github.com/muhwyndhamhp/marknotes/utils/fileman"
 	"github.com/muhwyndhamhp/marknotes/utils/scopes"
@@ -18,7 +17,7 @@ func (r *RenderClient) RenderMarkdowns(ctx context.Context) {
 	if err := fileman.CheckDir(config.Get(config.POST_RENDER_PATH) + "/markdowns"); err != nil {
 		fmt.Println(err)
 	}
-	posts, err := r.App.PostRepository.Get(ctx, scopes.Where("status = ?", values.Published))
+	posts, err := r.App.PostRepository.Get(ctx, scopes.Where("status = ?", internal.PostStatusPublished))
 	if err != nil {
 		fmt.Println(err)
 	}

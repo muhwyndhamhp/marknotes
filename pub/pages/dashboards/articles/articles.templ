@@ -1,14 +1,16 @@
 package pub_dashboards_articles
 
-import "github.com/muhwyndhamhp/marknotes/pub/variables"
-import "github.com/muhwyndhamhp/marknotes/pkg/models"
-import "github.com/muhwyndhamhp/marknotes/pub/assets"
-import "github.com/muhwyndhamhp/marknotes/pub/pages/dashboards"
-import "fmt"
+import (
+	"fmt"
+	"github.com/muhwyndhamhp/marknotes/internal"
+	pub_assets "github.com/muhwyndhamhp/marknotes/pub/assets"
+	pub_dashboard "github.com/muhwyndhamhp/marknotes/pub/pages/dashboards"
+	pub_variables "github.com/muhwyndhamhp/marknotes/pub/variables"
+)
 
 type ArticlesVM struct {
 	Opts       pub_variables.DashboardOpts
-	Posts      []models.Post
+	Posts      []internal.Post
 	PageSizes  pub_variables.DropdownVM
 	Pages      pub_variables.DropdownVM
 	CreatePath string
@@ -22,7 +24,7 @@ templ Articles(vm ArticlesVM) {
 	})
 }
 
-templ ArticleOOB(posts []models.Post, pageSizes, pages pub_variables.DropdownVM) {
+templ ArticleOOB(posts []internal.Post, pageSizes, pages pub_variables.DropdownVM) {
 	@articleTable(posts, getOOBAttr())
 	@pageSize(pageSizes, getOOBAttr())
 	@pagination(pages, getOOBAttr())
@@ -32,7 +34,7 @@ func getOOBAttr() templ.Attributes {
 	return templ.Attributes{"hx-swap-oob": "true"}
 }
 
-templ articles(posts []models.Post, pageSizes, pages pub_variables.DropdownVM, createPath string) {
+templ articles(posts []internal.Post, pageSizes, pages pub_variables.DropdownVM, createPath string) {
 	<div class="w-full h-full" id="articles">
 		<div class="mx-3 md:mx-10">
 			<div class="w-full flex flex-col md:flex-row justify-end">
@@ -111,7 +113,7 @@ templ pageSize(vm pub_variables.DropdownVM, attrs templ.Attributes) {
 	</div>
 }
 
-templ articleTable(posts []models.Post, attrs templ.Attributes) {
+templ articleTable(posts []internal.Post, attrs templ.Attributes) {
 	<div
 		id="article-table"
 		{ attrs... }
@@ -138,7 +140,7 @@ templ articleTable(posts []models.Post, attrs templ.Attributes) {
 	</div>
 }
 
-templ articleRow(post models.Post, flipDropdown bool) {
+templ articleRow(post internal.Post, flipDropdown bool) {
 	<tr class="h-16">
 		<th></th>
 		<th class="font-normal">{ fmt.Sprintf("%d", post.ID) }</th>

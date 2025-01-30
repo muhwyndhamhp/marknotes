@@ -11,7 +11,6 @@ import (
 	"github.com/a-h/templ"
 	"github.com/muhwyndhamhp/marknotes/config"
 	"github.com/muhwyndhamhp/marknotes/pkg/admin"
-	"github.com/muhwyndhamhp/marknotes/pkg/post/values"
 	"github.com/muhwyndhamhp/marknotes/pub"
 	pub_post_detail "github.com/muhwyndhamhp/marknotes/pub/pages/post_detail/post_detail"
 	pub_variables "github.com/muhwyndhamhp/marknotes/pub/variables"
@@ -24,7 +23,7 @@ type RenderClient struct {
 	App *internal.Application
 }
 
-func NewRenderClient(app *internal.Application) *RenderClient {
+func NewRenderClient(app *internal.Application) internal.RenderFile {
 	return &RenderClient{App: app}
 }
 
@@ -93,7 +92,7 @@ func (r *RenderClient) RenderPosts(ctx context.Context) {
 		fmt.Println(err)
 	}
 
-	posts, err := r.App.PostRepository.Get(ctx, scopes.Where("status = ?", values.Published), scopes.Preload("Tags"))
+	posts, err := r.App.PostRepository.Get(ctx, scopes.Where("status = ?", internal.PostStatusPublished), scopes.Preload("Tags"))
 	if err != nil {
 		fmt.Println(err)
 	}

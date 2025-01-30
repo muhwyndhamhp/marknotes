@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"errors"
+	_postRepo "github.com/muhwyndhamhp/marknotes/internal/post"
 	"net"
 	"os"
 	"os/signal"
@@ -21,8 +22,6 @@ import (
 	"github.com/muhwyndhamhp/marknotes/db"
 	"github.com/muhwyndhamhp/marknotes/ssh/base"
 	"github.com/muhwyndhamhp/marknotes/ssh/pages"
-
-	_postRepo "github.com/muhwyndhamhp/marknotes/pkg/post/repository"
 )
 
 const (

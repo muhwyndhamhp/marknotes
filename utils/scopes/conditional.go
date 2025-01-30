@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/muhwyndhamhp/marknotes/pkg/post/values"
 	"gorm.io/gorm"
 )
 
@@ -17,15 +16,6 @@ func Preload(query string, args ...interface{}) QueryScope {
 func Where(statement string, params ...interface{}) QueryScope {
 	return func(db *gorm.DB) *gorm.DB {
 		return db.Where(statement, params...)
-	}
-}
-
-func WithStatus(status values.PostStatus) QueryScope {
-	return func(db *gorm.DB) *gorm.DB {
-		if status == values.None {
-			return db
-		}
-		return db.Where("status = ?", status)
 	}
 }
 

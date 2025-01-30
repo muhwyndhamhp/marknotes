@@ -16,9 +16,13 @@ type Client struct {
 	App   *internal.Application
 }
 
+func (cl *Client) GetClerk() clerk.Client {
+	return cl.Clerk
+}
+
 var sessionCache = map[string]bool{}
 
-func NewClient(secret string, app *internal.Application) *Client {
+func NewClient(secret string, app *internal.Application) internal.ClerkClient {
 	cl, err := clerk.NewClient(secret)
 	if err != nil {
 		panic(err)

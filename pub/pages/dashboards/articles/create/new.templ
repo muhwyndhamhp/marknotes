@@ -1,18 +1,20 @@
 package pub_dashboards_articles_new
 
-import "github.com/muhwyndhamhp/marknotes/pub/variables"
-import "github.com/muhwyndhamhp/marknotes/pub/pages/dashboards"
-import "github.com/muhwyndhamhp/marknotes/pkg/models"
-import "strings"
-import "fmt"
-import "github.com/muhwyndhamhp/marknotes/utils/tern"
-import "github.com/muhwyndhamhp/marknotes/pub/assets"
+import (
+	"fmt"
+	"github.com/muhwyndhamhp/marknotes/internal"
+	pub_assets "github.com/muhwyndhamhp/marknotes/pub/assets"
+	pub_dashboard "github.com/muhwyndhamhp/marknotes/pub/pages/dashboards"
+	pub_variables "github.com/muhwyndhamhp/marknotes/pub/variables"
+	"github.com/muhwyndhamhp/marknotes/utils/tern"
+	"strings"
+)
 
 type NewVM struct {
 	Opts      pub_variables.DashboardOpts
 	UploadURL string
 	BaseURL   string
-	Post      *models.Post
+	Post      *internal.Post
 }
 
 templ New(vm NewVM) {
@@ -24,7 +26,7 @@ templ New(vm NewVM) {
 	})
 }
 
-templ new(existingPost *models.Post, baseURL, uploadURL string) {
+templ new(existingPost *internal.Post, baseURL, uploadURL string) {
 	<form id="form-post" class="mt-6 w-full h-full flex flex-col md:flex-row-reverse max-w-screen-itn2 mx-auto">
 		<div>
 			<div
@@ -36,7 +38,7 @@ templ new(existingPost *models.Post, baseURL, uploadURL string) {
 				}
 			>
 				<div class="box-border">
-					@submitButton(tern.Struct(existingPost, &models.Post{}).ID)
+					@submitButton(tern.Struct(existingPost, &internal.Post{}).ID)
 				</div>
 			</div>
 		</div>
@@ -134,7 +136,7 @@ templ new(existingPost *models.Post, baseURL, uploadURL string) {
 				<div
 					_={ fmt.Sprintf(
                "on load or htmx:swap set window.content to %s then set window.baseURL to '%s' then trigger loadEditor",
-               tern.Struct(existingPost, &models.Post{}).Content,
+               tern.Struct(existingPost, &internal.Post{}).Content,
                baseURL,
                ) }
 					class="w-full md:max-w-xl itn:max-w-2xl itn2:max-w-3xl xl:max-w-4xl min-h-96 bg-base-100 p-6 shadow-2xl rounded-t-none rounded-b-box"
@@ -236,14 +238,14 @@ func debugString(str string) string {
 	return str
 }
 
-func HeaderURL(existingPost *models.Post) string {
+func HeaderURL(existingPost *internal.Post) string {
 	if existingPost != nil {
 		return existingPost.HeaderImageURL
 	}
 	return ""
 }
 
-func TagsToCommaSeparated(tags []*models.Tag) string {
+func TagsToCommaSeparated(tags []*internal.Tag) string {
 	var tagNames []string
 	for _, tag := range tags {
 		tagNames = append(tagNames, tag.Title)

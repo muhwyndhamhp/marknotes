@@ -1,12 +1,14 @@
 package pub_post_detail
 
-import "github.com/muhwyndhamhp/marknotes/pkg/models"
-import "fmt"
-import "html/template"
-import "github.com/muhwyndhamhp/marknotes/pub/variables"
-import "github.com/muhwyndhamhp/marknotes/pub"
+import (
+	"fmt"
+	"github.com/muhwyndhamhp/marknotes/internal"
+	"github.com/muhwyndhamhp/marknotes/pub"
+	pub_variables "github.com/muhwyndhamhp/marknotes/pub/variables"
+	"html/template"
+)
 
-templ PostDetail(body pub_variables.BodyOpts, post models.Post) {
+templ PostDetail(body pub_variables.BodyOpts, post internal.Post) {
 	@pub.Body(pub_variables.BodyOpts{
 		HeaderButtons: body.HeaderButtons,
 		FooterButtons: body.FooterButtons,
@@ -15,7 +17,7 @@ templ PostDetail(body pub_variables.BodyOpts, post models.Post) {
 	})
 }
 
-templ postDetail(post models.Post) {
+templ postDetail(post internal.Post) {
 	<div class="relative w-full md:mx-auto md:max-w-3xl lg:max-w-4xl pt-8">
 		<div class="flex flex-row relative">
 			@TitleGroup(post)
@@ -36,7 +38,7 @@ templ postDetail(post models.Post) {
 	</div>
 }
 
-templ TitleGroup(post models.Post) {
+templ TitleGroup(post internal.Post) {
 	<div
 		class={ "mt-2 mx-8 grow align-middle flex flex-col z-[2] pt-8 pb-20",  templ.KV("text-gray-100 dark:text-base-content dark:invert-0",
   post.HeaderImageURL != "") }

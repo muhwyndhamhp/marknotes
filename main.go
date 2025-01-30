@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"github.com/muhwyndhamhp/marknotes/internal"
 	middlewares2 "github.com/muhwyndhamhp/marknotes/internal/middlewares"
+	_postRepo "github.com/muhwyndhamhp/marknotes/internal/post"
+	"github.com/muhwyndhamhp/marknotes/utils/clerkauth"
 	"net/http"
 	"strings"
 	"time"
@@ -19,11 +21,9 @@ import (
 	_userRepo "github.com/muhwyndhamhp/marknotes/pkg/auth/repository"
 	"github.com/muhwyndhamhp/marknotes/pkg/dashboard"
 	"github.com/muhwyndhamhp/marknotes/pkg/post"
-	_postRepo "github.com/muhwyndhamhp/marknotes/pkg/post/repository"
 	"github.com/muhwyndhamhp/marknotes/pkg/site"
 	_tagRepo "github.com/muhwyndhamhp/marknotes/pkg/tag/repository"
 	"github.com/muhwyndhamhp/marknotes/template"
-	"github.com/muhwyndhamhp/marknotes/utils/clerkauth"
 	"github.com/muhwyndhamhp/marknotes/utils/cloudbucket"
 	"github.com/muhwyndhamhp/marknotes/utils/imageprocessing"
 	"github.com/muhwyndhamhp/marknotes/utils/jwt"
@@ -38,7 +38,7 @@ func main() {
 
 	app := bootstrap()
 
-	routing.SetupRouter(e, app.ClerkClient.Clerk)
+	routing.SetupRouter(e, app.ClerkClient.GetClerk())
 
 	e.Use(redirectHTML())
 	// e.Use(middlewares.SetCachePolicy())
@@ -153,13 +153,12 @@ func bootstrap() *internal.Application {
 
 	app.RenderClient = renderfile.NewRenderClient(app)
 
+	app.ClerkClient = clerkauth.NewClient(config.Get(config.CLERK_SECRET), app)
 	app.RequireAuthWare = app.ClerkClient.AuthMiddleware()
-	app.DescribeAuthWare = echo.WrapMiddleware(clerk.WithSessionV2(app.ClerkClient.Clerk, clerk.WithLeeway(60*time.Second)))
+	app.DescribeAuthWare = echo.WrapMiddleware(clerk.WithSessionV2(app.ClerkClient.GetClerk(), clerk.WithLeeway(60*time.Second)))
 	app.CacheControlWare = middlewares2.SetCachePolicy()
 	app.GetIdParamWare = middlewares2.ByIDMiddleware()
 	app.FromHTMXRequestWare = middlewares2.HTMXRequest()
-
-	app.ClerkClient = clerkauth.NewClient(config.Get(config.CLERK_SECRET), app)
 
 	return app
 }

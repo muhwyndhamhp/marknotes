@@ -1,4 +1,4 @@
-package repository
+package post
 
 import (
 	"context"
@@ -16,12 +16,12 @@ type repository struct {
 
 // Count implements models.PostRepository.
 func (r *repository) Count(ctx context.Context, funcs ...scopes.QueryScope) int {
-	scopes := scopes.Unwrap(funcs...)
+	s := scopes.Unwrap(funcs...)
 	count := int64(0)
 	if err := r.db.WithContext(ctx).
 		Model(&internal.Post{}).
 		Session(&gorm.Session{SkipDefaultTransaction: true}).
-		Scopes(scopes...).
+		Scopes(s...).
 		Count(&count).
 		Error; err != nil {
 		fmt.Println(err)
@@ -41,10 +41,10 @@ func (r *repository) Delete(ctx context.Context, id uint) error {
 
 func (r *repository) Get(ctx context.Context, funcs ...scopes.QueryScope) ([]internal.Post, error) {
 	var res []internal.Post
-	scopes := scopes.Unwrap(funcs...)
+	s := scopes.Unwrap(funcs...)
 	if err := r.db.WithContext(ctx).
 		Session(&gorm.Session{SkipDefaultTransaction: true}).
-		Scopes(scopes...).
+		Scopes(s...).
 		Find(&res).
 		Error; err != nil {
 		return nil, err

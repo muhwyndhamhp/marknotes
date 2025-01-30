@@ -10,9 +10,16 @@ import (
 	"time"
 
 	"github.com/muhwyndhamhp/marknotes/config"
-	"github.com/muhwyndhamhp/marknotes/pkg/post/values"
 	"github.com/muhwyndhamhp/marknotes/utils/scopes"
 	"gorm.io/gorm"
+)
+
+type PostStatus string
+
+const (
+	PostStatusNone      PostStatus = ""
+	PostStatusDraft     PostStatus = "draft"
+	PostStatusPublished PostStatus = "published"
 )
 
 type Post struct {
@@ -23,7 +30,7 @@ type Post struct {
 	Content         string
 	EncodedContent  template.HTML
 	MarkdownContent string
-	Status          values.PostStatus `gorm:"index"`
+	Status          PostStatus `gorm:"index"`
 	PublishedAt     time.Time
 	Slug            string                 `gorm:"index"`
 	FormMeta        map[string]interface{} `gorm:"-"`
@@ -49,7 +56,7 @@ func (m *Post) GenerateURL() string {
 
 func (m *Post) AppendFormMeta(
 	page int,
-	status values.PostStatus,
+	status PostStatus,
 	sortQuery string,
 	keyword string,
 ) {
@@ -60,8 +67,8 @@ func (m *Post) AppendFormMeta(
 		qs.Add("sortBy", sortQuery)
 	}
 
-	if status != values.None {
-		qs.Add("status", string(values.Published))
+	if status != PostStatusNone {
+		qs.Add("status", string(PostStatusPublished))
 	}
 
 	if keyword != "" {
@@ -75,5 +82,44 @@ func (m *Post) AppendFormMeta(
 
 	if keyword != "" {
 		m.FormMeta["Keyword"] = keyword
+	}
+}
+
+func WithStatus(status PostStatus) scopes.QueryScope {
+	return func(db *gorm.DB) *gorm.DB {
+		if status == PostStatusNone {
+			return db
+		}
+		return db.Where("status = ?", status)
+	}
+}
+
+func PostDeepMatch(keyword string, status PostStatus) scopes.QueryScope {
+	return func(db *gorm.DB) *gorm.DB {
+		wrappedKeyword := fmt.Sprintf("%%%s%%", strings.ToLower(keyword))
+		dbs := db.Table("posts").
+			Select(
+				"distinct posts.id",
+				"posts.title",
+				"posts.created_at",
+				"posts.status",
+				"posts.updated_at",
+				"posts.published_at",
+			).
+			Joins("full join post_tags on posts.id = post_tags.post_id").
+			Joins("left join tags on post_tags.tag_id = tags.id")
+
+		dbs = dbs.
+			Where(
+				dbs.Where("lower(posts.title) like ?", wrappedKeyword).
+					Or("lower(posts.content) like ?", wrappedKeyword).
+					Or("lower(tags.title) like ?", wrappedKeyword),
+			)
+
+		if status != PostStatusNone {
+			dbs = dbs.Where("posts.status = ?", status)
+		}
+
+		return dbs
 	}
 }

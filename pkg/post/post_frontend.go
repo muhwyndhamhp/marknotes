@@ -9,7 +9,6 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/muhwyndhamhp/marknotes/pkg/admin"
-	"github.com/muhwyndhamhp/marknotes/pkg/post/values"
 	pub_postlist "github.com/muhwyndhamhp/marknotes/pub/components/postlist"
 	pub_post_index "github.com/muhwyndhamhp/marknotes/pub/pages/post_index"
 	pub_variables "github.com/muhwyndhamhp/marknotes/pub/variables"
@@ -100,14 +99,14 @@ func (fe *PostFrontend) PostsIndex(c echo.Context) error {
 	posts, err := fe.repo.Get(ctx,
 		scopes.Paginate(1, 10),
 		scopes.OrderBy("published_at", scopes.Descending),
-		scopes.WithStatus(values.Published),
+		internal.WithStatus(internal.PostStatusPublished),
 		scopes.PostIndexedOnly(),
 	)
 	if err != nil {
 		return err
 	}
 	if len(posts) > 0 {
-		posts[len(posts)-1].AppendFormMeta(2, values.Published, "published_at", "")
+		posts[len(posts)-1].AppendFormMeta(2, internal.PostStatusPublished, "published_at", "")
 	}
 
 	search := pub_variables.SearchBar{
@@ -142,7 +141,7 @@ func (fe *PostFrontend) GetPostByID(c echo.Context) error {
 func (fe *PostFrontend) PostsGet(c echo.Context) error {
 	ctx := c.Request().Context()
 	page, pageSize, sortBy, statusStr, keyword, loadNext := params.GetCommonParams(c)
-	status := values.PostStatus(statusStr)
+	status := internal.PostStatus(statusStr)
 
 	scp := []scopes.QueryScope{
 		scopes.OrderBy(tern.String(sortBy, "created_at"), scopes.Descending),
@@ -150,9 +149,9 @@ func (fe *PostFrontend) PostsGet(c echo.Context) error {
 	}
 
 	if keyword != "" {
-		scp = append(scp, scopes.PostDeepMatch(keyword, status))
+		scp = append(scp, internal.PostDeepMatch(keyword, status))
 	} else {
-		scp = append(scp, scopes.WithStatus(status))
+		scp = append(scp, internal.WithStatus(status))
 	}
 
 	posts, err := fe.repo.Get(ctx, scp...)

@@ -12,7 +12,6 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/muhwyndhamhp/marknotes/config"
-	"github.com/muhwyndhamhp/marknotes/pkg/post/values"
 	pub_alert "github.com/muhwyndhamhp/marknotes/pub/components/alert"
 	pub_dashboards_articles "github.com/muhwyndhamhp/marknotes/pub/pages/dashboards/articles"
 	pub_dashboards_articles_new "github.com/muhwyndhamhp/marknotes/pub/pages/dashboards/articles/create"
@@ -97,7 +96,7 @@ func (fe *DashboardFrontend) Articles(c echo.Context) error {
 	}
 
 	if len(posts) > 0 {
-		posts[len(posts)-1].AppendFormMeta(2, values.None, "", "")
+		posts[len(posts)-1].AppendFormMeta(2, internal.PostStatusNone, "", "")
 	}
 	if len(posts) <= 0 && page > 1 {
 		appendRoute := ""
@@ -137,9 +136,9 @@ func (fe *DashboardFrontend) Articles(c echo.Context) error {
 func (fe *DashboardFrontend) ArticlesPush(c echo.Context) error {
 	ctx := c.Request().Context()
 
-	status := values.PostStatus(c.QueryParam("status"))
-	if status == values.None {
-		status = values.Draft
+	status := internal.PostStatus(c.QueryParam("status"))
+	if status == internal.PostStatusNone {
+		status = internal.PostStatusDraft
 	}
 
 	existingID, _ := strconv.Atoi(c.QueryParam("existingID"))
@@ -197,7 +196,7 @@ func (fe *DashboardFrontend) ArticlesPush(c echo.Context) error {
 	post.Slug = slug
 	post.HeaderImageURL = req.HeaderImageURL
 	post.MarkdownContent = req.MarkdownContent
-	if status == values.Published && post.PublishedAt.IsZero() {
+	if status == internal.PostStatusPublished && post.PublishedAt.IsZero() {
 		now := time.Now()
 		post.PublishedAt = now
 	}
@@ -239,7 +238,7 @@ func (fe *DashboardFrontend) ArticlesPush(c echo.Context) error {
 		return templates.AssertRender(c, http.StatusOK, fail)
 	}
 
-	if status == values.Published {
+	if status == internal.PostStatusPublished {
 		go func() {
 			ctx := context.Background()
 			fe.App.RenderClient.RenderPost(ctx, post)

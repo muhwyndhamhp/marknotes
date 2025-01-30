@@ -82,7 +82,7 @@ func (h *Home) RenderPage(style lipgloss.Style, sm base.ScreenMetadata) string {
 			base.PostTitle.Render(fmt.Sprintf("%s %s", post.Title, base.DescStyle.Render(fmt.Sprintf("[%d]", i+1)))),
 			st.Render(
 				fmt.Sprintf(
-					"Published: %s | Updated: %s",
+					"PostStatusPublished: %s | Updated: %s",
 					post.PublishedAt.Format("Jan, 02 2006"),
 					post.UpdatedAt.Format("Jan, 02 2006"),
 				),
