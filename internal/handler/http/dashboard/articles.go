@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/muhwyndhamhp/marknotes/internal"
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/dashboard/articles"
 	"html/template"
 	"net/http"
 	"strconv"
@@ -13,8 +14,6 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/muhwyndhamhp/marknotes/config"
 	pub_alert "github.com/muhwyndhamhp/marknotes/pub/components/alert"
-	pub_dashboards_articles "github.com/muhwyndhamhp/marknotes/pub/pages/dashboards/articles"
-	pub_dashboards_articles_new "github.com/muhwyndhamhp/marknotes/pub/pages/dashboards/articles/create"
 	pub_variables "github.com/muhwyndhamhp/marknotes/pub/variables"
 	templates "github.com/muhwyndhamhp/marknotes/template"
 	"github.com/muhwyndhamhp/marknotes/utils/constants"
@@ -44,13 +43,13 @@ func (fe *handler) ArticlesEdit(c echo.Context) error {
 	baseURL := strings.Split(config.Get(config.OAUTH_URL), "/callback")[0]
 	uploadURL := fmt.Sprintf("%s/posts/%d/media/upload", baseURL, id)
 
-	vm := pub_dashboards_articles_new.NewVM{
+	vm := articles.NewArticleViewModel{
 		Opts:      opts,
 		UploadURL: uploadURL,
 		Post:      post,
 		BaseURL:   baseURL,
 	}
-	articlesNew := pub_dashboards_articles_new.New(vm)
+	articlesNew := articles.NewArticle(vm)
 
 	return templates.AssertRender(c, http.StatusOK, articlesNew)
 }
@@ -64,12 +63,12 @@ func (fe *handler) ArticlesNew(c echo.Context) error {
 	baseURL := strings.Split(config.Get(config.OAUTH_URL), "/callback")[0]
 	uploadURL := fmt.Sprintf("%s/posts/%d/media/upload", baseURL, 0)
 
-	vm := pub_dashboards_articles_new.NewVM{
+	vm := articles.NewArticleViewModel{
 		Opts:      opts,
 		UploadURL: uploadURL,
 		BaseURL:   baseURL,
 	}
-	articlesNew := pub_dashboards_articles_new.New(vm)
+	articlesNew := articles.NewArticle(vm)
 
 	return templates.AssertRender(c, http.StatusOK, articlesNew)
 }
@@ -115,7 +114,7 @@ func (fe *handler) Articles(c echo.Context) error {
 
 	pageSizes := fe.SizeDropdown(page, pageSize)
 	pages := fe.PageDropdown(tern.Int(page, 1), tern.Int(pageSize, 10), count)
-	articleVM := pub_dashboards_articles.ArticlesVM{
+	articleVM := articles.ArticlesViewModel{
 		Opts:       opts,
 		Posts:      posts,
 		PageSizes:  pageSizes,
@@ -123,12 +122,12 @@ func (fe *handler) Articles(c echo.Context) error {
 		CreatePath: "/dashboard/articles/new",
 	}
 
-	dashboard := pub_dashboards_articles.Articles(articleVM)
+	dashboard := articles.Articles(articleVM)
 
 	if !partial {
 		return templates.AssertRender(c, http.StatusOK, dashboard)
 	} else {
-		articles := pub_dashboards_articles.ArticleOOB(posts, pageSizes, pages)
+		articles := articles.ArticleOOB(posts, pageSizes, pages)
 		return templates.AssertRender(c, http.StatusOK, articles)
 	}
 }
@@ -273,13 +272,13 @@ func (fe *handler) ArticlesPush(c echo.Context) error {
 
 		baseURL := strings.Split(config.Get(config.OAUTH_URL), "/callback")[0]
 		uploadURL := fmt.Sprintf("%s/posts/%d/media/upload", baseURL, post.ID)
-		vm := pub_dashboards_articles_new.NewVM{
+		vm := articles.NewArticleViewModel{
 			Opts:      opts,
 			UploadURL: uploadURL,
 			Post:      post,
 			BaseURL:   baseURL,
 		}
-		articlesNew := pub_dashboards_articles_new.New(vm)
+		articlesNew := articles.NewArticle(vm)
 
 		c.Response().Header().Set("HX-Replace-Url", fmt.Sprintf("/dashboard/articles/%d/edit", post.ID))
 		return templates.AssertRender(c, http.StatusOK, articlesNew)

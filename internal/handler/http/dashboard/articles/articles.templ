@@ -1,4 +1,4 @@
-package pub_dashboards_articles
+package articles
 
 import (
 	"fmt"
@@ -8,7 +8,7 @@ import (
 	pub_variables "github.com/muhwyndhamhp/marknotes/pub/variables"
 )
 
-type ArticlesVM struct {
+type ArticlesViewModel struct {
 	Opts       pub_variables.DashboardOpts
 	Posts      []internal.Post
 	PageSizes  pub_variables.DropdownVM
@@ -16,7 +16,7 @@ type ArticlesVM struct {
 	CreatePath string
 }
 
-templ Articles(vm ArticlesVM) {
+templ Articles(vm ArticlesViewModel) {
 	@pub_dashboard.Dashboard(pub_variables.DashboardOpts{
 		Nav:         vm.Opts.Nav,
 		BreadCrumbs: vm.Opts.BreadCrumbs,

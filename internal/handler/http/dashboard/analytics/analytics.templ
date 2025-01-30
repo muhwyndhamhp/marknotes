@@ -1,8 +1,10 @@
-package pub_dashboard_analytics
+package analytics
 
-import "github.com/muhwyndhamhp/marknotes/analytics"
-import "fmt"
-import "github.com/muhwyndhamhp/marknotes/utils/tern"
+import (
+	"fmt"
+	"github.com/muhwyndhamhp/marknotes/analytics"
+	"github.com/muhwyndhamhp/marknotes/utils/tern"
+)
 
 templ Analytics(data *analytics.AnalyticsResponse) {
 	<div class="flex flex-col items-center w-full px-6">

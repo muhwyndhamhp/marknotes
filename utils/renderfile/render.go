@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/muhwyndhamhp/marknotes/internal"
-	"github.com/muhwyndhamhp/marknotes/internal/handlers/http/admin"
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/admin"
 	"os"
 	"strings"
 	"time"

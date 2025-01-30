@@ -1,4 +1,4 @@
-package pub_dashboards_articles_new
+package articles
 
 import (
 	"fmt"
@@ -10,14 +10,14 @@ import (
 	"strings"
 )
 
-type NewVM struct {
+type NewArticleViewModel struct {
 	Opts      pub_variables.DashboardOpts
 	UploadURL string
 	BaseURL   string
 	Post      *internal.Post
 }
 
-templ New(vm NewVM) {
+templ NewArticle(vm NewArticleViewModel) {
 	@pub_dashboard.Dashboard(pub_variables.DashboardOpts{
 		Nav:               vm.Opts.Nav,
 		AdditionalHeaders: vm.Opts.AdditionalHeaders,
