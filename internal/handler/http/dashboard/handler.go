@@ -5,15 +5,15 @@ import (
 	"github.com/muhwyndhamhp/marknotes/internal"
 )
 
-type DashboardFrontend struct {
+type handler struct {
 	App *internal.Application
 }
 
-func NewDashboardFrontend(
+func NewHandler(
 	g *echo.Group,
 	app *internal.Application,
 ) {
-	fe := &DashboardFrontend{app}
+	fe := &handler{app}
 
 	g.GET("/dashboard", func(c echo.Context) error {
 		return c.Redirect(301, "/dashboard/articles")

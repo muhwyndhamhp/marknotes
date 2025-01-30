@@ -15,27 +15,23 @@ import (
 	"github.com/muhwyndhamhp/marknotes/utils/jwt"
 )
 
-type AdminFrontend struct {
-	repo internal.PostRepository
+type handler struct {
+	app *internal.Application
 }
 
-func NewAdminFrontend(
+func NewHandler(
 	g *echo.Group,
-	repo internal.PostRepository,
-	authDescMid echo.MiddlewareFunc,
-	cacheControlMid echo.MiddlewareFunc,
+	app *internal.Application,
 ) {
-	fe := &AdminFrontend{
-		repo: repo,
-	}
+	fe := &handler{app: app}
 
-	g.GET("", fe.Index, authDescMid, cacheControlMid)
-	g.GET("/unauthorized", fe.Unauthorized, cacheControlMid)
-	g.GET("/resume", fe.Resume, cacheControlMid)
-	g.GET("/contact", fe.Contact, authDescMid, cacheControlMid)
+	g.GET("", fe.Index, app.DescribeAuthWare, app.CacheControlWare)
+	g.GET("/unauthorized", fe.Unauthorized, app.CacheControlWare)
+	g.GET("/resume", fe.Resume, app.CacheControlWare)
+	g.GET("/contact", fe.Contact, app.DescribeAuthWare, app.CacheControlWare)
 }
 
-func (fe *AdminFrontend) Contact(c echo.Context) error {
+func (fe *handler) Contact(c echo.Context) error {
 	userID := jwt.AppendAndReturnUserID(c, map[string]interface{}{})
 
 	bodyOpts := pub_variables.BodyOpts{
@@ -46,12 +42,12 @@ func (fe *AdminFrontend) Contact(c echo.Context) error {
 	return template.AssertRender(c, http.StatusOK, pub_contact.Contact(bodyOpts))
 }
 
-func (fe *AdminFrontend) Resume(c echo.Context) error {
+func (fe *handler) Resume(c echo.Context) error {
 	return c.Redirect(http.StatusFound,
 		fmt.Sprintf("/posts/%s", config.Get(config.RESUME_POST_ID)))
 }
 
-func (fe *AdminFrontend) Index(c echo.Context) error {
+func (fe *handler) Index(c echo.Context) error {
 	userID := jwt.AppendAndReturnUserID(c, map[string]interface{}{})
 
 	bodyOpts := pub_variables.BodyOpts{
@@ -65,7 +61,7 @@ func (fe *AdminFrontend) Index(c echo.Context) error {
 	return template.AssertRender(c, http.StatusOK, index)
 }
 
-func (fe *AdminFrontend) Unauthorized(c echo.Context) error {
+func (fe *handler) Unauthorized(c echo.Context) error {
 	bodyOpts := pub_variables.BodyOpts{
 		HeaderButtons: AppendHeaderButtons(0),
 		Component:     nil,

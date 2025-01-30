@@ -27,7 +27,7 @@ import (
 	"github.com/muhwyndhamhp/marknotes/utils/tern"
 )
 
-func (fe *DashboardFrontend) ArticlesEdit(c echo.Context) error {
+func (fe *handler) ArticlesEdit(c echo.Context) error {
 	ctx := c.Request().Context()
 	id, _ := strconv.Atoi(c.Param("id"))
 
@@ -55,7 +55,7 @@ func (fe *DashboardFrontend) ArticlesEdit(c echo.Context) error {
 	return templates.AssertRender(c, http.StatusOK, articlesNew)
 }
 
-func (fe *DashboardFrontend) ArticlesNew(c echo.Context) error {
+func (fe *handler) ArticlesNew(c echo.Context) error {
 	opts := pub_variables.DashboardOpts{
 		Nav:         nav(0),
 		BreadCrumbs: fe.Breadcrumbs("dashboard/articles/new"),
@@ -74,7 +74,7 @@ func (fe *DashboardFrontend) ArticlesNew(c echo.Context) error {
 	return templates.AssertRender(c, http.StatusOK, articlesNew)
 }
 
-func (fe *DashboardFrontend) Articles(c echo.Context) error {
+func (fe *handler) Articles(c echo.Context) error {
 	ctx := c.Request().Context()
 	page, _ := strconv.Atoi(c.QueryParam(constants.PAGE))
 	pageSize, _ := strconv.Atoi(c.QueryParam(constants.PAGE_SIZE))
@@ -133,7 +133,7 @@ func (fe *DashboardFrontend) Articles(c echo.Context) error {
 	}
 }
 
-func (fe *DashboardFrontend) ArticlesPush(c echo.Context) error {
+func (fe *handler) ArticlesPush(c echo.Context) error {
 	ctx := c.Request().Context()
 
 	status := internal.PostStatus(c.QueryParam("status"))
@@ -286,7 +286,7 @@ func (fe *DashboardFrontend) ArticlesPush(c echo.Context) error {
 	}
 }
 
-func (fe *DashboardFrontend) ArticlesDelete(c echo.Context) error {
+func (fe *handler) ArticlesDelete(c echo.Context) error {
 	ctx := c.Request().Context()
 	id, _ := strconv.Atoi(c.Param("id"))
 

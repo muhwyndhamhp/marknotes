@@ -13,7 +13,7 @@ import (
 	"github.com/muhwyndhamhp/marknotes/utils/scopes"
 )
 
-func (fe *DashboardFrontend) Tags(c echo.Context) error {
+func (fe *handler) Tags(c echo.Context) error {
 	ctx := c.Request().Context()
 
 	tagQuery := c.QueryParam("tag")

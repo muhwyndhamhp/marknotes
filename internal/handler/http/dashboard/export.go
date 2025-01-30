@@ -9,7 +9,7 @@ import (
 	"github.com/muhwyndhamhp/marknotes/config"
 )
 
-func (fe DashboardFrontend) ExportHTML(c echo.Context) error {
+func (fe handler) ExportHTML(c echo.Context) error {
 	ctx := c.Request().Context()
 	id, _ := strconv.Atoi(c.Param("id"))
 
@@ -23,7 +23,7 @@ func (fe DashboardFrontend) ExportHTML(c echo.Context) error {
 	return c.Attachment(fp, post.Slug+".html")
 }
 
-func (fe DashboardFrontend) ExportMarkdown(c echo.Context) error {
+func (fe handler) ExportMarkdown(c echo.Context) error {
 	ctx := c.Request().Context()
 	id, _ := strconv.Atoi(c.Param("id"))
 
@@ -37,7 +37,7 @@ func (fe DashboardFrontend) ExportMarkdown(c echo.Context) error {
 	return c.Attachment(fp, post.Slug+".md")
 }
 
-func (fe DashboardFrontend) ExportJSON(c echo.Context) error {
+func (fe handler) ExportJSON(c echo.Context) error {
 	ctx := c.Request().Context()
 	id, _ := strconv.Atoi(c.Param("id"))
 

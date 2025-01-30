@@ -16,7 +16,7 @@ import (
 	"golang.org/x/text/language"
 )
 
-func (fe *DashboardFrontend) Editor(c echo.Context) error {
+func (fe *handler) Editor(c echo.Context) error {
 	baseURL := strings.Split(config.Get(config.OAUTH_URL), "/callback")[0]
 	uploadURL := fmt.Sprintf("%s/posts/%d/media/upload", baseURL, 0)
 
@@ -25,7 +25,7 @@ func (fe *DashboardFrontend) Editor(c echo.Context) error {
 	return templates.AssertRender(c, http.StatusOK, dashboard)
 }
 
-func (fe *DashboardFrontend) LoadIframe(c echo.Context) error {
+func (fe *handler) LoadIframe(c echo.Context) error {
 	url := c.QueryParam("url")
 
 	iframe := pub_iframe.Iframe(url)
@@ -33,7 +33,7 @@ func (fe *DashboardFrontend) LoadIframe(c echo.Context) error {
 	return templates.AssertRender(c, http.StatusOK, iframe)
 }
 
-func (fe *DashboardFrontend) Breadcrumbs(path string) []pub_variables.Breadcrumb {
+func (fe *handler) Breadcrumbs(path string) []pub_variables.Breadcrumb {
 	baseURL := strings.Split(config.Get(config.OAUTH_URL), "/callback")[0]
 
 	paths := strings.Split(path, "/")
@@ -50,7 +50,7 @@ func (fe *DashboardFrontend) Breadcrumbs(path string) []pub_variables.Breadcrumb
 	return items
 }
 
-func (fe *DashboardFrontend) SizeDropdown(page, pageSize int) pub_variables.DropdownVM {
+func (fe *handler) SizeDropdown(page, pageSize int) pub_variables.DropdownVM {
 	arrays := []pub_variables.DropdownItem{}
 	item := 0
 	for i := range []int{0, 1, 2} {
@@ -70,7 +70,7 @@ func (fe *DashboardFrontend) SizeDropdown(page, pageSize int) pub_variables.Drop
 	}
 }
 
-func (fe *DashboardFrontend) PageDropdown(page, pageSize, count int) pub_variables.DropdownVM {
+func (fe *handler) PageDropdown(page, pageSize, count int) pub_variables.DropdownVM {
 	arrays := []pub_variables.DropdownItem{}
 	item := 0
 	for i := 0; (i)*pageSize <= count; i++ {

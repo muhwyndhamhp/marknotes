@@ -4,6 +4,9 @@ import (
 	"context"
 	"fmt"
 	"github.com/muhwyndhamhp/marknotes/internal"
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/admin"
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/dashboard"
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/post"
 	middlewares2 "github.com/muhwyndhamhp/marknotes/internal/middlewares"
 	_postRepo "github.com/muhwyndhamhp/marknotes/internal/post"
 	"github.com/muhwyndhamhp/marknotes/utils/clerkauth"
@@ -16,11 +19,8 @@ import (
 	"github.com/muhwyndhamhp/marknotes/analytics"
 	"github.com/muhwyndhamhp/marknotes/config"
 	"github.com/muhwyndhamhp/marknotes/db"
-	"github.com/muhwyndhamhp/marknotes/pkg/admin"
 	"github.com/muhwyndhamhp/marknotes/pkg/auth"
 	_userRepo "github.com/muhwyndhamhp/marknotes/pkg/auth/repository"
-	"github.com/muhwyndhamhp/marknotes/pkg/dashboard"
-	"github.com/muhwyndhamhp/marknotes/pkg/post"
 	"github.com/muhwyndhamhp/marknotes/pkg/site"
 	_tagRepo "github.com/muhwyndhamhp/marknotes/pkg/tag/repository"
 	"github.com/muhwyndhamhp/marknotes/template"
@@ -67,9 +67,9 @@ func main() {
 		return c.String(http.StatusOK, "OK")
 	}, app.DescribeAuthWare, app.RequireAuthWare)
 
-	admin.NewAdminFrontend(adminGroup, app.PostRepository, app.DescribeAuthWare, app.CacheControlWare)
-	post.NewPostFrontend(adminGroup, app.PostRepository, app.Bucket, app.FromHTMXRequestWare, app.RequireAuthWare, app.DescribeAuthWare, app.GetIdParamWare, app.CacheControlWare)
-	dashboard.NewDashboardFrontend(adminGroup, app)
+	admin.NewHandler(adminGroup, app)
+	post.NewHandler(adminGroup, app)
+	dashboard.NewHandler(adminGroup, app)
 
 	auth.NewAuthService(adminGroup, service, config.Get(config.OAUTH_AUTHORIZE_URL),
 		config.Get(config.OAUTH_ACCESSTOKEN_URL),

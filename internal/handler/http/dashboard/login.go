@@ -9,7 +9,7 @@ import (
 	"github.com/muhwyndhamhp/marknotes/template"
 )
 
-func (fe *DashboardFrontend) Login(c echo.Context) error {
+func (fe *handler) Login(c echo.Context) error {
 	opts := pub_variables.DashboardOpts{
 		Nav:         nav(0),
 		BreadCrumbs: fe.Breadcrumbs("dashboard/articles"),

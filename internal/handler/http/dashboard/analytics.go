@@ -13,7 +13,7 @@ import (
 	"github.com/muhwyndhamhp/marknotes/utils/typeext"
 )
 
-func (fe *DashboardFrontend) Analytics(c echo.Context) error {
+func (fe *handler) Analytics(c echo.Context) error {
 	slug := c.Param("slug")
 
 	if slug == "" {

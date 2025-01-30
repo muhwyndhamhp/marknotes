@@ -45,7 +45,7 @@ func CacheAnalytics(ctx context.Context, db *gorm.DB, c *analytics.Client) error
 		return errs.Wrap(err)
 	}
 
-	eg, egctx := errgroup.WithContext(ctx)
+	eg, ctx2 := errgroup.WithContext(ctx)
 
 	for i := range slugs {
 		eg.Go(func() error {
@@ -59,7 +59,7 @@ func CacheAnalytics(ctx context.Context, db *gorm.DB, c *analytics.Client) error
 			if err != nil {
 				return errs.Wrap(err)
 			}
-			err = db.WithContext(egctx).Save(&Analytics{
+			err = db.WithContext(ctx2).Save(&Analytics{
 				CaptureDate: time.Now(),
 				Path:        path,
 				Data:        bin,

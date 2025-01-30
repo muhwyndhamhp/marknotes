@@ -9,7 +9,7 @@ import (
 	templates "github.com/muhwyndhamhp/marknotes/template"
 )
 
-func (fe *DashboardFrontend) Profile(c echo.Context) error {
+func (fe *handler) Profile(c echo.Context) error {
 	opts := pub_variables.DashboardOpts{Nav: nav(1)}
 
 	dashboard := pub_dashboards_profile.Profile(opts)

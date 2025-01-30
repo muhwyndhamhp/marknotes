@@ -3,17 +3,16 @@ package post
 import (
 	"fmt"
 	"github.com/muhwyndhamhp/marknotes/internal"
+	"github.com/muhwyndhamhp/marknotes/internal/handlers/http/admin"
 	"github.com/muhwyndhamhp/marknotes/internal/middlewares"
 	"net/http"
 	"strconv"
 
 	"github.com/labstack/echo/v4"
-	"github.com/muhwyndhamhp/marknotes/pkg/admin"
 	pub_postlist "github.com/muhwyndhamhp/marknotes/pub/components/postlist"
 	pub_post_index "github.com/muhwyndhamhp/marknotes/pub/pages/post_index"
 	pub_variables "github.com/muhwyndhamhp/marknotes/pub/variables"
 	templateRenderer "github.com/muhwyndhamhp/marknotes/template"
-	"github.com/muhwyndhamhp/marknotes/utils/cloudbucket"
 	"github.com/muhwyndhamhp/marknotes/utils/jwt"
 	"github.com/muhwyndhamhp/marknotes/utils/params"
 	"github.com/muhwyndhamhp/marknotes/utils/resp"
@@ -22,39 +21,27 @@ import (
 	"github.com/muhwyndhamhp/marknotes/utils/tern"
 )
 
-type PostFrontend struct {
-	repo   internal.PostRepository
-	bucket *cloudbucket.S3Client
+type handler struct {
+	app *internal.Application
 }
 
-func NewPostFrontend(g *echo.Group,
-	repo internal.PostRepository,
-	bucket *cloudbucket.S3Client,
-	htmxMid echo.MiddlewareFunc,
-	authMid echo.MiddlewareFunc,
-	authDescribeMid echo.MiddlewareFunc,
-	byIDMiddleware echo.MiddlewareFunc,
-	cacheControlMid echo.MiddlewareFunc,
-) {
-	fe := &PostFrontend{
-		repo:   repo,
-		bucket: bucket,
-	}
+func NewHandler(g *echo.Group, app *internal.Application) {
+	fe := &handler{app: app}
 
-	g.GET("/posts", fe.PostsGet, authDescribeMid)
-	g.GET("/posts_index", fe.PostsIndex, authDescribeMid)
+	g.GET("/posts", fe.PostsGet, app.DescribeAuthWare)
+	g.GET("/posts_index", fe.PostsIndex, app.DescribeAuthWare)
 
-	g.GET("/posts/:id", fe.GetPostByID, authDescribeMid, byIDMiddleware)
+	g.GET("/posts/:id", fe.GetPostByID, app.DescribeAuthWare, app.GetIdParamWare)
 
 	// Upload and Download Media
-	g.POST("/posts/:id/media/upload", fe.PostMediaUpload, authDescribeMid)
+	g.POST("/posts/:id/media/upload", fe.PostMediaUpload, app.DescribeAuthWare)
 	g.GET("/posts/media/:filename", fe.PostMediaGet)
 
 	// Alias `articles` for `posts`
-	g.GET("/articles", fe.PostsIndex, authDescribeMid, cacheControlMid)
+	g.GET("/articles", fe.PostsIndex, app.DescribeAuthWare, app.CacheControlWare)
 }
 
-func (fe *PostFrontend) PostMediaGet(c echo.Context) error {
+func (fe *handler) PostMediaGet(c echo.Context) error {
 	filename := c.Param("filename")
 	path, err := storage.ServeFile(filename)
 	if err != nil {
@@ -64,7 +51,7 @@ func (fe *PostFrontend) PostMediaGet(c echo.Context) error {
 	return c.File(path)
 }
 
-func (fe *PostFrontend) PostMediaUpload(c echo.Context) error {
+func (fe *handler) PostMediaUpload(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	ctx := c.Request().Context()
 
@@ -81,7 +68,7 @@ func (fe *PostFrontend) PostMediaUpload(c echo.Context) error {
 		return resp.HTTPBadRequest(c, "NOT_SUPPORTED", "file type not supported")
 	}
 
-	url, err := fe.bucket.UploadMedia(ctx, f, fmt.Sprintf("%d", id), ct, size)
+	url, err := fe.app.Bucket.UploadMedia(ctx, f, fmt.Sprintf("%d", id), ct, size)
 	if err != nil {
 		return err
 	}
@@ -93,10 +80,10 @@ func (fe *PostFrontend) PostMediaUpload(c echo.Context) error {
 	})
 }
 
-func (fe *PostFrontend) PostsIndex(c echo.Context) error {
+func (fe *handler) PostsIndex(c echo.Context) error {
 	ctx := c.Request().Context()
 
-	posts, err := fe.repo.Get(ctx,
+	posts, err := fe.app.PostRepository.Get(ctx,
 		scopes.Paginate(1, 10),
 		scopes.OrderBy("published_at", scopes.Descending),
 		internal.WithStatus(internal.PostStatusPublished),
@@ -126,11 +113,11 @@ func (fe *PostFrontend) PostsIndex(c echo.Context) error {
 	return templateRenderer.AssertRender(c, http.StatusOK, postIndex)
 }
 
-func (fe *PostFrontend) GetPostByID(c echo.Context) error {
+func (fe *handler) GetPostByID(c echo.Context) error {
 	ctx := c.Request().Context()
 	id, _ := c.Get(middlewares.ByIDKey).(int)
 
-	post, err := fe.repo.GetByID(ctx, uint(id))
+	post, err := fe.app.PostRepository.GetByID(ctx, uint(id))
 	if err != nil {
 		return err
 	}
@@ -138,7 +125,7 @@ func (fe *PostFrontend) GetPostByID(c echo.Context) error {
 	return c.Redirect(http.StatusFound, fmt.Sprintf("/articles/%s.html", post.Slug))
 }
 
-func (fe *PostFrontend) PostsGet(c echo.Context) error {
+func (fe *handler) PostsGet(c echo.Context) error {
 	ctx := c.Request().Context()
 	page, pageSize, sortBy, statusStr, keyword, loadNext := params.GetCommonParams(c)
 	status := internal.PostStatus(statusStr)
@@ -154,7 +141,7 @@ func (fe *PostFrontend) PostsGet(c echo.Context) error {
 		scp = append(scp, internal.WithStatus(status))
 	}
 
-	posts, err := fe.repo.Get(ctx, scp...)
+	posts, err := fe.app.PostRepository.Get(ctx, scp...)
 	if err != nil {
 		return err
 	}

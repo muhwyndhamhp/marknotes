@@ -1,4 +1,4 @@
-package dto
+package post
 
 type PostCreateRequest struct {
 	Title   string   `json:"title" validate:"required" form:"title"`
