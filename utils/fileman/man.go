@@ -28,7 +28,7 @@ func DeleteFile(filepath string) error {
 	return nil
 }
 
-func DeletAllFiles(dir string) error {
+func DeleteAllFiles(dir string) error {
 	files, err := os.ReadDir(dir)
 	if err != nil {
 		fmt.Println("Error reading directory:", err)

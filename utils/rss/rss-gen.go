@@ -2,19 +2,18 @@ package rss
 
 import (
 	"context"
+	"github.com/muhwyndhamhp/marknotes/internal"
 	"os"
 	"time"
 
 	"github.com/gorilla/feeds"
-	"github.com/muhwyndhamhp/marknotes/pkg/models"
-	"github.com/muhwyndhamhp/marknotes/pkg/post/values"
 	"github.com/muhwyndhamhp/marknotes/utils/constants"
 	"github.com/muhwyndhamhp/marknotes/utils/fileman"
 	"github.com/muhwyndhamhp/marknotes/utils/scopes"
 )
 
-func GenerateRSS(ctx context.Context, repo models.PostRepository) error {
-	posts, err := repo.Get(ctx, scopes.Where("status = ?", values.Published))
+func GenerateRSS(ctx context.Context, repo internal.PostRepository) error {
+	posts, err := repo.Get(ctx, scopes.Where("status = ?", internal.PostStatusPublished))
 	if err != nil {
 		return err
 	}
@@ -44,7 +43,7 @@ func GenerateRSS(ctx context.Context, repo models.PostRepository) error {
 	return nil
 }
 
-func generateRSSString(posts []models.Post) (string, error) {
+func generateRSSString(posts []internal.Post) (string, error) {
 	author := &feeds.Author{
 		Name:  "M Wyndham",
 		Email: "business@mwyndham.dev",

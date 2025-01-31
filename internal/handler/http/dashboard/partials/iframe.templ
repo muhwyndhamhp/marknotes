@@ -1,0 +1,23 @@
+package partials
+
+templ Iframe(url string) {
+	<iframe
+		class="mx-auto max-w-[320px] md:max-w-[512px] max-h-[240px] md:max-h-[288px]"
+		width="512"
+		height="288"
+		allowfullscreen="true"
+		autoplay="false"
+		disablekbcontrols="false"
+		enableiframeapi="false"
+		endtime="0"
+		ivloadpolicy="0"
+		loop="false"
+		modestbranding="true"
+		origin=""
+		playlist=""
+		progressbarcolor="white"
+		src={ url }
+		start="0"
+		title="YouTube video player"
+	></iframe>
+}

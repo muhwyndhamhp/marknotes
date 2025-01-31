@@ -1,12 +1,12 @@
 module github.com/muhwyndhamhp/marknotes
 
-go 1.22
+go 1.23
 
-toolchain go1.22.0
+toolchain go1.23.4
 
 require (
 	github.com/StudioSol/sitemap v0.0.0-20230104165527-bf245c07e1c2
-	github.com/a-h/templ v0.2.590
+	github.com/a-h/templ v0.3.819
 	github.com/apsystole/log v0.3.0
 	github.com/aws/aws-sdk-go-v2 v1.25.3
 	github.com/aws/aws-sdk-go-v2/config v1.27.7
@@ -31,8 +31,8 @@ require (
 	github.com/lucasb-eyer/go-colorful v1.2.0
 	github.com/machinebox/graphql v0.2.2
 	github.com/renxzen/gorm-libsql v0.0.0-20240301223231-6621a843345a
-	golang.org/x/sync v0.7.0
-	golang.org/x/term v0.20.0
+	golang.org/x/sync v0.10.0
+	golang.org/x/term v0.27.0
 	golang.org/x/time v0.5.0
 	gorm.io/gorm v1.25.7-0.20240204074919-46816ad31dde
 )
@@ -102,8 +102,8 @@ require (
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v1.2.2 // indirect
-	golang.org/x/crypto v0.21.0 // indirect
-	golang.org/x/net v0.22.0 // indirect
-	golang.org/x/sys v0.20.0 // indirect
-	golang.org/x/text v0.14.0
+	golang.org/x/crypto v0.31.0 // indirect
+	golang.org/x/net v0.33.0 // indirect
+	golang.org/x/sys v0.28.0 // indirect
+	golang.org/x/text v0.21.0
 )

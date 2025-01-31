@@ -1,0 +1,17 @@
+package profile
+
+import (
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/dashboard/common"
+	pub_variables "github.com/muhwyndhamhp/marknotes/pub/variables"
+)
+
+templ Profile(opts pub_variables.DashboardOpts) {
+	@common.Dashboard(pub_variables.DashboardOpts{
+		Nav:  opts.Nav,
+		Comp: profile(),
+	})
+}
+
+templ profile() {
+	<p>Profile</p>
+}

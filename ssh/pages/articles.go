@@ -1,15 +1,35 @@
 package pages
 
 import (
+	"context"
+	"fmt"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
+	"github.com/muhwyndhamhp/marknotes/internal"
 	"github.com/muhwyndhamhp/marknotes/ssh/base"
+	"github.com/muhwyndhamhp/marknotes/utils/errs"
+	"github.com/muhwyndhamhp/marknotes/utils/scopes"
+	"strings"
 )
 
-type Articles struct{}
+type Articles struct {
+	App   *internal.Application
+	Posts []internal.Post
+}
 
 // MatchKeyAction implements base.Page.
 func (a *Articles) MatchKeyAction(m base.Model, key string, sc base.ScreenMetadata) (base.Model, bool, tea.Cmd) {
+	for i := range a.Posts {
+		if key == fmt.Sprintf("%d", i+1) {
+			a := NewArticle(&a.Posts[i])
+			m.Content = a.RenderPage(m.Style, sc)
+
+			m.ActiveTab = -1
+			m.Page = a
+			return m, true, nil
+		}
+	}
+
 	if key != a.GetAccessKey() {
 		return m, false, nil
 	}
@@ -31,9 +51,43 @@ func (a *Articles) GetName() string {
 
 // RenderPage implements base.Page.
 func (a *Articles) RenderPage(style lipgloss.Style, sm base.ScreenMetadata) string {
-	return "This is Articles page"
+	doc := strings.Builder{}
+
+	doc.WriteString(base.DescStyle.AlignHorizontal(lipgloss.Left).Width(sm.Width-8).Render(`List of all articles:`) + "\n\n")
+
+	s := []scopes.QueryScope{
+		scopes.OrderBy("published_at", scopes.Descending),
+		scopes.Where("status = ?", internal.PostStatusPublished),
+		scopes.PostIndexedOnly(),
+	}
+
+	posts, err := a.App.PostRepository.Get(context.Background(), s...)
+	if err != nil {
+		panic(errs.Wrap(err))
+	}
+
+	a.Posts = posts
+
+	for i, post := range posts {
+		st := base.SubduedDescStyle.PaddingTop(1).Width(sm.Width - 2)
+		body := lipgloss.JoinVertical(
+			lipgloss.Top,
+			base.PostTitle.Render(fmt.Sprintf("%s %s", post.Title, base.DescStyle.Render(fmt.Sprintf("[%d]", i+1)))),
+			st.Render(
+				fmt.Sprintf(
+					"PostStatusPublished: %s | Updated: %s",
+					post.PublishedAt.Format("Jan, 02 2006"),
+					post.UpdatedAt.Format("Jan, 02 2006"),
+				),
+			),
+		)
+		doc.WriteString(base.PostItem.Width(sm.Width - 8).Render(body))
+		doc.WriteString("\n")
+	}
+
+	return lipgloss.NewStyle().Padding(0, 4).Render(doc.String())
 }
 
-func NewArticles() base.Page {
-	return &Articles{}
+func NewArticles(app *internal.Application) base.Page {
+	return &Articles{App: app}
 }

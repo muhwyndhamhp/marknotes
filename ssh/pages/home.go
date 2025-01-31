@@ -3,20 +3,19 @@ package pages
 import (
 	"context"
 	"fmt"
+	"github.com/muhwyndhamhp/marknotes/internal"
 	"strings"
 
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
-	"github.com/muhwyndhamhp/marknotes/pkg/models"
-	"github.com/muhwyndhamhp/marknotes/pkg/post/values"
 	"github.com/muhwyndhamhp/marknotes/ssh/base"
 	"github.com/muhwyndhamhp/marknotes/utils/errs"
 	"github.com/muhwyndhamhp/marknotes/utils/scopes"
 )
 
 type Home struct {
-	PostRepo models.PostRepository
-	Posts    []models.Post
+	App   *internal.Application
+	Posts []internal.Post
 }
 
 // MatchKeyAction implements base.Page.
@@ -51,8 +50,8 @@ func (h *Home) GetName() string {
 	return "Home"
 }
 
-func NewHome(postRepo models.PostRepository) base.Page {
-	return &Home{PostRepo: postRepo}
+func NewHome(app *internal.Application) base.Page {
+	return &Home{App: app}
 }
 
 // RenderPage implements base.Page.
@@ -61,14 +60,14 @@ func (h *Home) RenderPage(style lipgloss.Style, sm base.ScreenMetadata) string {
 
 	doc.WriteString(base.DescStyle.AlignHorizontal(lipgloss.Center).Width(sm.Width-8).Render(intro) + "\n")
 
-	scopes := []scopes.QueryScope{
+	s := []scopes.QueryScope{
 		scopes.OrderBy("published_at", scopes.Descending),
 		scopes.Paginate(1, 5),
-		scopes.Where("status = ?", values.Published),
+		scopes.Where("status = ?", internal.PostStatusPublished),
 		scopes.PostIndexedOnly(),
 	}
 
-	posts, err := h.PostRepo.Get(context.Background(), scopes...)
+	posts, err := h.App.PostRepository.Get(context.Background(), s...)
 	if err != nil {
 		panic(errs.Wrap(err))
 	}
@@ -82,7 +81,7 @@ func (h *Home) RenderPage(style lipgloss.Style, sm base.ScreenMetadata) string {
 			base.PostTitle.Render(fmt.Sprintf("%s %s", post.Title, base.DescStyle.Render(fmt.Sprintf("[%d]", i+1)))),
 			st.Render(
 				fmt.Sprintf(
-					"Published: %s | Updated: %s",
+					"PostStatusPublished: %s | Updated: %s",
 					post.PublishedAt.Format("Jan, 02 2006"),
 					post.UpdatedAt.Format("Jan, 02 2006"),
 				),

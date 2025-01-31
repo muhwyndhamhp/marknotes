@@ -1,0 +1,24 @@
+package login
+
+import (
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/dashboard/common"
+	pub_variables "github.com/muhwyndhamhp/marknotes/pub/variables"
+)
+
+type LoginViewModel struct {
+	Opts pub_variables.DashboardOpts
+}
+
+templ Login(vm *LoginViewModel) {
+	@common.Dashboard(pub_variables.DashboardOpts{
+		Nav:         vm.Opts.Nav,
+		BreadCrumbs: vm.Opts.BreadCrumbs,
+		Comp:        login(),
+	})
+}
+
+templ login() {
+	<div class="w-full flex flex-col h-full mt-96" _="on load wait 2s then call window.Clerk.openSignIn() end">
+		<span class="loading loading-infinity loading-lg mx-auto my-auto"></span>
+	</div>
+}

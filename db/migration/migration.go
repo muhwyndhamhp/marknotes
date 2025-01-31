@@ -1,35 +1,35 @@
 package migration
 
 import (
-	"github.com/muhwyndhamhp/marknotes/pkg/models"
+	"github.com/muhwyndhamhp/marknotes/internal"
 	"gorm.io/gorm"
 )
 
 func Migrate(db *gorm.DB) {
-	err := db.AutoMigrate(&models.User{})
+	err := db.AutoMigrate(&internal.User{})
 	if err != nil {
 		panic(err)
 	}
 
-	err = db.AutoMigrate(&models.Post{})
+	err = db.AutoMigrate(&internal.Post{})
 	if err != nil {
 		panic(err)
 	}
-	err = db.AutoMigrate(&models.Tag{})
+	err = db.AutoMigrate(&internal.Tag{})
 	if err != nil {
 		panic(err)
 	}
-	err = db.AutoMigrate(&models.Comment{})
-	if err != nil {
-		panic(err)
-	}
-
-	err = db.AutoMigrate(&models.Commenter{})
+	err = db.AutoMigrate(&internal.Comment{})
 	if err != nil {
 		panic(err)
 	}
 
-	err = db.AutoMigrate(&models.Analytics{})
+	err = db.AutoMigrate(&internal.Commenter{})
+	if err != nil {
+		panic(err)
+	}
+
+	err = db.AutoMigrate(&internal.Analytics{})
 	if err != nil {
 		panic(err)
 	}

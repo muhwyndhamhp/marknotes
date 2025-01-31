@@ -2,8 +2,8 @@ package repository
 
 import (
 	"context"
+	"github.com/muhwyndhamhp/marknotes/internal"
 
-	"github.com/muhwyndhamhp/marknotes/pkg/models"
 	"github.com/muhwyndhamhp/marknotes/utils/errs"
 	"github.com/muhwyndhamhp/marknotes/utils/scopes"
 	"gorm.io/gorm"
@@ -13,9 +13,9 @@ type repository struct {
 	db *gorm.DB
 }
 
-var userCache = map[string]models.User{}
+var userCache = map[string]internal.User{}
 
-func (r *repository) GetCache(ctx context.Context, email string) *models.User {
+func (r *repository) GetCache(ctx context.Context, email string) *internal.User {
 	u, ok := userCache[email]
 
 	if !ok {
@@ -33,14 +33,14 @@ func (r *repository) GetCache(ctx context.Context, email string) *models.User {
 }
 
 func (r *repository) Delete(ctx context.Context, id uint) error {
-	if err := r.db.Delete(&models.User{}, id).Error; err != nil {
+	if err := r.db.Delete(&internal.User{}, id).Error; err != nil {
 		return err
 	}
 	return nil
 }
 
-func (r *repository) Get(ctx context.Context, funcs ...scopes.QueryScope) ([]models.User, error) {
-	var res []models.User
+func (r *repository) Get(ctx context.Context, funcs ...scopes.QueryScope) ([]internal.User, error) {
+	var res []internal.User
 	scopes := scopes.Unwrap(funcs...)
 	err := r.db.WithContext(ctx).
 		Session(&gorm.Session{SkipDefaultTransaction: true}).
@@ -54,8 +54,8 @@ func (r *repository) Get(ctx context.Context, funcs ...scopes.QueryScope) ([]mod
 	return res, nil
 }
 
-func (r *repository) GetByID(ctx context.Context, id uint) (*models.User, error) {
-	var res models.User
+func (r *repository) GetByID(ctx context.Context, id uint) (*internal.User, error) {
+	var res internal.User
 	if err := r.db.WithContext(ctx).
 		Session(&gorm.Session{SkipDefaultTransaction: true}).
 		First(&res, id).
@@ -65,8 +65,8 @@ func (r *repository) GetByID(ctx context.Context, id uint) (*models.User, error)
 	return &res, nil
 }
 
-func (r *repository) GetByOauthID(ctx context.Context, id string) (*models.User, error) {
-	var res models.User
+func (r *repository) GetByOauthID(ctx context.Context, id string) (*internal.User, error) {
+	var res internal.User
 	if err := r.db.WithContext(ctx).
 		Session(&gorm.Session{SkipDefaultTransaction: true}).
 		Where("oauth_user_id = ?", id).
@@ -78,14 +78,14 @@ func (r *repository) GetByOauthID(ctx context.Context, id string) (*models.User,
 	return &res, nil
 }
 
-func (r *repository) Upsert(ctx context.Context, value *models.User) error {
+func (r *repository) Upsert(ctx context.Context, value *internal.User) error {
 	if err := r.db.WithContext(ctx).Save(value).Error; err != nil {
 		return err
 	}
 	return nil
 }
 
-func NewUserRepository(db *gorm.DB) models.UserRepository {
+func NewUserRepository(db *gorm.DB) internal.UserRepository {
 	return &repository{
 		db: db,
 	}

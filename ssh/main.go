@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"errors"
+	"github.com/muhwyndhamhp/marknotes/cmd"
 	"net"
 	"os"
 	"os/signal"
@@ -18,11 +19,8 @@ import (
 	"github.com/charmbracelet/wish/activeterm"
 	"github.com/charmbracelet/wish/bubbletea"
 	"github.com/charmbracelet/wish/logging"
-	"github.com/muhwyndhamhp/marknotes/db"
 	"github.com/muhwyndhamhp/marknotes/ssh/base"
 	"github.com/muhwyndhamhp/marknotes/ssh/pages"
-
-	_postRepo "github.com/muhwyndhamhp/marknotes/pkg/post/repository"
 )
 
 const (
@@ -63,10 +61,10 @@ func main() {
 }
 
 func runTea(s ssh.Session) (tea.Model, []tea.ProgramOption) {
-	postRepo := _postRepo.NewPostRepository(db.GetLibSQLDB())
+	app := cmd.Bootstrap()
 
-	homePage := pages.NewHome(postRepo)
-	articlesPage := pages.NewArticles()
+	homePage := pages.NewHome(app)
+	articlesPage := pages.NewArticles(app)
 
 	opts := []tea.ProgramOption{
 		tea.WithAltScreen(),       // use the full size of the terminal in its "alternate screen buffer"
