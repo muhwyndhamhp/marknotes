@@ -15,6 +15,7 @@ import (
 type Articles struct {
 	App   *internal.Application
 	Posts []internal.Post
+	Page  int
 }
 
 // MatchKeyAction implements base.Page.
@@ -28,6 +29,26 @@ func (a *Articles) MatchKeyAction(m base.Model, key string, sc base.ScreenMetada
 			m.Page = a
 			return m, true, nil
 		}
+	}
+
+	if key == "q" {
+		if a.Page > 1 {
+			a.Page--
+		}
+
+		m.Content = a.RenderPage(m.Style, sc)
+		m.Page = a
+		return m, true, nil
+	}
+
+	if key == "e" {
+		if len(a.Posts) == 9 {
+			a.Page++
+		}
+
+		m.Content = a.RenderPage(m.Style, sc)
+		m.Page = a
+		return m, true, nil
 	}
 
 	if key != a.GetAccessKey() {
@@ -53,10 +74,15 @@ func (a *Articles) GetName() string {
 func (a *Articles) RenderPage(style lipgloss.Style, sm base.ScreenMetadata) string {
 	doc := strings.Builder{}
 
-	doc.WriteString(base.DescStyle.AlignHorizontal(lipgloss.Left).Width(sm.Width-8).Render(`List of all articles:`) + "\n\n")
+	curStyle := base.DescStyle.Padding(0, 1)
+	centerStyle := curStyle.Align(lipgloss.Center).Width(sm.Width - 30)
+
+	out := lipgloss.JoinHorizontal(lipgloss.Center, curStyle.Render("< Prev [Q]"), centerStyle.Render(fmt.Sprintf("Page %d", a.Page)), curStyle.Render("Next [E] >"))
+	doc.WriteString(out + "\n\n")
 
 	s := []scopes.QueryScope{
 		scopes.OrderBy("published_at", scopes.Descending),
+		scopes.Paginate(a.Page, 9),
 		scopes.Where("status = ?", internal.PostStatusPublished),
 		scopes.PostIndexedOnly(),
 	}
@@ -85,9 +111,11 @@ func (a *Articles) RenderPage(style lipgloss.Style, sm base.ScreenMetadata) stri
 		doc.WriteString("\n")
 	}
 
+	doc.WriteString("\n\n" + out)
+
 	return lipgloss.NewStyle().Padding(0, 4).Render(doc.String())
 }
 
 func NewArticles(app *internal.Application) base.Page {
-	return &Articles{App: app}
+	return &Articles{App: app, Page: 1}
 }

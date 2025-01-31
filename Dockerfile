@@ -1,6 +1,6 @@
-FROM golang:1.22-alpine3.19 as builder
+FROM golang:1.23-alpine3.21 as builder
 
-RUN apk update && apk add git make bash musl-dev gcc libwebp-dev
+RUN apk update && apk add git make bash musl-dev gcc libwebp-dev ncurses
 
 WORKDIR /app
 

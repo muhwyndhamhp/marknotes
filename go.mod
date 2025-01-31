@@ -12,12 +12,12 @@ require (
 	github.com/aws/aws-sdk-go-v2/config v1.27.7
 	github.com/aws/aws-sdk-go-v2/credentials v1.17.7
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.51.4
-	github.com/charmbracelet/bubbles v0.18.0
-	github.com/charmbracelet/bubbletea v0.26.2
-	github.com/charmbracelet/glamour v0.7.0
-	github.com/charmbracelet/lipgloss v0.11.0
-	github.com/charmbracelet/ssh v0.0.0-20240401141849-854cddfa2917
-	github.com/charmbracelet/wish v1.4.0
+	github.com/charmbracelet/bubbles v0.20.0
+	github.com/charmbracelet/bubbletea v1.2.4
+	github.com/charmbracelet/glamour v0.8.0
+	github.com/charmbracelet/lipgloss v1.0.0
+	github.com/charmbracelet/ssh v0.0.0-20250128164007-98fd5ae11894
+	github.com/charmbracelet/wish v1.4.6
 	github.com/clerkinc/clerk-sdk-go v1.49.0
 	github.com/disintegration/imaging v1.6.2
 	github.com/go-playground/validator/v10 v10.15.1
@@ -30,15 +30,16 @@ require (
 	github.com/labstack/echo/v4 v4.11.1
 	github.com/lucasb-eyer/go-colorful v1.2.0
 	github.com/machinebox/graphql v0.2.2
+	github.com/muesli/termenv v0.15.3-0.20240618155329-98d742f6907a
 	github.com/renxzen/gorm-libsql v0.0.0-20240301223231-6621a843345a
 	golang.org/x/sync v0.10.0
-	golang.org/x/term v0.27.0
-	golang.org/x/time v0.5.0
+	golang.org/x/term v0.28.0
+	golang.org/x/time v0.9.0
 	gorm.io/gorm v1.25.7-0.20240204074919-46816ad31dde
 )
 
 require (
-	github.com/alecthomas/chroma/v2 v2.8.0 // indirect
+	github.com/alecthomas/chroma/v2 v2.14.0 // indirect
 	github.com/anmitsu/go-shlex v0.0.0-20200514113438-38f4b401e2be // indirect
 	github.com/antlr/antlr4/runtime/Go/antlr/v4 v4.0.0-20230512164433-5d1fd1a340c9 // indirect
 	github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream v1.6.1 // indirect
@@ -57,31 +58,34 @@ require (
 	github.com/aws/smithy-go v1.20.1 // indirect
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
 	github.com/aymerick/douceur v0.2.0 // indirect
-	github.com/charmbracelet/keygen v0.5.0 // indirect
+	github.com/charmbracelet/keygen v0.5.1 // indirect
 	github.com/charmbracelet/log v0.4.0 // indirect
-	github.com/charmbracelet/x/ansi v0.1.1 // indirect
-	github.com/charmbracelet/x/errors v0.0.0-20240117030013-d31dba354651 // indirect
-	github.com/charmbracelet/x/exp/term v0.0.0-20240328150354-ab9afc214dfd // indirect
+	github.com/charmbracelet/x/ansi v0.8.0 // indirect
+	github.com/charmbracelet/x/conpty v0.1.0 // indirect
+	github.com/charmbracelet/x/errors v0.0.0-20240508181413-e8d8b6e2de86 // indirect
+	github.com/charmbracelet/x/input v0.3.1 // indirect
+	github.com/charmbracelet/x/term v0.2.1 // indirect
+	github.com/charmbracelet/x/termios v0.1.0 // indirect
+	github.com/charmbracelet/x/windows v0.2.0 // indirect
 	github.com/creack/pty v1.1.21 // indirect
-	github.com/dlclark/regexp2 v1.4.0 // indirect
+	github.com/dlclark/regexp2 v1.11.0 // indirect
 	github.com/erikgeiser/coninput v0.0.0-20211004153227-1c3628e74d0f // indirect
 	github.com/go-jose/go-jose/v3 v3.0.0 // indirect
 	github.com/go-logfmt/logfmt v0.6.0 // indirect
-	github.com/gorilla/css v1.0.0 // indirect
+	github.com/gorilla/css v1.0.1 // indirect
 	github.com/klauspost/compress v1.15.15 // indirect
 	github.com/libsql/sqlite-antlr4-parser v0.0.0-20230802215326-5cb5bb604475 // indirect
 	github.com/mattn/go-localereader v0.0.1 // indirect
-	github.com/mattn/go-runewidth v0.0.15 // indirect
+	github.com/mattn/go-runewidth v0.0.16 // indirect
 	github.com/muesli/ansi v0.0.0-20230316100256-276c6243b2f6 // indirect
 	github.com/muesli/cancelreader v0.2.2 // indirect
 	github.com/muesli/reflow v0.3.0 // indirect
-	github.com/muesli/termenv v0.15.2 // indirect
-	github.com/olekukonko/tablewriter v0.0.5 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/tursodatabase/libsql-client-go v0.0.0-20240220085343-4ae0eb9d0898 // indirect
-	github.com/yuin/goldmark v1.5.4 // indirect
-	github.com/yuin/goldmark-emoji v1.0.2 // indirect
-	golang.org/x/exp v0.0.0-20231006140011-7918f672742d // indirect
+	github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e // indirect
+	github.com/yuin/goldmark v1.7.4 // indirect
+	github.com/yuin/goldmark-emoji v1.0.3 // indirect
+	golang.org/x/exp v0.0.0-20240719175910-8a7402abbf56 // indirect
 	golang.org/x/image v0.0.0-20210628002857-a66eb6448b8d // indirect
 	nhooyr.io/websocket v1.8.7 // indirect
 )
@@ -98,12 +102,12 @@ require (
 	github.com/leodido/go-urn v1.2.4 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
-	github.com/microcosm-cc/bluemonday v1.0.26
+	github.com/microcosm-cc/bluemonday v1.0.27
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v1.2.2 // indirect
-	golang.org/x/crypto v0.31.0 // indirect
-	golang.org/x/net v0.33.0 // indirect
-	golang.org/x/sys v0.28.0 // indirect
+	golang.org/x/crypto v0.32.0 // indirect
+	golang.org/x/net v0.34.0 // indirect
+	golang.org/x/sys v0.29.0 // indirect
 	golang.org/x/text v0.21.0
 )

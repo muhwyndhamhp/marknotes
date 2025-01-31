@@ -2,7 +2,7 @@ import { screens as _screens } from 'tailwindcss/defaultTheme';
 import plugin from 'tailwindcss/plugin';
 
 export const darkMode = 'class';
-export const content = ["./pub/**/*.templ", "./src/**/*.js"];
+export const content = ["./pub/**/*.templ", "./src/**/*.js", "./internal/handler/http/**/*.templ"];
 export const theme = {
     screens: {
       'xs': '320px',
