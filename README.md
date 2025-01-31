@@ -1,10 +1,14 @@
 # What is this?
 A simple static blog built with Golang + HTMX + Tailwind CSS. With some fancy secret under the hood. See the Video below for all the available features:
 
-https://github.com/user-attachments/assets/cfb811f7-3329-4dfa-bc8e-f1d2a24d51de
+https://github.com/user-attachments/assets/e01a38fb-41ed-4398-b6e7-077e08013261
+
+Or even accessible via SSH!
+
+https://github.com/user-attachments/assets/cb275cb3-b055-40a2-9db1-60ad28d9f8ab
 
 ## Where to see it?
-Currently used by me as my personal blog, you can see it at https://mwyndham.dev/
+Currently used by me as my personal blog, you can see it at https://mwyndham.dev/ or SSH via `ssh -p 23234 ssh.mwyndham.dev`
 
 ## Features
 All of the features include:
