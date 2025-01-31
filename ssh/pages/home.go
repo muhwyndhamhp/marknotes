@@ -81,7 +81,7 @@ func (h *Home) RenderPage(style lipgloss.Style, sm base.ScreenMetadata) string {
 			base.PostTitle.Render(fmt.Sprintf("%s %s", post.Title, base.DescStyle.Render(fmt.Sprintf("[%d]", i+1)))),
 			st.Render(
 				fmt.Sprintf(
-					"PostStatusPublished: %s | Updated: %s",
+					"Published: %s | Updated: %s",
 					post.PublishedAt.Format("Jan, 02 2006"),
 					post.UpdatedAt.Format("Jan, 02 2006"),
 				),
@@ -101,9 +101,6 @@ And I'm a Software Engineer that really into Pragmatic, Practical, and Beautiful
 
 My stack mostly consist of Android Development (Kotlin, Java), Backend Development (Golang, Rails), and Frontend Development (Plain HTML, CSS, JS).
 
-More on my resume [r].
-
-Hit me up via Twitter [t], LinkedIn [l] or Email [e] whenever you need help or just want to have some chit-chat!
-
+Visit https://pinkary.com/@mwyndham for more of me!
 
 Latest Articles:`

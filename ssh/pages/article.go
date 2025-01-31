@@ -35,7 +35,7 @@ func (a *Article) MatchKeyAction(m base.Model, key string, sc base.ScreenMetadat
 // RenderPage implements base.Page.
 func (a *Article) RenderPage(style lipgloss.Style, screenMeta base.ScreenMetadata) string {
 	doc := strings.Builder{}
-	doc.WriteString(titleStyle.Width(screenMeta.Width-2).Render(a.Post.Title) + "\n\n")
+	doc.WriteString(titleStyle.Padding(0, 1, 0, 6).Width(screenMeta.Width-4).Render(a.Post.Title) + "\n\n")
 
 	tags := strings.Split(a.Post.TagsLiteral, ",")
 
@@ -48,18 +48,18 @@ func (a *Article) RenderPage(style lipgloss.Style, screenMeta base.ScreenMetadat
 		str += fmt.Sprintf("#%s ", tags[i])
 	}
 
-	doc.WriteString(hashtagStyle.Width(screenMeta.Width-2).Render(str) + "\n")
+	doc.WriteString(hashtagStyle.Padding(0, 1, 0, 6).Width(screenMeta.Width-4).Render(str) + "\n")
 
 	md, err := os.ReadFile(config.Get(config.POST_RENDER_PATH) + "/markdowns/" + a.Post.Slug + ".md")
 	if err != nil {
 		return doc.String()
 	}
-	out, err := glamour.Render(string(md), "dark")
+	out, err := glamour.Render(string(md), "tokyo-night")
 	if err != nil {
 		return doc.String()
 	}
 
-	doc.WriteString(base.DescStyle.Padding(0, 1, 0, 6).Render(out) + "\n")
+	doc.WriteString(base.DescStyle.Padding(0, 1, 0, 4).Render(out) + "\n")
 
 	return doc.String()
 }

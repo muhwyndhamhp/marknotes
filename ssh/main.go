@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"errors"
+	"github.com/muesli/termenv"
 	"github.com/muhwyndhamhp/marknotes/cmd"
 	"net"
 	"os"
@@ -70,6 +71,10 @@ func runTea(s ssh.Session) (tea.Model, []tea.ProgramOption) {
 		tea.WithAltScreen(),       // use the full size of the terminal in its "alternate screen buffer"
 		tea.WithMouseCellMotion(), // turn on mouse support so we can track the mouse wheel
 	}
+
+	_ = os.Setenv("TERM", "xterm-256color")
+
+	lipgloss.SetColorProfile(termenv.TrueColor)
 	return base.Model{
 		ActiveTab: 0,
 		Tabs:      getTabs(homePage, articlesPage),
