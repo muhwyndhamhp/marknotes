@@ -1,11 +1,7 @@
 # What is this?
 A simple static blog built with Golang + HTMX + Tailwind CSS. With some fancy secret under the hood. See the Video below for all the available features:
 
-
-
-https://github.com/muhwyndhamhp/marknotes/assets/34619560/97c67728-ffb4-4aea-98fa-5b8006294efa
-
-
+https://github.com/user-attachments/assets/cfb811f7-3329-4dfa-bc8e-f1d2a24d51de
 
 ## Where to see it?
 Currently used by me as my personal blog, you can see it at https://mwyndham.dev/
