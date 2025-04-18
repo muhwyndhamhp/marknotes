@@ -3,22 +3,22 @@ package articles
 import (
 	"fmt"
 	"github.com/muhwyndhamhp/marknotes/internal"
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/common/assets"
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/common/variables"
 	"github.com/muhwyndhamhp/marknotes/internal/handler/http/dashboard/common"
-	pub_assets "github.com/muhwyndhamhp/marknotes/pub/assets"
-	pub_variables "github.com/muhwyndhamhp/marknotes/pub/variables"
 	"github.com/muhwyndhamhp/marknotes/utils/tern"
 	"strings"
 )
 
 type NewArticleViewModel struct {
-	Opts      pub_variables.DashboardOpts
+	Opts      variables.DashboardOpts
 	UploadURL string
 	BaseURL   string
 	Post      *internal.Post
 }
 
 templ NewArticle(vm NewArticleViewModel) {
-	@common.Dashboard(pub_variables.DashboardOpts{
+	@common.Dashboard(variables.DashboardOpts{
 		Nav:               vm.Opts.Nav,
 		AdditionalHeaders: vm.Opts.AdditionalHeaders,
 		BreadCrumbs:       vm.Opts.BreadCrumbs,
@@ -100,7 +100,7 @@ templ new(existingPost *internal.Post, baseURL, uploadURL string) {
             end
             "
 						>
-							@pub_assets.Close()
+							@assets.Close()
 						</div>
 						<img
 							class="w-full h-full object-cover max-h-56"

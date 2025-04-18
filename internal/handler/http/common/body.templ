@@ -1,0 +1,38 @@
+package common
+
+import "github.com/muhwyndhamhp/marknotes/internal/handler/http/common/variables"
+
+templ Body(opts variables.BodyOpts) {
+	<!DOCTYPE html>
+	<html lang="en">
+		<head hx-boost="true">
+			@Header()
+			for _ , head := range opts.ExtraHeaders {
+				@head
+			}
+			<title>mwyndham.dev</title>
+		</head>
+		<body id="admin-root" class="bg-base-100 dark:bg-base-300">
+			@Background()
+			<div class="relative flex flex-col justify-center overflow-hidden">
+				@MainMenu(opts.HeaderButtons, !opts.HideTitle)
+				<br/>
+				<div class="min-h-screen">
+					@opts.Component
+				</div>
+				<br/>
+				@FooterMenu(opts.FooterButtons)
+			</div>
+		</body>
+	</html>
+}
+
+templ Background() {
+	<div
+		class="fixed start-0 top-0 h-full w-full bg-gradient-to-bl from-primary/10 via-secondary/10
+      to-accent/10"
+	></div>
+}
+
+templ Stub() {
+}

@@ -1,11 +1,11 @@
 package dashboard
 
 import (
+	pub_variables "github.com/muhwyndhamhp/marknotes/internal/handler/http/common/variables"
 	"github.com/muhwyndhamhp/marknotes/internal/handler/http/dashboard/profile"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
-	pub_variables "github.com/muhwyndhamhp/marknotes/pub/variables"
 	templates "github.com/muhwyndhamhp/marknotes/template"
 )
 

@@ -1,0 +1,35 @@
+package contact
+
+import (
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/common"
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/common/variables"
+)
+
+templ Contact(opts variables.BodyOpts) {
+	@common.Body(variables.BodyOpts{
+		HeaderButtons: opts.HeaderButtons,
+		FooterButtons: opts.FooterButtons,
+		Component:     contact(),
+	})
+}
+
+templ contact() {
+	<div id="admin-content" class="relative w-full pt-8 md:mx-auto md:max-w-3xl lg:max-w-4xl">
+		<h2>Contact Me!</h2>
+		<p class="text-start">
+			You can find me on the followings socials
+		</p>
+		<ul>
+			<li>
+				<a href="https://www.linkedin.com/in/m-wyndham-haryata-permana-b43ab2134/">LinkedIn</a>
+			</li>
+			<li>
+				<a href="https://www.github.com/muhwyndhamhp">GitHub</a>
+			</li>
+			<li><a href="https://mwyndham.medium.com">Medium</a></li>
+		</ul>
+		<p class="text-start">
+			Or via good old email via <a href="mailto:mwyndham.business@gmail.com">mwyndham.business@gmail.com</a>
+		</p>
+	</div>
+}

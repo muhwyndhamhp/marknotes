@@ -4,6 +4,8 @@ import (
 	"context"
 	"fmt"
 	"github.com/muhwyndhamhp/marknotes/internal"
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/common"
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/common/variables"
 	"github.com/muhwyndhamhp/marknotes/internal/handler/http/dashboard/articles"
 	"html/template"
 	"net/http"
@@ -13,8 +15,6 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/muhwyndhamhp/marknotes/config"
-	pub_alert "github.com/muhwyndhamhp/marknotes/pub/components/alert"
-	pub_variables "github.com/muhwyndhamhp/marknotes/pub/variables"
 	templates "github.com/muhwyndhamhp/marknotes/template"
 	"github.com/muhwyndhamhp/marknotes/utils/constants"
 	"github.com/muhwyndhamhp/marknotes/utils/errs"
@@ -35,7 +35,7 @@ func (fe *handler) ArticlesEdit(c echo.Context) error {
 		return err
 	}
 
-	opts := pub_variables.DashboardOpts{
+	opts := variables.DashboardOpts{
 		Nav:         nav(0),
 		BreadCrumbs: fe.Breadcrumbs(fmt.Sprintf("dashboard/articles/%d/edit", id)),
 	}
@@ -55,7 +55,7 @@ func (fe *handler) ArticlesEdit(c echo.Context) error {
 }
 
 func (fe *handler) ArticlesNew(c echo.Context) error {
-	opts := pub_variables.DashboardOpts{
+	opts := variables.DashboardOpts{
 		Nav:         nav(0),
 		BreadCrumbs: fe.Breadcrumbs("dashboard/articles/new"),
 	}
@@ -107,7 +107,7 @@ func (fe *handler) Articles(c echo.Context) error {
 		return c.Redirect(http.StatusFound, path)
 	}
 
-	opts := pub_variables.DashboardOpts{
+	opts := variables.DashboardOpts{
 		Nav:         nav(0),
 		BreadCrumbs: fe.Breadcrumbs("dashboard/articles"),
 	}
@@ -153,13 +153,13 @@ func (fe *handler) ArticlesPush(c echo.Context) error {
 	var req ArticlesCreateRequest
 	if err := c.Bind(&req); err != nil {
 		fmt.Println(err)
-		fail := pub_alert.AlertFailure("Failed to save post:", err.Error())
+		fail := common.AlertFailure("Failed to save post:", err.Error())
 		return templates.AssertRender(c, http.StatusOK, fail)
 	}
 
 	if err := c.Validate(req); err != nil {
 		fmt.Println(err)
-		fail := pub_alert.AlertFailure("Failed to save post:", err.Error())
+		fail := common.AlertFailure("Failed to save post:", err.Error())
 		return templates.AssertRender(c, http.StatusOK, fail)
 	}
 
@@ -168,7 +168,7 @@ func (fe *handler) ArticlesPush(c echo.Context) error {
 	slug, err := strman.GenerateSlug(req.Title)
 	if err != nil {
 		fmt.Println(err)
-		fail := pub_alert.AlertFailure("Failed to save post:", err.Error())
+		fail := common.AlertFailure("Failed to save post:", err.Error())
 		return templates.AssertRender(c, http.StatusOK, fail)
 	}
 
@@ -183,7 +183,7 @@ func (fe *handler) ArticlesPush(c echo.Context) error {
 	usr, err := fe.App.ClerkClient.GetUserFromSession(c)
 	if err != nil {
 		fmt.Println(err)
-		fail := pub_alert.AlertFailure("Failed to save post:", err.Error())
+		fail := common.AlertFailure("Failed to save post:", err.Error())
 		return templates.AssertRender(c, http.StatusOK, fail)
 	}
 
@@ -233,7 +233,7 @@ func (fe *handler) ArticlesPush(c echo.Context) error {
 
 	err = fe.App.PostRepository.Upsert(ctx, post)
 	if err != nil {
-		fail := pub_alert.AlertFailure("Failed to save post:", err.Error())
+		fail := common.AlertFailure("Failed to save post:", err.Error())
 		return templates.AssertRender(c, http.StatusOK, fail)
 	}
 
@@ -261,11 +261,11 @@ func (fe *handler) ArticlesPush(c echo.Context) error {
 	}
 
 	if existingID != 0 {
-		success := pub_alert.AlertSuccess("Post has been saved successfully")
+		success := common.AlertSuccess("Post has been saved successfully")
 
 		return templates.AssertRender(c, http.StatusOK, success)
 	} else {
-		opts := pub_variables.DashboardOpts{
+		opts := variables.DashboardOpts{
 			Nav:         nav(0),
 			BreadCrumbs: fe.Breadcrumbs(fmt.Sprintf("dashboard/articles/%d/edit", post.ID)),
 		}

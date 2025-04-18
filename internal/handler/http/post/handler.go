@@ -4,14 +4,13 @@ import (
 	"fmt"
 	"github.com/muhwyndhamhp/marknotes/internal"
 	"github.com/muhwyndhamhp/marknotes/internal/handler/http/admin"
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/common/variables"
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/post/articles"
 	"github.com/muhwyndhamhp/marknotes/internal/middlewares"
 	"net/http"
 	"strconv"
 
 	"github.com/labstack/echo/v4"
-	pub_postlist "github.com/muhwyndhamhp/marknotes/pub/components/postlist"
-	pub_post_index "github.com/muhwyndhamhp/marknotes/pub/pages/post_index"
-	pub_variables "github.com/muhwyndhamhp/marknotes/pub/variables"
 	templateRenderer "github.com/muhwyndhamhp/marknotes/template"
 	"github.com/muhwyndhamhp/marknotes/utils/jwt"
 	"github.com/muhwyndhamhp/marknotes/utils/params"
@@ -96,19 +95,19 @@ func (fe *handler) PostsIndex(c echo.Context) error {
 		posts[len(posts)-1].AppendFormMeta(2, internal.PostStatusPublished, "published_at", "")
 	}
 
-	search := pub_variables.SearchBar{
+	search := variables.SearchBar{
 		SearchPlaceholder: "Search Articles...",
 		SearchPath:        "/posts?page=1&pageSize=10&sortBy=published_at&status=published",
 	}
 
 	userID := jwt.AppendAndReturnUserID(c, map[string]interface{}{})
 
-	bodyOpts := pub_variables.BodyOpts{
+	bodyOpts := variables.BodyOpts{
 		HeaderButtons: admin.AppendHeaderButtons(userID),
 		Component:     nil,
 	}
 
-	postIndex := pub_post_index.PostIndex(bodyOpts, posts, search)
+	postIndex := articles.PostIndex(bodyOpts, posts, search)
 
 	return templateRenderer.AssertRender(c, http.StatusOK, postIndex)
 }
@@ -150,7 +149,7 @@ func (fe *handler) PostsGet(c echo.Context) error {
 		posts[len(posts)-1].AppendFormMeta(page+1, status, sortBy, keyword)
 	}
 
-	postList := pub_postlist.PostList(posts)
+	postList := articles.PostList(posts)
 
 	return templateRenderer.AssertRender(c, http.StatusOK, postList)
 }

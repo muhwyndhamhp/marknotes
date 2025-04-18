@@ -1,0 +1,17 @@
+package common
+
+import "github.com/muhwyndhamhp/marknotes/internal/handler/http/common/variables"
+
+templ AnchorButton(btn variables.InlineButton) {
+	<!-- prettier-ignore-attribute -->
+	<button
+		hx-boost="true"
+		if variables.IsVisible(btn.AuthRule, btn.UserID) {
+			class="visible mx-4 mt-4 inline-block"
+		} else {
+			class="mx-4 mt-4 inline-block hidden"
+		}
+	>
+		<a href={ templ.URL(btn.AnchorUrl) }><strong>{ btn.Label }</strong></a>
+	</button>
+}

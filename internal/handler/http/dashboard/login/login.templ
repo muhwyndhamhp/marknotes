@@ -1,16 +1,16 @@
 package login
 
 import (
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/common/variables"
 	"github.com/muhwyndhamhp/marknotes/internal/handler/http/dashboard/common"
-	pub_variables "github.com/muhwyndhamhp/marknotes/pub/variables"
 )
 
 type LoginViewModel struct {
-	Opts pub_variables.DashboardOpts
+	Opts variables.DashboardOpts
 }
 
 templ Login(vm *LoginViewModel) {
-	@common.Dashboard(pub_variables.DashboardOpts{
+	@common.Dashboard(variables.DashboardOpts{
 		Nav:         vm.Opts.Nav,
 		BreadCrumbs: vm.Opts.BreadCrumbs,
 		Comp:        login(),

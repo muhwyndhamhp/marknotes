@@ -41,10 +41,10 @@ func (r *repository) Delete(ctx context.Context, id uint) error {
 
 func (r *repository) Get(ctx context.Context, funcs ...scopes.QueryScope) ([]internal.User, error) {
 	var res []internal.User
-	scopes := scopes.Unwrap(funcs...)
+	scope := scopes.Unwrap(funcs...)
 	err := r.db.WithContext(ctx).
 		Session(&gorm.Session{SkipDefaultTransaction: true}).
-		Scopes(scopes...).
+		Scopes(scope...).
 		Find(&res).
 		Error
 	if err != nil {

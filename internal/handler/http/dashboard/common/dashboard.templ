@@ -1,24 +1,23 @@
 package common
 
 import (
-	"github.com/muhwyndhamhp/marknotes/pub"
-	pub_themepicker "github.com/muhwyndhamhp/marknotes/pub/components/themepicker"
-	pub_variables "github.com/muhwyndhamhp/marknotes/pub/variables"
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/common"
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/common/variables"
 )
 
-templ Dashboard(opts pub_variables.DashboardOpts) {
+templ Dashboard(opts variables.DashboardOpts) {
 	<!DOCTYPE html>
 	<html lang="en">
 		<head hx-boost="true">
 			for i := range opts.AdditionalHeaders {
 				@RenderRaw(opts.AdditionalHeaders[i])
 			}
-			@pub.Header()
+			@common.Header()
 			<title>mwyndham.dev</title>
 		</head>
 		<body id="admin-root" class="bg-base-100">
 			<script async src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-			@pub.Background()
+			@common.Background()
 			<progress id="global-progress" class="htmx-indicator progress w-full top-0 fixed z-30"></progress>
 			@drawer(opts.Nav, opts.BreadCrumbs, opts.Comp, opts.NavItems...)
 		</body>
@@ -35,7 +34,7 @@ templ ExampleRaw(content string) {
 	</div>
 }
 
-templ drawer(items []pub_variables.DrawerMenu, breadcrumbs []pub_variables.Breadcrumb, comp templ.Component, navItems ...templ.Component) {
+templ drawer(items []variables.DrawerMenu, breadcrumbs []variables.Breadcrumb, comp templ.Component, navItems ...templ.Component) {
 	<div class="drawer lg:drawer-open">
 		<input id="my-drawer" type="checkbox" class="drawer-toggle"/>
 		<div class="drawer-content">
@@ -100,7 +99,7 @@ templ navBar(elems ...templ.Component) {
 			@elem
 		}
 		<div class="navbar-end md:px-6">
-			@pub_themepicker.ThemePicker(pub_themepicker.DefaultThemes)
+			@common.ThemePicker(common.DefaultThemes)
 		</div>
 	</div>
 }
@@ -111,7 +110,7 @@ templ title() {
 	</div>
 }
 
-templ drawerItem(item pub_variables.DrawerMenu) {
+templ drawerItem(item variables.DrawerMenu) {
 	<li class="p-1 h-30">
 		<a
 			if item.IsBoosted {

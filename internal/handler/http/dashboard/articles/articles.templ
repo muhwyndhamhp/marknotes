@@ -3,28 +3,28 @@ package articles
 import (
 	"fmt"
 	"github.com/muhwyndhamhp/marknotes/internal"
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/common/assets"
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/common/variables"
 	"github.com/muhwyndhamhp/marknotes/internal/handler/http/dashboard/common"
-	pub_assets "github.com/muhwyndhamhp/marknotes/pub/assets"
-	pub_variables "github.com/muhwyndhamhp/marknotes/pub/variables"
 )
 
 type ArticlesViewModel struct {
-	Opts       pub_variables.DashboardOpts
+	Opts       variables.DashboardOpts
 	Posts      []internal.Post
-	PageSizes  pub_variables.DropdownVM
-	Pages      pub_variables.DropdownVM
+	PageSizes  variables.DropdownVM
+	Pages      variables.DropdownVM
 	CreatePath string
 }
 
 templ Articles(vm ArticlesViewModel) {
-	@common.Dashboard(pub_variables.DashboardOpts{
+	@common.Dashboard(variables.DashboardOpts{
 		Nav:         vm.Opts.Nav,
 		BreadCrumbs: vm.Opts.BreadCrumbs,
 		Comp:        articles(vm.Posts, vm.PageSizes, vm.Pages, vm.CreatePath),
 	})
 }
 
-templ ArticleOOB(posts []internal.Post, pageSizes, pages pub_variables.DropdownVM) {
+templ ArticleOOB(posts []internal.Post, pageSizes, pages variables.DropdownVM) {
 	@articleTable(posts, getOOBAttr())
 	@pageSize(pageSizes, getOOBAttr())
 	@pagination(pages, getOOBAttr())
@@ -34,7 +34,7 @@ func getOOBAttr() templ.Attributes {
 	return templ.Attributes{"hx-swap-oob": "true"}
 }
 
-templ articles(posts []internal.Post, pageSizes, pages pub_variables.DropdownVM, createPath string) {
+templ articles(posts []internal.Post, pageSizes, pages variables.DropdownVM, createPath string) {
 	<div class="w-full h-full" id="articles">
 		<div class="mx-3 md:mx-10">
 			<div class="w-full flex flex-col md:flex-row justify-end">
@@ -68,7 +68,7 @@ templ createArticleButton(path string) {
 	</button>
 }
 
-templ pagination(vm pub_variables.DropdownVM, attrs templ.Attributes) {
+templ pagination(vm variables.DropdownVM, attrs templ.Attributes) {
 	<div
 		id="pages"
 		{ attrs... }
@@ -87,7 +87,7 @@ templ pagination(vm pub_variables.DropdownVM, attrs templ.Attributes) {
 	</div>
 }
 
-templ pageSize(vm pub_variables.DropdownVM, attrs templ.Attributes) {
+templ pageSize(vm variables.DropdownVM, attrs templ.Attributes) {
 	<div
 		id="page-sizes"
 		{ attrs... }
@@ -164,7 +164,7 @@ templ articleRow(post internal.Post, flipDropdown bool) {
 		<th>
 			<div class={ "dropdown dropdown-end", templ.KV("dropdown-top", flipDropdown) }>
 				<div tabindex="0" role="button" class="btn btn-ghost">
-					@pub_assets.Setting(6)
+					@assets.Setting(6)
 				</div>
 				<ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
 					<li

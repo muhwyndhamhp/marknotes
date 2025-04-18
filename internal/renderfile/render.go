@@ -5,15 +5,15 @@ import (
 	"fmt"
 	"github.com/muhwyndhamhp/marknotes/internal"
 	"github.com/muhwyndhamhp/marknotes/internal/handler/http/admin"
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/common"
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/common/variables"
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/post/articles"
 	"os"
 	"strings"
 	"time"
 
 	"github.com/a-h/templ"
 	"github.com/muhwyndhamhp/marknotes/config"
-	"github.com/muhwyndhamhp/marknotes/pub"
-	pub_post_detail "github.com/muhwyndhamhp/marknotes/pub/pages/post_detail/post_detail"
-	pub_variables "github.com/muhwyndhamhp/marknotes/pub/variables"
 	"github.com/muhwyndhamhp/marknotes/template"
 	"github.com/muhwyndhamhp/marknotes/utils/fileman"
 	"github.com/muhwyndhamhp/marknotes/utils/scopes"
@@ -33,15 +33,15 @@ func (r *RenderClient) RenderPost(ctx context.Context, post *internal.Post) {
 	baseURL := strings.Split(config.Get(config.OAUTH_URL), "/callback")[0]
 	canonURL := fmt.Sprintf("%s/articles/%s.html", baseURL, post.Slug)
 
-	bodyOpts := pub_variables.BodyOpts{
+	bodyOpts := variables.BodyOpts{
 		HeaderButtons: admin.AppendHeaderButtons(userID),
 		Component:     nil,
 		ExtraHeaders: []templ.Component{
-			pub.CannonicalRel(canonURL),
+			common.CannonicalRel(canonURL),
 		},
 	}
 
-	postDetail := pub_post_detail.PostDetail(bodyOpts, *post)
+	postDetail := articles.PostDetail(bodyOpts, *post)
 
 	if err := fileman.CheckDir(config.Get(config.POST_RENDER_PATH) + ""); err != nil {
 		fmt.Println(err)

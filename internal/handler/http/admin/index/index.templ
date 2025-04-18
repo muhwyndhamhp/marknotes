@@ -1,0 +1,27 @@
+package index
+
+import (
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/common"
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/common/variables"
+)
+
+templ Index(body variables.BodyOpts) {
+	@common.Body(variables.BodyOpts{
+		HeaderButtons: body.HeaderButtons,
+		FooterButtons: body.FooterButtons,
+		Component:     index(),
+		HideTitle:     body.HideTitle,
+	})
+}
+
+templ index() {
+	<div class="px-auto relative mx-auto w-full self-center md:mx-auto md:max-w-3xl md:px-0 lg:max-w-4xl">
+		@common.Intro()
+		<br/>
+		<div class="card card-body bg-base-100 md:card mt-6">
+			<div id="admin-content">
+				<div hx-get="/posts?page=1&pageSize=5&status=published&sortBy=published_at&loadNext=false" hx-trigger="load"></div>
+			</div>
+		</div>
+	</div>
+}

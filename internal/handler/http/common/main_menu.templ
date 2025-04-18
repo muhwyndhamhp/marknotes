@@ -1,0 +1,113 @@
+package common
+
+import (
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/common/assets"
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/common/variables"
+)
+
+templ MainMenu(buttons []variables.InlineButton, showTitle bool) {
+	<header class="text-center">
+		<div class="w-full flex-row justify-center">
+			@buttonRows(buttons)
+			@titleHome(false, showTitle, buttons[0].BaseURL)
+		</div>
+	</header>
+}
+
+templ buttonRows(buttons []variables.InlineButton) {
+	<div
+		class={ "navbar bg-base-100 shadow-xl md:rounded-badge mx-auto md:max-w-2xl md:mt-5" }
+	>
+		<div class="navbar-start">
+			@mobileMenu(buttons)
+		</div>
+		<div class="navbar-center flex">
+			<ul class="menu menu-horizontal px-1">
+				<li class="md:hidden">
+					@titleHome(true, true, buttons[0].BaseURL)
+				</li>
+				@desktopMenu(buttons)
+			</ul>
+		</div>
+		<div class="navbar-end">
+			@ThemePicker(DefaultThemes)
+		</div>
+	</div>
+}
+
+templ titleHome(isInline, showTitle bool, baseURL string) {
+	<a
+		hx-boost="true"
+		href={ templ.SafeURL(baseURL) }
+		aria-label="Link to Homepage"
+		if !showTitle && !isInline {
+			class="hidden"
+		}
+	>
+		<h1
+			if !isInline {
+				class="mt-16 mb-6 text-4xl font-extrabold hidden md:flex justify-center"
+			} else {
+				class="text-2xl font-extrabold"
+			}
+		>
+			mwyndham.dev
+		</h1>
+	</a>
+}
+
+templ mobileMenu(buttons []variables.InlineButton) {
+	<div class="dropdown md:hidden">
+		<div tabindex="0" role="button" class="btn btn-ghost btn-circle" aria-labelledby="mainMenuLabel">
+			@assets.Menu()
+			<div id="mainMenuLabel" class="hidden">Main Menu Button for Mobile Devices</div>
+		</div>
+		<ul
+			tabindex="0"
+			class="menu menu-sm dropdown-content mt-3 z-[3] p-2 shadow bg-base-100 rounded-box w-72"
+		>
+			for _, btn := range buttons {
+				<li>
+					<a
+						aria-label={ btn.Label }
+						if btn.IsBoosted {
+							hx-boost="true"
+						} else {
+							hx-boost="false"
+						}
+						if !variables.IsVisible(btn.AuthRule, btn.UserID) {
+							class="hidden"
+						} else {
+							class="menu text-base-content hover:font-bold hover:bg-accent hover:text-accent-content mx-2 py-2"
+						}
+						href={ templ.URL(btn.AnchorUrl) }
+					>
+						{ btn.Label }
+					</a>
+				</li>
+			}
+		</ul>
+	</div>
+}
+
+templ desktopMenu(buttons []variables.InlineButton) {
+	for _, btn := range buttons {
+		<li>
+			<a
+				if btn.IsBoosted {
+					hx-boost="true"
+				} else {
+					hx-boost="false"
+				}
+				if !variables.IsVisible(btn.AuthRule, btn.UserID) {
+					class="hidden"
+				} else {
+					class="menu rounded-badge text-base-content hover:font-bold hover:bg-accent hover:text-accent-content mx-2 hidden md:flex"
+				}
+				href={ templ.URL(btn.AnchorUrl) }
+			>
+				{ btn.Label }
+			</a>
+		</li>
+	}
+}

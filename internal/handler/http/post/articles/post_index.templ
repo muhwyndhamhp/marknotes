@@ -1,0 +1,28 @@
+package articles
+
+import (
+	"github.com/muhwyndhamhp/marknotes/internal"
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/common"
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/common/variables"
+)
+
+templ PostIndex(body variables.BodyOpts, posts []internal.Post, search variables.SearchBar) {
+	@common.Body(variables.BodyOpts{
+		HeaderButtons: body.HeaderButtons,
+		FooterButtons: body.FooterButtons,
+		Component:     postIndex(posts, search),
+	})
+}
+
+templ postIndex(posts []internal.Post, search variables.SearchBar) {
+	<div id="admin-content" class="flex flex-col mt-8">
+		if len(posts) > 0 {
+			<div class="bg-base-100 card w-full md:mx-auto md:max-w-3xl lg:max-w-4xl px-6 py-4">
+				@common.SearchBar(search)
+				<div id="post-list" class="mt-4">
+					@PostList(posts)
+				</div>
+			</div>
+		}
+	</div>
+}

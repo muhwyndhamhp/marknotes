@@ -2,6 +2,7 @@ package dashboard
 
 import (
 	"fmt"
+	pub_variables "github.com/muhwyndhamhp/marknotes/internal/handler/http/common/variables"
 	"github.com/muhwyndhamhp/marknotes/internal/handler/http/dashboard/partials"
 	"net/http"
 	"strings"
@@ -9,7 +10,6 @@ import (
 	"github.com/a-h/templ"
 	"github.com/labstack/echo/v4"
 	"github.com/muhwyndhamhp/marknotes/config"
-	pub_variables "github.com/muhwyndhamhp/marknotes/pub/variables"
 	templates "github.com/muhwyndhamhp/marknotes/template"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"

@@ -11,16 +11,16 @@ import templruntime "github.com/a-h/templ/runtime"
 import (
 	"fmt"
 	"github.com/muhwyndhamhp/marknotes/internal"
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/common/assets"
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/common/variables"
 	"github.com/muhwyndhamhp/marknotes/internal/handler/http/dashboard/common"
-	pub_assets "github.com/muhwyndhamhp/marknotes/pub/assets"
-	pub_variables "github.com/muhwyndhamhp/marknotes/pub/variables"
 )
 
 type ArticlesViewModel struct {
-	Opts       pub_variables.DashboardOpts
+	Opts       variables.DashboardOpts
 	Posts      []internal.Post
-	PageSizes  pub_variables.DropdownVM
-	Pages      pub_variables.DropdownVM
+	PageSizes  variables.DropdownVM
+	Pages      variables.DropdownVM
 	CreatePath string
 }
 
@@ -45,7 +45,7 @@ func Articles(vm ArticlesViewModel) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = common.Dashboard(pub_variables.DashboardOpts{
+		templ_7745c5c3_Err = common.Dashboard(variables.DashboardOpts{
 			Nav:         vm.Opts.Nav,
 			BreadCrumbs: vm.Opts.BreadCrumbs,
 			Comp:        articles(vm.Posts, vm.PageSizes, vm.Pages, vm.CreatePath),
@@ -57,7 +57,7 @@ func Articles(vm ArticlesViewModel) templ.Component {
 	})
 }
 
-func ArticleOOB(posts []internal.Post, pageSizes, pages pub_variables.DropdownVM) templ.Component {
+func ArticleOOB(posts []internal.Post, pageSizes, pages variables.DropdownVM) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -98,7 +98,7 @@ func getOOBAttr() templ.Attributes {
 	return templ.Attributes{"hx-swap-oob": "true"}
 }
 
-func articles(posts []internal.Post, pageSizes, pages pub_variables.DropdownVM, createPath string) templ.Component {
+func articles(posts []internal.Post, pageSizes, pages variables.DropdownVM, createPath string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -197,7 +197,7 @@ func createArticleButton(path string) templ.Component {
 	})
 }
 
-func pagination(vm pub_variables.DropdownVM, attrs templ.Attributes) templ.Component {
+func pagination(vm variables.DropdownVM, attrs templ.Attributes) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -288,7 +288,7 @@ func pagination(vm pub_variables.DropdownVM, attrs templ.Attributes) templ.Compo
 	})
 }
 
-func pageSize(vm pub_variables.DropdownVM, attrs templ.Attributes) templ.Component {
+func pageSize(vm variables.DropdownVM, attrs templ.Attributes) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -568,7 +568,7 @@ func articleRow(post internal.Post, flipDropdown bool) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = pub_assets.Setting(6).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = assets.Setting(6).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
