@@ -1,4 +1,4 @@
-package repository
+package tag
 
 import (
 	"context"
@@ -24,10 +24,10 @@ func (r *repository) Delete(ctx context.Context, id uint) error {
 // Get implements models.TagRepository.
 func (r *repository) Get(ctx context.Context, funcs ...scopes.QueryScope) ([]internal.Tag, error) {
 	var res []internal.Tag
-	scopes := scopes.Unwrap(funcs...)
+	scope := scopes.Unwrap(funcs...)
 	err := r.db.WithContext(ctx).
 		Session(&gorm.Session{SkipDefaultTransaction: true}).
-		Scopes(scopes...).
+		Scopes(scope...).
 		Find(&res).
 		Error
 	if err != nil {

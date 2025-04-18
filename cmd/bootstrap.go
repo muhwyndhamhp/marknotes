@@ -7,14 +7,14 @@ import (
 	"github.com/muhwyndhamhp/marknotes/config"
 	"github.com/muhwyndhamhp/marknotes/db"
 	"github.com/muhwyndhamhp/marknotes/internal"
-	middlewares2 "github.com/muhwyndhamhp/marknotes/internal/middlewares"
+	internalClerk "github.com/muhwyndhamhp/marknotes/internal/clerk"
+	"github.com/muhwyndhamhp/marknotes/internal/middlewares"
 	_postRepo "github.com/muhwyndhamhp/marknotes/internal/post"
-	_userRepo "github.com/muhwyndhamhp/marknotes/pkg/auth/repository"
-	_tagRepo "github.com/muhwyndhamhp/marknotes/pkg/tag/repository"
-	"github.com/muhwyndhamhp/marknotes/utils/clerkauth"
+	"github.com/muhwyndhamhp/marknotes/internal/renderfile"
+	_tagRepo "github.com/muhwyndhamhp/marknotes/internal/tag"
+	_userRepo "github.com/muhwyndhamhp/marknotes/internal/user"
 	"github.com/muhwyndhamhp/marknotes/utils/cloudbucket"
 	"github.com/muhwyndhamhp/marknotes/utils/imageprocessing"
-	"github.com/muhwyndhamhp/marknotes/utils/renderfile"
 	"time"
 )
 
@@ -36,12 +36,12 @@ func Bootstrap() *internal.Application {
 
 	app.RenderClient = renderfile.NewRenderClient(app)
 
-	app.ClerkClient = clerkauth.NewClient(config.Get(config.CLERK_SECRET), app)
+	app.ClerkClient = internalClerk.NewClient(config.Get(config.CLERK_SECRET), app)
 	app.RequireAuthWare = app.ClerkClient.AuthMiddleware()
 	app.DescribeAuthWare = echo.WrapMiddleware(clerk.WithSessionV2(app.ClerkClient.GetClerk(), clerk.WithLeeway(60*time.Second)))
-	app.CacheControlWare = middlewares2.SetCachePolicy()
-	app.GetIdParamWare = middlewares2.ByIDMiddleware()
-	app.FromHTMXRequestWare = middlewares2.HTMXRequest()
+	app.CacheControlWare = middlewares.SetCachePolicy()
+	app.GetIdParamWare = middlewares.ByIDMiddleware()
+	app.FromHTMXRequestWare = middlewares.HTMXRequest()
 
 	return app
 }

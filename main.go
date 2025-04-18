@@ -6,6 +6,7 @@ import (
 	"github.com/muhwyndhamhp/marknotes/cmd"
 	"github.com/muhwyndhamhp/marknotes/internal"
 	"github.com/muhwyndhamhp/marknotes/internal/handler/http/admin"
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/auth"
 	"github.com/muhwyndhamhp/marknotes/internal/handler/http/dashboard"
 	"github.com/muhwyndhamhp/marknotes/internal/handler/http/post"
 	"net/http"
@@ -15,7 +16,6 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/muhwyndhamhp/marknotes/config"
 	"github.com/muhwyndhamhp/marknotes/db"
-	"github.com/muhwyndhamhp/marknotes/pkg/auth"
 	"github.com/muhwyndhamhp/marknotes/pkg/site"
 	"github.com/muhwyndhamhp/marknotes/template"
 	"github.com/muhwyndhamhp/marknotes/utils/jwt"
@@ -62,7 +62,7 @@ func main() {
 	post.NewHandler(adminGroup, app)
 	dashboard.NewHandler(adminGroup, app)
 
-	auth.NewAuthService(adminGroup, service, config.Get(config.OAUTH_AUTHORIZE_URL),
+	auth.NewHandler(adminGroup, service, config.Get(config.OAUTH_AUTHORIZE_URL),
 		config.Get(config.OAUTH_ACCESSTOKEN_URL),
 		config.Get(config.OAUTH_CLIENTID),
 		config.Get(config.OAUTH_SECRET),

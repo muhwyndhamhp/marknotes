@@ -19,10 +19,6 @@ import (
 	"github.com/muhwyndhamhp/marknotes/utils/scopes"
 )
 
-type RenderClient struct {
-	App *internal.Application
-}
-
 func NewRenderClient(app *internal.Application) internal.RenderFile {
 	return &RenderClient{App: app}
 }

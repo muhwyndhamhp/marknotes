@@ -1,4 +1,4 @@
-package clerkauth
+package clerk
 
 import (
 	"errors"

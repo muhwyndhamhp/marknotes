@@ -24,7 +24,7 @@ type accessTokenResponse struct {
 	TokenType   string `json:"token_type"`
 }
 
-type AuthService struct {
+type handler struct {
 	JWT            jwt.Service
 	AuthURL        string
 	AccessTokenURL string
@@ -34,14 +34,14 @@ type AuthService struct {
 	Repo           internal.UserRepository
 }
 
-func NewAuthService(g *echo.Group,
+func NewHandler(g *echo.Group,
 	JWT jwt.Service,
 	AuthURL, AccessTokenURL,
 	ClientID, ClientSecret,
 	RedirectURL string,
 	Repo internal.UserRepository,
 ) {
-	handler := &AuthService{
+	handler := &handler{
 		JWT:            JWT,
 		AuthURL:        AuthURL,
 		AccessTokenURL: AccessTokenURL,
@@ -55,7 +55,7 @@ func NewAuthService(g *echo.Group,
 	g.GET("/logout", handler.Logout)
 }
 
-func (h *AuthService) Logout(c echo.Context) error {
+func (h *handler) Logout(c echo.Context) error {
 	if err := h.JWT.ForgetToken(c); err != nil {
 		return err
 	}
@@ -63,7 +63,7 @@ func (h *AuthService) Logout(c echo.Context) error {
 	return c.Redirect(http.StatusFound, "/articles")
 }
 
-func (h *AuthService) Callback(c echo.Context) error {
+func (h *handler) Callback(c echo.Context) error {
 	code := c.QueryParam("code")
 	state := c.QueryParam("state")
 
@@ -101,7 +101,7 @@ func (h *AuthService) Callback(c echo.Context) error {
 	return c.Redirect(http.StatusFound, "/articles")
 }
 
-func (h *AuthService) Login(c echo.Context) error {
+func (h *handler) Login(c echo.Context) error {
 	token := csrf.Token(c.Request())
 
 	params := url.Values{
@@ -132,7 +132,7 @@ type user struct {
 	Login string `json:"login"`
 }
 
-func (h *AuthService) getUser(accessToken string) (*user, error) {
+func (h *handler) getUser(accessToken string) (*user, error) {
 	req, err := http.NewRequest("GET", userURL, nil)
 	if err != nil {
 		return nil, err
@@ -155,7 +155,7 @@ func (h *AuthService) getUser(accessToken string) (*user, error) {
 	return &u, nil
 }
 
-func (h *AuthService) getAccessToken(code string) (string, error) {
+func (h *handler) getAccessToken(code string) (string, error) {
 	params := url.Values{
 		"client_id":     []string{h.ClientID},
 		"client_secret": []string{h.ClientSecret},
