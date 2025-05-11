@@ -111,7 +111,7 @@ templ title() {
 }
 
 templ drawerItem(item variables.DrawerMenu) {
-	<li class="p-1 h-30">
+	<li class="p-1">
 		<a
 			if item.IsBoosted {
 				hx-boost="true"
@@ -119,7 +119,7 @@ templ drawerItem(item variables.DrawerMenu) {
 			} else {
 				hx-boost="false"
 			}
-			class={ "group", templ.KV("active", item.IsActive) }
+			class={ "group", templ.KV("menu-active", item.IsActive) }
 			href={ item.URL }
 		>{ item.Label }</a>
 	</li>

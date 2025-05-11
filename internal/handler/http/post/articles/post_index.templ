@@ -18,7 +18,9 @@ templ postIndex(posts []internal.Post, search variables.SearchBar) {
 	<div id="admin-content" class="flex flex-col mt-8">
 		if len(posts) > 0 {
 			<div class="bg-base-100 card w-full md:mx-auto md:max-w-3xl lg:max-w-4xl px-6 py-4">
-				@common.SearchBar(search)
+				<div class="px-3">
+					@common.SearchBar(search)
+				</div>
 				<div id="post-list" class="mt-4">
 					@PostList(posts)
 				</div>

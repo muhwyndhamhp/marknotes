@@ -16,7 +16,7 @@ templ MainMenu(buttons []variables.InlineButton, showTitle bool) {
 
 templ buttonRows(buttons []variables.InlineButton) {
 	<div
-		class={ "navbar bg-base-100 shadow-xl md:rounded-badge mx-auto md:max-w-2xl md:mt-5" }
+		class={ "navbar bg-base-100 shadow-xl md:rounded-field mx-auto md:max-w-2xl md:mt-5" }
 	>
 		<div class="navbar-start">
 			@mobileMenu(buttons)
@@ -64,7 +64,7 @@ templ mobileMenu(buttons []variables.InlineButton) {
 		</div>
 		<ul
 			tabindex="0"
-			class="menu menu-sm dropdown-content mt-3 z-[3] p-2 shadow bg-base-100 rounded-box w-72"
+			class="menu menu-sm dropdown-content mt-3 z-3 p-2 shadow-sm bg-base-100 rounded-box w-72"
 		>
 			for _, btn := range buttons {
 				<li>

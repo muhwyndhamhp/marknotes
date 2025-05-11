@@ -24,15 +24,14 @@ templ postDetail(post internal.Post) {
 			if post.HeaderImageURL != "" {
 				<div
 					class="w-full h-full backdrop-brightness-[.35] backdrop-blur-[1px] absolute card rounded-none
-        md:rounded-box z-[1]"
+        md:rounded-box z-1"
 				></div>
 				<img fetchpriority="high" class="card absolute w-full h-full object-cover rounded-none md:rounded-box" src={ post.HeaderImageURL } alt="Cover Image"/>
 			}
 		</div>
 	</div>
 	<div
-		class="relative w-full card rounded-none md:rounded-box card-body bg-base-100 px-6  md:max-w-3xl lg:max-w-4xl md:pt-4 lg:pb-28 lg:pt-6 py-8
-    md:mx-auto shadow-xl z-20 -translate-y-8"
+		class="relative w-full card rounded-none md:rounded-box card-body bg-base-100 px-6  md:max-w-3xl lg:max-w-4xl md:pt-4 lg:pb-28 lg:pt-6 py-8 md:mx-auto shadow-xl z-20 -translate-y-8"
 	>
 		@MarkdownBody(post.EncodedContent)
 	</div>
@@ -40,7 +39,7 @@ templ postDetail(post internal.Post) {
 
 templ TitleGroup(post internal.Post) {
 	<div
-		class={ "mt-2 mx-8 grow align-middle flex flex-col z-[2] pt-8 pb-20",  templ.KV("text-gray-100 dark:text-base-content dark:invert-0",
+		class={ "mt-2 mx-8 grow align-middle flex flex-col z-2 pt-8 pb-20",  templ.KV("text-gray-100 dark:text-base-content dark:invert-0",
   post.HeaderImageURL != "") }
 	>
 		<h1 class="text-2xl md:text-4xl font-extrabold">{ post.Title }</h1>
@@ -67,7 +66,7 @@ templ TitleGroup(post internal.Post) {
 
 templ MarkdownBody(content template.HTML) {
 	<article
-		class="caret-rose-800 w-full mx-auto prose prose-slate lg:prose-xl md:prose-lg dark:prose-invert prose-pre:bg-slate-900 prose-pre:w-full prose-pre:text-white focus:outline-none prose-em:text-secondary prose-strong:text-primary prose-strong:font-extrabold prose-a:font-extrabold prose-a:text-accent prose-a:brightness-90 prose-strong:brightness-50 prose-em:brightness-50 dark:prose-a:brightness-100 dark:prose-strong:brightness-100 dark:prose-em:brightness-100"
+		class="caret-rose-800 w-full mx-auto prose prose-slate lg:prose-xl md:prose-lg dark:prose-invert prose-pre:bg-slate-900 prose-pre:w-full prose-pre:text-white focus:outline-hidden prose-em:text-secondary prose-strong:text-primary prose-strong:font-extrabold prose-a:font-extrabold prose-a:text-accent prose-a:brightness-90 prose-strong:brightness-50 prose-em:brightness-50 dark:prose-a:brightness-100 dark:prose-strong:brightness-100 dark:prose-em:brightness-100"
 		id="preview"
 	>
 		@RenderRaw(content)

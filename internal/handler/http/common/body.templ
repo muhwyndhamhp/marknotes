@@ -29,9 +29,12 @@ templ Body(opts variables.BodyOpts) {
 
 templ Background() {
 	<div
-		class="fixed start-0 top-0 h-full w-full bg-gradient-to-bl from-primary/10 via-secondary/10
-      to-accent/10"
-	></div>
+		class="fixed start-0 top-0 h-full w-full"
+	>
+		<div class="absolute inset-0 bg-linear-to-bl from-primary/20 via-secondary/20 to-accent/20"></div>
+		<div class="absolute inset-0 bg-linear-to-bl from-primary-content/20 via-secondary-content/20 to-accent-content/20 mask mask-square opacity-20 dark:opacity-0 mix-blend-overlay"></div>
+		<div class="absolute inset-0 bg-black opacity-0 dark:opacity-40"></div>
+	</div>
 }
 
 templ Stub() {

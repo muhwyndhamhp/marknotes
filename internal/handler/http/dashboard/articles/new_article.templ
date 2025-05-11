@@ -27,17 +27,17 @@ templ NewArticle(vm NewArticleViewModel) {
 }
 
 templ new(existingPost *internal.Post, baseURL, uploadURL string) {
-	<form id="form-post" class="mt-6 w-full h-full flex flex-col md:flex-row-reverse max-w-screen-itn2 mx-auto">
-		<div>
+	<form id="form-post" class="mt-6 w-full h-full flex flex-col md:flex-row-reverse max-w-(--breakpoint-itn2) mx-auto">
+		<div class="w-full max-w-md mx-auto">
 			<div
-				class="box-border md:min-h-60 sticky top-20"
+				class="box-border md:min-h-60 sticky top-20 w-full"
 				if existingPost != nil {
 					hx-get={ "/dashboard/analytics/" + existingPost.Slug }
 					hx-swap="afterbegin"
 					hx-trigger="load"
 				}
 			>
-				<div class="box-border">
+				<div class="box-border mx-auto">
 					@submitButton(tern.Struct(existingPost, &internal.Post{}).ID)
 				</div>
 			</div>
@@ -47,7 +47,7 @@ templ new(existingPost *internal.Post, baseURL, uploadURL string) {
 				@uploadHeaderImage()
 				<div
 					id="header-image-base"
-					class={ "w-[98%] mx-auto min-h-20 card bg-base-100/40 outline-dashed outline-secondary",
+					class={ "w-[98%] mx-auto min-h-20 card bg-base-100/40 outline-dotted outline-secondary",
           templ.KV(
           "outline-transparent",
           existingPost != nil && existingPost.HeaderImageURL != "",
@@ -108,11 +108,7 @@ templ new(existingPost *internal.Post, baseURL, uploadURL string) {
 						/>
 					</div>
 					<h1
-						class={ "text-2xl font-bold text-center mx-auto my-auto text-primary",
-              templ.KV(
-              "hidden",
-              existingPost != nil && existingPost.HeaderImageURL != "",
-              ) }
+						class={ "text-2xl font-bold text-center mx-auto my-auto text-primary brightness-60",templ.KV("hidden",existingPost != nil && existingPost.HeaderImageURL != "") }
 					>
 						Drop Header Image Here...
 					</h1>
@@ -123,7 +119,7 @@ templ new(existingPost *internal.Post, baseURL, uploadURL string) {
                resize-y
                align-middle
                text-justify placeholder:text-2xl placeholder:font-normal border-transparent w-full p-6
-               mt-4 focus:outline-none min-h-1 bg-base-100 rounded-b-none rounded-t-box"
+               mt-4 focus:outline-hidden min-h-1 bg-base-100 rounded-b-none rounded-t-box"
 					type="text"
 					name="title"
 					id="blog-title"
@@ -191,10 +187,10 @@ templ new(existingPost *internal.Post, baseURL, uploadURL string) {
 }
 
 templ submitButton(existingID uint) {
-	<div class="flex flex-col sm:flex-row md:flex-col md:justify-center px-6 md:px-12 pb-6 w-full items-center justify-evenly">
+	<div class="flex flex-col md:justify-center px-6 md:px-12 pb-6 w-full items-center">
 		<button
 			id="publish-button"
-			class="btn btn-primary mt-3 md:mt-0 md:max-w-72 lg:max-w-64 xl:max-w-72 btn-block sm:btn-wide mx-3 md:mx-0"
+			class="btn btn-primary mt-3 md:mt-0 md:max-w-72 btn-block md:btn-wide mx-3 md:mx-0"
 			hx-post={ fmt.Sprintf("/dashboard/articles/push?status=published&existingID=%d", existingID) }
 			if existingID != 0 {
 				hx-target="#dashboard-content"
@@ -213,7 +209,7 @@ templ submitButton(existingID uint) {
 		</button>
 		<button
 			id="draft-button"
-			class="btn btn-secondary mt-3 md:max-w-72 lg:max-w-64 xl:max-w-72 btn-block sm:btn-wide mx-3 md:mx-0"
+			class="btn btn-secondary mt-3 md:max-w-72 btn-block md:btn-wide mx-3 md:mx-0"
 			hx-post={ fmt.Sprintf("/dashboard/articles/push?status=draft&existingID=%d", existingID) }
 			if existingID != 0 {
 				hx-target="#dashboard-content"

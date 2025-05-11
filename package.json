@@ -5,14 +5,15 @@
     "build:tailwind": "postcss ./src/main.css -o ./dist/tailwind_v4.css"
   },
   "devDependencies": {
-    "daisyui": "^4.12.23",
-    "esbuild": "0.20.0",
+    "@tailwindcss/typography": "^0.5.16",
+    "daisyui": "^5.0.25",
+    "esbuild": "^0.25.4",
     "postcss-cli": "^11.0.0",
-    "tailwindcss": "^3.4.1"
+    "tailwindcss": "^4.1.4"
   },
   "dependencies": {
     "@clerk/clerk-js": "^4.71.4",
-    "@tailwindcss/typography": "^0.5.10",
+    "@tailwindcss/postcss": "^4.1.4",
     "@tiptap/core": "^2.2.2",
     "@tiptap/extension-bubble-menu": "^2.4.0",
     "@tiptap/extension-code-block-lowlight": "^2.2.2",

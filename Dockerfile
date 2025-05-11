@@ -24,7 +24,6 @@ COPY --from=builder /app/wrapper.sh /app/
 
 COPY --from=builder /app/public /app/public
 COPY --from=builder /app/dist /app/dist
-COPY --from=builder /app/pub /app/pub
 
 RUN ls -la /app/
 

@@ -38,8 +38,8 @@ templ articles(posts []internal.Post, pageSizes, pages variables.DropdownVM, cre
 	<div class="w-full h-full" id="articles">
 		<div class="mx-3 md:mx-10">
 			<div class="w-full flex flex-col md:flex-row justify-end">
-				<h1 class="grow text-4xl text-secondary font-bold my-auto mt-3 md:mt-0">
-					List of Articles
+				<h1 class="grow text-4xl text-secondary brightness-70 font-bold my-auto mt-3 md:mt-0">
+					Articles
 				</h1>
 				@createArticleButton(createPath)
 			</div>
@@ -93,9 +93,9 @@ templ pageSize(vm variables.DropdownVM, attrs templ.Attributes) {
 		{ attrs... }
 		class="flex flex-row flex-auto"
 	>
-		<div class="dropdown dropdown-hover my-auto">
+		<div class="dropdown dropdown-hover bg-base-100 rounded-selector my-auto">
 			<div tabindex="0" role="button" class="btn btn-ghost m-1">{ vm.Items[vm.Selected].Label }</div>
-			<ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+			<ul tabindex="0" class="dropdown-content z-1 menu p-2 shadow-sm bg-base-100 rounded-selector w-52 drop-shadow-2xl dark:drop-shadow-primary-content outline">
 				for i := range vm.Items {
 					<li
 						_={ fmt.Sprintf("on click put %s into previous <div/>", vm.Items[i].Label) }
@@ -156,8 +156,8 @@ templ articleRow(post internal.Post, flipDropdown bool) {
 			<div
 				class={
 					"badge badge-outline badge-sm font-normal px-3 py-2",
-					templ.KV("badge-primary text-primary-content", post.Status == "published"),
-					templ.KV("badge-accent text-accent-content", post.Status == "draft"),
+					templ.KV("badge-primary text-primary-content dark:text-primary", post.Status == "published"),
+					templ.KV("badge-accent text-accent-content dark:text-accent", post.Status == "draft"),
 				}
 			>{ string(post.Status) }</div>
 		</th>
@@ -166,7 +166,7 @@ templ articleRow(post internal.Post, flipDropdown bool) {
 				<div tabindex="0" role="button" class="btn btn-ghost">
 					@assets.Setting(6)
 				</div>
-				<ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+				<ul tabindex="0" class="dropdown-content z-1 menu p-2 shadow-sm bg-base-100 rounded-selector w-52 drop-shadow-2xl dark:drop-shadow-primary-content outline">
 					<li
 						hx-indicator="#global-progress"
 						hx-target="closest tr"

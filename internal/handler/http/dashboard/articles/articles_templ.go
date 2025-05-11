@@ -119,7 +119,7 @@ func articles(posts []internal.Post, pageSizes, pages variables.DropdownVM, crea
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"w-full h-full\" id=\"articles\"><div class=\"mx-3 md:mx-10\"><div class=\"w-full flex flex-col md:flex-row justify-end\"><h1 class=\"grow text-4xl text-secondary font-bold my-auto mt-3 md:mt-0\">List of Articles</h1>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"w-full h-full\" id=\"articles\"><div class=\"mx-3 md:mx-10\"><div class=\"w-full flex flex-col md:flex-row justify-end\"><h1 class=\"grow text-4xl text-secondary brightness-70 font-bold my-auto mt-3 md:mt-0\">Articles</h1>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -317,7 +317,7 @@ func pageSize(vm variables.DropdownVM, attrs templ.Attributes) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, " class=\"flex flex-row flex-auto\"><div class=\"dropdown dropdown-hover my-auto\"><div tabindex=\"0\" role=\"button\" class=\"btn btn-ghost m-1\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, " class=\"flex flex-row flex-auto\"><div class=\"dropdown dropdown-hover bg-base-100 rounded-selector my-auto\"><div tabindex=\"0\" role=\"button\" class=\"btn btn-ghost m-1\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -330,7 +330,7 @@ func pageSize(vm variables.DropdownVM, attrs templ.Attributes) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "</div><ul tabindex=\"0\" class=\"dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "</div><ul tabindex=\"0\" class=\"dropdown-content z-1 menu p-2 shadow-sm bg-base-100 rounded-selector w-52 drop-shadow-2xl dark:drop-shadow-primary-content outline\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -509,8 +509,8 @@ func articleRow(post internal.Post, flipDropdown bool) templ.Component {
 		}
 		var templ_7745c5c3_Var22 = []any{
 			"badge badge-outline badge-sm font-normal px-3 py-2",
-			templ.KV("badge-primary text-primary-content", post.Status == "published"),
-			templ.KV("badge-accent text-accent-content", post.Status == "draft"),
+			templ.KV("badge-primary text-primary-content dark:text-primary", post.Status == "published"),
+			templ.KV("badge-accent text-accent-content dark:text-accent", post.Status == "draft"),
 		}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var22...)
 		if templ_7745c5c3_Err != nil {
@@ -572,7 +572,7 @@ func articleRow(post internal.Post, flipDropdown bool) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 35, "</div><ul tabindex=\"0\" class=\"dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52\"><li hx-indicator=\"#global-progress\" hx-target=\"closest tr\" hx-put=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 35, "</div><ul tabindex=\"0\" class=\"dropdown-content z-1 menu p-2 shadow-sm bg-base-100 rounded-selector w-52 drop-shadow-2xl dark:drop-shadow-primary-content outline\"><li hx-indicator=\"#global-progress\" hx-target=\"closest tr\" hx-put=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
