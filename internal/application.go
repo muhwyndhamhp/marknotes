@@ -16,7 +16,6 @@ type Application struct {
 
 	// Internal Plumbings and Clients
 	DB              *gorm.DB
-	ClerkClient     ClerkClient
 	Bucket          *cloudbucket.S3Client
 	RenderClient    RenderFile
 	AnalyticsClient *analytics.Client

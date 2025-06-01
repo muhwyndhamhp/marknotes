@@ -8,9 +8,6 @@ esbuild
     treeShaking: true,
     outdir: "./dist",
     target: ["chrome58", "firefox57", "safari11"],
-    define: {
-      "process.env.CLERK_PUBLIC_KEY": `"${process.env.CLERK_PUBLISHABLE_PROD}"`,
-    },
   })
   .then(() => console.log("⚡Bundle build complete ⚡"))
   .catch(() => {

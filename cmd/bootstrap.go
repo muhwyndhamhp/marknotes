@@ -5,7 +5,6 @@ import (
 	"github.com/muhwyndhamhp/marknotes/config"
 	"github.com/muhwyndhamhp/marknotes/db"
 	"github.com/muhwyndhamhp/marknotes/internal"
-	internalClerk "github.com/muhwyndhamhp/marknotes/internal/clerk"
 	"github.com/muhwyndhamhp/marknotes/internal/middlewares"
 	"github.com/muhwyndhamhp/marknotes/internal/openauth"
 	_postRepo "github.com/muhwyndhamhp/marknotes/internal/post"
@@ -34,7 +33,6 @@ func Bootstrap() *internal.Application {
 
 	app.RenderClient = renderfile.NewRenderClient(app)
 
-	app.ClerkClient = internalClerk.NewClient(config.Get(config.CLERK_SECRET), app)
 	app.CacheControlWare = middlewares.SetCachePolicy()
 	app.GetIdParamWare = middlewares.ByIDMiddleware()
 	app.FromHTMXRequestWare = middlewares.HTMXRequest()

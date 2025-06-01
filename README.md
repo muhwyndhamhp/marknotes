@@ -20,7 +20,7 @@ All of the features include:
 - Sitemap Ping
 - Hashtag
 - S3 Support hosting resources (Image, GIF, JS, CSS)
-- Auth (via Clerk)
+- Auth (via Open Auth)
 
 It also has niceties for development:
 - Auto hot reload (via Air)
