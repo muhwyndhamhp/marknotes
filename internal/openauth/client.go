@@ -53,7 +53,7 @@ func (c *authClient) Callback() func(c echo.Context) error {
 
 		fmt.Printf("Set-Cookie: %+v", ctx.Response().Header().Get("Set-Cookie"))
 
-		return ctx.Redirect(http.StatusSeeOther, "/")
+		return ctx.Redirect(http.StatusSeeOther, "/dashboard")
 	}
 }
 

@@ -13,7 +13,6 @@ import (
 	"github.com/muhwyndhamhp/marknotes/config"
 	"github.com/muhwyndhamhp/marknotes/internal/handler/http/common/variables"
 	"github.com/muhwyndhamhp/marknotes/template"
-	"github.com/muhwyndhamhp/marknotes/utils/jwt"
 )
 
 type handler struct {
@@ -33,10 +32,14 @@ func NewHandler(
 }
 
 func (fe *handler) Contact(c echo.Context) error {
-	userID := jwt.AppendAndReturnUserID(c, map[string]interface{}{})
+	user, _ := fe.app.OpenAuth.GetUserFromSession(c)
+
+	if user == nil {
+		user = &internal.User{}
+	}
 
 	bodyOpts := variables.BodyOpts{
-		HeaderButtons: AppendHeaderButtons(userID),
+		HeaderButtons: AppendHeaderButtons(user.ID),
 		Component:     nil,
 	}
 

@@ -101,8 +101,6 @@ func (fe *handler) PostsIndex(c echo.Context) error {
 		SearchPath:        "/posts?page=1&pageSize=10&sortBy=published_at&status=published",
 	}
 
-	// userID := jwt.AppendAndReturnUserID(c, map[string]interface{}{})
-
 	user, err := fe.app.OpenAuth.GetUserFromSession(c)
 	if err != nil {
 		log.Error(err)

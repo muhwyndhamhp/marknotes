@@ -21,7 +21,6 @@ require (
 	github.com/charmbracelet/wish v1.4.6
 	github.com/disintegration/imaging v1.6.2
 	github.com/go-playground/validator/v10 v10.15.1
-	github.com/golang-jwt/jwt/v5 v5.0.0
 	github.com/gorilla/feeds v1.1.2
 	github.com/h2non/bimg v1.1.9
 	github.com/joho/godotenv v1.5.1
