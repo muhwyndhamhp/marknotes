@@ -39,6 +39,9 @@ const (
 	CLERK_SRC_URL     = "CLERK_SRC_URL"
 
 	POST_RENDER_PATH = "POST_RENDER_PATH"
+
+	BASE_URL      = "BASE_URL"
+	OPEN_AUTH_URL = "OPEN_AUTH_URL"
 )
 
 func init() {

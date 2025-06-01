@@ -2,17 +2,18 @@ package post
 
 import (
 	"fmt"
+	"net/http"
+	"strconv"
+
+	"github.com/charmbracelet/log"
 	"github.com/muhwyndhamhp/marknotes/internal"
 	"github.com/muhwyndhamhp/marknotes/internal/handler/http/admin"
 	"github.com/muhwyndhamhp/marknotes/internal/handler/http/common/variables"
 	"github.com/muhwyndhamhp/marknotes/internal/handler/http/post/articles"
 	"github.com/muhwyndhamhp/marknotes/internal/middlewares"
-	"net/http"
-	"strconv"
 
 	"github.com/labstack/echo/v4"
 	templateRenderer "github.com/muhwyndhamhp/marknotes/template"
-	"github.com/muhwyndhamhp/marknotes/utils/jwt"
 	"github.com/muhwyndhamhp/marknotes/utils/params"
 	"github.com/muhwyndhamhp/marknotes/utils/resp"
 	"github.com/muhwyndhamhp/marknotes/utils/scopes"
@@ -27,17 +28,17 @@ type handler struct {
 func NewHandler(g *echo.Group, app *internal.Application) {
 	fe := &handler{app: app}
 
-	g.GET("/posts", fe.PostsGet, app.DescribeAuthWare)
-	g.GET("/posts_index", fe.PostsIndex, app.DescribeAuthWare)
+	g.GET("/posts", fe.PostsGet)
+	g.GET("/posts_index", fe.PostsIndex)
 
-	g.GET("/posts/:id", fe.GetPostByID, app.DescribeAuthWare, app.GetIdParamWare)
+	g.GET("/posts/:id", fe.GetPostByID, app.GetIdParamWare)
 
 	// Upload and Download Media
-	g.POST("/posts/:id/media/upload", fe.PostMediaUpload, app.DescribeAuthWare)
+	g.POST("/posts/:id/media/upload", fe.PostMediaUpload)
 	g.GET("/posts/media/:filename", fe.PostMediaGet)
 
 	// Alias `articles` for `posts`
-	g.GET("/articles", fe.PostsIndex, app.DescribeAuthWare, app.CacheControlWare)
+	g.GET("/articles", fe.PostsIndex, app.CacheControlWare)
 }
 
 func (fe *handler) PostMediaGet(c echo.Context) error {
@@ -100,10 +101,19 @@ func (fe *handler) PostsIndex(c echo.Context) error {
 		SearchPath:        "/posts?page=1&pageSize=10&sortBy=published_at&status=published",
 	}
 
-	userID := jwt.AppendAndReturnUserID(c, map[string]interface{}{})
+	// userID := jwt.AppendAndReturnUserID(c, map[string]interface{}{})
+
+	user, err := fe.app.OpenAuth.GetUserFromSession(c)
+	if err != nil {
+		log.Error(err)
+	}
+
+	if user == nil {
+		user = &internal.User{}
+	}
 
 	bodyOpts := variables.BodyOpts{
-		HeaderButtons: admin.AppendHeaderButtons(userID),
+		HeaderButtons: admin.AppendHeaderButtons(user.ID),
 		Component:     nil,
 	}
 

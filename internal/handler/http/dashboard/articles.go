@@ -3,15 +3,16 @@ package dashboard
 import (
 	"context"
 	"fmt"
-	"github.com/muhwyndhamhp/marknotes/internal"
-	"github.com/muhwyndhamhp/marknotes/internal/handler/http/common"
-	"github.com/muhwyndhamhp/marknotes/internal/handler/http/common/variables"
-	"github.com/muhwyndhamhp/marknotes/internal/handler/http/dashboard/articles"
 	"html/template"
 	"net/http"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/muhwyndhamhp/marknotes/internal"
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/common"
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/common/variables"
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/dashboard/articles"
 
 	"github.com/labstack/echo/v4"
 	"github.com/muhwyndhamhp/marknotes/config"
@@ -180,7 +181,7 @@ func (fe *handler) ArticlesPush(c echo.Context) error {
 
 	post := tern.Struct(xp, &internal.Post{})
 
-	usr, err := fe.App.ClerkClient.GetUserFromSession(c)
+	usr, err := fe.App.OpenAuth.GetUserFromSession(c)
 	if err != nil {
 		fmt.Println(err)
 		fail := common.AlertFailure("Failed to save post:", err.Error())

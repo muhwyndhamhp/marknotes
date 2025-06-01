@@ -2,11 +2,12 @@ package admin
 
 import (
 	"fmt"
+	"net/http"
+
 	"github.com/muhwyndhamhp/marknotes/internal"
 	"github.com/muhwyndhamhp/marknotes/internal/handler/http/admin/contact"
 	"github.com/muhwyndhamhp/marknotes/internal/handler/http/admin/index"
 	"github.com/muhwyndhamhp/marknotes/internal/handler/http/admin/unauthorized"
-	"net/http"
 
 	"github.com/labstack/echo/v4"
 	"github.com/muhwyndhamhp/marknotes/config"
@@ -25,10 +26,10 @@ func NewHandler(
 ) {
 	fe := &handler{app: app}
 
-	g.GET("", fe.Index, app.DescribeAuthWare, app.CacheControlWare)
+	g.GET("", fe.Index)
 	g.GET("/unauthorized", fe.Unauthorized, app.CacheControlWare)
 	g.GET("/resume", fe.Resume, app.CacheControlWare)
-	g.GET("/contact", fe.Contact, app.DescribeAuthWare, app.CacheControlWare)
+	g.GET("/contact", fe.Contact, app.CacheControlWare)
 }
 
 func (fe *handler) Contact(c echo.Context) error {
@@ -48,10 +49,13 @@ func (fe *handler) Resume(c echo.Context) error {
 }
 
 func (fe *handler) Index(c echo.Context) error {
-	userID := jwt.AppendAndReturnUserID(c, map[string]interface{}{})
+	user, _ := fe.app.OpenAuth.GetUserFromSession(c)
+	if user == nil {
+		user = &internal.User{}
+	}
 
 	bodyOpts := variables.BodyOpts{
-		HeaderButtons: AppendHeaderButtons(userID),
+		HeaderButtons: AppendHeaderButtons(user.ID),
 		Component:     nil,
 		HideTitle:     true,
 	}

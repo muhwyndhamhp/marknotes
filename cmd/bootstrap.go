@@ -1,21 +1,19 @@
 package cmd
 
 import (
-	"github.com/clerkinc/clerk-sdk-go/clerk"
-	"github.com/labstack/echo/v4"
 	"github.com/muhwyndhamhp/marknotes/analytics"
 	"github.com/muhwyndhamhp/marknotes/config"
 	"github.com/muhwyndhamhp/marknotes/db"
 	"github.com/muhwyndhamhp/marknotes/internal"
 	internalClerk "github.com/muhwyndhamhp/marknotes/internal/clerk"
 	"github.com/muhwyndhamhp/marknotes/internal/middlewares"
+	"github.com/muhwyndhamhp/marknotes/internal/openauth"
 	_postRepo "github.com/muhwyndhamhp/marknotes/internal/post"
 	"github.com/muhwyndhamhp/marknotes/internal/renderfile"
 	_tagRepo "github.com/muhwyndhamhp/marknotes/internal/tag"
 	_userRepo "github.com/muhwyndhamhp/marknotes/internal/user"
 	"github.com/muhwyndhamhp/marknotes/utils/cloudbucket"
 	"github.com/muhwyndhamhp/marknotes/utils/imageprocessing"
-	"time"
 )
 
 func Bootstrap() *internal.Application {
@@ -37,11 +35,12 @@ func Bootstrap() *internal.Application {
 	app.RenderClient = renderfile.NewRenderClient(app)
 
 	app.ClerkClient = internalClerk.NewClient(config.Get(config.CLERK_SECRET), app)
-	app.RequireAuthWare = app.ClerkClient.AuthMiddleware()
-	app.DescribeAuthWare = echo.WrapMiddleware(clerk.WithSessionV2(app.ClerkClient.GetClerk(), clerk.WithLeeway(60*time.Second)))
 	app.CacheControlWare = middlewares.SetCachePolicy()
 	app.GetIdParamWare = middlewares.ByIDMiddleware()
 	app.FromHTMXRequestWare = middlewares.HTMXRequest()
+
+	app.OpenAuth = openauth.NewClient(app)
+	app.RequireAuthWare = app.OpenAuth.AuthMiddleware()
 
 	return app
 }

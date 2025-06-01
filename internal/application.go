@@ -20,10 +20,10 @@ type Application struct {
 	Bucket          *cloudbucket.S3Client
 	RenderClient    RenderFile
 	AnalyticsClient *analytics.Client
+	OpenAuth        OpenAuth
 
 	// Middlewares
 	RequireAuthWare     echo.MiddlewareFunc
-	DescribeAuthWare    echo.MiddlewareFunc
 	CacheControlWare    echo.MiddlewareFunc
 	GetIdParamWare      echo.MiddlewareFunc
 	FromHTMXRequestWare echo.MiddlewareFunc

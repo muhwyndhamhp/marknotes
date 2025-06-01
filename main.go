@@ -3,15 +3,17 @@ package main
 import (
 	"context"
 	"fmt"
+	"net/http"
+	"strings"
+	"time"
+
 	"github.com/muhwyndhamhp/marknotes/cmd"
 	"github.com/muhwyndhamhp/marknotes/internal"
 	"github.com/muhwyndhamhp/marknotes/internal/handler/http/admin"
 	"github.com/muhwyndhamhp/marknotes/internal/handler/http/auth"
 	"github.com/muhwyndhamhp/marknotes/internal/handler/http/dashboard"
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/openauth"
 	"github.com/muhwyndhamhp/marknotes/internal/handler/http/post"
-	"net/http"
-	"strings"
-	"time"
 
 	"github.com/labstack/echo/v4"
 	"github.com/muhwyndhamhp/marknotes/config"
@@ -21,6 +23,7 @@ import (
 	"github.com/muhwyndhamhp/marknotes/utils/jwt"
 	"github.com/muhwyndhamhp/marknotes/utils/routing"
 	"github.com/muhwyndhamhp/marknotes/utils/rss"
+	_ "github.com/toolbeam/openauth/client"
 )
 
 // nolint: typecheck
@@ -29,7 +32,7 @@ func main() {
 
 	app := cmd.Bootstrap()
 
-	routing.SetupRouter(e, app.ClerkClient.GetClerk())
+	routing.SetupRouter(e)
 
 	e.Use(redirectHTML())
 	// e.Use(middlewares.SetCachePolicy())
@@ -56,11 +59,12 @@ func main() {
 
 	e.GET("/touch", func(c echo.Context) error {
 		return c.String(http.StatusOK, "OK")
-	}, app.DescribeAuthWare, app.RequireAuthWare)
+	}, app.RequireAuthWare)
 
 	admin.NewHandler(adminGroup, app)
 	post.NewHandler(adminGroup, app)
 	dashboard.NewHandler(adminGroup, app)
+	openauth.NewHandler(adminGroup, app)
 
 	auth.NewHandler(adminGroup, service, config.Get(config.OAUTH_AUTHORIZE_URL),
 		config.Get(config.OAUTH_ACCESSTOKEN_URL),
@@ -134,6 +138,7 @@ func redirectHTML() echo.MiddlewareFunc {
 				newPath := requestedPath + ".html"
 				return c.Redirect(http.StatusMovedPermanently, newPath)
 			}
+
 			return next(c)
 		}
 	}
