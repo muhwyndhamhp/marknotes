@@ -50,7 +50,7 @@ type PostRepository interface {
 }
 
 func (m *Post) GenerateURL() string {
-	baseURL := strings.Split(config.Get(config.OAUTH_URL), "/callback")[0]
+	baseURL := config.Get(config.BASE_URL)
 	return fmt.Sprintf("%s/%s.html", baseURL, m.Slug)
 }
 

@@ -22,7 +22,6 @@ require (
 	github.com/disintegration/imaging v1.6.2
 	github.com/go-playground/validator/v10 v10.15.1
 	github.com/golang-jwt/jwt/v5 v5.0.0
-	github.com/gorilla/csrf v1.7.1
 	github.com/gorilla/feeds v1.1.2
 	github.com/h2non/bimg v1.1.9
 	github.com/joho/godotenv v1.5.1
@@ -103,7 +102,6 @@ require (
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
-	github.com/gorilla/securecookie v1.1.1 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/labstack/gommon v0.4.0 // indirect

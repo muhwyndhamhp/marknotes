@@ -10,7 +10,6 @@ import (
 	"github.com/muhwyndhamhp/marknotes/cmd"
 	"github.com/muhwyndhamhp/marknotes/internal"
 	"github.com/muhwyndhamhp/marknotes/internal/handler/http/admin"
-	"github.com/muhwyndhamhp/marknotes/internal/handler/http/auth"
 	"github.com/muhwyndhamhp/marknotes/internal/handler/http/dashboard"
 	"github.com/muhwyndhamhp/marknotes/internal/handler/http/openauth"
 	"github.com/muhwyndhamhp/marknotes/internal/handler/http/post"
@@ -20,7 +19,6 @@ import (
 	"github.com/muhwyndhamhp/marknotes/db"
 	"github.com/muhwyndhamhp/marknotes/pkg/site"
 	"github.com/muhwyndhamhp/marknotes/template"
-	"github.com/muhwyndhamhp/marknotes/utils/jwt"
 	"github.com/muhwyndhamhp/marknotes/utils/routing"
 	"github.com/muhwyndhamhp/marknotes/utils/rss"
 	_ "github.com/toolbeam/openauth/client"
@@ -35,7 +33,6 @@ func main() {
 	routing.SetupRouter(e)
 
 	e.Use(redirectHTML())
-	// e.Use(middlewares.SetCachePolicy())
 	e.Static("/dist", "dist")
 	e.Static("/assets", "public/assets")
 	e.Static("/articles", config.Get(config.POST_RENDER_PATH))
@@ -55,8 +52,6 @@ func main() {
 	}
 	e.File("/rss.xml", "public/assets/rss.xml")
 
-	service := jwt.Service{SecretKey: []byte(config.Get(config.JWT_SECRET))}
-
 	e.GET("/touch", func(c echo.Context) error {
 		return c.String(http.StatusOK, "OK")
 	}, app.RequireAuthWare)
@@ -65,13 +60,6 @@ func main() {
 	post.NewHandler(adminGroup, app)
 	dashboard.NewHandler(adminGroup, app)
 	openauth.NewHandler(adminGroup, app)
-
-	auth.NewHandler(adminGroup, service, config.Get(config.OAUTH_AUTHORIZE_URL),
-		config.Get(config.OAUTH_ACCESSTOKEN_URL),
-		config.Get(config.OAUTH_CLIENTID),
-		config.Get(config.OAUTH_SECRET),
-		config.Get(config.OAUTH_URL),
-		app.UserRepository)
 
 	go func() {
 		if config.Get(config.ENV) == "dev" {

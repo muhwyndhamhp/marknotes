@@ -2,10 +2,11 @@ package dashboard
 
 import (
 	"fmt"
-	pub_variables "github.com/muhwyndhamhp/marknotes/internal/handler/http/common/variables"
-	"github.com/muhwyndhamhp/marknotes/internal/handler/http/dashboard/partials"
 	"net/http"
 	"strings"
+
+	pub_variables "github.com/muhwyndhamhp/marknotes/internal/handler/http/common/variables"
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/dashboard/partials"
 
 	"github.com/a-h/templ"
 	"github.com/labstack/echo/v4"
@@ -16,7 +17,7 @@ import (
 )
 
 func (fe *handler) Editor(c echo.Context) error {
-	baseURL := strings.Split(config.Get(config.OAUTH_URL), "/callback")[0]
+	baseURL := config.Get(config.BASE_URL)
 	uploadURL := fmt.Sprintf("%s/posts/%d/media/upload", baseURL, 0)
 
 	dashboard := partials.Editor(uploadURL)
@@ -33,7 +34,7 @@ func (fe *handler) LoadIframe(c echo.Context) error {
 }
 
 func (fe *handler) Breadcrumbs(path string) []pub_variables.Breadcrumb {
-	baseURL := strings.Split(config.Get(config.OAUTH_URL), "/callback")[0]
+	baseURL := config.Get(config.BASE_URL)
 
 	paths := strings.Split(path, "/")
 	var items []pub_variables.Breadcrumb

@@ -41,7 +41,7 @@ func (fe *handler) ArticlesEdit(c echo.Context) error {
 		BreadCrumbs: fe.Breadcrumbs(fmt.Sprintf("dashboard/articles/%d/edit", id)),
 	}
 
-	baseURL := strings.Split(config.Get(config.OAUTH_URL), "/callback")[0]
+	baseURL := config.Get(config.BASE_URL)
 	uploadURL := fmt.Sprintf("%s/posts/%d/media/upload", baseURL, id)
 
 	vm := articles.NewArticleViewModel{
@@ -61,7 +61,7 @@ func (fe *handler) ArticlesNew(c echo.Context) error {
 		BreadCrumbs: fe.Breadcrumbs("dashboard/articles/new"),
 	}
 
-	baseURL := strings.Split(config.Get(config.OAUTH_URL), "/callback")[0]
+	baseURL := config.Get(config.BASE_URL)
 	uploadURL := fmt.Sprintf("%s/posts/%d/media/upload", baseURL, 0)
 
 	vm := articles.NewArticleViewModel{
@@ -271,7 +271,7 @@ func (fe *handler) ArticlesPush(c echo.Context) error {
 			BreadCrumbs: fe.Breadcrumbs(fmt.Sprintf("dashboard/articles/%d/edit", post.ID)),
 		}
 
-		baseURL := strings.Split(config.Get(config.OAUTH_URL), "/callback")[0]
+		baseURL := config.Get(config.BASE_URL)
 		uploadURL := fmt.Sprintf("%s/posts/%d/media/upload", baseURL, post.ID)
 		vm := articles.NewArticleViewModel{
 			Opts:      opts,

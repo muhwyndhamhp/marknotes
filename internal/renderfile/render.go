@@ -3,14 +3,14 @@ package renderfile
 import (
 	"context"
 	"fmt"
+	"os"
+	"time"
+
 	"github.com/muhwyndhamhp/marknotes/internal"
 	"github.com/muhwyndhamhp/marknotes/internal/handler/http/admin"
 	"github.com/muhwyndhamhp/marknotes/internal/handler/http/common"
 	"github.com/muhwyndhamhp/marknotes/internal/handler/http/common/variables"
 	"github.com/muhwyndhamhp/marknotes/internal/handler/http/post/articles"
-	"os"
-	"strings"
-	"time"
 
 	"github.com/a-h/templ"
 	"github.com/muhwyndhamhp/marknotes/config"
@@ -30,7 +30,7 @@ func (r *RenderClient) RenderPost(ctx context.Context, post *internal.Post) {
 		"UserID": userID,
 	}
 
-	baseURL := strings.Split(config.Get(config.OAUTH_URL), "/callback")[0]
+	baseURL := config.Get(config.BASE_URL)
 	canonURL := fmt.Sprintf("%s/articles/%s.html", baseURL, post.Slug)
 
 	bodyOpts := variables.BodyOpts{
