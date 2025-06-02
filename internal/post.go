@@ -38,7 +38,6 @@ type Post struct {
 	User            User
 	Tags            []*Tag `gorm:"many2many:post_tags;"`
 	TagsLiteral     string
-	Comments        []*Comment
 }
 
 type PostRepository interface {

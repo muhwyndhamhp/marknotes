@@ -19,15 +19,6 @@ func Migrate(db *gorm.DB) {
 	if err != nil {
 		panic(err)
 	}
-	err = db.AutoMigrate(&internal.Comment{})
-	if err != nil {
-		panic(err)
-	}
-
-	err = db.AutoMigrate(&internal.Commenter{})
-	if err != nil {
-		panic(err)
-	}
 
 	err = db.AutoMigrate(&internal.Analytics{})
 	if err != nil {
