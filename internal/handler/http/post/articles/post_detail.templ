@@ -35,6 +35,11 @@ templ postDetail(post internal.Post) {
 	>
 		@MarkdownBody(post.EncodedContent)
 	</div>
+	<div
+		hx-get={ fmt.Sprintf("/replies/articles/%d", post.ID) }
+		hx-trigger="load delay:2s"
+		hx-swap="outerHTML"
+	></div>
 }
 
 templ TitleGroup(post internal.Post) {

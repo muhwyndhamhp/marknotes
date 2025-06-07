@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/replies"
 	"net/http"
 	"strings"
 	"time"
@@ -24,12 +25,10 @@ import (
 	_ "github.com/toolbeam/openauth/client"
 )
 
-// nolint: typecheck
 func main() {
+	ctx := context.Background()
 	e := echo.New()
-
 	app := cmd.Bootstrap()
-
 	routing.SetupRouter(e)
 
 	e.Use(redirectHTML())
@@ -43,55 +42,27 @@ func main() {
 
 	template.NewTemplateRenderer(e)
 
-	adminGroup := e.Group("")
+	g := e.Group("")
 
-	ctx := context.Background()
-	err := rss.GenerateRSS(ctx, app.PostRepository)
-	if err != nil {
-		panic(err)
-	}
 	e.File("/rss.xml", "public/assets/rss.xml")
 
-	e.GET("/touch", func(c echo.Context) error {
-		return c.String(http.StatusOK, "OK")
-	}, app.RequireAuthWare)
+	admin.NewHandler(g, app)
+	post.NewHandler(g, app)
+	dashboard.NewHandler(g, app)
+	openauth.NewHandler(g, app)
+	replies.NewHandler(g, app)
 
-	admin.NewHandler(adminGroup, app)
-	post.NewHandler(adminGroup, app)
-	dashboard.NewHandler(adminGroup, app)
-	openauth.NewHandler(adminGroup, app)
+	//go func() {
+	//	migration.Migrate(app.DB)
+	//}()
 
 	go func() {
-		if config.Get(config.ENV) == "dev" {
-			return
-		}
-
-		ctx := context.Background()
-		_, err := app.Bucket.UploadStatic(ctx, "dist/tailwind_v4.css", "", "text/css")
-		if err != nil {
-			e.Logger.Fatal(err)
-		}
-
-		_, err = app.Bucket.UploadStatic(ctx, "dist/main.js", "", "text/javascript")
-		if err != nil {
-			e.Logger.Fatal(err)
-		}
-
-		_, err = app.Bucket.UploadStatic(ctx, "dist/htmx.js", "", "text/javascript")
-		if err != nil {
-			e.Logger.Fatal(err)
-		}
-
-		_, err = app.Bucket.UploadStatic(ctx, "dist/auth.js", "", "text/javascript")
-		if err != nil {
-			e.Logger.Fatal(err)
-		}
-
-		_, err = app.Bucket.UploadStatic(ctx, "dist/editor.js", "", "text/javascript")
-		if err != nil {
+		if err := rss.GenerateRSS(ctx, app.PostRepository); err != nil {
 			e.Logger.Fatal(err)
 		}
 	}()
+
+	go func() { uploadStatics(e, app) }()
 
 	go func() {
 		ctx := context.Background()
@@ -105,17 +76,53 @@ func main() {
 
 	go func() {
 		for {
+			if config.Get(config.ENV) == "dev" {
+				break
+			}
+
 			ctx, cancel := context.WithCancel(context.Background())
 			if err := internal.CacheAnalytics(ctx, db.GetLibSQLDB(), app.AnalyticsClient); err != nil {
 				e.Logger.Error(err)
 			}
 
-			time.Sleep(15 * time.Minute)
+			time.Sleep(3 * time.Hour)
 			cancel()
 		}
 	}()
 
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%s", config.Get(config.APP_PORT))))
+}
+
+func uploadStatics(e *echo.Echo, app *internal.Application) {
+	if config.Get(config.ENV) == "dev" {
+		return
+	}
+
+	ctx := context.Background()
+	_, err := app.Bucket.UploadStatic(ctx, "dist/tailwind_v4.css", "", "text/css")
+	if err != nil {
+		e.Logger.Fatal(err)
+	}
+
+	_, err = app.Bucket.UploadStatic(ctx, "dist/main.js", "", "text/javascript")
+	if err != nil {
+		e.Logger.Fatal(err)
+	}
+
+	_, err = app.Bucket.UploadStatic(ctx, "dist/htmx.js", "", "text/javascript")
+	if err != nil {
+		e.Logger.Fatal(err)
+	}
+
+	_, err = app.Bucket.UploadStatic(ctx, "dist/auth.js", "", "text/javascript")
+	if err != nil {
+		e.Logger.Fatal(err)
+	}
+
+	_, err = app.Bucket.UploadStatic(ctx, "dist/editor.js", "", "text/javascript")
+	if err != nil {
+		e.Logger.Fatal(err)
+	}
 }
 
 func redirectHTML() echo.MiddlewareFunc {

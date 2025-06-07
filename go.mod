@@ -1,11 +1,12 @@
 module github.com/muhwyndhamhp/marknotes
 
-go 1.23.5
+go 1.23.6
 
 toolchain go1.23.9
 
 require (
 	github.com/StudioSol/sitemap v0.0.0-20230104165527-bf245c07e1c2
+	github.com/TwiN/go-away v1.6.15
 	github.com/a-h/templ v0.3.819
 	github.com/apsystole/log v0.3.0
 	github.com/aws/aws-sdk-go-v2 v1.25.3
@@ -23,6 +24,7 @@ require (
 	github.com/go-playground/validator/v10 v10.15.1
 	github.com/gorilla/feeds v1.1.2
 	github.com/h2non/bimg v1.1.9
+	github.com/ipsn/go-adorable v1.0.0
 	github.com/joho/godotenv v1.5.1
 	github.com/kolesa-team/go-webp v1.0.4
 	github.com/labstack/echo/v4 v4.11.1
@@ -30,8 +32,10 @@ require (
 	github.com/machinebox/graphql v0.2.2
 	github.com/muesli/termenv v0.15.3-0.20240618155329-98d742f6907a
 	github.com/renxzen/gorm-libsql v0.0.0-20240301223231-6621a843345a
+	github.com/samber/lo v1.50.0
+	github.com/sethvargo/go-diceware v0.5.0
 	github.com/toolbeam/openauth v0.0.0
-	golang.org/x/sync v0.12.0
+	golang.org/x/sync v0.14.0
 	golang.org/x/term v0.30.0
 	golang.org/x/time v0.9.0
 	gorm.io/gorm v1.25.7-0.20240204074919-46816ad31dde
@@ -114,7 +118,7 @@ require (
 	golang.org/x/crypto v0.36.0 // indirect
 	golang.org/x/net v0.34.0 // indirect
 	golang.org/x/sys v0.31.0 // indirect
-	golang.org/x/text v0.23.0
+	golang.org/x/text v0.25.0
 )
 
 replace github.com/toolbeam/openauth v0.0.0 => github.com/muhwyndhamhp/openauthjs/packages/openauth-go v0.0.0-20250511052149-71d046ee378f

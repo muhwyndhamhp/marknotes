@@ -1,0 +1,149 @@
+package reply
+
+import (
+	"encoding/base64"
+	"fmt"
+	adorable "github.com/ipsn/go-adorable"
+	"github.com/muhwyndhamhp/marknotes/internal"
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/common/assets"
+	"github.com/samber/lo"
+	"strings"
+)
+
+templ ArticleReplies(articleID uint, replies []internal.Reply) {
+	<div id="replies" class="md:max-w-3xl lg:max-w-4xl relative w-full md:mx-auto">
+		<div class="flex flex-col ">
+			@ReplyInput(articleID, nil)
+			@Replies(articleID, replies)
+		</div>
+	</div>
+}
+
+templ ReplyInput(articleID uint, parentID *uint) {
+	<form class="flex flex-col" id="reply-input">
+		<fieldset class="fieldset">
+			<legend class="fieldset-legend text-lg">Got some thoughts? Write it down below!</legend>
+			<textarea class="textarea w-full h-8 p-6 dark:p-4 text-lg" placeholder="Can't believe you've eaten a capybara!! 😱😱😱" name="replyBody"></textarea>
+			if parentID != nil {
+				<input
+					type="text"
+					placeholder="Type here"
+					class="hidden"
+					name="parentId"
+					value={ fmt.Sprintf("%d", *parentID) }
+				/>
+			}
+			<button
+				class="btn btn-primary btn-md mt-3 w-56 ml-auto"
+				hx-post={ fmt.Sprintf("/replies/articles/%d/create", articleID) }
+				hx-target="#replies"
+				hx-swap="outerHTML"
+			>
+				Submit!
+			</button>
+		</fieldset>
+	</form>
+}
+
+templ Replies(articleId uint, replies []internal.Reply) {
+	<ul class="menu bg-base-100 w-full py-2 px-4 rounded-field drop-shadow-2xl mt-4" id="root-scaffold">
+		for _, rep := range rootReplies(replies) {
+			<li>
+				@NestReplies(articleId, rep, replies)
+			</li>
+		}
+	</ul>
+}
+
+func rootReplies(replies []internal.Reply) []internal.Reply {
+	return lo.Filter(replies, func(item internal.Reply, index int) bool { return item.ParentID == nil })
+}
+
+func NestReplies(articleId uint, parent internal.Reply, replies []internal.Reply) templ.Component {
+	if len(parent.Replies) == 0 {
+		return Reply(articleId, parent)
+	}
+
+	var child []templ.Component
+	for _, reply := range parent.Replies {
+		loadedReplies, ok := lo.Find(replies, func(item internal.Reply) bool {
+			return item.ID == reply.ID
+		})
+
+		if !ok {
+			continue
+		}
+
+		child = append(child, NestReplies(articleId, loadedReplies, replies))
+	}
+
+	return ReplyScaffold(Reply(articleId, parent), child)
+}
+
+templ ReplyScaffold(root templ.Component, childs []templ.Component) {
+	<details open>
+		@root
+		<ul>
+			for _, child := range childs {
+				<li>
+					@child
+				</li>
+			}
+		</ul>
+	</details>
+}
+
+templ Reply(articleId uint, reply internal.Reply) {
+	<summary class="flex pe-6 border box-border border-transparent hover:border-base-content my-2 w-full">
+		<div class="flex flex-col flex-1 min-w-0">
+			<div class="py-2 flex flex-row items-start w-full">
+				<div class="avatar w-12 h-12">
+					<div class="mask mask-squircle w-24">
+						<img src={ fmt.Sprintf("data:image/png;base64,%s", base64.StdEncoding.EncodeToString(adorable.PseudoRandom([]byte(reply.Alias)))) }/>
+					</div>
+				</div>
+				<div class="ms-3 me-2 flex flex-col flex-grow min-w-0">
+					<p class="font-bold w-full text-md">{ reply.Alias }</p>
+					<p class="opacity-60 text-left leading-relaxed w-full break-all text-lg flex-grow">
+						@templ.Raw(strings.ReplaceAll(reply.Message, "\\n", "<br>"))
+					</p>
+					<div class="flex flex-row">
+						<button
+							class="btn btn-xs btn-outline mr-auto mt-4 hover:btn-primary"
+							_="on click halt the event then add .hidden to <form/> in the #root-scaffold then remove .hidden from <button/> in the #root-scaffold then remove .hidden from the next <form/> then add .hidden to me"
+						>
+							@assets.Reply(4)
+							Reply
+						</button>
+					</div>
+					<form class="flex flex-col w-full hidden pt-6" id="reply-input">
+						<div class="divider">Reply</div>
+						<fieldset class="fieldset">
+							<textarea
+								_="on click halt the event"
+								class="rounded-sm textarea w-full h-8 p-2 dark:p-4 text"
+								placeholder="Please be kind 😉"
+								name="replyBody"
+							></textarea>
+							<input
+								type="text"
+								placeholder="Type here"
+								class="hidden"
+								name="parentId"
+								value={ fmt.Sprintf("%d", reply.ID) }
+							/>
+							<button
+								class="btn btn-primary btn-md mt-3 w-56 ml-auto"
+								hx-post={ fmt.Sprintf("/replies/articles/%d/create", articleId) }
+								hx-target="#replies"
+								hx-swap="outerHTML"
+							>
+								Submit!
+							</button>
+						</fieldset>
+					</form>
+				</div>
+			</div>
+		</div>
+	</summary>
+}

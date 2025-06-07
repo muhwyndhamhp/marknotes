@@ -3,6 +3,7 @@ package strman
 import (
 	"regexp"
 	"strings"
+	"unicode"
 )
 
 const (
@@ -37,4 +38,23 @@ func GenerateSlug(source string) (string, error) {
 
 	str := strings.ToLower(TakeFirstWords(8, strings.Join(cleanTitle[:], " ")))
 	return strings.ReplaceAll(str, " ", "-"), nil
+}
+
+func ToTitleCase(s string) string {
+	return strings.Join(strings.FieldsFunc(s, unicode.IsSpace), " ")
+}
+
+func ProperTitle(s string) string {
+	words := strings.Fields(s)
+	for i, word := range words {
+		if len(word) > 0 {
+			r := []rune(word)
+			r[0] = unicode.ToTitle(r[0])
+			for j := 1; j < len(r); j++ {
+				r[j] = unicode.ToLower(r[j])
+			}
+			words[i] = string(r)
+		}
+	}
+	return strings.Join(words, " ")
 }

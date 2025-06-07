@@ -13,6 +13,7 @@ type Application struct {
 	PostRepository      PostRepository
 	TagRepository       TagRepository
 	AnalyticsRepository AnalyticsRepository
+	ReplyRepository     ReplyRepository
 
 	// Internal Plumbings and Clients
 	DB              *gorm.DB
@@ -20,6 +21,7 @@ type Application struct {
 	RenderClient    RenderFile
 	AnalyticsClient *analytics.Client
 	OpenAuth        OpenAuth
+	ProfanityCheck  ProfanityCheck
 
 	// Middlewares
 	RequireAuthWare     echo.MiddlewareFunc

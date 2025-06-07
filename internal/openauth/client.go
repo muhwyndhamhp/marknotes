@@ -138,37 +138,31 @@ func (c *authClient) AuthMiddleware() echo.MiddlewareFunc {
 			cookie, err := ctx.Cookie("access_token")
 			if err != nil {
 				log.Error(err)
-
 				return ctx.Redirect(http.StatusFound, "/openauth/authorize")
 			}
 
 			refreshCookie, err := ctx.Cookie("refresh_token")
 			if err != nil {
 				log.Error(err)
-
 				return ctx.Redirect(http.StatusFound, "/openauth/authorize")
 			}
 
 			verified, err := c.auth.Verify(cookie.Value, &client.VerifyOptions{Refresh: refreshCookie.Value})
 			if err != nil {
 				log.Error(err)
-
 				return ctx.Redirect(http.StatusFound, "/openauth/authorize")
 			}
 
 			if verified.Tokens != nil {
 				if err := c.setCookie(ctx, verified.Tokens.Access, verified.Tokens.Refresh); err != nil {
 					log.Error(err)
-
 					return ctx.Redirect(http.StatusFound, "/openauth/authorize")
 				}
 			}
 
 			_, ok := verified.Subject.Properties.(internal.User)
-
 			if !ok {
 				log.Errorf("failed to parse user data")
-
 				return ctx.Redirect(http.StatusFound, "/openauth/authorize")
 			}
 
