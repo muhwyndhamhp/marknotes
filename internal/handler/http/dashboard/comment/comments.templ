@@ -1,0 +1,153 @@
+package comment
+
+import (
+	"fmt"
+	"github.com/muhwyndhamhp/marknotes/internal"
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/common/assets"
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/common/variables"
+	"github.com/muhwyndhamhp/marknotes/internal/handler/http/dashboard/common"
+	_articleReply "github.com/muhwyndhamhp/marknotes/internal/handler/http/replies/reply"
+)
+
+type CommentsVM struct {
+	Opts     variables.DashboardOpts
+	Comments []internal.Reply
+}
+
+templ Comments(vm CommentsVM) {
+	@common.Dashboard(variables.DashboardOpts{
+		Nav:         vm.Opts.Nav,
+		BreadCrumbs: vm.Opts.BreadCrumbs,
+		Comp:        CommentsBody(vm.Comments),
+	})
+}
+
+templ CommentsBody(comments []internal.Reply) {
+	<div class="w-full h-full" id="comments">
+		<div class="mx-3 md:mx-10">
+			<div class="w-full flex flex-col md:flex-row justify-end">
+				<h1 class="grow text-4xl text-secondary brightness-70 font-bold my-auto mt-3 md:mt-0">
+					Comments
+				</h1>
+			</div>
+			<div class="card overflow-x-auto bg-base-100 mt-5">
+				<table class="table table-fixed w-full">
+					<thead>
+						<tr class="h-16">
+							<th class="w-[1%]"></th>
+							<th class="w-32">Author</th>
+							<th class="md:w-[34%]">Comment</th>
+							<th class="hidden md:table-cell md:w-[15%]">Replying To</th>
+							<th class="hidden md:table-cell w-48">Comment On</th>
+							<th class="hidden md:table-cell w-24">Date</th>
+							<th class="w-20">Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						for _, c := range comments {
+							@commentRow(c)
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+}
+
+script OpenDialog(id string) {
+    window.document.getElementById(id).showModal()
+}
+
+templ commentRow(reply internal.Reply) {
+	<tr class="h-16 hover:bg-base-200">
+		<td
+			class={
+				templ.KV("bg-base-300", reply.ModerationStatus == internal.ModerationUnverified),
+				templ.KV("bg-success", reply.ModerationStatus == internal.ModerationOK),
+				templ.KV("bg-warning", reply.ModerationStatus == internal.ModerationWarning),
+				templ.KV("bg-error", reply.ModerationStatus == internal.ModerationDangerous),
+			}
+		></td>
+		<td class="w-32 truncate font-semibold">{ reply.Alias }</td>
+		<td class="">
+			<div class="break-words line-clamp-2 overflow-hidden text-ellipsis">
+				<p class="cursor-pointer" onclick={ OpenDialog(fmt.Sprintf("comment_dialog_%d", reply.ID)) }>"{ reply.Message }"</p>
+				<dialog id={ fmt.Sprintf("comment_dialog_%d", reply.ID) } class="modal">
+					<div class="flex flex-col card card-lg bg-base-100 h-[70%] mx-2">
+						<form method="dialog" class="flex flex-row items-center">
+							<p class="p-6 text-xl font-semibold">Comment by { reply.Alias }</p>
+							<button class="btn btn-ghost ml-auto mr-6">
+								@assets.Close()
+							</button>
+						</form>
+						if reply.ModerationStatus == internal.ModerationUnverified {
+							<p class="bg-base-300 p-6 font-semibold">This comment has not been AI moderated yet</p>
+						} else if reply.ModerationStatus == internal.ModerationOK {
+							<p class="bg-success text-success-content p-6 font-semibold">This comment marked as safe! { reply.ModerationReason }</p>
+						}
+						<ul class="menu bg-base-100 w-full md:w-3xl py-2 px-4 rounded-field overflow-y-scroll h-full" id="root-scaffold">
+							if reply.Parent != nil {
+								<li>
+									@_articleReply.NestReplies(reply.Parent.ArticleID, parentWithSingleReply(reply), append(reply.Replies, reply))
+								</li>
+							} else {
+								<li>
+									@_articleReply.NestReplies(reply.ArticleID, reply, reply.Replies)
+								</li>
+							}
+						</ul>
+						<div class="divider"></div>
+						<form method="dialog" class="flex flex-row ml-auto">
+							<button
+								class="btn btn-outline ml-auto hover:btn-success mt-2 mb-6 mx-6 w-36"
+								hx-post={ fmt.Sprintf("/dashboard/comments/safe/%d", reply.ID) }
+								hx-swap="outerHTML"
+								hx-target="#comments"
+							>
+								Mark as Safe
+							</button>
+							<button
+								class="btn ml-auto btn-error mt-2 mb-6 mx-6 w-36"
+								hx-post={ fmt.Sprintf("/dashboard/comments/hide/%d", reply.ID) }
+								hx-swap="outerHTML"
+								hx-target="#comments"
+							>Delete</button>
+						</form>
+					</div>
+				</dialog>
+			</div>
+		</td>
+		<td class="w-24 text-xs hidden md:table-cell">
+			if reply.Parent != nil {
+				<div class="flex flex-col">
+					<p class="font-semibold">{ reply.Parent.Alias }</p>
+					<p class="relative italic opacity-40 line-clamp-1 overflow-hidden break-words before:content-['“'] after:content-['”']">
+						{ reply.Parent.Message }
+					</p>
+				</div>
+			} else {
+				<div class="opacity-40">Original Comment</div>
+			}
+		</td>
+		<td class="w-48 hidden md:table-cell">
+			<a
+				class="break-words line-clamp-1 overflow-hidden text-ellipsis font-semibold"
+				href={ templ.SafeURL(fmt.Sprintf("/dashboard/articles/%d", reply.ArticleID)) }
+			>
+				{ reply.Article.Title }
+			</a>
+		</td>
+		<td class="w-24 hidden md:table-cell">{ reply.CreatedAt.Format("02/01/06") }</td>
+		<td class="w-20">
+			<div tabindex="0" role="button" class="btn btn-ghost">
+				@assets.Setting(6)
+			</div>
+		</td>
+	</tr>
+}
+
+func parentWithSingleReply(r internal.Reply) internal.Reply {
+	p := *r.Parent
+	p.Replies = []internal.Reply{r}
+	return p
+}

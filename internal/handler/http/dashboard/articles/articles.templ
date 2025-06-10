@@ -141,27 +141,27 @@ templ articleTable(posts []internal.Post, attrs templ.Attributes) {
 }
 
 templ articleRow(post internal.Post, flipDropdown bool) {
-	<tr class="h-16">
-		<th></th>
-		<th class="font-normal">{ fmt.Sprintf("%d", post.ID) }</th>
-		<th>
+	<tr class="h-16 hover:bg-base-200">
+		<td></td>
+		<td class="font-normal">{ fmt.Sprintf("%d", post.ID) }</td>
+		<td>
 			<a
 				hx-boost="true"
 				href={ templ.SafeURL(fmt.Sprintf("/dashboard/articles/%d/edit", post.ID)) }
 				hx-indicator="#global-progress"
 			>{ post.Title }</a>
-		</th>
-		<th class="font-normal">{ post.CreatedAt.Format("Jan, 02 2006 15:04:05") }</th>
-		<th>
+		</td>
+		<td class="font-normal">{ post.CreatedAt.Format("Jan, 02 2006 15:04:05") }</td>
+		<td>
 			<div
 				class={
-					"badge badge-outline badge-sm font-normal px-3 py-2",
-					templ.KV("badge-primary text-primary-content dark:text-primary", post.Status == "published"),
-					templ.KV("badge-accent text-accent-content dark:text-accent", post.Status == "draft"),
+					"cursor-pointer badge hover:badge-outline badge-sm font-normal px-3 py-2",
+					templ.KV("badge-success text-success-content", post.Status == "published"),
+					templ.KV("badge-warning text-shadow-warning-content", post.Status == "draft"),
 				}
 			>{ string(post.Status) }</div>
-		</th>
-		<th>
+		</td>
+		<td>
 			<div class={ "dropdown dropdown-end", templ.KV("dropdown-top", flipDropdown) }>
 				<div tabindex="0" role="button" class="btn btn-ghost">
 					@assets.Setting(6)
@@ -179,6 +179,6 @@ templ articleRow(post internal.Post, flipDropdown bool) {
 					}
 				</ul>
 			</div>
-		</th>
+		</td>
 	</tr>
 }

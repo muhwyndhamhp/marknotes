@@ -3,6 +3,7 @@ package reply
 import (
 	"context"
 	"errors"
+	"github.com/muhwyndhamhp/marknotes/utils/scopes"
 
 	"github.com/muhwyndhamhp/marknotes/internal"
 	"gorm.io/gorm"
@@ -10,6 +11,43 @@ import (
 
 type repository struct {
 	db *gorm.DB
+}
+
+func (r *repository) UpdateModeration(ctx context.Context, id uint, mod internal.Moderation) error {
+	return r.db.WithContext(ctx).
+		Model(&internal.Reply{}).
+		Where("id = ?", id).
+		Updates(&internal.Reply{Moderation: mod}).Error
+}
+
+func (r *repository) HideReply(ctx context.Context, id uint) error {
+	return r.db.WithContext(ctx).
+		Model(&internal.Reply{}).
+		Where("id = ?", id).
+		Update("hide_publicity", true).Error
+}
+
+func (r *repository) Fetch(ctx context.Context, s ...scopes.QueryScope) ([]internal.Reply, int, error) {
+	var res []internal.Reply
+	var count int64
+
+	q := r.db.WithContext(ctx).
+		Model(&internal.Reply{}).
+		Preload("Replies", func(db *gorm.DB) *gorm.DB { return db.Order("created_at DESC") }).
+		Preload("Parent").
+		Preload("Article").
+		Session(&gorm.Session{SkipDefaultTransaction: true}).
+		Scopes(scopes.Unwrap(s...)...)
+
+	if err := q.Count(&count).Error; err != nil {
+		return nil, 0, err
+	}
+
+	if err := q.Find(&res).Error; err != nil {
+		return nil, 0, err
+	}
+
+	return res, int(count), nil
 }
 
 func (r *repository) CreateReply(ctx context.Context, reply *internal.Reply) error {

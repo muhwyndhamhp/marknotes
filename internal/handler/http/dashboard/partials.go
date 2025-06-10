@@ -101,6 +101,12 @@ func nav(indexSelected int) []pub_variables.DrawerMenu {
 			IsBoosted: true,
 		},
 		{
+			Label:     "Comments",
+			URL:       "/dashboard/comments",
+			IsActive:  false,
+			IsBoosted: true,
+		},
+		{
 			Label:     "Back to Site",
 			URL:       "/",
 			IsActive:  false,

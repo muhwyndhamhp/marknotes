@@ -1,8 +1,57 @@
 @import 'tailwindcss';
 @plugin "@tailwindcss/typography";
 @plugin "daisyui" {
-    themes: cupcake --default, sunset --prefersdark;
+    themes: marknotes-light, sunset --prefersdark;
 }
+
+
+@plugin "daisyui/theme" {
+    name: "marknotes-light";
+    default: true;
+    prefersdark: false;
+    color-scheme: "light";
+    --color-base-100: oklch(98% 0 0);
+    --color-base-200: oklch(97% 0 0);
+    --color-base-300: oklch(92% 0 0);
+    --color-base-content: oklch(20% 0 0);
+    --color-primary: oklch(79% 0.209 151.711);
+    --color-primary-content: oklch(25% 0.09 281.288);
+    --color-secondary: oklch(0% 0 0);
+    --color-secondary-content: oklch(100% 0 0);
+    --color-accent: oklch(50% 0.134 242.749);
+    --color-accent-content: oklch(98% 0.014 180.72);
+    --color-neutral: oklch(14% 0 0);
+    --color-neutral-content: oklch(98% 0 0);
+    --color-info: oklch(58% 0.158 241.966);
+    --color-info-content: oklch(95% 0.026 236.824);
+    --color-success: oklch(52% 0.154 150.069);
+    --color-success-content: oklch(95% 0.052 163.051);
+    --color-warning: oklch(82% 0.189 84.429);
+    --color-warning-content: oklch(27% 0.072 132.109);
+    --color-error: oklch(52% 0.223 3.958);
+    --color-error-content: oklch(94% 0.03 12.58);
+    --radius-selector: 2rem;
+    --radius-field: 1rem;
+    --radius-box: 0.5rem;
+    --size-selector: 0.3125rem;
+    --size-field: 0.21875rem;
+    --border: 2px;
+    --depth: 1;
+    --noise: 1;
+}
+
+@layer utilities {
+    .grid-bg {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='none' stroke='%23ddd'%3E%3Cpath d='M10 0v1M10 19v1M0 10h1M19 10h1'/%3E%3C/svg%3E");
+        background-size: 40px 40px;
+    }
+
+    .dark .grid-bg {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='none' stroke='%23444'%3E%3Cpath d='M10 0v1M10 19v1M0 10h1M19 10h1'/%3E%3C/svg%3E");
+        background-size: 40px 40px;
+    }
+}
+
 @custom-variant dark (&:is(.dark *));
 
 html {

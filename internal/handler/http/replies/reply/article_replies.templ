@@ -94,56 +94,66 @@ templ ReplyScaffold(root templ.Component, childs []templ.Component) {
 }
 
 templ Reply(articleId uint, reply internal.Reply) {
-	<summary class="flex pe-6 border box-border border-transparent hover:border-base-content my-2 w-full">
-		<div class="flex flex-col flex-1 min-w-0">
-			<div class="py-2 flex flex-row items-start w-full">
-				<div class="avatar w-12 h-12">
-					<div class="mask mask-squircle w-24">
-						<img src={ fmt.Sprintf("data:image/png;base64,%s", base64.StdEncoding.EncodeToString(adorable.PseudoRandom([]byte(reply.Alias)))) }/>
+	<summary
+		class={ "flex pe-6 border  hover:border-base-content my-2 w-full",
+			templ.KV("bg-info/20 border-2 border-info", reply.Highlight),
+			templ.KV("border-transparent",!reply.Highlight) }
+	>
+		if !reply.HidePublicity {
+			<div class="flex flex-col flex-1 min-w-0">
+				<div class="py-2 flex flex-row items-start w-full">
+					<div class="avatar w-12 h-12">
+						<div class="mask mask-squircle w-24">
+							<img src={ fmt.Sprintf("data:image/png;base64,%s", base64.StdEncoding.EncodeToString(adorable.PseudoRandom([]byte(reply.Alias)))) }/>
+						</div>
 					</div>
-				</div>
-				<div class="ms-3 me-2 flex flex-col flex-grow min-w-0">
-					<p class="font-bold w-full text-md">{ reply.Alias }</p>
-					<p class="opacity-60 text-left leading-relaxed w-full break-all text-lg flex-grow">
-						@templ.Raw(strings.ReplaceAll(reply.Message, "\\n", "<br>"))
-					</p>
-					<div class="flex flex-row">
-						<button
-							class="btn btn-xs btn-outline mr-auto mt-4 hover:btn-primary"
-							_="on click halt the event then add .hidden to <form/> in the #root-scaffold then remove .hidden from <button/> in the #root-scaffold then remove .hidden from the next <form/> then add .hidden to me"
-						>
-							@assets.Reply(4)
-							Reply
-						</button>
+					<div class="ms-3 me-2 flex flex-col flex-grow min-w-0">
+						<p class="font-bold w-full text-xs md:text-md">{ reply.Alias }</p>
+						<p class="mt-1 opacity-80 text-left leading-relaxed w-full break-all text-sm md:text flex-grow font-light">
+							{ strings.ReplaceAll(reply.Message, "\\n", "<br>") }
+						</p>
+						if reply.EnableReply {
+							<div class="flex flex-row">
+								<button
+									class="btn btn-xs btn-outline mr-auto mt-4 hover:btn-primary"
+									_="on click halt the event then add .hidden to <form/> in the #root-scaffold then remove .hidden from <button/> in the #root-scaffold then remove .hidden from the next <form/> then add .hidden to me"
+								>
+									@assets.Reply(4)
+									Reply
+								</button>
+							</div>
+						}
+						<form class="flex flex-col w-full hidden pt-6" id="reply-input">
+							<div class="divider">Reply</div>
+							<fieldset class="fieldset">
+								<textarea
+									_="on click halt the event"
+									class="rounded-sm textarea w-full h-8 p-2 dark:p-4 text"
+									placeholder="Please be kind 😉"
+									name="replyBody"
+								></textarea>
+								<input
+									type="text"
+									placeholder="Type here"
+									class="hidden"
+									name="parentId"
+									value={ fmt.Sprintf("%d", reply.ID) }
+								/>
+								<button
+									class="btn btn-primary btn-md mt-3 w-56 ml-auto"
+									hx-post={ fmt.Sprintf("/replies/articles/%d/create", articleId) }
+									hx-target="#replies"
+									hx-swap="outerHTML"
+								>
+									Submit!
+								</button>
+							</fieldset>
+						</form>
 					</div>
-					<form class="flex flex-col w-full hidden pt-6" id="reply-input">
-						<div class="divider">Reply</div>
-						<fieldset class="fieldset">
-							<textarea
-								_="on click halt the event"
-								class="rounded-sm textarea w-full h-8 p-2 dark:p-4 text"
-								placeholder="Please be kind 😉"
-								name="replyBody"
-							></textarea>
-							<input
-								type="text"
-								placeholder="Type here"
-								class="hidden"
-								name="parentId"
-								value={ fmt.Sprintf("%d", reply.ID) }
-							/>
-							<button
-								class="btn btn-primary btn-md mt-3 w-56 ml-auto"
-								hx-post={ fmt.Sprintf("/replies/articles/%d/create", articleId) }
-								hx-target="#replies"
-								hx-swap="outerHTML"
-							>
-								Submit!
-							</button>
-						</fieldset>
-					</form>
 				</div>
 			</div>
-		</div>
+		} else {
+			<p class="italic w-full">Comment deleted by Admin</p>
+		}
 	</summary>
 }

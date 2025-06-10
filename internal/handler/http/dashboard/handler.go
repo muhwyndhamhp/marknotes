@@ -47,6 +47,10 @@ func NewHandler(
 	g.GET("/dashboard/load-iframe", fe.LoadIframe)
 	g.GET("/dashboard/login", fe.Login)
 	g.GET("/dashboard/analytics/:slug", fe.Analytics, app.RequireAuthWare)
+
+	g.GET("/dashboard/comments", fe.Comments, app.RequireAuthWare)
+	g.POST("/dashboard/comments/hide/:id", fe.HideComment, app.RequireAuthWare)
+	g.POST("/dashboard/comments/safe/:id", fe.MarkSafe, app.RequireAuthWare)
 }
 
 type ArticlesCreateRequest struct {

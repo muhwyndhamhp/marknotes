@@ -52,10 +52,6 @@ func main() {
 	openauth.NewHandler(g, app)
 	replies.NewHandler(g, app)
 
-	//go func() {
-	//	migration.Migrate(app.DB)
-	//}()
-
 	go func() {
 		if err := rss.GenerateRSS(ctx, app.PostRepository); err != nil {
 			e.Logger.Fatal(err)
