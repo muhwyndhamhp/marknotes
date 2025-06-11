@@ -10,37 +10,41 @@ import (
 	"strings"
 )
 
-templ ArticleReplies(articleID uint, replies []internal.Reply, value, errMessage string) {
-	<div id="replies" class="md:max-w-3xl lg:max-w-4xl relative w-full md:mx-auto">
-		<div class="flex flex-col ">
-			@ReplyInput(articleID, value, errMessage)
-			@Replies(articleID, replies)
+templ ArticleReplies(articleID, errParentId uint, replies []internal.Reply, value, errMessage string) {
+	<div id="replies" class="relative w-full md:mx-auto md:max-w-3xl lg:max-w-4xl">
+		<div class="flex flex-col">
+			@ReplyInput(articleID, value, errMessage, errParentId == 0)
+			@Replies(articleID, errParentId, replies, value, errMessage)
 		</div>
 	</div>
 }
 
-templ ReplyInput(articleID uint, value, errMessage string) {
+templ ReplyInput(articleID uint, value, errMessage string, showError bool) {
 	<form class="flex flex-col px-4 md:px-0" id="reply-input">
 		<fieldset class="fieldset">
-			<legend class="fieldset-legend text-lg">Got some thoughts? Write it down below!</legend>
+			<legend class="text-lg fieldset-legend">Got some thoughts? Write it down below!</legend>
 			<textarea
 				_="on keyup remove .textarea-error from me then add .hidden to #err-label"
 				class={
 					"textarea w-full h-8 p-2 md:p-6 dark:md:p-4 text-sm md:text-lg",
-					templ.KV("textarea-error", errMessage != ""),
+					templ.KV("textarea-error", errMessage != "" && showError),
 				}
 				placeholder="Can't believe you've eaten a capybara!! 😱😱😱"
 				name="replyBody"
-			>{ value }</textarea>
+			>
+				if showError {
+					{ value }
+				}
+			</textarea>
 			<div
 				class={
-					"label",
-					templ.KV("hidden", errMessage == ""),
+					"label text-lg text-error font-semibold",
+					templ.KV("hidden", errMessage == "" || !showError),
 				}
 				id="err-label"
 			>{ errMessage }</div>
 			<button
-				class="btn btn-primary btn-md mt-3 w-56 ml-auto"
+				class="mt-3 ml-auto w-56 btn btn-primary btn-md"
 				hx-post={ fmt.Sprintf("/replies/articles/%d/create", articleID) }
 				hx-target="#replies"
 				hx-swap="outerHTML"
@@ -51,11 +55,11 @@ templ ReplyInput(articleID uint, value, errMessage string) {
 	</form>
 }
 
-templ Replies(articleId uint, replies []internal.Reply) {
-	<ul class="menu bg-base-100 w-full py-2 px-4 rounded-field drop-shadow-2xl mt-4" id="root-scaffold">
+templ Replies(articleId, errParentId uint, replies []internal.Reply, value, errMessage string) {
+	<ul class="mt-4 w-full px-4 py-2 drop-shadow-2xl menu bg-base-100 rounded-field" id="root-scaffold">
 		for _, rep := range rootReplies(replies) {
 			<li>
-				@NestReplies(articleId, rep, replies)
+				@NestReplies(articleId, errParentId, rep, replies, value, errMessage)
 			</li>
 		}
 	</ul>
@@ -65,9 +69,9 @@ func rootReplies(replies []internal.Reply) []internal.Reply {
 	return lo.Filter(replies, func(item internal.Reply, index int) bool { return item.ParentID == nil })
 }
 
-func NestReplies(articleId uint, parent internal.Reply, replies []internal.Reply) templ.Component {
+func NestReplies(articleId, errParentId uint, parent internal.Reply, replies []internal.Reply, value, errMessage string) templ.Component {
 	if len(parent.Replies) == 0 {
-		return Reply(articleId, parent)
+		return Reply(articleId, errParentId, parent, value, errMessage)
 	}
 
 	var child []templ.Component
@@ -80,10 +84,10 @@ func NestReplies(articleId uint, parent internal.Reply, replies []internal.Reply
 			continue
 		}
 
-		child = append(child, NestReplies(articleId, loadedReplies, replies))
+		child = append(child, NestReplies(articleId, errParentId, loadedReplies, replies, value, errMessage))
 	}
 
-	return ReplyScaffold(Reply(articleId, parent), child)
+	return ReplyScaffold(Reply(articleId, errParentId, parent, value, errMessage), child)
 }
 
 templ ReplyScaffold(root templ.Component, childs []templ.Component) {
@@ -99,29 +103,29 @@ templ ReplyScaffold(root templ.Component, childs []templ.Component) {
 	</details>
 }
 
-templ Reply(articleId uint, reply internal.Reply) {
+templ Reply(articleId, errParentId uint, reply internal.Reply, value, errMessage string) {
 	<summary
 		class={ "flex pe-6 border  hover:border-base-content my-2 w-full",
 			templ.KV("bg-info/20 border-2 border-info", reply.Highlight),
 			templ.KV("border-transparent",!reply.Highlight) }
 	>
 		if !reply.HidePublicity && (reply.ModerationStatus != internal.ModerationDangerous || !reply.EnableReply ) {
-			<div class="flex flex-col flex-1 min-w-0">
-				<div class="py-2 flex flex-row items-start w-full">
-					<div class="avatar w-12 h-12">
-						<div class="mask mask-squircle w-24">
+			<div class="flex min-w-0 flex-1 flex-col">
+				<div class="flex w-full flex-row items-start py-2">
+					<div class="h-12 w-12 avatar">
+						<div class="w-24 mask mask-squircle">
 							<img src={ fmt.Sprintf("data:image/png;base64,%s", base64.StdEncoding.EncodeToString(adorable.PseudoRandom([]byte(reply.Alias)))) }/>
 						</div>
 					</div>
-					<div class="ms-3 me-2 flex flex-col flex-grow min-w-0">
-						<p class="font-bold w-full text-xs md:text-md">{ reply.Alias }</p>
-						<p class="mt-1 opacity-80 text-left leading-relaxed w-full break-all text-sm md:text flex-grow font-light">
+					<div class="flex min-w-0 flex-grow flex-col ms-3 me-2">
+						<p class="w-full text-xs font-bold md:text-md">{ reply.Alias }</p>
+						<p class="mt-1 w-full flex-grow break-all text-left text-sm font-light leading-relaxed opacity-80 md:text">
 							{ strings.ReplaceAll(reply.Message, "\\n", "<br>") }
 						</p>
-						if reply.EnableReply {
+						if reply.EnableReply && (errMessage == "" || reply.ID != errParentId) {
 							<div class="flex flex-row">
 								<button
-									class="btn btn-xs btn-outline mr-auto mt-4 hover:btn-primary"
+									class="mt-4 mr-auto btn btn-xs btn-outline hover:btn-primary"
 									_="on click halt the event then add .hidden to <form/> in the #root-scaffold then remove .hidden from <button/> in the #root-scaffold then remove .hidden from the next <form/> then add .hidden to me"
 								>
 									@assets.Reply(4)
@@ -129,15 +133,35 @@ templ Reply(articleId uint, reply internal.Reply) {
 								</button>
 							</div>
 						}
-						<form class="flex flex-col w-full hidden pt-6" id="reply-input">
+						<form
+							class={
+								"flex w-full flex-col pt-6",
+								templ.KV("hidden", errMessage == "" || reply.ID != errParentId),
+							}
+							id="reply-input"
+						>
 							<div class="divider">Reply</div>
 							<fieldset class="fieldset">
 								<textarea
-									_="on click halt the event"
-									class="rounded-sm textarea w-full h-8 p-2 dark:p-4 text"
+									_="on keyup remove .textarea-error from me then add .hidden to the next <div/>"
+									class={
+										"h-8 w-full rounded-sm p-2 textarea text dark:p-4",
+										templ.KV("textarea-error", errMessage != "" && reply.ID == errParentId),
+									}
 									placeholder="Please be kind 😉"
 									name="replyBody"
-								></textarea>
+								>
+									if reply.ID == errParentId {
+										{ value }
+									}
+								</textarea>
+								<div
+									class={
+										"label text text-error font-semibold",
+										templ.KV("hidden", errMessage == "" || reply.ID != errParentId),
+									}
+									id="err-label"
+								>{ errMessage }</div>
 								<input
 									type="text"
 									placeholder="Type here"
@@ -146,7 +170,7 @@ templ Reply(articleId uint, reply internal.Reply) {
 									value={ fmt.Sprintf("%d", reply.ID) }
 								/>
 								<button
-									class="btn btn-primary btn-md mt-3 w-56 ml-auto"
+									class="mt-3 ml-auto w-56 btn btn-primary btn-md"
 									hx-post={ fmt.Sprintf("/replies/articles/%d/create", articleId) }
 									hx-target="#replies"
 									hx-swap="outerHTML"
@@ -159,9 +183,9 @@ templ Reply(articleId uint, reply internal.Reply) {
 				</div>
 			</div>
 		} else if reply.ModerationStatus != internal.ModerationDangerous {
-			<p class="italic w-full">Comment deleted by Admin</p>
+			<p class="w-full italic">Comment deleted by Admin</p>
 		} else {
-			<p class="italic w-full">Comment hidden by Auto Moderation</p>
+			<p class="w-full italic">Comment hidden by Auto Moderation</p>
 		}
 	</summary>
 }

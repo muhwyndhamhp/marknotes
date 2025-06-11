@@ -38,7 +38,7 @@ export const HashTag = Mention.extend({
                   appendTo: () => document.body,
                   content: `
                   <div class="dropdown dropdown-open">
-                     <ul class="p-4 shadow-sm menu dropdown-content z-1 bg-base-200 rounded-box w-64">
+                     <ul class="w-64 p-4 shadow-sm menu dropdown-content z-1 bg-base-200 rounded-box">
                         <li class="text-lg text-base-content">
                            Start Write to Search...
                         </li>

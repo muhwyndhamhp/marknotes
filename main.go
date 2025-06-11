@@ -89,13 +89,15 @@ func main() {
 	}()
 
 	go func() {
-		ctx2, cancel := context.WithCancel(context.Background())
-		if err := moderateReplies(ctx2, app); err != nil {
-			e.Logger.Error(err)
-		}
+		for {
+			ctx2, cancel := context.WithCancel(context.Background())
+			if err := moderateReplies(ctx2, app); err != nil {
+				e.Logger.Error(err)
+			}
 
-		time.Sleep(10 * time.Minute)
-		cancel()
+			time.Sleep(10 * time.Minute)
+			cancel()
+		}
 	}()
 
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%s", config.Get(config.APP_PORT))))

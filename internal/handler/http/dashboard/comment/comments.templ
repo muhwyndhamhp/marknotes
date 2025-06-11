@@ -23,23 +23,23 @@ templ Comments(vm CommentsVM) {
 }
 
 templ CommentsBody(comments []internal.Reply) {
-	<div class="w-full h-full" id="comments">
+	<div class="h-full w-full" id="comments">
 		<div class="mx-3 md:mx-10">
-			<div class="w-full flex flex-col md:flex-row justify-end">
-				<h1 class="grow text-4xl text-secondary brightness-70 font-bold my-auto mt-3 md:mt-0">
+			<div class="flex w-full flex-col justify-end md:flex-row">
+				<h1 class="my-auto mt-3 grow text-4xl font-bold text-secondary brightness-70 md:mt-0">
 					Comments
 				</h1>
 			</div>
-			<div class="card overflow-x-auto bg-base-100 mt-5">
-				<table class="table table-fixed w-full">
+			<div class="mt-5 overflow-x-auto card bg-base-100">
+				<table class="table w-full table-fixed">
 					<thead>
 						<tr class="h-16">
 							<th class="w-[1%]"></th>
 							<th class="w-32">Author</th>
 							<th class="md:w-[34%]">Comment</th>
 							<th class="hidden md:table-cell md:w-[15%]">Replying To</th>
-							<th class="hidden md:table-cell w-48">Comment On</th>
-							<th class="hidden md:table-cell w-24">Date</th>
+							<th class="hidden w-48 md:table-cell">Comment On</th>
+							<th class="hidden w-24 md:table-cell">Date</th>
 							<th class="w-20">Action</th>
 						</tr>
 					</thead>
@@ -70,40 +70,40 @@ templ commentRow(reply internal.Reply) {
 		></td>
 		<td class="w-32 truncate font-semibold">{ reply.Alias }</td>
 		<td class="">
-			<div class="break-words line-clamp-2 overflow-hidden text-ellipsis">
+			<div class="overflow-hidden text-ellipsis break-words line-clamp-2">
 				<p class="cursor-pointer" onclick={ OpenDialog(fmt.Sprintf("comment_dialog_%d", reply.ID)) }>"{ reply.Message }"</p>
 				<dialog id={ fmt.Sprintf("comment_dialog_%d", reply.ID) } class="modal">
-					<div class="flex flex-col card card-lg bg-base-100 h-screen md:h-[70%]">
+					<div class="flex h-screen flex-col card card-lg bg-base-100 md:h-[70%]">
 						<form method="dialog" class="flex flex-row items-center">
 							<p class="p-6 text-xl font-semibold">Comment by { reply.Alias }</p>
-							<button class="btn btn-ghost ml-auto mr-6">
+							<button class="mr-6 ml-auto btn btn-ghost">
 								@assets.Close()
 							</button>
 						</form>
 						if reply.ModerationStatus == internal.ModerationUnverified {
-							<p class="bg-base-300 p-2 md:p-6 font-semibold">This comment has not been AI moderated yet</p>
+							<p class="p-2 font-semibold bg-base-300 md:p-6">This comment has not been AI moderated yet</p>
 						} else if reply.ModerationStatus == internal.ModerationOK {
-							<p class="bg-success text-success-content p-2 md:p-6 font-semibold">This comment marked as safe! { reply.ModerationReason }</p>
+							<p class="p-2 font-semibold bg-success text-success-content md:p-6">This comment marked as safe! { reply.ModerationReason }</p>
 						} else if reply.ModerationStatus == internal.ModerationWarning {
-							<p class="bg-warning text-warning-content p-2 md:p-6 font-semibold">{ reply.ModerationReason }</p>
+							<p class="p-2 font-semibold bg-warning text-warning-content md:p-6">{ reply.ModerationReason }</p>
 						} else if reply.ModerationStatus == internal.ModerationDangerous {
-							<p class="bg-error text-error-content p-2 md:p-6 font-semibold">{ reply.ModerationReason }</p>
+							<p class="p-2 font-semibold bg-error text-error-content md:p-6">{ reply.ModerationReason }</p>
 						}
-						<ul class="menu bg-base-100 w-full md:w-3xl py-2 px-4 rounded-field overflow-y-scroll h-full" id="root-scaffold">
+						<ul class="h-full w-full overflow-y-scroll px-4 py-2 menu bg-base-100 md:w-3xl rounded-field" id="root-scaffold">
 							if reply.Parent != nil {
 								<li>
-									@_articleReply.NestReplies(reply.Parent.ArticleID, parentWithSingleReply(reply), append(reply.Replies, reply))
+									@_articleReply.NestReplies(reply.Parent.ArticleID, 0, parentWithSingleReply(reply), append(reply.Replies, reply), "", "")
 								</li>
 							} else {
 								<li>
-									@_articleReply.NestReplies(reply.ArticleID, reply, reply.Replies)
+									@_articleReply.NestReplies(reply.ArticleID, 0, reply, reply.Replies, "", "")
 								</li>
 							}
 						</ul>
 						<div class="divider"></div>
-						<form method="dialog" class="flex flex-row mx-auto md:ml-auto">
+						<form method="dialog" class="mx-auto flex flex-row md:ml-auto">
 							<button
-								class="btn btn-outline hover:btn-success mt-2 mb-6 mx-6 w-36"
+								class="mx-6 mt-2 mb-6 w-36 btn btn-outline hover:btn-success"
 								hx-post={ fmt.Sprintf("/dashboard/comments/safe/%d", reply.ID) }
 								hx-swap="outerHTML"
 								hx-target="#comments"
@@ -111,7 +111,7 @@ templ commentRow(reply internal.Reply) {
 								Mark as Safe
 							</button>
 							<button
-								class="btn btn-error mt-2 mb-6 mx-6 w-36"
+								class="mx-6 mt-2 mb-6 w-36 btn btn-error"
 								hx-post={ fmt.Sprintf("/dashboard/comments/hide/%d", reply.ID) }
 								hx-swap="outerHTML"
 								hx-target="#comments"
@@ -121,7 +121,7 @@ templ commentRow(reply internal.Reply) {
 				</dialog>
 			</div>
 		</td>
-		<td class="w-24 text-xs hidden md:table-cell">
+		<td class="hidden w-24 text-xs md:table-cell">
 			if reply.Parent != nil {
 				<div class="flex flex-col">
 					<p class="font-semibold">{ reply.Parent.Alias }</p>
@@ -133,15 +133,15 @@ templ commentRow(reply internal.Reply) {
 				<div class="opacity-40">Original Comment</div>
 			}
 		</td>
-		<td class="w-48 hidden md:table-cell">
+		<td class="hidden w-48 md:table-cell">
 			<a
-				class="break-words line-clamp-1 overflow-hidden text-ellipsis font-semibold"
+				class="overflow-hidden text-ellipsis break-words font-semibold line-clamp-1"
 				href={ templ.SafeURL(fmt.Sprintf("/dashboard/articles/%d", reply.ArticleID)) }
 			>
 				{ reply.Article.Title }
 			</a>
 		</td>
-		<td class="w-24 hidden md:table-cell">{ reply.CreatedAt.Format("02/01/06") }</td>
+		<td class="hidden w-24 md:table-cell">{ reply.CreatedAt.Format("02/01/06") }</td>
 		<td class="w-20">
 			<div tabindex="0" role="button" class="btn btn-ghost">
 				@assets.Setting(6)

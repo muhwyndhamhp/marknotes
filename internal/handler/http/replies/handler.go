@@ -25,10 +25,10 @@ func NewHandler(g *echo.Group, app *internal.Application) {
 }
 
 func (h *handler) ArticleReplies(c echo.Context) error {
-	return h.articleReplies(c, "", "")
+	return h.articleReplies(c, "", "", 0)
 }
 
-func (h *handler) articleReplies(c echo.Context, value, errMessage string) error {
+func (h *handler) articleReplies(c echo.Context, value, errMessage string, parentId uint) error {
 	ctx := c.Request().Context()
 	id, _ := c.Get(middlewares.ByIDKey).(int)
 
@@ -37,7 +37,7 @@ func (h *handler) articleReplies(c echo.Context, value, errMessage string) error
 		return err
 	}
 
-	replyTemplate := reply.ArticleReplies(uint(id), replies, value, errMessage)
+	replyTemplate := reply.ArticleReplies(uint(id), parentId, replies, value, errMessage)
 
 	return templateRenderer.AssertRender(c, http.StatusOK, replyTemplate)
 }
@@ -54,15 +54,17 @@ func (h *handler) Create(c echo.Context) error {
 	var req CreateReplyReq
 
 	if err := c.Bind(&req); err != nil {
-		return h.articleReplies(c, "", err.Error())
+		return h.articleReplies(c, "", err.Error(), 0)
 	}
 
+	fmt.Println("*** Parent ID: ", req.ParentID)
+
 	if strings.TrimSpace(req.ReplyBody) == "" {
-		return h.articleReplies(c, "", "Comment body cannot be empty!")
+		return h.articleReplies(c, "", "Comment body cannot be empty!", req.ParentID)
 	}
 
 	if hasProfanity := h.app.ProfanityCheck.IsProfane(ctx, req.ReplyBody); hasProfanity {
-		return h.articleReplies(c, req.ReplyBody, "Sorry! your comment has profanity in it!")
+		return h.articleReplies(c, req.ReplyBody, "Sorry! your comment has profanity in it!", req.ParentID)
 	}
 
 	existingAlias, _ := c.Request().Cookie("comment_alias")
@@ -94,8 +96,8 @@ func (h *handler) Create(c echo.Context) error {
 	}
 
 	if err := h.app.ReplyRepository.CreateReply(ctx, &r); err != nil {
-		return h.articleReplies(c, req.ReplyBody, "Something wrong on our end! you can try again in a few moment")
+		return h.articleReplies(c, req.ReplyBody, "Something wrong on our end! you can try again in a few moment", req.ParentID)
 	}
 
-	return h.articleReplies(c, "", "")
+	return h.articleReplies(c, "", "", req.ParentID)
 }

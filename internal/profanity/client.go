@@ -16,7 +16,11 @@ type client struct {
 }
 
 func NewClient() internal.ProfanityCheck {
-	profanityDetector := goaway.NewProfanityDetector().WithSanitizeSpaces(true)
+	profanityDetector := goaway.NewProfanityDetector().
+		WithSanitizeSpaces(false).
+		WithSanitizeLeetSpeak(false).
+		WithSanitizeSpecialCharacters(false).
+		WithSanitizeAccents(false)
 
 	return &client{detector: profanityDetector}
 }
