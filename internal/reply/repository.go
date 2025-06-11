@@ -33,9 +33,6 @@ func (r *repository) Fetch(ctx context.Context, s ...scopes.QueryScope) ([]inter
 
 	q := r.db.WithContext(ctx).
 		Model(&internal.Reply{}).
-		Preload("Replies", func(db *gorm.DB) *gorm.DB { return db.Order("created_at DESC") }).
-		Preload("Parent").
-		Preload("Article").
 		Session(&gorm.Session{SkipDefaultTransaction: true}).
 		Scopes(scopes.Unwrap(s...)...)
 
@@ -69,7 +66,6 @@ func (r *repository) FetchArticleReplies(ctx context.Context, articleID uint) ([
 
 	if err := r.db.WithContext(ctx).
 		Session(&gorm.Session{SkipDefaultTransaction: true}).
-		Where("moderation_status != ?", internal.ModerationDangerous).
 		Where("article_id = ?", articleID).
 		Preload("Replies", func(db *gorm.DB) *gorm.DB { return db.Order("created_at DESC") }).
 		Order("created_at DESC").

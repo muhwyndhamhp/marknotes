@@ -5,6 +5,7 @@ import (
 	"github.com/muhwyndhamhp/marknotes/config"
 	"github.com/muhwyndhamhp/marknotes/db"
 	"github.com/muhwyndhamhp/marknotes/internal"
+	"github.com/muhwyndhamhp/marknotes/internal/llm"
 	"github.com/muhwyndhamhp/marknotes/internal/middlewares"
 	"github.com/muhwyndhamhp/marknotes/internal/openauth"
 	_postRepo "github.com/muhwyndhamhp/marknotes/internal/post"
@@ -43,6 +44,8 @@ func Bootstrap() *internal.Application {
 
 	app.OpenAuth = openauth.NewClient(app)
 	app.RequireAuthWare = app.OpenAuth.AuthMiddleware()
+
+	app.LLM = llm.NewClient(app)
 
 	return app
 }

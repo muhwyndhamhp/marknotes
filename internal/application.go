@@ -22,6 +22,7 @@ type Application struct {
 	AnalyticsClient *analytics.Client
 	OpenAuth        OpenAuth
 	ProfanityCheck  ProfanityCheck
+	LLM             LLM
 
 	// Middlewares
 	RequireAuthWare     echo.MiddlewareFunc

@@ -73,7 +73,7 @@ templ commentRow(reply internal.Reply) {
 			<div class="break-words line-clamp-2 overflow-hidden text-ellipsis">
 				<p class="cursor-pointer" onclick={ OpenDialog(fmt.Sprintf("comment_dialog_%d", reply.ID)) }>"{ reply.Message }"</p>
 				<dialog id={ fmt.Sprintf("comment_dialog_%d", reply.ID) } class="modal">
-					<div class="flex flex-col card card-lg bg-base-100 h-[70%] mx-2">
+					<div class="flex flex-col card card-lg bg-base-100 h-screen md:h-[70%]">
 						<form method="dialog" class="flex flex-row items-center">
 							<p class="p-6 text-xl font-semibold">Comment by { reply.Alias }</p>
 							<button class="btn btn-ghost ml-auto mr-6">
@@ -81,9 +81,13 @@ templ commentRow(reply internal.Reply) {
 							</button>
 						</form>
 						if reply.ModerationStatus == internal.ModerationUnverified {
-							<p class="bg-base-300 p-6 font-semibold">This comment has not been AI moderated yet</p>
+							<p class="bg-base-300 p-2 md:p-6 font-semibold">This comment has not been AI moderated yet</p>
 						} else if reply.ModerationStatus == internal.ModerationOK {
-							<p class="bg-success text-success-content p-6 font-semibold">This comment marked as safe! { reply.ModerationReason }</p>
+							<p class="bg-success text-success-content p-2 md:p-6 font-semibold">This comment marked as safe! { reply.ModerationReason }</p>
+						} else if reply.ModerationStatus == internal.ModerationWarning {
+							<p class="bg-warning text-warning-content p-2 md:p-6 font-semibold">{ reply.ModerationReason }</p>
+						} else if reply.ModerationStatus == internal.ModerationDangerous {
+							<p class="bg-error text-error-content p-2 md:p-6 font-semibold">{ reply.ModerationReason }</p>
 						}
 						<ul class="menu bg-base-100 w-full md:w-3xl py-2 px-4 rounded-field overflow-y-scroll h-full" id="root-scaffold">
 							if reply.Parent != nil {
@@ -97,9 +101,9 @@ templ commentRow(reply internal.Reply) {
 							}
 						</ul>
 						<div class="divider"></div>
-						<form method="dialog" class="flex flex-row ml-auto">
+						<form method="dialog" class="flex flex-row mx-auto md:ml-auto">
 							<button
-								class="btn btn-outline ml-auto hover:btn-success mt-2 mb-6 mx-6 w-36"
+								class="btn btn-outline hover:btn-success mt-2 mb-6 mx-6 w-36"
 								hx-post={ fmt.Sprintf("/dashboard/comments/safe/%d", reply.ID) }
 								hx-swap="outerHTML"
 								hx-target="#comments"
@@ -107,7 +111,7 @@ templ commentRow(reply internal.Reply) {
 								Mark as Safe
 							</button>
 							<button
-								class="btn ml-auto btn-error mt-2 mb-6 mx-6 w-36"
+								class="btn btn-error mt-2 mb-6 mx-6 w-36"
 								hx-post={ fmt.Sprintf("/dashboard/comments/hide/%d", reply.ID) }
 								hx-swap="outerHTML"
 								hx-target="#comments"

@@ -27,8 +27,8 @@ func (r ModerationStatus) String() string {
 
 type Moderation struct {
 	LastModeratedAt  *time.Time
-	ModerationStatus ModerationStatus
-	ModerationReason string
+	ModerationStatus ModerationStatus `json:"moderation_status"`
+	ModerationReason string           `json:"moderation_reason"`
 }
 
 type LLM interface {

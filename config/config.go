@@ -32,6 +32,8 @@ const (
 
 	BASE_URL      = "BASE_URL"
 	OPEN_AUTH_URL = "OPEN_AUTH_URL"
+
+	GEMINI_API_KEY = "GEMINI_API_KEY"
 )
 
 func init() {

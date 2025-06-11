@@ -3,7 +3,9 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/apsystole/log"
 	"github.com/muhwyndhamhp/marknotes/internal/handler/http/replies"
+	"github.com/muhwyndhamhp/marknotes/utils/scopes"
 	"net/http"
 	"strings"
 	"time"
@@ -61,13 +63,13 @@ func main() {
 	go func() { uploadStatics(e, app) }()
 
 	go func() {
-		ctx := context.Background()
-		app.RenderClient.RenderPosts(ctx)
+		ctx2 := context.Background()
+		app.RenderClient.RenderPosts(ctx2)
 		if config.Get(config.ENV) != "dev" {
 			site.PingSitemap(app.PostRepository)
 		}
 
-		app.RenderClient.RenderMarkdowns(ctx)
+		app.RenderClient.RenderMarkdowns(ctx2)
 	}()
 
 	go func() {
@@ -76,8 +78,8 @@ func main() {
 				break
 			}
 
-			ctx, cancel := context.WithCancel(context.Background())
-			if err := internal.CacheAnalytics(ctx, db.GetLibSQLDB(), app.AnalyticsClient); err != nil {
+			ctx2, cancel := context.WithCancel(context.Background())
+			if err := internal.CacheAnalytics(ctx2, db.GetLibSQLDB(), app.AnalyticsClient); err != nil {
 				e.Logger.Error(err)
 			}
 
@@ -86,7 +88,44 @@ func main() {
 		}
 	}()
 
+	go func() {
+		ctx2, cancel := context.WithCancel(context.Background())
+		if err := moderateReplies(ctx2, app); err != nil {
+			e.Logger.Error(err)
+		}
+
+		time.Sleep(10 * time.Minute)
+		cancel()
+	}()
+
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%s", config.Get(config.APP_PORT))))
+}
+
+func moderateReplies(ctx context.Context, app *internal.Application) error {
+	unmod, count, err := app.ReplyRepository.Fetch(
+		ctx,
+		scopes.Where("last_moderated_at IS NULL"),
+	)
+	if err != nil {
+		return err
+	}
+
+	if count == 0 {
+		return nil
+	}
+
+	mod, err := app.LLM.ModerateReplies(ctx, unmod)
+	if err != nil {
+		return err
+	}
+
+	for _, m := range mod {
+		if err := app.ReplyRepository.UpdateModeration(ctx, m.ID, m.Moderation); err != nil {
+			log.Error(err)
+		}
+	}
+
+	return nil
 }
 
 func uploadStatics(e *echo.Echo, app *internal.Application) {

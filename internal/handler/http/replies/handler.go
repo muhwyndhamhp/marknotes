@@ -1,7 +1,6 @@
 package replies
 
 import (
-	"errors"
 	"fmt"
 	"github.com/labstack/echo/v4"
 	"github.com/muhwyndhamhp/marknotes/internal"
@@ -11,6 +10,7 @@ import (
 	"github.com/muhwyndhamhp/marknotes/utils/strman"
 	"github.com/sethvargo/go-diceware/diceware"
 	"net/http"
+	"strings"
 )
 
 type handler struct {
@@ -25,6 +25,10 @@ func NewHandler(g *echo.Group, app *internal.Application) {
 }
 
 func (h *handler) ArticleReplies(c echo.Context) error {
+	return h.articleReplies(c, "", "")
+}
+
+func (h *handler) articleReplies(c echo.Context, value, errMessage string) error {
 	ctx := c.Request().Context()
 	id, _ := c.Get(middlewares.ByIDKey).(int)
 
@@ -33,7 +37,7 @@ func (h *handler) ArticleReplies(c echo.Context) error {
 		return err
 	}
 
-	replyTemplate := reply.ArticleReplies(uint(id), replies)
+	replyTemplate := reply.ArticleReplies(uint(id), replies, value, errMessage)
 
 	return templateRenderer.AssertRender(c, http.StatusOK, replyTemplate)
 }
@@ -50,12 +54,15 @@ func (h *handler) Create(c echo.Context) error {
 	var req CreateReplyReq
 
 	if err := c.Bind(&req); err != nil {
-		return err
+		return h.articleReplies(c, "", err.Error())
+	}
+
+	if strings.TrimSpace(req.ReplyBody) == "" {
+		return h.articleReplies(c, "", "Comment body cannot be empty!")
 	}
 
 	if hasProfanity := h.app.ProfanityCheck.IsProfane(ctx, req.ReplyBody); hasProfanity {
-		// TODO add proper error message to text input on response
-		return errors.New("input has profanity in it")
+		return h.articleReplies(c, req.ReplyBody, "Sorry! your comment has profanity in it!")
 	}
 
 	existingAlias, _ := c.Request().Cookie("comment_alias")
@@ -87,8 +94,8 @@ func (h *handler) Create(c echo.Context) error {
 	}
 
 	if err := h.app.ReplyRepository.CreateReply(ctx, &r); err != nil {
-		return err
+		return h.articleReplies(c, req.ReplyBody, "Something wrong on our end! you can try again in a few moment")
 	}
 
-	return h.ArticleReplies(c)
+	return h.articleReplies(c, "", "")
 }

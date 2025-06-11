@@ -10,29 +10,35 @@ import (
 	"strings"
 )
 
-templ ArticleReplies(articleID uint, replies []internal.Reply) {
+templ ArticleReplies(articleID uint, replies []internal.Reply, value, errMessage string) {
 	<div id="replies" class="md:max-w-3xl lg:max-w-4xl relative w-full md:mx-auto">
 		<div class="flex flex-col ">
-			@ReplyInput(articleID, nil)
+			@ReplyInput(articleID, value, errMessage)
 			@Replies(articleID, replies)
 		</div>
 	</div>
 }
 
-templ ReplyInput(articleID uint, parentID *uint) {
-	<form class="flex flex-col" id="reply-input">
+templ ReplyInput(articleID uint, value, errMessage string) {
+	<form class="flex flex-col px-4 md:px-0" id="reply-input">
 		<fieldset class="fieldset">
 			<legend class="fieldset-legend text-lg">Got some thoughts? Write it down below!</legend>
-			<textarea class="textarea w-full h-8 p-6 dark:p-4 text-lg" placeholder="Can't believe you've eaten a capybara!! 😱😱😱" name="replyBody"></textarea>
-			if parentID != nil {
-				<input
-					type="text"
-					placeholder="Type here"
-					class="hidden"
-					name="parentId"
-					value={ fmt.Sprintf("%d", *parentID) }
-				/>
-			}
+			<textarea
+				_="on keyup remove .textarea-error from me then add .hidden to #err-label"
+				class={
+					"textarea w-full h-8 p-2 md:p-6 dark:md:p-4 text-sm md:text-lg",
+					templ.KV("textarea-error", errMessage != ""),
+				}
+				placeholder="Can't believe you've eaten a capybara!! 😱😱😱"
+				name="replyBody"
+			>{ value }</textarea>
+			<div
+				class={
+					"label",
+					templ.KV("hidden", errMessage == ""),
+				}
+				id="err-label"
+			>{ errMessage }</div>
 			<button
 				class="btn btn-primary btn-md mt-3 w-56 ml-auto"
 				hx-post={ fmt.Sprintf("/replies/articles/%d/create", articleID) }
@@ -99,7 +105,7 @@ templ Reply(articleId uint, reply internal.Reply) {
 			templ.KV("bg-info/20 border-2 border-info", reply.Highlight),
 			templ.KV("border-transparent",!reply.Highlight) }
 	>
-		if !reply.HidePublicity {
+		if !reply.HidePublicity && (reply.ModerationStatus != internal.ModerationDangerous || !reply.EnableReply ) {
 			<div class="flex flex-col flex-1 min-w-0">
 				<div class="py-2 flex flex-row items-start w-full">
 					<div class="avatar w-12 h-12">
@@ -152,8 +158,10 @@ templ Reply(articleId uint, reply internal.Reply) {
 					</div>
 				</div>
 			</div>
-		} else {
+		} else if reply.ModerationStatus != internal.ModerationDangerous {
 			<p class="italic w-full">Comment deleted by Admin</p>
+		} else {
+			<p class="italic w-full">Comment hidden by Auto Moderation</p>
 		}
 	</summary>
 }

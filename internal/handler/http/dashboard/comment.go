@@ -9,6 +9,7 @@ import (
 	templateRenderer "github.com/muhwyndhamhp/marknotes/template"
 	"github.com/muhwyndhamhp/marknotes/utils/scopes"
 	"github.com/samber/lo"
+	"gorm.io/gorm"
 	"net/http"
 	"strconv"
 	"time"
@@ -78,6 +79,9 @@ func (fe *handler) getComments(ctx context.Context) ([]internal.Reply, error) {
 		ctx,
 		scopes.OrderBy("created_at", scopes.Descending),
 		scopes.Where("hide_publicity != true"),
+		scopes.Preload("Replies", func(db *gorm.DB) *gorm.DB { return db.Order("created_at DESC") }),
+		scopes.Preload("Parent"),
+		scopes.Preload("Article"),
 	)
 	if err != nil {
 		return nil, err
