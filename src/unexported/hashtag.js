@@ -37,13 +37,13 @@ export const HashTag = Mention.extend({
                   getReferenceClientRect: props.clientRect,
                   appendTo: () => document.body,
                   content: `
-                  <div class="dropdown dropdown-open">
+                  <detail class="dropdown dropdown-open">
                      <ul class="w-64 p-4 shadow-sm menu dropdown-content z-1 bg-base-200 rounded-box">
                         <li class="text-lg text-base-content">
                            Start Write to Search...
                         </li>
                      </ul>
-                  </div>
+                  </detail>
                   `,
                   allowHTML: true,
                   showOnCreate: true,
@@ -101,12 +101,12 @@ export const HashTag = Mention.extend({
 
 function refreshSuggestion(index) {
    getElementsByIdPrefix("tag-suggest-")
-      .forEach((elem) => { elem.classList.remove("active") })
+      .forEach((elem) => { elem.classList.remove("menu-active") })
 
    document
       .querySelector(`#tag-suggest-${index}`)
       .classList
-      .add("active")
+      .add("menu-active")
 
    return index
 }

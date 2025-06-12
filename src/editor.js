@@ -27,8 +27,8 @@ export const editor = new Editor({
       },
       pluginKey: new PluginKey("bubbleMenuOne"),
       tippyOptions: {
-        placement: "bottom",
-        delay: 1000,
+        placement: "bottom-end",
+        delay: 3000,
       },
       element: document.querySelector(".quick-menu"),
     }),
