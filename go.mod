@@ -21,6 +21,7 @@ require (
 	github.com/charmbracelet/ssh v0.0.0-20250128164007-98fd5ae11894
 	github.com/charmbracelet/wish v1.4.6
 	github.com/disintegration/imaging v1.6.2
+	github.com/glebarez/sqlite v1.11.0
 	github.com/go-playground/validator/v10 v10.15.1
 	github.com/gorilla/feeds v1.1.2
 	github.com/h2non/bimg v1.1.9
@@ -39,7 +40,7 @@ require (
 	golang.org/x/term v0.30.0
 	golang.org/x/time v0.9.0
 	google.golang.org/genai v1.10.0
-	gorm.io/gorm v1.25.7-0.20240204074919-46816ad31dde
+	gorm.io/gorm v1.25.7
 )
 
 require (
@@ -76,7 +77,9 @@ require (
 	github.com/creack/pty v1.1.21 // indirect
 	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.4.0 // indirect
 	github.com/dlclark/regexp2 v1.11.0 // indirect
+	github.com/dustin/go-humanize v1.0.1 // indirect
 	github.com/erikgeiser/coninput v0.0.0-20211004153227-1c3628e74d0f // indirect
+	github.com/glebarez/go-sqlite v1.21.2 // indirect
 	github.com/go-logfmt/logfmt v0.6.0 // indirect
 	github.com/goccy/go-json v0.10.3 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
@@ -98,6 +101,7 @@ require (
 	github.com/muesli/ansi v0.0.0-20230316100256-276c6243b2f6 // indirect
 	github.com/muesli/cancelreader v0.2.2 // indirect
 	github.com/muesli/reflow v0.3.0 // indirect
+	github.com/remyoudompheng/bigfft v0.0.0-20230129092748-24d4a6f8daec // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/segmentio/asm v1.2.0 // indirect
 	github.com/tursodatabase/libsql-client-go v0.0.0-20240220085343-4ae0eb9d0898 // indirect
@@ -110,6 +114,10 @@ require (
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20240903143218-8af14fe29dc1 // indirect
 	google.golang.org/grpc v1.66.2 // indirect
 	google.golang.org/protobuf v1.34.2 // indirect
+	modernc.org/libc v1.22.5 // indirect
+	modernc.org/mathutil v1.5.0 // indirect
+	modernc.org/memory v1.5.0 // indirect
+	modernc.org/sqlite v1.23.1 // indirect
 	nhooyr.io/websocket v1.8.7 // indirect
 )
 
@@ -134,4 +142,7 @@ require (
 	golang.org/x/text v0.25.0
 )
 
-replace github.com/toolbeam/openauth v0.0.0 => github.com/muhwyndhamhp/openauthjs/packages/openauth-go v0.0.0-20250511052149-71d046ee378f
+replace (
+	github.com/glebarez/sqlite v1.11.0 => github.com/fredliang44/sqlite v0.0.0-20241210200904-79a8c60d38b0
+	github.com/toolbeam/openauth v0.0.0 => github.com/muhwyndhamhp/openauthjs/packages/openauth-go v0.0.0-20250511052149-71d046ee378f
+)

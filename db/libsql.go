@@ -1,24 +1,58 @@
 package db
 
 import (
+	"context"
 	"fmt"
-
+	"github.com/glebarez/sqlite"
+	_ "github.com/glebarez/sqlite"
 	"github.com/muhwyndhamhp/marknotes/config"
-	libsql "github.com/renxzen/gorm-libsql"
+	"github.com/muhwyndhamhp/marknotes/utils/cloudbucket"
+	"github.com/muhwyndhamhp/marknotes/utils/imageprocessing"
 	"gorm.io/gorm"
+	"time"
 )
 
 var sqldb *gorm.DB
 
 func init() {
-	url := config.Get("LIBSQL_URL")
-	auth := config.Get("LIBSQL_AUTH_TOKEN")
+	bucket := cloudbucket.NewS3Client(imageprocessing.NewClient())
 
-	db, err := gorm.Open(libsql.Open(fmt.Sprintf("%s?authToken=%s", url, auth)), &gorm.Config{})
+	dbName := "marknotes.db"
+
+	if config.Get(config.ENV) == "dev" {
+		dbName = "mk-test-1.db"
+	}
+
+	if err := bucket.DownloadDB(context.Background(), dbName); err != nil {
+		panic(err)
+	}
+
+	db, err := gorm.Open(sqlite.Open(fmt.Sprint("file:./", dbName)), &gorm.Config{})
 	if err != nil {
 		panic(err)
 	}
 	sqldb = db
+
+	go func() {
+		for {
+			BackupDB()
+			time.Sleep(time.Minute * 10)
+		}
+	}()
+}
+
+func BackupDB() {
+	dbName := "marknotes.db"
+
+	if config.Get(config.ENV) == "dev" {
+		dbName = "mk-test-1.db"
+	}
+
+	bucket := cloudbucket.NewS3Client(imageprocessing.NewClient())
+	ctx := context.Background()
+	if err := bucket.UploadDB(ctx, dbName); err != nil {
+		fmt.Println("*** Failed to backup DB: ", err.Error())
+	}
 }
 
 func GetLibSQLDB() *gorm.DB {

@@ -44,9 +44,7 @@ templ CommentsBody(comments []internal.Reply) {
 						</tr>
 					</thead>
 					<tbody>
-						for _, c := range comments {
-							@commentRow(c)
-						}
+						@CommentBody(comments)
 					</tbody>
 				</table>
 			</div>
@@ -58,8 +56,23 @@ script OpenDialog(id string) {
     window.document.getElementById(id).showModal()
 }
 
-templ commentRow(reply internal.Reply) {
-	<tr class="h-16 hover:bg-base-200">
+templ CommentBody(comments []internal.Reply) {
+	for i, c := range comments {
+		@CommentRow(c, i == len(comments)-1)
+	}
+}
+
+templ CommentRow(reply internal.Reply, lastItem bool) {
+	<tr
+		class="h-16 hover:bg-base-200"
+		if lastItem {
+			id={ fmt.Sprintf("last-comment-%d", reply.ID) }
+			hx-trigger="revealed"
+			hx-target={ fmt.Sprintf("#last-comment-%d", reply.ID) }
+			hx-get={ fmt.Sprintf("/dashboard/comments?page=%d", reply.Page) }
+			hx-swap="afterend"
+		}
+	>
 		<td
 			class={
 				templ.KV("bg-base-300", reply.ModerationStatus == internal.ModerationUnverified),
@@ -71,7 +84,9 @@ templ commentRow(reply internal.Reply) {
 		<td class="w-32 truncate font-semibold">{ reply.Alias }</td>
 		<td class="">
 			<div class="overflow-hidden text-ellipsis break-words line-clamp-2">
-				<p class="cursor-pointer" onclick={ OpenDialog(fmt.Sprintf("comment_dialog_%d", reply.ID)) }>"{ reply.Message }"</p>
+				<p class="cursor-pointer" onclick={ OpenDialog(fmt.Sprintf("comment_dialog_%d", reply.ID)) }>
+					"{ reply.Message }"
+				</p>
 				<dialog id={ fmt.Sprintf("comment_dialog_%d", reply.ID) } class="modal">
 					<div class="flex h-screen flex-col card card-lg bg-base-100 md:h-[70%]">
 						<form method="dialog" class="flex flex-row items-center">

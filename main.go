@@ -7,7 +7,10 @@ import (
 	"github.com/muhwyndhamhp/marknotes/internal/handler/http/replies"
 	"github.com/muhwyndhamhp/marknotes/utils/scopes"
 	"net/http"
+	"os"
+	"os/signal"
 	"strings"
+	"syscall"
 	"time"
 
 	"github.com/muhwyndhamhp/marknotes/cmd"
@@ -28,10 +31,25 @@ import (
 )
 
 func main() {
-	ctx := context.Background()
+	ctx, cancel := context.WithCancel(context.Background())
+
+	// Set up signal handling
+	sigs := make(chan os.Signal, 1)
+	signal.Notify(sigs, os.Interrupt, syscall.SIGTERM)
+
+	defer db.BackupDB()
+
 	e := echo.New()
 	app := cmd.Bootstrap()
 	routing.SetupRouter(e)
+
+	go func() {
+		<-sigs
+		fmt.Println("\nBacking up DB...")
+		db.BackupDB()
+		e.Shutdown(ctx)
+		cancel()
+	}()
 
 	e.Use(redirectHTML())
 	e.Static("/dist", "dist")
@@ -136,27 +154,27 @@ func uploadStatics(e *echo.Echo, app *internal.Application) {
 	}
 
 	ctx := context.Background()
-	_, err := app.Bucket.UploadStatic(ctx, "dist/tailwind_v4.css", "", "text/css")
+	_, err := app.Bucket.UploadStatic(ctx, "dist/tailwind_v4.css", "", "text/css", "")
 	if err != nil {
 		e.Logger.Fatal(err)
 	}
 
-	_, err = app.Bucket.UploadStatic(ctx, "dist/main.js", "", "text/javascript")
+	_, err = app.Bucket.UploadStatic(ctx, "dist/main.js", "", "text/javascript", "")
 	if err != nil {
 		e.Logger.Fatal(err)
 	}
 
-	_, err = app.Bucket.UploadStatic(ctx, "dist/htmx.js", "", "text/javascript")
+	_, err = app.Bucket.UploadStatic(ctx, "dist/htmx.js", "", "text/javascript", "")
 	if err != nil {
 		e.Logger.Fatal(err)
 	}
 
-	_, err = app.Bucket.UploadStatic(ctx, "dist/auth.js", "", "text/javascript")
+	_, err = app.Bucket.UploadStatic(ctx, "dist/auth.js", "", "text/javascript", "")
 	if err != nil {
 		e.Logger.Fatal(err)
 	}
 
-	_, err = app.Bucket.UploadStatic(ctx, "dist/editor.js", "", "text/javascript")
+	_, err = app.Bucket.UploadStatic(ctx, "dist/editor.js", "", "text/javascript", "")
 	if err != nil {
 		e.Logger.Fatal(err)
 	}

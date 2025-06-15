@@ -23,6 +23,7 @@ type Reply struct {
 
 	EnableReply bool `gorm:"-:all"`
 	Highlight   bool `gorm:"-:all"`
+	Page        int  `gorm:"-:all"`
 
 	HidePublicity bool
 }

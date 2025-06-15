@@ -61,7 +61,7 @@ func (r *RenderClient) RenderPost(ctx context.Context, post *internal.Post) {
 		prefix = "/store/"
 	}
 
-	_, err = r.App.Bucket.UploadStatic(ctx, file.Name(), prefix, "text/html")
+	_, err = r.App.Bucket.UploadStatic(ctx, file.Name(), prefix, "text/html", "")
 	if err != nil {
 		fmt.Println(err)
 	}

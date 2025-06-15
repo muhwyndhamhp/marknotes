@@ -3,11 +3,6 @@ package cloudbucket
 import (
 	"context"
 	"fmt"
-	"log"
-	"mime/multipart"
-	"os"
-	"strings"
-
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/credentials"
@@ -15,6 +10,11 @@ import (
 	goconf "github.com/muhwyndhamhp/marknotes/config"
 	"github.com/muhwyndhamhp/marknotes/utils/imageprocessing"
 	"github.com/muhwyndhamhp/marknotes/utils/storage"
+	"io"
+	"log"
+	"mime/multipart"
+	"os"
+	"strings"
 )
 
 type S3Client struct {
@@ -23,6 +23,7 @@ type S3Client struct {
 }
 
 const defaultBucketName = "mwyndham-dev"
+const dbBucket = "db-bucket"
 
 func NewS3Client(iproc *imageprocessing.Client) *S3Client {
 	accountId := goconf.Get(goconf.CF_ACCOUNT_ID)
@@ -48,8 +49,72 @@ func NewS3Client(iproc *imageprocessing.Client) *S3Client {
 
 	return &S3Client{client, iproc}
 }
+func (c *S3Client) UploadDB(ctx context.Context, dbName string) error {
+	file, err := os.Open(dbName)
+	if err != nil {
+		return err
+	}
 
-func (c *S3Client) UploadStatic(ctx context.Context, filename, exludePrefix string, contentType string) (string, error) {
+	_, err = c.client.PutObject(ctx, &s3.PutObjectInput{
+		Bucket: aws.String(dbBucket),
+		Key:    aws.String(dbName),
+		Body:   file,
+		Metadata: map[string]string{
+			"Cache-Control": "no-store, no-cache, must-revalidate",
+			"Expires":       "0",
+		},
+	})
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (c *S3Client) DownloadDB(ctx context.Context, dbName string) error {
+	f, err := os.Create(dbName)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+
+	out, err := c.client.GetObject(ctx, &s3.GetObjectInput{
+		Bucket:               aws.String(dbBucket),
+		Key:                  aws.String(dbName),
+		ResponseCacheControl: aws.String("no-store, no-cache, must-revalidate"),
+	})
+	if err != nil {
+		return err
+	}
+
+	defer out.Body.Close()
+
+	_, err = io.Copy(f, out.Body)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func ensureDir(path string) error {
+	info, err := os.Stat(path)
+	if os.IsNotExist(err) {
+		// Directory doesn't exist, create it
+		return os.MkdirAll(path, 0755)
+	} else if err != nil {
+		// Some other error accessing the path
+		return err
+	}
+
+	if !info.IsDir() {
+		return fmt.Errorf("%s exists but is not a directory", path)
+	}
+
+	return nil
+}
+
+func (c *S3Client) UploadStatic(ctx context.Context, filename, exludePrefix, contentType string, bucketName string) (string, error) {
 	file, err := os.Open(filename)
 	if err != nil {
 		return "", err
@@ -61,8 +126,11 @@ func (c *S3Client) UploadStatic(ctx context.Context, filename, exludePrefix stri
 		key = strings.SplitAfter(key, exludePrefix)[1]
 	}
 
+	if bucketName == "" {
+		bucketName = defaultBucketName
+	}
 	_, err = c.client.PutObject(ctx, &s3.PutObjectInput{
-		Bucket:      aws.String(defaultBucketName),
+		Bucket:      aws.String(bucketName),
 		Key:         aws.String(key),
 		Body:        file,
 		ContentType: aws.String(contentType),
