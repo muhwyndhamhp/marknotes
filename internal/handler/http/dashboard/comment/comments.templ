@@ -30,6 +30,90 @@ templ CommentsBody(comments []internal.Reply) {
 					Comments
 				</h1>
 			</div>
+			<form class="mt-4 flex flex-col-reverse items-start px-6 py-2 drop-shadow-2xl md:flex-row md:items-center card bg-base-100/60">
+				<p class="hidden md:block">Status:</p>
+				<div class="filter">
+					<input
+						class="m-2 btn btn-sm md:btn-md btn-square"
+						type="reset"
+						value="x"
+						hx-trigger="click"
+						name="moderationStatus"
+						hx-get="/dashboard/comments"
+						hx-target="#table-body"
+						hx-swap="#table-body"
+					/>
+					<input
+						class="m-2 btn btn-sm md:btn-md"
+						type="radio"
+						value="UNVERIFIED"
+						name="moderationStatus"
+						aria-label="Unmoderated"
+						hx-get="/dashboard/comments"
+						hx-target="#table-body"
+						hx-swap="#table-body"
+						hx-include="#search"
+					/>
+					<input
+						class="m-2 btn btn-sm md:btn-md btn-success"
+						type="radio"
+						value="OK"
+						name="moderationStatus"
+						aria-label="Safe"
+						hx-get="/dashboard/comments"
+						hx-target="#table-body"
+						hx-swap="#table-body"
+						hx-include="#search"
+					/>
+					<input
+						class="m-2 btn btn-sm md:btn-md btn-warning"
+						type="radio"
+						value="WARNING"
+						name="moderationStatus"
+						aria-label="Warning"
+						hx-get="/dashboard/comments"
+						hx-target="#table-body"
+						hx-swap="#table-body"
+						hx-include="#search"
+					/>
+					<input
+						class="m-2 btn btn-sm md:btn-md btn-error"
+						type="radio"
+						value="DANGEROUS"
+						name="moderationStatus"
+						aria-label="Dangerous"
+						hx-get="/dashboard/comments"
+						hx-target="#table-body"
+						hx-swap="#table-body"
+						hx-include="#search"
+					/>
+				</div>
+				<label class="my-2 w-full input md:ml-auto md:w-72 md:my-0">
+					<svg class="opacity-50 h-[1em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+						<g
+							stroke-linejoin="round"
+							stroke-linecap="round"
+							stroke-width="2.5"
+							fill="none"
+							stroke="currentColor"
+						>
+							<circle cx="11" cy="11" r="8"></circle>
+							<path d="m21 21-4.3-4.3"></path>
+						</g>
+					</svg>
+					<input
+						type="search"
+						class="grow"
+						placeholder="Search"
+						name="search"
+						id="search"
+						hx-trigger="keyup delay:200ms"
+						hx-get="/dashboard/comments"
+						hx-target="#table-body"
+						hx-swap="#table-body"
+					/>
+				</label>
+			</form>
 			<div class="mt-5 overflow-x-auto card bg-base-100">
 				<table class="table w-full table-fixed">
 					<thead>
@@ -43,7 +127,7 @@ templ CommentsBody(comments []internal.Reply) {
 							<th class="w-20">Action</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody id="table-body">
 						@CommentBody(comments)
 					</tbody>
 				</table>
@@ -69,7 +153,7 @@ templ CommentRow(reply internal.Reply, lastItem bool) {
 			id={ fmt.Sprintf("last-comment-%d", reply.ID) }
 			hx-trigger="revealed"
 			hx-target={ fmt.Sprintf("#last-comment-%d", reply.ID) }
-			hx-get={ fmt.Sprintf("/dashboard/comments?page=%d", reply.Page) }
+			hx-get={ fmt.Sprint("/dashboard/comments?page=", reply.Page, "&moderationStatus=", reply.FilterModerationStatus, "&search=", reply.Search) }
 			hx-swap="afterend"
 		}
 	>

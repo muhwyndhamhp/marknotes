@@ -21,9 +21,11 @@ type Reply struct {
 	Replies []Reply `gorm:"foreignKey:ParentID"`
 	Article Post    `gorm:"foreignKey:ArticleID"`
 
-	EnableReply bool `gorm:"-:all"`
-	Highlight   bool `gorm:"-:all"`
-	Page        int  `gorm:"-:all"`
+	EnableReply            bool   `gorm:"-:all"`
+	Highlight              bool   `gorm:"-:all"`
+	Page                   int    `gorm:"-:all"`
+	FilterModerationStatus string `gorm:"-:all"`
+	Search                 string `gorm:"-:all"`
 
 	HidePublicity bool
 }

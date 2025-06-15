@@ -47,3 +47,7 @@ func Max(a, b int) int {
 	}
 	return a
 }
+
+func ToPointer[T interface{}](v T) *T {
+	return &v
+}

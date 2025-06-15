@@ -12,6 +12,7 @@ const (
 	ModerationOK
 	ModerationWarning
 	ModerationDangerous
+	ModerationNothing
 )
 
 var moderationStatuses = map[ModerationStatus]string{
@@ -19,6 +20,7 @@ var moderationStatuses = map[ModerationStatus]string{
 	ModerationOK:         "OK",
 	ModerationWarning:    "WARNING",
 	ModerationDangerous:  "DANGEROUS",
+	ModerationNothing:    "x",
 }
 
 func (r ModerationStatus) String() string {

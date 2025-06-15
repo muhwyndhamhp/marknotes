@@ -5,7 +5,7 @@ pre_cmd = [
   "bun run build:tailwind"
 ]
 # It's not necessary to trigger build each time file changes if it's too frequent.
-delay = 5000000000
+delay = 1000
 
 include_ext = ["templ", "go", "js", "css"]
 exclude_dir = ["postgres", "vendor", "misc", "terraform", "dist", "node_modules"]
