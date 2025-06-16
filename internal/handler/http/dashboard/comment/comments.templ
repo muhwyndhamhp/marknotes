@@ -42,6 +42,7 @@ templ CommentsBody(comments []internal.Reply) {
 						hx-get="/dashboard/comments"
 						hx-target="#table-body"
 						hx-swap="#table-body"
+						hx-indicator="#global-progress"
 					/>
 					<input
 						class="m-2 btn btn-sm md:btn-md"
@@ -53,6 +54,7 @@ templ CommentsBody(comments []internal.Reply) {
 						hx-target="#table-body"
 						hx-swap="#table-body"
 						hx-include="#search"
+						hx-indicator="#global-progress"
 					/>
 					<input
 						class="m-2 btn btn-sm md:btn-md btn-success"
@@ -64,6 +66,7 @@ templ CommentsBody(comments []internal.Reply) {
 						hx-target="#table-body"
 						hx-swap="#table-body"
 						hx-include="#search"
+						hx-indicator="#global-progress"
 					/>
 					<input
 						class="m-2 btn btn-sm md:btn-md btn-warning"
@@ -75,6 +78,7 @@ templ CommentsBody(comments []internal.Reply) {
 						hx-target="#table-body"
 						hx-swap="#table-body"
 						hx-include="#search"
+						hx-indicator="#global-progress"
 					/>
 					<input
 						class="m-2 btn btn-sm md:btn-md btn-error"
@@ -86,6 +90,7 @@ templ CommentsBody(comments []internal.Reply) {
 						hx-target="#table-body"
 						hx-swap="#table-body"
 						hx-include="#search"
+						hx-indicator="#global-progress"
 					/>
 				</div>
 				<label class="my-2 w-full input md:ml-auto md:w-72 md:my-0">
@@ -111,6 +116,7 @@ templ CommentsBody(comments []internal.Reply) {
 						hx-get="/dashboard/comments"
 						hx-target="#table-body"
 						hx-swap="#table-body"
+						hx-indicator="#global-progress"
 					/>
 				</label>
 			</form>
@@ -206,6 +212,7 @@ templ CommentRow(reply internal.Reply, lastItem bool) {
 								hx-post={ fmt.Sprintf("/dashboard/comments/safe/%d", reply.ID) }
 								hx-swap="outerHTML"
 								hx-target="#comments"
+								hx-indicator="#global-progress"
 							>
 								Mark as Safe
 							</button>
@@ -214,6 +221,7 @@ templ CommentRow(reply internal.Reply, lastItem bool) {
 								hx-post={ fmt.Sprintf("/dashboard/comments/hide/%d", reply.ID) }
 								hx-swap="outerHTML"
 								hx-target="#comments"
+								hx-indicator="#global-progress"
 							>Delete</button>
 						</form>
 					</div>
