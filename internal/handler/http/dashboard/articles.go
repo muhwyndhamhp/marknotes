@@ -196,6 +196,7 @@ func (fe *handler) ArticlesPush(c echo.Context) error {
 	post.Slug = slug
 	post.HeaderImageURL = req.HeaderImageURL
 	post.MarkdownContent = req.MarkdownContent
+	post.Type = internal.PostType(req.ArticleType)
 	if status == internal.PostStatusPublished && post.PublishedAt.IsZero() {
 		now := time.Now()
 		post.PublishedAt = now

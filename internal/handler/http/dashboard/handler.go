@@ -60,4 +60,5 @@ type ArticlesCreateRequest struct {
 	ContentJSON     string `json:"content_json" form:"content_json" validate:"required"`
 	HeaderImageURL  string `json:"header_image_url" form:"header_image_url"`
 	MarkdownContent string `json:"markdown_content" form:"markdown_content"`
+	ArticleType     string `json:"article_type" form:"article_type"`
 }

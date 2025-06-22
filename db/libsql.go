@@ -6,6 +6,7 @@ import (
 	"github.com/glebarez/sqlite"
 	_ "github.com/glebarez/sqlite"
 	"github.com/muhwyndhamhp/marknotes/config"
+	"github.com/muhwyndhamhp/marknotes/db/migration"
 	"github.com/muhwyndhamhp/marknotes/utils/cloudbucket"
 	"github.com/muhwyndhamhp/marknotes/utils/imageprocessing"
 	"gorm.io/gorm"
@@ -32,6 +33,8 @@ func init() {
 		panic(err)
 	}
 	sqldb = db
+
+	migration.Migrate(db)
 
 	go func() {
 		for {

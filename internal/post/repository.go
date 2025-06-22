@@ -49,6 +49,7 @@ func (r *repository) Get(ctx context.Context, funcs ...scopes.QueryScope) ([]int
 		Error; err != nil {
 		return nil, err
 	}
+
 	return res, nil
 }
 

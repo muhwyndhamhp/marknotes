@@ -38,7 +38,7 @@ templ new(existingPost *internal.Post, baseURL, uploadURL string) {
 				}
 			>
 				<div class="box-border mx-auto">
-					@submitButton(tern.Struct(existingPost, &internal.Post{}).ID)
+					@submitButton(tern.Struct(existingPost, &internal.Post{}).ID, tern.Struct(existingPost, &internal.Post{}).Type)
 				</div>
 			</div>
 		</div>
@@ -186,8 +186,30 @@ templ new(existingPost *internal.Post, baseURL, uploadURL string) {
 	</form>
 }
 
-templ submitButton(existingID uint) {
+func getValue(existingType internal.PostType) string {
+	fmt.Println("***Existing Type:", existingType)
+
+	if existingType != internal.PostTypeCoffeeReview {
+		return "Blog Article"
+	} else {
+		return "Coffee Review"
+	}
+}
+
+templ submitButton(existingID uint, existingType internal.PostType) {
 	<div class="flex flex-col md:justify-center px-6 md:px-12 pb-6 w-full items-center">
+		<select class="select md:mx-3 w-full my-4 md:max-w-72" id="article-type" value={ getValue(existingType) }>
+			<option
+				if existingType != internal.PostTypeCoffeeReview {
+					selected
+				}
+			>Blog Article</option>
+			<option
+				if existingType == internal.PostTypeCoffeeReview {
+					selected
+				}
+			>Coffee Review</option>
+		</select>
 		<button
 			id="publish-button"
 			class="btn btn-primary mt-3 md:mt-0 md:max-w-72 btn-block md:btn-wide mx-3 md:mx-0"
@@ -200,6 +222,7 @@ templ submitButton(existingID uint) {
 				hx-swap="outerHTML"
 			}
 			hx-vals="js:{
+			article_type: window.document.getElementById('article-type').value === 'Blog Article' ? 'article' : 'coffee',
         content_json: window.editor.getJSON(),
         markdown_content: editor.storage.markdown.getMarkdown()
         }"
@@ -219,6 +242,7 @@ templ submitButton(existingID uint) {
 				hx-swap="outerHTML"
 			}
 			hx-vals="js:{
+			article_type: window.document.getElementById('article-type').value === 'Blog Article' ? 'article' : 'coffee',
         content_json: window.editor.getJSON(),
         markdown_content: editor.storage.markdown.getMarkdown()
         }"

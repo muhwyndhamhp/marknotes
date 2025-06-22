@@ -1,9 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Sono:wght@200..800&display=swap');
 @import 'tailwindcss';
 @plugin "@tailwindcss/typography";
 @plugin "daisyui" {
     themes: marknotes-light, sunset --prefersdark;
 }
 
+@theme {
+    --font-sono: "Sono", monospace;
+}
 
 @plugin "daisyui/theme" {
     name: "marknotes-light";

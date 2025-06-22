@@ -36,9 +36,15 @@ type Post struct {
 	FormMeta        map[string]interface{} `gorm:"-"`
 	UserID          uint
 	User            User
-	Tags            []*Tag `gorm:"many2many:post_tags;"`
+	Type            PostType `gorm:"default:article"`
+	Tags            []*Tag   `gorm:"many2many:post_tags;"`
 	TagsLiteral     string
 }
+
+type PostType string
+
+const PostTypeArticle PostType = "article"
+const PostTypeCoffeeReview PostType = "coffee"
 
 type PostRepository interface {
 	Upsert(ctx context.Context, value *Post) error

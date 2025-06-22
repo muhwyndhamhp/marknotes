@@ -85,6 +85,7 @@ func (fe *handler) PostsIndex(c echo.Context) error {
 
 	posts, err := fe.app.PostRepository.Get(ctx,
 		scopes.Paginate(1, 10),
+		scopes.Where("type != ?", internal.PostTypeCoffeeReview),
 		scopes.OrderBy("published_at", scopes.Descending),
 		internal.WithStatus(internal.PostStatusPublished),
 		scopes.PostIndexedOnly(),
@@ -139,6 +140,7 @@ func (fe *handler) PostsGet(c echo.Context) error {
 
 	scp := []scopes.QueryScope{
 		scopes.OrderBy(tern.String(sortBy, "created_at"), scopes.Descending),
+		scopes.Where("type != ?", internal.PostTypeCoffeeReview),
 		scopes.Paginate(page, pageSize),
 	}
 
